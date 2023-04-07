@@ -3,17 +3,19 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'plugin:vue/vue3-essential',
-    'standard-with-typescript',
-    'plugin:prettier/recommended',
-  ],
+  parser: 'vue-eslint-parser',
   overrides: [],
   parserOptions: {
-    ecmaVersion: 12,
+    ecmaVersion: 6,
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
+    //project: 'vite.config.ts',
   },
+  extends: [
+    'plugin:vue/vue3-essential',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
   plugins: ['vue'],
   rules: {
     // 禁用 alert、confirm、prompt、console、debugger
