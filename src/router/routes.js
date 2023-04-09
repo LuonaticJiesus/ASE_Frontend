@@ -1,9 +1,18 @@
-// 五级用户路由，动态加载；高一级用户一定能看见低一级用户的所有路由
+import Layout from '/@/layout/index.vue';
+// 五级用户路由，动态加载
+// 高一级用户一定能看见低一级用户的所有路由
 export const constantRoutes = [
   {
     path: '/',
     name: 'root',
-    component: () => import('/@/view/login/index.vue'),
+    component: Layout,
+    children: [
+      {
+        name: 'home',
+        path: 'home',
+        component: () => import('/@/view/home/index.vue'),
+      },
+    ],
   },
   {
     path: '/login',
