@@ -18,6 +18,14 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   plugins: ['vue'],
+  settings: {
+    'import/resolver': {
+      alias: [
+        ['/@/', './src/'],
+        ['/#/', './types/'],
+      ],
+    },
+  },
   rules: {
     // 禁用 alert、confirm、prompt、console、debugger
     'no-alert': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

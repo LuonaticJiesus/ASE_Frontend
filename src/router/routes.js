@@ -1,0 +1,20 @@
+// 五级用户路由，动态加载；高一级用户一定能看见低一级用户的所有路由
+export const constantRoutes = [
+  {
+    path: '/',
+    name: 'root',
+    component: () => import('/@/view/login/index.vue'),
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('/@/view/login/index.vue'),
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/404', hidden: true },
+];
+
+export const userRoutes = [];
+
+export const taRoutes = [];
+
+export const teacherRoutes = [];

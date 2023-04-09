@@ -1,4 +1,4 @@
-import { get, post } from '../utils/request.js';
+import { get, post } from '/@/utils/request';
 
 const URL = {
   login: '/user/login',
