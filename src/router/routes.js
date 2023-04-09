@@ -10,6 +10,11 @@ export const constantRoutes = [
     name: 'login',
     component: () => import('/@/view/login/index.vue'),
   },
+  {
+    path: '/404',
+    component: () => import('/@/view/error-page/404.vue'),
+    hidden: true,
+  },
   { path: '/:pathMatch(.*)*', redirect: '/404', hidden: true },
 ];
 
