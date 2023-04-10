@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { constantRoutes } from '/@/router/routes';
-
 export const accessedRoutes = [];
 
 accessedRoutes.push(constantRoutes);

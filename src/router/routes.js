@@ -3,6 +3,11 @@ import Layout from '/@/layout/index.vue';
 // 高一级用户一定能看见低一级用户的所有路由
 export const constantRoutes = [
   {
+    hidden: true,
+    path: '/redirect/:path(.*)',
+    component: () => import('/@/view/redirect/index'),
+  },
+  {
     path: '/',
     name: 'root',
     component: Layout,
