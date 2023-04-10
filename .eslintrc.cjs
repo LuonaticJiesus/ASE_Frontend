@@ -31,7 +31,7 @@ module.exports = {
     'no-alert': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'vue/no-multiple-template-root': 'off', // 关闭多根节点的校验
+    // 'vue/no-multiple-template-root': 'on', // 关闭多根节点的校验
     eqeqeq: 'warn', // 要求使用 === 和 !==
     'no-dupe-args': 'error', // 禁止 function 定义中出现重名参数
     'no-dupe-keys': 'error', // 禁止对象字面量中出现重复的 key

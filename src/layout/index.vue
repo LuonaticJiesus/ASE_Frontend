@@ -11,10 +11,10 @@
         </el-image>
         <UserInfo></UserInfo>
       </div>
-      <SideVar> </SideVar>
+      <SideBar> </SideBar>
     </el-aside>
     <el-container>
-      <el-header class="layout-header"> Header </el-header>
+      <el-header class="layout-header"> <h2>Header</h2> </el-header>
       <el-main>
         <AppMain></AppMain>
       </el-main>
@@ -26,11 +26,11 @@
 import AppMain from '/@/layout/components/AppMain.vue';
 import '/@/style/layout.css';
 import UserInfo from '/@/layout/components/UserInfo.vue';
-import SideVar from '/src/layout/components/SideBar.vue';
+import SideBar from '/@/layout/components/SideBar.vue';
 
 export default {
   name: 'BasicLayout',
-  components: { SideVar, UserInfo, AppMain },
+  components: { SideBar, UserInfo, AppMain },
 };
 </script>
 

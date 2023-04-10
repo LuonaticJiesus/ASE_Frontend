@@ -12,7 +12,7 @@ const router = createRouter({
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/home', '/'];
+const whiteList = ['/login', '/home', '/', '/404'];
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar
@@ -22,10 +22,9 @@ router.beforeEach(async (to, from, next) => {
   // document.title = getPageTitle(to.meta.title);
 
   // determine whether the user has logged in
-  const hasToken = getToken();
-  console.log('1111');
+  let hasToken = getToken();
+  hasToken += 'DevToken'; // 开发环境使用，暂时认为有token
   if (hasToken) {
-    console.log('1111');
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' });
@@ -33,13 +32,16 @@ router.beforeEach(async (to, from, next) => {
     } else {
       // determine whether the user has obtained his permission roles through getInfo
       const userStore = useUserStore();
-      const hasRoles = userStore.userRoles && userStore.userRoles.length > 0;
+      let hasRoles = userStore.userRoles && userStore.userRoles.length > 0;
       if (hasRoles) {
         next();
       } else {
         try {
           // try to repeat getting roles
-          await userStore.getInfo();
+          // 以下两行是无后端时的处理
+          // await userStore.getInfo();
+          userStore.roles.push('user');
+
           const roles = userStore.userRoles;
           // generate accessible routes map based on roles
           const permissionStore = usePermissionStore();
