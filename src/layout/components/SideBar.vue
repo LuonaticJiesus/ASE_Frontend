@@ -5,26 +5,26 @@
 2. sideBar排列Item布局，设置link-to
 3. todo: 手动维护active?--->
     <!--    先摆了，有个导航就行-->
-    <el-menu class="el-menu--vertical">
-      <el-menu-item v-for="item in routes" :key="item">
-        <router-link :to="routes[item]">
-          <el-icon>
-            <Edit></Edit>
-          </el-icon>
-          <span>Edit</span>
-          <span>MyPost</span>
-        </router-link>
-      </el-menu-item>
-    </el-menu>
+    <!--    <el-menu class="el-menu&#45;&#45;vertical">-->
+    <!--      <el-menu-item v-for="item in routes" :key="item">-->
+    <!--        <router-link :to="routes[item]">-->
+    <!--          <el-icon>-->
+    <!--            <Edit></Edit>-->
+    <!--          </el-icon>-->
+    <!--          <span>Edit</span>-->
+    <!--          <span>MyPost</span>-->
+    <!--        </router-link>-->
+    <!--      </el-menu-item>-->
+    <!--    </el-menu>-->
   </div>
 </template>
 
 <script>
-import { accessedRoutes } from '/@/router/index.js';
+import { usePermissionStore } from '/@/store/index.js';
 export default {
   name: 'SideVar',
   setup() {
-    const routes = accessedRoutes;
+    const routes = usePermissionStore().getRoutes;
     return {
       routes,
     };

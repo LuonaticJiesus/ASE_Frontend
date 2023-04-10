@@ -11,7 +11,11 @@ export const usePermissionStore = defineStore('permission', {
     routes: constantRoutes,
     addRoutes: [],
   }),
-  getters: {},
+  getters: {
+    getRoutes(state) {
+      return state.routes;
+    },
+  },
   actions: {
     setRoutes(routes) {
       this.addRoutes = routes;

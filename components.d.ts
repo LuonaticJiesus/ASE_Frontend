@@ -15,8 +15,11 @@ declare module '@vue/runtime-core' {
     ElContainer: typeof import('element-plus/es')['ElContainer'];
     ElDivider: typeof import('element-plus/es')['ElDivider'];
     ElHeader: typeof import('element-plus/es')['ElHeader'];
+    ElIcon: typeof import('element-plus/es')['ElIcon'];
     ElImage: typeof import('element-plus/es')['ElImage'];
     ElMain: typeof import('element-plus/es')['ElMain'];
+    ElMenu: typeof import('element-plus/es')['ElMenu'];
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElRow: typeof import('element-plus/es')['ElRow'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     RouterLink: typeof import('vue-router')['RouterLink'];
