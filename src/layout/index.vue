@@ -6,7 +6,9 @@
       </div>
     </el-aside>
     <el-container>
-      <el-header class="layout-header"> Header </el-header>
+      <el-header class="layout-header">
+        <HeadVar></HeadVar>
+      </el-header>
       <el-main>
         <AppMain></AppMain>
       </el-main>
@@ -18,11 +20,17 @@
 import AppMain from '/@/layout/components/AppMain.vue';
 import '/@/style/layout.css';
 import UserInfo from '/@/layout/components/UserInfo.vue';
+import HeadVar from './components/HeadVar.vue';
 
 export default {
   name: 'BasicLayout',
-  components: { UserInfo, AppMain },
+  components: { UserInfo, AppMain, HeadVar },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.layout-header {
+  margin: 0;
+  border: 0;
+}
+</style>
