@@ -34,7 +34,7 @@
         - http              // axios封装
     - view                  // 页面视图
         - login
-            - {components}  // 可选:局部组件
+            - {components)  // 可选:局部组件
             - index.vue     // 页面本体
     - App.vue
     - main.ts

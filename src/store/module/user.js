@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { defineStore } from 'pinia';
-import { setToken, clearToken } from '/@/utils/auth';
-import { login, logout, getUserProfile } from '/@/api/user';
+import { setToken, clearToken } from '/@/utils/auth.js';
+import { login, logout, getUserProfile } from '../../api/user.js';
 
 export const useUserStore = defineStore('user', {
   state: () => ({

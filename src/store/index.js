@@ -1,6 +1,6 @@
 import { createPinia } from 'pinia';
 
-import { useUserStore } from '/@/store/module/user';
+import { useUserStore } from '/@/utils/modules/user.js';
 
 const pinia = createPinia();
 
