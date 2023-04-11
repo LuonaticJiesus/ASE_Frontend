@@ -8,10 +8,14 @@ export const useUserStore = defineStore('user', {
     user_id: undefined,
     user_name: undefined,
     favor_count: undefined,
+    roles: [], // 开发环境使用，暂时认为已登录
   }),
   getters: {
     userProfile(state) {
       return { ...state };
+    },
+    userRoles(state) {
+      return state.roles;
     },
   },
   actions: {
