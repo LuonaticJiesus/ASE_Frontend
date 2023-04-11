@@ -2,7 +2,7 @@
   <div class="user-info-div">
     <el-row type="flex" justify="center">
       <el-col>
-        <el-row type="flex" justify="center">
+        <el-row justify="center">
           <el-image
             style="border-radius: 50%; width: 60px; height: 60px"
             :src="logo"
@@ -11,13 +11,11 @@
           >
           </el-image>
         </el-row>
-        <el-row type="flex" justify="center"> User Name </el-row>
+        <el-row justify="center"> User Name </el-row>
         <el-divider></el-divider>
         <el-row>
           <el-col :span="12">
-            <el-row type="flex" justify="center" style="font-size: small">
-              4
-            </el-row>
+            <el-row justify="center" style="font-size: small"> 4 </el-row>
             <el-row
               type="flex"
               justify="center"
@@ -27,9 +25,7 @@
             </el-row>
           </el-col>
           <el-col :span="12">
-            <el-row type="flex" justify="center" style="font-size: small">
-              1
-            </el-row>
+            <el-row justify="center" style="font-size: small"> 1 </el-row>
             <el-row
               type="flex"
               justify="center"
