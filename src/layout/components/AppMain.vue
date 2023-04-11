@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="app-main">
     <!--    <transition name="fade" mode="out-in">-->
     <keep-alive>
       <router-view :key="key" />
