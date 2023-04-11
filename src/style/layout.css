@@ -1,3 +1,6 @@
+.app-main {
+}
+
 .layout-aside {
     width: 21vw;
     height: 100vh;
@@ -6,6 +9,7 @@
 }
 
 .layout-header {
+    position: relative;
     height: 11vh;
     background-color: #e7e7e7;
 }
@@ -18,4 +22,22 @@
     display: flex;
     justify-content: center;
     align-content: center;
+}
+
+.full-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.main-container {
+    width: 75%;
+    height: 100%;
+}
+
+.right-container {
+    width: 24%;
+    height: 100%;
+    border-left: 2px;
+    border-left-color: #1a1a1a;
 }

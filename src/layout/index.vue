@@ -14,7 +14,7 @@
       <SideBar> </SideBar>
     </el-aside>
     <el-container>
-      <el-header class="layout-header"> <h2>Header</h2> </el-header>
+      <el-header class="layout-header"> <HeadBar /> </el-header>
       <el-main>
         <AppMain></AppMain>
       </el-main>
@@ -27,10 +27,11 @@ import AppMain from '/@/layout/components/AppMain.vue';
 import '/@/style/layout.css';
 import UserInfo from '/@/layout/components/UserInfo.vue';
 import SideBar from '/@/layout/components/SideBar.vue';
+import HeadBar from '/@/layout/components/HeadBar.vue';
 
 export default {
   name: 'BasicLayout',
-  components: { SideBar, UserInfo, AppMain },
+  components: { HeadBar, SideBar, UserInfo, AppMain },
 };
 </script>
 
