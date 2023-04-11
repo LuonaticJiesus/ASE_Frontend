@@ -9,6 +9,7 @@
 }
 
 .layout-header {
+    position: relative;
     height: 11vh;
     background-color: #e7e7e7;
 }
