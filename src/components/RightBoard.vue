@@ -1,11 +1,11 @@
 <template>
-  <h1>Side</h1>
+  <h1>Right</h1>
 </template>
 
 <script>
 export default {
-  name: 'SideVar',
+  name: 'RightBoard',
 };
 </script>
 
-<style scoped></style>
+<style></style>
