@@ -10,17 +10,31 @@
     </el-row>
     <el-row justify="center">
       <el-tabs style="width: 90%">
-        <el-tab-pane label="未截止"> 1 </el-tab-pane>
-        <el-tab-pane label="所有"> 2 </el-tab-pane>
+        <el-tab-pane label="未截止">
+          <el-card v-for="item of unEndedNotices" :key="indexOf(item)">
+            <span>{{ item.title }}</span>
+          </el-card>
+        </el-tab-pane>
+        <el-tab-pane label="所有">
+          <el-card v-for="item of allNotices" :key="indexOf(item)">
+            <span>{{ item.title }}</span>
+          </el-card>
+        </el-tab-pane>
       </el-tabs>
     </el-row>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'RightBoard',
-};
+<script setup name="RightBoard">
+import { onMounted, ref } from 'vue';
+import { getNoticeList } from '/@/api/notice.js';
+let unEndedNotices = ref([]);
+let allNotices = ref([]);
+onMounted(() => {
+  const list = getNoticeList;
+  // 根据截止时间分成两个array
+  allNotices.value = list;
+});
 </script>
 
 <style>
@@ -28,6 +42,7 @@ export default {
   margin: 0;
   text-align: left;
 }
+
 .right-board-title::after {
   content: '';
   width: 40px;
