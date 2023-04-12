@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu'];
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElRow: typeof import('element-plus/es')['ElRow'];
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar'];
     ElTabPane: typeof import('element-plus/es')['ElTabPane'];
     ElTabs: typeof import('element-plus/es')['ElTabs'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
