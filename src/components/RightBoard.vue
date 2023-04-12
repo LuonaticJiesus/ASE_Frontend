@@ -41,43 +41,17 @@ export default {
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getNoticeList } from '/@/api/notice.js';
+import { getNoticeList, getUnduNoticeList } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
-let unEndedNotices = ref([
-  {
-    title: 'notice1',
-    content: 'content of notice1-1-1-1',
-  },
-  {
-    title: 'notice2',
-    content: 'content of notice2',
-  },
-  {
-    title: 'notice2',
-    content: 'content of notice2',
-  },
-  {
-    title: 'notice2',
-    content: 'content of notice2',
-  },
-  {
-    title: 'notice2',
-    content: 'content of notice2',
-  },
-  {
-    title: 'notice2',
-    content: 'content of notice2',
-  },
-  {
-    title: 'notice2',
-    content: 'content of notice2',
-  },
-]);
+let unEndedNotices = ref([]);
 let allNotices = ref([]);
-const updateNoticeList = () => {
-  const list = getNoticeList;
+const updateNoticeList = async () => {
+  console.log(222);
+  const list = await getNoticeList();
   // 根据截止时间分成两个array
   allNotices.value = list;
+  const undue = await getUnduNoticeList();
+  unEndedNotices.value = undue;
 };
 onMounted(() => {
   updateNoticeList();

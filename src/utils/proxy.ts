@@ -7,7 +7,7 @@ export const API_BASE_URL = '/api';
 export const API_TARGET_URL = 'http://localhost:3000';
 
 // mock
-export const MOCK_API_BASE_URL = '/m1/2544583-0-default/';
+export const MOCK_API_BASE_URL = '/m1/2544583-0-default/back';
 export const MOCK_API_TARGET_URL = 'http://127.0.0.1:4523';
 
 const init: ProxyTargetList = {

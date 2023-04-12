@@ -9,7 +9,7 @@
           {{ noticeItem.title }}
         </h4>
         <span class="notice-content-simple">
-          {{ noticeItem.content }}
+          {{ noticeItem.text }}
         </span>
       </el-col>
     </el-row>
@@ -18,12 +18,13 @@
 
 <script setup lang="ts">
 // eslint-disable-next-line no-unused-vars
-import { onMounted, PropType } from 'vue';
+import { PropType } from 'vue';
 interface noticeType {
   title: string;
-  content: string;
+  text: string;
   image: string | null;
 }
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   noticeItem: {
     type: Object as PropType<noticeType>,
@@ -31,9 +32,9 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  console.log(props.noticeItem);
-});
+// onMounted(() => {
+//   console.log(props.noticeItem);
+// });
 </script>
 
 <script lang="ts">
@@ -67,7 +68,9 @@ export default {
   margin: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: left;
   overflow: hidden;
+  min-width: 100%;
 }
 
 .notice-content-simple {

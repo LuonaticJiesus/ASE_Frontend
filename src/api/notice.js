@@ -1,16 +1,21 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
-  list: '/notice/list',
-  create: '/notice/create',
+  list: 'api/notice/user',
+  create: 'api/notice/create',
+  undueList: 'api/notice/undue',
 };
 
-const getNoticeList = async () => {
-  await get({ url: URL.list });
+const MockURL = {
+  list: 'http://127.0.0.1:4523/m1/2544583-0-default/back/notice/user/',
+  create: '',
+  undueList: 'http://127.0.0.1:4523/m1/2544583-0-default/back/notice/undue/',
 };
 
-const createNotice = async (data) => {
-  await post(data, { url: URL.create });
-};
+const getNoticeList = async () => get({ url: MockURL.list });
 
-export { getNoticeList, createNotice };
+const getUnduNoticeList = async () => get({ url: MockURL.undueList });
+
+const createNotice = async (data) => post(data, { url: URL.create });
+
+export { getNoticeList, createNotice, getUnduNoticeList };
