@@ -48,6 +48,17 @@ export const userRoutes = [
       },
     ],
   },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'editor',
+        path: 'editor',
+        component: () => import('/@/view/editor/index.vue'),
+      },
+    ],
+  },
 ];
 
 export const taRoutes = [];

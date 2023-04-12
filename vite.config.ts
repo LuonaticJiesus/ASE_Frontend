@@ -6,7 +6,12 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { resolve } from 'path';
-import proxy from '/@/utils/proxy.ts';
+
+export const API_BASE_URL = '/api';
+export const API_TARGET_URL = 'http://localhost:3000';
+// mock
+export const MOCK_API_BASE_URL = '/m1/2544583-0-default/back';
+export const MOCK_API_TARGET_URL = 'http://127.0.0.1:4523';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,6 +45,20 @@ export default defineConfig({
   server: {
     port: 5173,
     open: false,
-    proxy,
+    proxy: {
+      // test
+      [API_BASE_URL]: {
+        target: API_TARGET_URL,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(new RegExp(`^${API_BASE_URL}`), ''),
+      },
+      // mock
+      [MOCK_API_BASE_URL]: {
+        target: MOCK_API_TARGET_URL,
+        changeOrigin: true,
+        rewrite: (path) =>
+          path.replace(new RegExp(`^${MOCK_API_BASE_URL}`), '/api'),
+      },
+    },
   },
 });
