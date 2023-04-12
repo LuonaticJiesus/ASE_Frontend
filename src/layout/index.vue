@@ -15,7 +15,14 @@
     </el-aside>
     <el-container>
       <el-header class="layout-header"> <HeadBar /> </el-header>
-      <el-main>
+      <el-main
+        style="
+          padding: 0;
+          display: flex;
+          align-items: stretch;
+          justify-content: stretch;
+        "
+      >
         <AppMain></AppMain>
       </el-main>
     </el-container>

@@ -1,4 +1,8 @@
 .app-main {
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
 }
 
 .layout-aside {
@@ -26,18 +30,20 @@
 
 .full-container {
     display: flex;
-    justify-content: center;
+    width: 100%;
+    justify-content: space-around;
     align-content: center;
+    align-items: stretch;
+    overflow: hidden;
 }
 
 .main-container {
-    width: 75%;
+    width: 76%;
     height: 100%;
 }
 
 .right-container {
     width: 24%;
     height: 100%;
-    border-left: 2px;
-    border-left-color: #1a1a1a;
+    border-left: 2px solid #e7e7e7;
 }

@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     ElAside: typeof import('element-plus/es')['ElAside'];
     ElAvatar: typeof import('element-plus/es')['ElAvatar'];
     ElButton: typeof import('element-plus/es')['ElButton'];
+    ElCard: typeof import('element-plus/es')['ElCard'];
     ElCol: typeof import('element-plus/es')['ElCol'];
     ElContainer: typeof import('element-plus/es')['ElContainer'];
     ElDivider: typeof import('element-plus/es')['ElDivider'];
@@ -23,7 +24,11 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu'];
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElRow: typeof import('element-plus/es')['ElRow'];
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar'];
+    ElTabPane: typeof import('element-plus/es')['ElTabPane'];
+    ElTabs: typeof import('element-plus/es')['ElTabs'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
+    NoticeSimple: typeof import('./src/components/NoticeSimple.vue')['default'];
     RightBoard: typeof import('./src/components/RightBoard.vue')['default'];
     RouterLink: typeof import('vue-router')['RouterLink'];
     RouterView: typeof import('vue-router')['RouterView'];
