@@ -8,92 +8,45 @@
         <el-button v-show="true">发布通知</el-button>
       </el-col>
     </el-row>
-    <el-row justify="center" style="flex: 1; min-height: 0">
+    <el-row justify="center">
       <el-tabs style="width: 90%">
-        <el-tab-pane label="未截止" style="height: 43vh">
+        <el-tab-pane label="未截止" class="notice-tab">
           <el-scrollbar>
-            <el-card
-              v-for="item of unEndedNotices"
-              :key="item"
-              class="notice-card-simple"
-              shadow="hover"
-            >
-              <el-row justify="space-between">
-                <el-col
-                  :span="8"
-                  style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                  "
-                >
-                  <el-image
-                    style="
-                      max-width: 40px;
-                      max-height: 40px;
-                      border-radius: 20px;
-                    "
-                    src="/src/assets/logo.png"
-                    :fit="'fill'"
-                  >
-                  </el-image>
-                </el-col>
-                <el-col
-                  :span="16"
-                  style="
-                    display: flex;
-                    align-items: center;
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    justify-content: left;
-                  "
-                >
-                  <h4
-                    style="
-                      margin: 0;
-                      white-space: nowrap;
-                      text-overflow: ellipsis;
-                      overflow: hidden;
-                    "
-                  >
-                    {{ item.title }}
-                  </h4>
-                  <span
-                    style="
-                      white-space: nowrap;
-                      text-overflow: ellipsis;
-                      overflow: hidden;
-                    "
-                  >
-                    {{ item.content }}
-                  </span>
-                </el-col>
-              </el-row>
-            </el-card>
+            <NoticeSimple
+              v-for="notice of unEndedNotices"
+              :key="notice"
+              :noticeItem="notice"
+            ></NoticeSimple>
           </el-scrollbar>
         </el-tab-pane>
-        <el-tab-pane label="所有">
-          <el-card
-            v-for="item of allNotices"
-            :key="item"
-            class="notice-card-simple"
-            shadow="hover"
-          >
-            <span>{{ item.title }}</span>
-          </el-card>
+        <el-tab-pane label="所有" class="notice-tab">
+          <el-scrollbar>
+            <NoticeSimple
+              v-for="notice of allNotices"
+              :key="notice"
+              :noticeItem="notice"
+            ></NoticeSimple>
+          </el-scrollbar>
         </el-tab-pane>
       </el-tabs>
     </el-row>
   </div>
 </template>
 
-<script setup name="RightBoard">
+<script>
+export default {
+  name: 'RightBoard',
+};
+</script>
+
+<script setup>
 import { onMounted, ref } from 'vue';
 import { getNoticeList } from '/@/api/notice.js';
+import NoticeSimple from '/@/components/NoticeSimple.vue';
 let unEndedNotices = ref([
   {
     title: 'notice1',
-    content: 'content of notice1-1-1',
+    content: 'content of notice1-1-1-1',
   },
   {
     title: 'notice2',
@@ -135,10 +88,15 @@ onMounted(() => {
 .right-board {
   margin: 10px;
   padding: 5px;
-  border: 2px solid #535bf2;
+  border: 2px solid #e7e7e7;
   border-radius: 12px;
   height: 55vh;
   box-shadow: rgba(58, 46, 68, 0.08) 0 15px 100px 0;
+  background-image: linear-gradient(
+    #ffffff 0%,
+    rgba(234, 220, 253, 50) 100%,
+    rgba(184, 134, 248, 21) 120%
+  );
   display: flex;
   flex-direction: column;
 }
@@ -159,11 +117,23 @@ onMounted(() => {
   box-sizing: border-box;
 }
 
-.notice-card-simple {
-  margin-bottom: 10px;
+.notice-tab {
+  height: 40vh;
 }
 
 .el-card:deep(.el-card__body) {
   padding: 10px 0 10px;
+}
+
+.el-tabs:deep(.el-tabs__item.is-active) {
+  color: blueviolet;
+}
+
+.el-tabs:deep(.el-tabs__item:hover) {
+  color: blueviolet;
+}
+
+.el-tabs:deep(.el-tabs__active-bar) {
+  background-color: blueviolet;
 }
 </style>

@@ -6,6 +6,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { resolve } from 'path';
+import proxy from '/proxy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -34,5 +35,12 @@ export default defineConfig({
         replacement: resolve(__dirname, 'types') + '/',
       },
     ],
+  },
+
+  server: {
+    port: 5723,
+    open: false,
+    host: '0.0.0.0',
+    proxy,
   },
 });
