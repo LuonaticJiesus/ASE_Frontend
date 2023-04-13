@@ -46,7 +46,6 @@ import NoticeSimple from '/@/components/NoticeSimple.vue';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
 const updateNoticeList = async () => {
-  console.log(222);
   const list = await getNoticeList();
   // 根据截止时间分成两个array
   allNotices.value = list;

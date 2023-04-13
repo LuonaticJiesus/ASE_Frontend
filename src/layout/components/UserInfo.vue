@@ -63,12 +63,13 @@ export default {
   top: 27vh;
   bottom: auto;
   transform-style: preserve-3d;
+  border: solid #e7e7e7 1px;
 }
 
 .user-info-div::before {
   content: '';
   width: 94%;
-  height: 27vh;
+  height: 25vh;
   position: absolute;
   left: 3%;
   right: 3%;

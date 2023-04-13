@@ -1,9 +1,9 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
-  list: 'api/notice/user',
-  create: 'api/notice/create',
-  undueList: 'api/notice/undue',
+  list: 'back/notice/user',
+  create: 'back/notice/create',
+  undueList: 'back/notice/undue',
 };
 
 const MockURL = {
