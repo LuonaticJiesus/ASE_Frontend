@@ -1,9 +1,9 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
-  login: '/user/login',
-  logout: '/user/logout',
-  profile: '/user/profile',
+  login: '/back/user/login',
+  logout: '/back/user/logout',
+  profile: '/back/user/profile',
 };
 
 const getUserProfile = async () => get({ url: URL.profile });

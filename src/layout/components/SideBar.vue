@@ -33,11 +33,20 @@ export default {
   name: 'SideBar',
   components: { Edit },
   setup() {
-    const routes = usePermissionStore().addRoutes;
+    const routes = [];
+    const filterRoutes = () => {
+      const origin = usePermissionStore().addRoutes;
+      for (let item of origin) {
+        if (!(item.hidden && item.hidden === true)) {
+          routes.push(item);
+        }
+      }
+    };
     const basePath = '/';
     return {
       routes,
       basePath,
+      filterRoutes,
     };
   },
   methods: {
@@ -50,6 +59,9 @@ export default {
       }
       return this.basePath + routePath;
     },
+  },
+  mounted() {
+    this.filterRoutes();
   },
 };
 </script>
