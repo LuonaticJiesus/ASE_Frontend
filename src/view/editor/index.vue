@@ -34,7 +34,9 @@
           <h4 class="editor-bottom-label">字符统计:</h4>
         </el-col>
         <el-col :span="1">
-          <span style="color: #bebebe">{{ mdText.length }}</span>
+          <span style="color: #bebebe">
+            {{ editorType === 'md' ? mdText.length : richText.length }}
+          </span>
         </el-col>
         <el-col :span="2">
           <h4 class="editor-bottom-label">选择编辑器:</h4>
@@ -71,7 +73,7 @@
 
 <script setup lang="ts">
 /* eslint-disable camelcase */
-import { Ref, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import { publishArticle } from '/@/api/article.js';
 // noinspection TypeScriptCheckImport
 import VMdEditor, { xss } from '@kangc/v-md-editor';
@@ -81,20 +83,18 @@ import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 const richSetting = {
   language: 'zh-Hans',
   width: '70vw',
-  min_height: 800,
+  resize: false,
   language_url:
     'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
   menubar: false,
   toolbar:
     'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
-  plugins: 'codesample link image table lists fullscreen autoresize',
+  plugins: 'codesample link image table lists fullscreen',
   toolbar_mode: 'sliding',
   nonbreaking_force_tab: true,
   link_title: false,
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
-  autoresize_on_init: true,
-  autoresize_bottom_margin: 0,
 };
 const title: Ref<string> = ref('');
 const mdText: Ref<string> = ref('');
@@ -102,6 +102,9 @@ const richText: Ref<string> = ref(
   ' <h1>Heading</h1>\n' + '  <p>This Editor is awesome!</p>',
 );
 const editorType: Ref<string> = ref('rich');
+// let wordCount: Ref<number> = ref(
+//   editorType.value === 'rich' ? richText.value.length : mdText.value.length,
+// );
 const editorOptions = [
   {
     value: 'rich',
@@ -112,6 +115,34 @@ const editorOptions = [
     label: 'Markdown编辑器',
   },
 ];
+
+// const getWordCount = () => {
+//   if (editorType.value === 'md') {
+//     wordCount.value = mdText.value.length;
+//   } else {
+//     let total = richText.value.length;
+//     let total = 0;
+//     console.log(richText.value);
+//     let tag = false;
+//     for (let i = 0; i < richText.value.length; i++) {
+//       let c = richText.value.charAt(i);
+//       //基本汉字
+//       if (c.match(/[\u4e00-\u9fa5]/)) {
+//         total++;
+//       }
+//       //基本汉字补充
+//       else if (c.match(/[\u9FA6-\u9fcb]/)) {
+//         total++;
+//       } else if (c.match(/[^\x00-\xff]/)) {
+//         total++;
+//       }
+//       if (c.match(/[0-9]/)) {
+//         total++;
+//       }
+//     }
+//     wordCount.value = total;
+//   }
+// };
 
 const handlePublishArticle = async () => {
   const text: string =
@@ -149,6 +180,10 @@ const handleEmitSave = () => {
   );
   console.log(html);
 };
+
+onMounted(() => {
+  // getWordCount();
+});
 </script>
 <script lang="ts">
 export default {
