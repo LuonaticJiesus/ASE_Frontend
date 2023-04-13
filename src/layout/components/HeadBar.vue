@@ -26,12 +26,31 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue';
-
-const activeIndex = ref('1');
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
+<script>
+import { usePermissionStore } from '/@/store/index.js';
+import { isExternal } from '/@/utils/validate.ts';
+export default {
+  name: 'HeadBar',
+  components: {},
+  setup() {
+    const routes = usePermissionStore().addRoutes;
+    const basePath = '/';
+    return {
+      routes,
+      basePath,
+    };
+  },
+  methods: {
+    resolvePath(routePath) {
+      if (isExternal(routePath)) {
+        return routePath;
+      }
+      if (isExternal(this.basePath)) {
+        return this.basePath;
+      }
+      return this.basePath + routePath;
+    },
+  },
 };
 </script>
 
