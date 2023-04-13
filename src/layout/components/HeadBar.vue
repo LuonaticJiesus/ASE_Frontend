@@ -44,7 +44,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
   height: 100%;
   border: 2px;
   background-color: rgba(203, 32, 32, 0);
-  margin: 0px;
+  margin: 0;
 }
 .flex-grow {
   flex-grow: 1;

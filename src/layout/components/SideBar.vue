@@ -60,6 +60,7 @@ export default {
 <style>
 .side-bar-div {
   padding-top: 10vh;
+  text-align: center;
 }
 .el-menu--vertical {
   background-color: rgba(255, 255, 255, 0);

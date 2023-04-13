@@ -26,7 +26,6 @@ export function filterSideRoutes(routes) {
   const res = [];
   for (let item of routes) {
     if (!(item.hidden && item.hidden === true)) {
-      console.log(item);
       res.push(item);
     }
   }

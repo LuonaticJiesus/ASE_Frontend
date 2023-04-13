@@ -58,7 +58,6 @@ export const userRoutes = [
         component: () => import('/@/view/editor/index.vue'),
       },
     ],
-    hidden: true,
   },
 ];
 
