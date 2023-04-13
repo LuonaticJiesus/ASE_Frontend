@@ -27,6 +27,7 @@ declare module '@vue/runtime-core' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar'];
     ElTabPane: typeof import('element-plus/es')['ElTabPane'];
     ElTabs: typeof import('element-plus/es')['ElTabs'];
+    ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     NoticeSimple: typeof import('./src/components/NoticeSimple.vue')['default'];
     RightBoard: typeof import('./src/components/RightBoard.vue')['default'];
