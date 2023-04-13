@@ -22,6 +22,17 @@ export function filterAsyncRoutes(routes, roles) {
   return res;
 }
 
+export function filterSideRoutes(routes) {
+  const res = [];
+  for (let item of routes) {
+    if (!(item.hidden && item.hidden === true)) {
+      console.log(item);
+      res.push(item);
+    }
+  }
+  return res;
+}
+
 export function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
     return roles.some((role) => route.meta.roles.includes(role));
@@ -34,6 +45,7 @@ export const usePermissionStore = defineStore('permission', {
   state: () => ({
     routes: [],
     addRoutes: [],
+    sideRoutes: [],
   }),
   getters: {
     getRoutes(state) {
@@ -44,6 +56,7 @@ export const usePermissionStore = defineStore('permission', {
     setRoutes(routes) {
       this.addRoutes = routes;
       this.routes = constantRoutes.concat(routes);
+      this.sideRoutes = filterSideRoutes(this.addRoutes);
     },
     generateRoutes(roles) {
       return new Promise((resolve) => {
@@ -67,7 +80,6 @@ export const usePermissionStore = defineStore('permission', {
           ];
         }
         this.setRoutes(accessedRoutes);
-        console.log(filterAsyncRoutes(userRoutes, roles));
         resolve(accessedRoutes);
       });
     },

@@ -42,10 +42,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.el-header {
-  margin: 0;
-  padding: 0;
-  height: auto;
-}
-</style>
+<style scoped></style>

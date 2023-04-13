@@ -25,9 +25,9 @@ declare module '@vue/runtime-core' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElRow: typeof import('element-plus/es')['ElRow'];
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar'];
+    ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem'];
     ElTabPane: typeof import('element-plus/es')['ElTabPane'];
     ElTabs: typeof import('element-plus/es')['ElTabs'];
-    ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     MdEditor: typeof import('./src/components/MdEditor.vue')['default'];
     NoticeSimple: typeof import('./src/components/NoticeSimple.vue')['default'];
