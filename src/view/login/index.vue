@@ -165,6 +165,7 @@ export default {
     display: flex;
     border: none;
     #loginForm {
+      width: 250px;
       justify-content: center;
       align-items: center;
       #loginButton {
