@@ -57,7 +57,7 @@ export const asyncRoutes = [
         name: 'editor',
         path: 'editor',
         component: () => import('/@/view/editor/index.vue'),
-        meta: { roles: ['teacher'] },
+        meta: { roles: ['user', 'teacher'] },
       },
     ],
   },

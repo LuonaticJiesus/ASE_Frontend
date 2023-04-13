@@ -511,6 +511,14 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@jsdawn/vue3-tinymce@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@jsdawn/vue3-tinymce/-/vue3-tinymce-2.0.4.tgz#967a6de59a17d05e3560011cea75ceedf036ace0"
+  integrity sha512-2s9RdeivIIrJQ4pDbS8DgpnL2Nmiojzjuj1AQKWERd891JULSlJbf8HAxY8OIVXIrQYh9vBvPG4orwFxswZCjw==
+  dependencies:
+    vue "^3.2.6"
+    vue-router "4"
+
 "@kangc/v-md-editor@^2.3.15":
   version "2.3.15"
   resolved "https://registry.npmjs.org/@kangc/v-md-editor/-/v-md-editor-2.3.15.tgz"
@@ -4358,7 +4366,7 @@ vue-eslint-parser@^9.0.1:
     lodash "^4.17.21"
     semver "^7.3.6"
 
-vue-router@^4.1.6:
+vue-router@4, vue-router@^4.1.6:
   version "4.1.6"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.1.6.tgz"
   integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
@@ -4381,7 +4389,7 @@ vue-tsc@^1.2.0:
     "@volar/vue-language-core" "1.2.0"
     "@volar/vue-typescript" "1.2.0"
 
-vue@^3.2.47:
+vue@^3.2.47, vue@^3.2.6:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==

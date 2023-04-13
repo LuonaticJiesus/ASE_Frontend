@@ -17,4 +17,7 @@ const app = createApp(App);
 app.use(router);
 app.use(piniaStore);
 app.use(VMdEditor);
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+
 app.mount('#app');

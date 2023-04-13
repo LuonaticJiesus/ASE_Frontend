@@ -11,15 +11,21 @@
       <!--      增加属性 :disabled-menus="[]"开启图片上传-->
       <v-md-editor
         ref="mdEditor"
-        v-show="editorType === 'md'"
+        v-if="editorType === 'md'"
         class="md-editor"
         v-model="mdText"
         @upload-image="handleUploadImage"
         @save="handleSaveMdText"
       >
       </v-md-editor>
+      <vue3-tinymce
+        style="width: 70vh"
+        v-model="richText"
+        v-if="editorType === 'rich'"
+        :setting="richSetting"
+      ></vue3-tinymce>
     </el-main>
-    <el-footer style="padding: 0; height: fit-content">
+    <el-footer style="height: fit-content; padding: 0 0 2px">
       <el-row
         style="border-top: solid #646cff 1px; padding: 2px"
         align="middle"
@@ -64,15 +70,38 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable camelcase */
 import { Ref, ref } from 'vue';
 import { publishArticle } from '/@/api/article.js';
 // noinspection TypeScriptCheckImport
 import VMdEditor, { xss } from '@kangc/v-md-editor';
+// noinspection TypeScriptCheckImport
+import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 
+const richSetting = {
+  language: 'zh-Hans',
+  width: '70vw',
+  min_height: 800,
+  language_url:
+    'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
+  menubar: false,
+  toolbar:
+    'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
+  plugins: 'codesample link image table lists fullscreen autoresize',
+  toolbar_mode: 'sliding',
+  nonbreaking_force_tab: true,
+  link_title: false,
+  link_default_target: '_blank',
+  content_style: 'body{font-size: 16px}',
+  autoresize_on_init: true,
+  autoresize_bottom_margin: 0,
+};
 const title: Ref<string> = ref('');
 const mdText: Ref<string> = ref('');
-const richText: Ref<string> = ref('');
-const editorType: Ref<string> = ref('md');
+const richText: Ref<string> = ref(
+  ' <h1>Heading</h1>\n' + '  <p>This Editor is awesome!</p>',
+);
+const editorType: Ref<string> = ref('rich');
 const editorOptions = [
   {
     value: 'rich',
