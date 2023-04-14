@@ -61,6 +61,24 @@ export const asyncRoutes = [
       },
     ],
   },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'module',
+        path: 'module',
+        component: () => import('/@/view/module/index.vue'),
+        children: [
+          {
+            name: 'share',
+            path: 'share',
+            component: () => import('/@/view/module/share.vue'),
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export const taRoutes = [];
