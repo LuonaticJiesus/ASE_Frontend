@@ -25,7 +25,7 @@ export const constantRoutes = [
   //{ path: '/:pathMatch(.*)*', redirect: '/404', hidden: true },
 ];
 
-export const userRoutes = [
+export const asyncRoutes = [
   {
     path: '/',
     component: Layout,
@@ -47,6 +47,7 @@ export const userRoutes = [
         component: () => import('/@/view/profile/index.vue'),
       },
     ],
+    hidden: true,
   },
   {
     path: '/',
@@ -56,6 +57,25 @@ export const userRoutes = [
         name: 'editor',
         path: 'editor',
         component: () => import('/@/view/editor/index.vue'),
+        meta: { roles: ['user', 'teacher'] },
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'module',
+        path: 'module',
+        component: () => import('/@/view/module/index.vue'),
+        children: [
+          {
+            name: 'share',
+            path: 'share',
+            component: () => import('/@/view/module/share.vue'),
+          },
+        ],
       },
     ],
   },

@@ -58,7 +58,6 @@ const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
         const {
           data: { data },
         } = res;
-        console.log(data);
         return resolve(data as T);
       });
   });
