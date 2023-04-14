@@ -14,8 +14,8 @@ const MockURL = {
 
 const getNoticeList = async () => get({ url: MockURL.list });
 
-const getUnduNoticeList = async () => get({ url: MockURL.undueList });
+const getUndueNoticeList = async () => get({ url: MockURL.undueList });
 
 const createNotice = async (data) => post(data, { url: URL.create });
 
-export { getNoticeList, createNotice, getUnduNoticeList };
+export { getNoticeList, createNotice, getUndueNoticeList };

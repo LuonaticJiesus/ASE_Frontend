@@ -41,7 +41,7 @@ export default {
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getNoticeList, getUnduNoticeList } from '/@/api/notice.js';
+import { getNoticeList, getUndueNoticeList } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
@@ -49,7 +49,7 @@ const updateNoticeList = async () => {
   const list = await getNoticeList();
   // 根据截止时间分成两个array
   allNotices.value = list;
-  const undue = await getUnduNoticeList();
+  const undue = await getUndueNoticeList();
   unEndedNotices.value = undue;
 };
 onMounted(() => {
