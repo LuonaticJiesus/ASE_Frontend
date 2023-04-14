@@ -34,9 +34,10 @@ declare module '@vue/runtime-core' {
     ElSelect: typeof import('element-plus/es')['ElSelect'];
     ElSelectV2: typeof import('element-plus/es')['ElSelectV2'];
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem'];
+    ElTable: typeof import('element-plus/es')['ElTable'];
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
     ElTabPane: typeof import('element-plus/es')['ElTabPane'];
     ElTabs: typeof import('element-plus/es')['ElTabs'];
-    ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     MdEditor: typeof import('./src/components/MdEditor.vue')['default'];
     NoticeSimple: typeof import('./src/components/NoticeSimple.vue')['default'];
