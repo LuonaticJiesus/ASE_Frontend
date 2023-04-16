@@ -3,7 +3,7 @@
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="fig" label="" width="180" />
       <el-table-column prop="title" label="标题" width="180" />
-      <el-table-column prop="comment" label="评论" />
+      <el-table-column prop="comment_cnt" label="评论" />
       <el-table-column prop="author" label="作者" />
       <el-table-column prop="time" label="更新时间" />
     </el-table>
@@ -11,6 +11,9 @@
 </template>
 
 <script>
+import { moduleArticles } from '/@/api/article.js';
+// import axios from 'axios';
+
 export default {
   name: 'ShareView',
   components: {},
@@ -18,18 +21,48 @@ export default {
     return {
       tableData: [
         {
-          fig: '/src/assets/logo.png',
-          title: 'title',
-          comment: 0,
+          // eslint-disable-next-line camelcase
+          post_id: 123,
+          title: 'xxx',
           author: 'author',
-          time: 'time',
+          // eslint-disable-next-line camelcase
+          user_id: 231,
+          // eslint-disable-next-line camelcase
+          user_name: 'yyy',
+          txt: 'xxx',
+          // eslint-disable-next-line camelcase
+          block_id: 222,
+          // eslint-disable-next-line camelcase
+          block_name: 'zzz',
+          time: '2222-33-44 22:55:00',
+          // eslint-disable-next-line camelcase
+          like_cnt: 456,
+          // eslint-disable-next-line camelcase
+          comment_cnt: 123,
+          // eslint-disable-next-line camelcase
+          like_state: 1,
+          // eslint-disable-next-line camelcase
+          latest_update_user: 'xxxx',
+          // eslint-disable-next-line camelcase
+          latest_time: '2222-33-44 22:55:00',
         },
       ],
     };
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
-    fetchData: () => {
-      console.log('fetchData');
+    fetchData() {
+      console.log('fetchData...', this);
+      moduleArticles(0, 0, '')
+        .then((res) => {
+          console.log('share.vue fetchData success: ', res);
+          this.tableData = res;
+        })
+        .catch((err) => {
+          console.log('share.vue fetchData fail: ', err);
+        });
     },
   },
 };
