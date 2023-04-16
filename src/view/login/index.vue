@@ -1,9 +1,9 @@
 <template>
-  <div id="login">
-    <div id="contain">
-      <div id="login-left-card">
+  <div id="login" class="login">
+    <div id="contain" class="contain">
+      <div id="login-left-card" class="login-left-card">
         <el-card id="el-card" :shadow="false">
-          <el-form id="textForm">
+          <el-form id="textForm" class="textForm">
             <el-form-item>
               <h3>Our Introductions</h3>
             </el-form-item>
@@ -13,13 +13,13 @@
           </el-form>
         </el-card>
       </div>
-      <div id="login-right-card">
+      <div id="login-right-card" class="login-right-card">
         <el-card id="el-card" :shadow="false">
           <div id="message-icon">
             <ChatDotRound style="width: 2em; height: 2em" />
           </div>
           <h2>欢迎使用</h2>
-          <el-form id="loginForm">
+          <el-form id="loginForm" class="loginForm">
             <el-form-item prop="text">
               <el-input
                 v-model="loginForm.userId"
@@ -78,7 +78,6 @@ export default {
   },
   data() {
     return {
-      isRouterAlive: true,
       loginForm: {
         userId: '',
         password: '',
@@ -112,13 +111,13 @@ export default {
 </script>
 
 <style scoped>
-#login {
+.login {
   position: relative;
   width: 100vw;
   height: 100vh;
   background-size: 100% 100%;
   background-image: url('src\/assets\/login_background.jpg');
-  #contain {
+  .contain {
     height: 450px;
     width: 600px;
     position: absolute;
@@ -127,31 +126,31 @@ export default {
     transform: translate(-50%, -50%);
   }
 }
-#contain {
+.contain {
   display: flex;
   flex-direction: row;
   text-align: center;
   align-items: center;
-  #login-left-card {
+  .login-left-card {
     background-color: #a426ff;
     width: 300px;
     height: 100%;
   }
-  #login-right-card {
+  .login-right-card {
     background-color: #ffffff;
     width: 300px;
     height: 100%;
   }
 }
 
-#login-left-card {
+.login-left-card {
   display: flex;
   justify-content: center;
   align-items: center;
   #el-card {
     background-color: #a426ff;
     border: none;
-    #textForm {
+    .textForm {
       color: #ffffff;
       justify-content: center;
       align-items: center;
@@ -159,14 +158,14 @@ export default {
   }
 }
 
-#login-right-card {
+.login-right-card {
   display: flex;
   justify-content: center;
   align-items: center;
   #el-card {
     display: flex;
     border: none;
-    #loginForm {
+    .loginForm {
       width: 250px;
       justify-content: center;
       align-items: center;
