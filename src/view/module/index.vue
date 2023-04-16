@@ -142,6 +142,7 @@
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import RightBoard from '/@/components/RightBoard.vue';
 import { Edit } from '@element-plus/icons-vue';
+import router from '/@/router/index.js';
 
 export default {
   name: 'ModuleView',
@@ -156,7 +157,7 @@ export default {
   methods: {
     jump: (url) => {
       console.log('jump to ', url);
-      // router.push({ path: url });
+      router.push(url);
     },
   },
 };
