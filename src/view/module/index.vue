@@ -15,6 +15,7 @@
                       margin-top: -15vh;
                       margin-bottom: 0;
                       border: double 3px white;
+                      background-color: gray;
                     "
                     :src="moduleAvator"
                     :fit="'scale-down'"
@@ -162,6 +163,7 @@ import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import RightBoard from '/@/components/RightBoard.vue';
 import { Edit } from '@element-plus/icons-vue';
 import router from '/@/router/index.js';
+import { moduleInfo } from '/@/api/module';
 
 export default {
   name: 'ModuleView',
@@ -173,7 +175,22 @@ export default {
       tableData: [],
     };
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
+    fetchData() {
+      console.log('fetchData...', this);
+      moduleInfo(0, 0, '')
+        .then((res) => {
+          console.log('module.vue fetchData success: ', res);
+          this.moduleName = res.block_name;
+          this.moduleAvator = res.block_logo;
+        })
+        .catch((err) => {
+          console.log('module.vue fetchData failed: ', err);
+        });
+    },
     jump: (url) => {
       console.log('jump to ', url);
       router.push(url);
