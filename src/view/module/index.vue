@@ -15,6 +15,7 @@
                       margin-top: -15vh;
                       margin-bottom: 0;
                       border: double 3px white;
+                      background-color: gray;
                     "
                     :src="moduleAvator"
                     :fit="'scale-down'"
@@ -52,14 +53,14 @@
                   type="primary"
                   color="#626aef"
                   style="height: 7vh; width: 7vh"
-                  @click="jump('/module/share')"
+                  @click="jump('/module/member')"
                 >
                   <el-col>
                     <el-row>
                       <el-icon class="el-icon--right"><Edit /></el-icon>
                     </el-row>
                     <el-row>
-                      <div style="padding-top: 5px">分享</div>
+                      <div style="padding-top: 5px">成员</div>
                     </el-row>
                   </el-col>
                 </el-button>
@@ -71,14 +72,14 @@
                   type="primary"
                   color="#626aef"
                   style="height: 7vh; width: 7vh"
-                  @click="jump('/module/share')"
+                  @click="jump('/module/notice')"
                 >
                   <el-col>
                     <el-row>
                       <el-icon class="el-icon--right"><Edit /></el-icon>
                     </el-row>
                     <el-row>
-                      <div style="padding-top: 5px">分享</div>
+                      <div style="padding-top: 5px">通知</div>
                     </el-row>
                   </el-col>
                 </el-button>
@@ -90,21 +91,40 @@
                   type="primary"
                   color="#626aef"
                   style="height: 7vh; width: 7vh"
-                  @click="jump('/module/share')"
+                  @click="jump('/module/self')"
                 >
                   <el-col>
                     <el-row>
                       <el-icon class="el-icon--right"><Edit /></el-icon>
                     </el-row>
                     <el-row>
-                      <div style="padding-top: 5px">分享</div>
+                      <div style="padding-top: 5px">我的</div>
+                    </el-row>
+                  </el-col>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div style="padding-top: 3vh">
+                <el-button
+                  type="primary"
+                  color="#626aef"
+                  style="height: 7vh; width: 7vh"
+                  @click="jump('/module/manage')"
+                >
+                  <el-col>
+                    <el-row>
+                      <el-icon class="el-icon--right"><Edit /></el-icon>
+                    </el-row>
+                    <el-row>
+                      <div style="padding-top: 5px">管理</div>
                     </el-row>
                   </el-col>
                 </el-button>
               </div>
             </el-col>
             <el-col :span="1"></el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <div style="padding-top: 3vh">
                 <el-button
                   type="primary"
@@ -114,7 +134,7 @@
                 </el-button>
               </div>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <div style="padding-top: 3vh">
                 <el-button
                   type="primary"
@@ -142,6 +162,8 @@
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import RightBoard from '/@/components/RightBoard.vue';
 import { Edit } from '@element-plus/icons-vue';
+import router from '/@/router/index.js';
+import { moduleInfo } from '/@/api/module';
 
 export default {
   name: 'ModuleView',
@@ -153,10 +175,25 @@ export default {
       tableData: [],
     };
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
+    fetchData() {
+      console.log('fetchData...', this);
+      moduleInfo(0, 0, '')
+        .then((res) => {
+          console.log('module.vue fetchData success: ', res);
+          this.moduleName = res.block_name;
+          this.moduleAvator = res.block_logo;
+        })
+        .catch((err) => {
+          console.log('module.vue fetchData failed: ', err);
+        });
+    },
     jump: (url) => {
       console.log('jump to ', url);
-      // router.push({ path: url });
+      router.push(url);
     },
   },
 };
