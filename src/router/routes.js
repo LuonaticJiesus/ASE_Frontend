@@ -75,6 +75,11 @@ export const asyncRoutes = [
             path: 'share',
             component: () => import('/@/view/module/share.vue'),
           },
+          {
+            name: 'notice',
+            path: 'notice',
+            component: () => import('/@/view/module/notice.vue'),
+          },
         ],
       },
     ],

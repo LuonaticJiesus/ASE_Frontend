@@ -52,14 +52,14 @@
                   type="primary"
                   color="#626aef"
                   style="height: 7vh; width: 7vh"
-                  @click="jump('/module/share')"
+                  @click="jump('/module/member')"
                 >
                   <el-col>
                     <el-row>
                       <el-icon class="el-icon--right"><Edit /></el-icon>
                     </el-row>
                     <el-row>
-                      <div style="padding-top: 5px">分享</div>
+                      <div style="padding-top: 5px">成员</div>
                     </el-row>
                   </el-col>
                 </el-button>
@@ -71,14 +71,14 @@
                   type="primary"
                   color="#626aef"
                   style="height: 7vh; width: 7vh"
-                  @click="jump('/module/share')"
+                  @click="jump('/module/notice')"
                 >
                   <el-col>
                     <el-row>
                       <el-icon class="el-icon--right"><Edit /></el-icon>
                     </el-row>
                     <el-row>
-                      <div style="padding-top: 5px">分享</div>
+                      <div style="padding-top: 5px">通知</div>
                     </el-row>
                   </el-col>
                 </el-button>
@@ -90,21 +90,40 @@
                   type="primary"
                   color="#626aef"
                   style="height: 7vh; width: 7vh"
-                  @click="jump('/module/share')"
+                  @click="jump('/module/self')"
                 >
                   <el-col>
                     <el-row>
                       <el-icon class="el-icon--right"><Edit /></el-icon>
                     </el-row>
                     <el-row>
-                      <div style="padding-top: 5px">分享</div>
+                      <div style="padding-top: 5px">我的</div>
+                    </el-row>
+                  </el-col>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div style="padding-top: 3vh">
+                <el-button
+                  type="primary"
+                  color="#626aef"
+                  style="height: 7vh; width: 7vh"
+                  @click="jump('/module/manage')"
+                >
+                  <el-col>
+                    <el-row>
+                      <el-icon class="el-icon--right"><Edit /></el-icon>
+                    </el-row>
+                    <el-row>
+                      <div style="padding-top: 5px">管理</div>
                     </el-row>
                   </el-col>
                 </el-button>
               </div>
             </el-col>
             <el-col :span="1"></el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <div style="padding-top: 3vh">
                 <el-button
                   type="primary"
@@ -114,7 +133,7 @@
                 </el-button>
               </div>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <div style="padding-top: 3vh">
                 <el-button
                   type="primary"
