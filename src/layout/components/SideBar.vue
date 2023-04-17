@@ -51,9 +51,6 @@ export default {
       return this.basePath + routePath;
     },
   },
-  mounted() {
-    console.log(this.routes);
-  },
 };
 </script>
 

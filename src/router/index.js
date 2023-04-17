@@ -51,6 +51,7 @@ router.beforeEach(async (to, from, next) => {
           for (const item of accessRoutes) {
             router.addRoute(item);
           }
+
           next({ ...to, replace: true });
         } catch (error) {
           await userStore.resetInfo();

@@ -9,7 +9,7 @@
           {{ noticeItem.title }}
         </h4>
         <span class="notice-content-simple">
-          {{ noticeItem.text }}
+          {{ noticeItem.txt }}
         </span>
       </el-col>
     </el-row>
@@ -20,9 +20,13 @@
 // eslint-disable-next-line no-unused-vars
 import { PropType } from 'vue';
 interface noticeType {
+  notice_id: number;
   title: string;
-  text: string;
-  image: string | null;
+  txt: string;
+  user_id: number;
+  block_id: number;
+  time: string;
+  ddl: string;
 }
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
