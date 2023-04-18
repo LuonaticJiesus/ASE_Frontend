@@ -6,7 +6,7 @@
           <el-row type="flex" justify="center">
             <div class="card-avator">
               <el-image
-                style="border-radius: 50%; width: 130px; height: 130px"
+                style="border-radius: 50%; width: 65px; height: 65px"
                 :src="logo"
                 :fit="'scale-down'"
                 lazy
@@ -63,8 +63,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
-  height: 60px;
+  padding: 15px;
+  height: 5vh;
   background-color: silver;
   border-radius: 12px;
   vertical-align: middle;
@@ -72,25 +72,25 @@ export default {
 }
 
 .card-body {
-  margin-top: 60px;
+  margin-top: 2vh;
 }
 
 .card-header .card-avator {
   position: relative;
-  padding-top: 100px;
+  padding-top: 50px;
 }
 .text {
-  font-size: 14px;
+  font-size: 7px;
 }
 
 .item {
-  margin-bottom: 18px;
+  margin-bottom: 9px;
 }
 
 .box-card {
-  width: 300px;
-  height: 400px;
-  margin: 0;
+  width: 30vh;
+  height: 40vh;
+  margin: 4vh;
   border-radius: 12px;
 }
 </style>

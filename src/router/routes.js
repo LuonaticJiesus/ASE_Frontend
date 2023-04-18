@@ -71,19 +71,31 @@ export const asyncRoutes = [
         component: () => import('/@/view/module/index.vue'),
         children: [
           {
-            name: 'share',
-            path: 'share',
-            component: () => import('/@/view/module/share.vue'),
+            name: 'moduleListView',
+            path: '',
+            component: () => import('/@/view/module/list.vue'),
           },
           {
-            name: 'member',
-            path: 'member',
-            component: () => import('/@/view/module/member.vue'),
-          },
-          {
-            name: 'notice',
-            path: 'notice',
-            component: () => import('/@/view/module/notice.vue'),
+            name: 'moduleDetailView',
+            path: ':id',
+            component: () => import('/@/view/module/module.vue'),
+            children: [
+              {
+                name: 'moduleShareView',
+                path: 'share',
+                component: () => import('/@/view/module/share.vue'),
+              },
+              {
+                name: 'moduleMemberView',
+                path: 'member',
+                component: () => import('/@/view/module/member.vue'),
+              },
+              {
+                name: 'moduleNoticeView',
+                path: 'notice',
+                component: () => import('/@/view/module/notice.vue'),
+              },
+            ],
           },
         ],
       },
