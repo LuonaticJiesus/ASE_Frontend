@@ -47,11 +47,11 @@ export default {
       console.log('fetchData...', this);
       moduleNotices(0, 0, '')
         .then((res) => {
-          console.log('share.vue fetchData success: ', res);
+          console.log('notice.vue fetchData success: ', res);
           this.tableData = res;
         })
         .catch((err) => {
-          console.log('share.vue fetchData fail: ', err);
+          console.log('notice.vue fetchData fail: ', err);
         });
     },
   },
