@@ -35,7 +35,11 @@
         </el-col>
         <el-col :span="1">
           <span style="color: #bebebe">
-            {{ editorType === 'md' ? mdText.length : richText.length }}
+            {{
+              editorType === 'md'
+                ? mdText.length
+                : strippedHtml(richText).length
+            }}
           </span>
         </el-col>
         <el-col :span="2">
@@ -79,6 +83,7 @@ import { publishArticle } from '/@/api/article.js';
 import VMdEditor, { xss } from '@kangc/v-md-editor';
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
+import { strippedHtml } from '/@/utils/string';
 
 const richSetting = {
   language: 'zh-Hans',

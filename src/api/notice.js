@@ -9,11 +9,12 @@ const URL = {
 };
 
 const MockURL = {
-  list: 'http://127.0.0.1:4523/m1/2544583-0-default/back/notice/user/',
+  list: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
   create: '',
-  undueList: 'http://127.0.0.1:4523/m1/2544583-0-default/back/notice/undue/',
   queryBlock:
     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryBlock/',
+  undueList:
+    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
 };
 
 const getNoticeList = async () => get({ url: MockURL.list });
