@@ -124,7 +124,3 @@ export const asyncRoutes = [
     ],
   },
 ];
-
-export const taRoutes = [];
-
-export const teacherRoutes = [];
