@@ -7,6 +7,10 @@ const URL = {
 };
 
 const getUserProfile = async () => get({ url: URL.profile });
-const login = async (data) => post({ url: URL.login, data });
+const login = async (data) =>
+  post({
+    url: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/user/login/',
+    data,
+  });
 const logout = async () => post({ url: URL.logout });
 export { getUserProfile, logout, login };
