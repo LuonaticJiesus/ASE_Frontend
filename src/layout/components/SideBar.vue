@@ -5,23 +5,22 @@
 3. todo: 手动维护active?--->
     <!--    先摆了，有个导航就行-->
     <el-menu class="el-menu--vertical" :router="true">
-      <el-menu-item
-        v-for="(route, index) in routes"
-        :key="index"
-        :index="route['children'][0].path"
-        class="el-menu-item"
-      >
-        <!--        <router-link :to="route['children'][0].path">-->
-        <el-icon>
-          <Edit />
-        </el-icon>
-        <span>{{ ' ' + route['children'][0]['name'] }}</span>
-        <!--        </router-link>-->
-      </el-menu-item>
+      <el-scrollbar>
+        <el-menu-item
+          v-for="(route, index) in routes"
+          :key="index"
+          :index="route['children'][0].path"
+          class="el-menu-item"
+        >
+          <!--        <router-link :to="route['children'][0].path">-->
+          <el-icon>
+            <Edit />
+          </el-icon>
+          <span>{{ ' ' + route['children'][0]['name'] }}</span>
+          <!--        </router-link>-->
+        </el-menu-item>
+      </el-scrollbar>
     </el-menu>
-    <el-button>
-      <router-link to="/">To Root </router-link>
-    </el-button>
   </div>
 </template>
 
@@ -61,5 +60,6 @@ export default {
 }
 .el-menu--vertical {
   background-color: rgba(255, 255, 255, 0);
+  max-height: 30vh;
 }
 </style>

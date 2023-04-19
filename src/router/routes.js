@@ -101,6 +101,28 @@ export const asyncRoutes = [
       },
     ],
   },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'NoticePreview',
+        path: '/notice/preview',
+        component: () => import('/@/view/notice/preview.vue'),
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'PostPreview',
+        path: '/post/preview',
+        component: () => import('/src/view/post/preview.vue'),
+      },
+    ],
+  },
 ];
 
 export const taRoutes = [];
