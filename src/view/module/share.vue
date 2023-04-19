@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     fetchData() {
-      console.log('fetchData...', this);
+      console.log('fetchData....', this);
       moduleArticles(0, 0, '')
         .then((res) => {
           console.log('share.vue fetchData success: ', res);

@@ -32,7 +32,7 @@
               type="primary"
               color="#626aef"
               style="height: 7vh; width: 7vh"
-              @click="jump('/module/share')"
+              @click="jump('share')"
             >
               <el-col>
                 <el-row>
@@ -51,7 +51,7 @@
               type="primary"
               color="#626aef"
               style="height: 7vh; width: 7vh"
-              @click="jump('/module/member')"
+              @click="jump('member')"
             >
               <el-col>
                 <el-row>
@@ -70,7 +70,7 @@
               type="primary"
               color="#626aef"
               style="height: 7vh; width: 7vh"
-              @click="jump('/module/notice')"
+              @click="jump('notice')"
             >
               <el-col>
                 <el-row>
@@ -89,7 +89,8 @@
               type="primary"
               color="#626aef"
               style="height: 7vh; width: 7vh"
-              @click="jump('/module/self')"
+              @click="jump('self')"
+              disabled
             >
               <el-col>
                 <el-row>
@@ -108,7 +109,8 @@
               type="primary"
               color="#626aef"
               style="height: 7vh; width: 7vh"
-              @click="jump('/module/manage')"
+              @click="jump('manage')"
+              disabled
             >
               <el-col>
                 <el-row>
@@ -127,6 +129,7 @@
             <el-button
               type="primary"
               style="width: 15vh; height: 7vh; border-radius: 4vh"
+              disabled
             >
               <div>订阅分享</div>
             </el-button>
@@ -137,6 +140,7 @@
             <el-button
               type="primary"
               style="width: 15vh; height: 7vh; border-radius: 4vh"
+              disabled
             >
               <div>创建分享</div>
             </el-button>
@@ -155,6 +159,7 @@
 import { Edit } from '@element-plus/icons-vue';
 import router from '/@/router/index.js';
 import { moduleInfo } from '/@/api/module';
+import { nextTick } from 'vue';
 
 export default {
   name: 'ModuleView',
@@ -182,10 +187,16 @@ export default {
           console.log('module.vue fetchData failed: ', err);
         });
     },
-    jump: (url) => {
-      console.log(route);
-      console.log('jump to ', '/module/' + url);
-      router.push(url);
+    jump: async (url) => {
+      // console.log(route);
+      console.log('jump to 111', router.currentRoute.value);
+      // eslint-disable-next-line vue/valid-next-tick
+      await nextTick(() => {
+        router.push({
+          path: `/module/${router.currentRoute.value.params['id']}/${url}`,
+        });
+      });
+      //router.addRoute(router.currentRoute.value.fullPath + '/' + url);
     },
   },
 };

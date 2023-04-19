@@ -4,19 +4,21 @@
       <el-tab-pane label="所有版块" name="first">
         <div>这里有个搜索栏和筛选选项</div>
         <ul
-          v-infinite-scroll="load"
+          :v-infinite-scroll="this.load"
           class="infinite-list"
           style="overflow: auto"
         >
-          <li v-for="i in count" :key="i" class="infinite-list-item">
-            <el-col span="4">
-              <CardModule />
-            </el-col>
-            <el-col span="4">
-              <CardModule />
-            </el-col>
-            <el-col span="4">
-              <CardModule />
+          <li v-for="i in this.moduleList" :key="i" class="infinite-list-item">
+            <el-col
+              span="4"
+              v-for="item of this.moduleList[i]"
+              :key="item.moduelId"
+            >
+              <CardModule
+                :moduelId="item.moduleId"
+                :moduleAvator="item.moduleAvator"
+                :moduleName="item.moduleName"
+              />
             </el-col>
           </li>
         </ul>
@@ -27,7 +29,7 @@
 </template>
 
 <script>
-import { moduleInfo } from '/@/api/module';
+import { moduleRandom } from '/@/api/module';
 import CardModule from './components/CardModule.vue';
 
 export default {
@@ -36,10 +38,7 @@ export default {
   data: () => {
     return {
       activeName: 'first',
-      moduleName: 'QuadSSSS',
-      moduleAvator: '/src/assets/logo.png',
-      tableData: [],
-      count: 99,
+      moduleList: [],
     };
   },
   mounted() {
@@ -48,18 +47,20 @@ export default {
   methods: {
     fetchData() {
       console.log('fetchData...', this);
-      moduleInfo(0, 0, '')
-        .then((res) => {
-          console.log('module.vue fetchData success: ', res);
-          this.moduleName = res.block_name;
-          this.moduleAvator = res.block_logo;
-        })
-        .catch((err) => {
-          console.log('module.vue fetchData failed: ', err);
-        });
+      this.load();
     },
     load() {
-      count.value += 2;
+      for (var i = 0; i < 5; i++) {
+        moduleRandom(3, 0, '')
+          .then((res) => {
+            console.log('list.vue load success: ', res);
+            this.moduleList.push(res.modules);
+            console.log(this.moduleList);
+          })
+          .catch((err) => {
+            console.log('list.vue load failed: ', err);
+          });
+      }
     },
   },
 };
@@ -67,7 +68,7 @@ export default {
 
 <style scoped>
 .infinite-list {
-  height: 80vh;
+  height: 70vh;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -76,7 +77,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40vh;
+  height: 45vh;
   background: white;
   margin: 10px;
   color: var(--el-color-primary);

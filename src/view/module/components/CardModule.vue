@@ -7,7 +7,7 @@
             <div class="card-avator">
               <el-image
                 style="border-radius: 50%; width: 65px; height: 65px"
-                :src="logo"
+                :src="moduleAvator"
                 :fit="'scale-down'"
                 lazy
               >
@@ -20,14 +20,16 @@
     <div class="card-body">
       <h2>{{ moduleName }}</h2>
       <div>{{ memberNumber }}人</div>
-      <el-button size="large" round color="#626aef" @click="joinModule">
-        加入版块
+      <el-button size="large" round color="#626aef" @click="enterModule">
+        进入版块
       </el-button>
     </div>
   </el-card>
 </template>
 
 <script>
+import router from '/@/router/index.js';
+
 export default {
   name: 'CardModule',
   setup() {
@@ -37,19 +39,27 @@ export default {
     };
   },
   props: {
+    moduleId: {
+      type: Number,
+      default: 0,
+    },
     moduleName: {
       type: String,
       default: '版块名称',
+    },
+    moduleAvator: {
+      type: String,
+      default: '',
     },
     memberNumber: {
       type: Number,
       default: 0,
     },
   },
-  method: {
-    joinModule() {
-      // TODO: 加入模块 并跳转
-      return 0;
+  methods: {
+    enterModule() {
+      console.log('jump to ', '/module/' + this.moduleId);
+      router.push('/module/' + this.moduleId);
     },
   },
 };

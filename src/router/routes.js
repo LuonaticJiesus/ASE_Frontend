@@ -32,7 +32,7 @@ export const asyncRoutes = [
     children: [
       {
         name: 'home',
-        path: 'home',
+        path: '/home',
         component: () => import('/@/view/home/index.vue'),
       },
     ],
@@ -43,7 +43,7 @@ export const asyncRoutes = [
     children: [
       {
         name: 'profile',
-        path: 'profile',
+        path: '/profile',
         component: () => import('/@/view/profile/index.vue'),
       },
     ],
@@ -55,7 +55,7 @@ export const asyncRoutes = [
     children: [
       {
         name: 'editor',
-        path: 'editor',
+        path: '/editor',
         component: () => import('/@/view/editor/index.vue'),
         meta: { roles: ['user', 'teacher'] },
       },
@@ -67,7 +67,7 @@ export const asyncRoutes = [
     children: [
       {
         name: 'module',
-        path: 'module',
+        path: '/module',
         component: () => import('/@/view/module/index.vue'),
         children: [
           {
