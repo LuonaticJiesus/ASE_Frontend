@@ -60,8 +60,9 @@
 <script>
 // import HelloWorld from '/@/App.vue';
 
-import { login } from '/@/api/user.js';
+//import { login } from '/@/api/user.js';
 import { ChatDotRound, User, Lock } from '@element-plus/icons-vue';
+import { useUserStore } from '/@/store/index.js';
 
 export default {
   name: 'userLogin',
@@ -72,9 +73,6 @@ export default {
     },
     Lock() {
       return Lock;
-    },
-    ChatDotRound() {
-      return ChatDotRound;
     },
   },
   data() {
@@ -89,13 +87,16 @@ export default {
   methods: {
     userLogin() {
       let data = {
-        userName: this.loginForm.userId,
+        username: this.loginForm.userId,
         password: this.loginForm.password,
       };
-      login(data)
-        .then((res) => {
+      const userStore = useUserStore();
+      userStore
+        .login(data)
+        .then(async (res) => {
           console.log(res);
-          if (res[status] === 200) {
+          if (res) {
+            await userStore.getInfo(); // 更新登录状态和获取用户信息
             this.$router.push({
               name: 'home',
             });
