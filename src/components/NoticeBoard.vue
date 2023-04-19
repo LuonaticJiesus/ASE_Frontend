@@ -4,6 +4,9 @@
       <el-col :span="12">
         <h3 class="right-board-title">通知版</h3>
       </el-col>
+      <el-col :span="8">
+        <el-button v-show="true" @click="showNoticeEditor">发布通知</el-button>
+      </el-col>
     </el-row>
     <el-row justify="center">
       <el-tabs style="width: 90%">
@@ -35,28 +38,47 @@
         </el-tab-pane>
       </el-tabs>
     </el-row>
+    <NoticeEditor
+      v-model:visible="dialogEditor"
+      @close="dialogEditor = false"
+    ></NoticeEditor>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RightBoard',
+  name: 'NoticeBoard',
 };
 </script>
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getNoticeList, getUndueNoticeList } from '/@/api/notice.js';
+import { moduleNotices } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
+import NoticeEditor from '/@/components/NoticeEditor.vue';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
 const updateNoticeList = async () => {
-  const list = await getNoticeList();
+  const list = await moduleNotices(0, 0, '');
   // 根据截止时间分成两个array
   allNotices.value = list;
-  const undue = await getUndueNoticeList();
+  const undue = [];
+  // 均为毫秒时间戳
+  const time = new Date().getTime();
+  for (let item of list) {
+    const ddl = new Date(item.ddl).getTime();
+    if (ddl > time) {
+      undue.push(item);
+    }
+  }
   unEndedNotices.value = undue;
 };
+
+const dialogEditor = ref(false);
+const showNoticeEditor = () => {
+  dialogEditor.value = true;
+};
+
 onMounted(() => {
   updateNoticeList();
 });

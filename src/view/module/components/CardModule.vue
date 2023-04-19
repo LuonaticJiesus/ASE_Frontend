@@ -66,7 +66,7 @@ export default {
 </script>
 
 <style scoped>
-.el-card :deep() .el-card__header {
+.el-card :deep(.el-card__header) {
   padding: 0;
 }
 .card-header {

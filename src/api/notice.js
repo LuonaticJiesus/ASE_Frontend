@@ -9,16 +9,17 @@ const URL = {
 };
 
 const MockURL = {
-  list: 'http://127.0.0.1:4523/m1/2544583-0-default/back/notice/user/',
+  list: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
   create: '',
-  undueList: 'http://127.0.0.1:4523/m1/2544583-0-default/back/notice/undue/',
   queryBlock:
     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryBlock/',
+  undueList:
+    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
 };
 
 const getNoticeList = async () => get({ url: MockURL.list });
 
-const getUnduNoticeList = async () => get({ url: MockURL.undueList });
+const getUndueNoticeList = async () => get({ url: MockURL.undueList });
 
 const createNotice = async (data) => post(data, { url: URL.create });
 
@@ -29,4 +30,4 @@ const moduleNotices = async (block_id, userid, token) =>
     headers: { userid: userid, token: token },
   });
 
-export { getNoticeList, createNotice, getUnduNoticeList, moduleNotices };
+export { getNoticeList, createNotice, getUndueNoticeList, moduleNotices };

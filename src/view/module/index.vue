@@ -4,18 +4,18 @@
       <router-view />
     </template>
     <template #right>
-      <RightBoard />
+      <NoticeBoard />
     </template>
   </DivideContainer>
 </template>
 
 <script>
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
-import RightBoard from '/@/components/RightBoard.vue';
+import NoticeBoard from '/@/components/NoticeBoard.vue';
 
 export default {
   name: 'ModuleView',
-  components: { RightBoard, DivideContainer },
+  components: { NoticeBoard, DivideContainer },
   data: () => {
     return {
       activeName: 'first',
@@ -32,7 +32,7 @@ export default {
 .module-header {
   background-color: silver;
   height: 30vh;
-  padding: 15;
+  padding: 15px;
 }
 .module-pannel {
   display: flex;
