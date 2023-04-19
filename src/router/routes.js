@@ -32,7 +32,7 @@ export const asyncRoutes = [
     children: [
       {
         name: 'home',
-        path: 'home',
+        path: '/home',
         component: () => import('/@/view/home/index.vue'),
       },
     ],
@@ -43,7 +43,7 @@ export const asyncRoutes = [
     children: [
       {
         name: 'profile',
-        path: 'profile',
+        path: '/profile',
         component: () => import('/@/view/profile/index.vue'),
       },
     ],
@@ -55,9 +55,49 @@ export const asyncRoutes = [
     children: [
       {
         name: 'editor',
-        path: 'editor',
+        path: '/editor',
         component: () => import('/@/view/editor/index.vue'),
         meta: { roles: ['user', 'teacher'] },
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'module',
+        path: '/module',
+        component: () => import('/@/view/module/index.vue'),
+        children: [
+          {
+            name: 'moduleListView',
+            path: '',
+            component: () => import('/@/view/module/list.vue'),
+          },
+          {
+            name: 'moduleDetailView',
+            path: ':id',
+            component: () => import('/@/view/module/module.vue'),
+            children: [
+              {
+                name: 'moduleShareView',
+                path: 'share',
+                component: () => import('/@/view/module/share.vue'),
+              },
+              {
+                name: 'moduleMemberView',
+                path: 'member',
+                component: () => import('/@/view/module/member.vue'),
+              },
+              {
+                name: 'moduleNoticeView',
+                path: 'notice',
+                component: () => import('/@/view/module/notice.vue'),
+              },
+            ],
+          },
+        ],
       },
     ],
   },
