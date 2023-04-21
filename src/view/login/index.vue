@@ -24,7 +24,7 @@
               <el-input
                 v-model="loginForm.userId"
                 type="text"
-                placeholder="请输入您的邮箱"
+                placeholder="请输入您的账号"
                 :prefix-icon="User"
               ></el-input>
             </el-form-item>

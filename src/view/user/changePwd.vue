@@ -1,12 +1,12 @@
 <template>
-  <el-card>
+  <el-card class="changePwd-card">
     <el-form
       ref="pwdFormRef"
       :label-position="'top'"
       label-width="100px"
       :model="pwdForm"
       :rules="rules"
-      style="max-width: 460px"
+      class="form-wrapper"
     >
       <el-form-item label="原密码" prop="oldPwd">
         <el-input
@@ -29,12 +29,9 @@
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="form-button">
         <el-button type="primary" @click="submitPwdChange(pwdFormRef)">
           提交修改
-        </el-button>
-        <el-button type="primary" @click="resetPwd(pwdFormRef)">
-          清空表单
         </el-button>
       </el-form-item>
     </el-form>
@@ -102,9 +99,25 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
     }
   });
 };
-
-const resetPwd = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-};
 </script>
+
+<style scoped>
+.changePwd-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border: none;
+}
+.form-wrapper {
+  width: 460px;
+}
+.form-wrapper:deep(.el-form-item__label) {
+  font-size: 20px;
+  font-weight: bold;
+}
+.form-button {
+  display: flex;
+  float: right;
+}
+</style>

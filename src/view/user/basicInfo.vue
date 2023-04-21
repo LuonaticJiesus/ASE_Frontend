@@ -1,52 +1,64 @@
 <template>
-  <el-card>
+  <el-card class="info-card">
     <el-form
       ref="infoFormRef"
       :label-position="'top'"
       label-width="100px"
       :model="infoForm"
       :rules="rules"
-      style="max-width: 460px"
+      class="form-wrapper"
     >
       <el-form-item label="用户名" prop="userName">
         <el-input
-          v-model="infoForm.userName"
-          placeholder="输入"
+          v-model="infoForm.username"
+          placeholder="当前用户名"
           autocomplete="off"
         />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input
           v-model="infoForm.email"
-          placeholder="输入"
+          placeholder="当前邮箱"
           autocomplete="off"
         />
       </el-form-item>
       <el-form-item label="学号" prop="studentId">
         <el-input
           v-model="infoForm.studentId"
-          placeholder="输入"
+          placeholder="学号:绑定后不可修改"
           autocomplete="off"
         />
       </el-form-item>
       <el-form-item label="姓名" prop="name">
         <el-input
           v-model="infoForm.name"
-          placeholder="输入"
+          placeholder="姓名:绑定后不可修改"
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item>
+      <el-form-item class="form-button">
         <el-button type="primary" @click="submitUserInfoChange(infoFormRef)">
           提交修改
-        </el-button>
-        <el-button type="primary" @click="resetInfo(infoFormRef)">
-          清空表单
         </el-button>
       </el-form-item>
     </el-form>
   </el-card>
 </template>
+
+<script lang="ts">
+import { useUserStore } from '/@/store';
+
+export default {
+  name: 'basicInfo',
+  data() {
+    const userStore = useUserStore();
+    return {
+      userName: userStore.username,
+      // email: userStore.email,
+    };
+  },
+};
+</script>
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
@@ -55,7 +67,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 const infoFormRef = ref<FormInstance>();
 
 const infoForm = reactive({
-  userName: '',
+  username: '',
   email: '',
   studentId: '',
   name: '',
@@ -121,9 +133,25 @@ const submitUserInfoChange = (formEl: FormInstance | undefined) => {
     }
   });
 };
-
-const resetInfo = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-};
 </script>
+
+<style scoped>
+.info-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border: none;
+}
+.form-wrapper {
+  width: 460px;
+}
+.form-wrapper:deep(.el-form-item__label) {
+  font-size: 20px;
+  font-weight: bold;
+}
+.form-button {
+  display: flex;
+  float: right;
+}
+</style>
