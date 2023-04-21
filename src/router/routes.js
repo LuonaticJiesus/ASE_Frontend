@@ -117,9 +117,44 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        name: 'PostPreview',
-        path: '/post/preview',
-        component: () => import('/src/view/post/preview.vue'),
+        name: 'user',
+        path: '/user',
+        component: () => import('/@/view/user/index.vue'),
+        children: [
+          {
+            name: 'basicInfo',
+            path: '',
+            component: () => import('/@/view/user/basicInfo.vue'),
+          },
+          {
+            name: 'changePwd',
+            path: 'changePwd',
+            component: () => import('/@/view/user/changePwd.vue'),
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'user',
+        path: 'user',
+        component: () => import('/@/view/user/index.vue'),
+        children: [
+          {
+            name: 'basicInfo',
+            path: 'basicInfo',
+            component: () => import('/@/view/user/basicInfo.vue'),
+          },
+          {
+            name: 'changePwd',
+            path: 'changePwd',
+            component: () => import('/@/view/user/changePwd.vue'),
+          },
+        ],
       },
     ],
   },
