@@ -8,7 +8,7 @@
               <h3>Our Introductions</h3>
             </el-form-item>
             <el-form-item>
-              <span>Xxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+              <span>Xxxxxxxxxxxxxxxxxxxxxxxxx</span>
             </el-form-item>
           </el-form>
         </el-card>
