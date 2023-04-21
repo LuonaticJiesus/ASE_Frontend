@@ -118,12 +118,12 @@ export const asyncRoutes = [
     children: [
       {
         name: 'user',
-        path: 'user',
+        path: '/user',
         component: () => import('/@/view/user/index.vue'),
         children: [
           {
             name: 'basicInfo',
-            path: 'basicInfo',
+            path: '',
             component: () => import('/@/view/user/basicInfo.vue'),
           },
           {
