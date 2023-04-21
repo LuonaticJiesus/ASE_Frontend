@@ -19,16 +19,22 @@
             <ChatDotRound style="width: 2em; height: 2em" />
           </div>
           <h2>欢迎使用</h2>
-          <el-form id="loginForm" class="loginForm">
-            <el-form-item prop="text">
+          <el-form
+            id="loginForm"
+            class="loginForm"
+            :model="loginForm"
+            :rules="loginRules"
+            v-if="formStatus === 'login'"
+          >
+            <el-form-item prop="username">
               <el-input
-                v-model="loginForm.userId"
+                v-model="loginForm.username"
                 type="text"
                 placeholder="请输入您的账号"
                 :prefix-icon="User"
               ></el-input>
             </el-form-item>
-            <el-form-item prop="pass">
+            <el-form-item prop="password">
               <el-input
                 v-model="loginForm.password"
                 type="password"
@@ -44,8 +50,63 @@
             </el-form-item>
             <el-form-item>
               <div id="links-container">
-                <el-link type="primary" @click="userRegister()"
+                <el-link type="primary" @click="changeRegister()"
                   >注册账号</el-link
+                >
+                <el-link type="primary" @click="userForget()">忘记密码</el-link>
+              </div>
+            </el-form-item>
+          </el-form>
+          <el-form
+            id="loginForms"
+            class="loginForm"
+            :model="registerForm"
+            :rules="registerRules"
+            v-else-if="formStatus === 'register'"
+          >
+            <el-form-item prop="username">
+              <el-input
+                v-model="registerForm.username"
+                type="text"
+                placeholder="请输入您的账号"
+                :prefix-icon="User"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                v-model="registerForm.password"
+                type="password"
+                placeholder="请输入密码"
+                :prefix-icon="Lock"
+                show-password
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="confirm">
+              <el-input
+                v-model="registerForm.confirm"
+                type="password"
+                placeholder="确认密码"
+                :prefix-icon="Lock"
+                show-password
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="card">
+              <el-input
+                v-model="registerForm.card"
+                type="text"
+                placeholder="绑定学号【可选】"
+                :prefix-icon="Connection"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button id="loginButton" @click="userRegister('ruleForm')"
+                >注册</el-button
+              >
+            </el-form-item>
+            <el-form-item>
+              <div id="links-container">
+                <el-link type="primary" @click="changeLogin()"
+                  >已有账号</el-link
                 >
                 <el-link type="primary" @click="userForget()">忘记密码</el-link>
               </div>
@@ -58,11 +119,9 @@
 </template>
 
 <script>
-// import HelloWorld from '/@/App.vue';
-
-//import { login } from '/@/api/user.js';
-import { ChatDotRound, User, Lock } from '@element-plus/icons-vue';
+import { ChatDotRound, User, Lock, Connection } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
+import { reactive, ref } from 'vue';
 import router from '/@/router/index.js';
 
 export default {
@@ -75,19 +134,64 @@ export default {
     Lock() {
       return Lock;
     },
+    Connection() {
+      return Connection;
+    },
   },
-  data() {
+  setup() {
+    const loginForm = reactive({
+      username: '',
+      password: '',
+    });
+    const registerForm = reactive({
+      username: '',
+      password: '',
+      confirm: '',
+      card: '',
+    });
+    const validateConfirm = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('您还没有确认密码'));
+      } else {
+        if (registerForm.confirm !== registerForm.password) {
+          callback(new Error('两次输入密码不同'));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
-      loginForm: {
-        userId: '',
-        password: '',
-      },
+      loginForm,
+      registerForm,
+      formStatus: ref('login'),
+      loginRules: reactive({
+        username: [
+          { required: true, message: '您还没有输入账号', trigger: 'blur' },
+        ],
+        password: [
+          { required: true, message: '您还没有输入密码', trigger: 'blur' },
+        ],
+      }),
+      registerRules: reactive({
+        username: [
+          { required: true, message: '您还没有输入账号', trigger: 'blur' },
+          { min: 5, max: 20, message: '账号限定5-20个字符', trigger: 'blur' },
+        ],
+        password: [
+          { required: true, message: '您还没有输入密码', trigger: 'blur' },
+        ],
+        confirm: [
+          { required: true, message: '您还没有确认密码', trigger: 'blur' },
+          { validator: validateConfirm, trigger: 'blur' },
+        ],
+        card: [],
+      }),
     };
   },
   methods: {
     userLogin() {
       let data = {
-        username: this.loginForm.userId,
+        username: this.loginForm.username,
         password: this.loginForm.password,
       };
       const userStore = useUserStore();
@@ -98,13 +202,43 @@ export default {
           if (res) {
             await userStore.getInfo(); // 更新登录状态和获取用户信息
             await router.push({
-              name: 'home',
+              path: '/home',
             });
           }
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    userRegister() {
+      let data = {
+        username: this.registerForm.username,
+        password: this.registerForm.password,
+        card_id: this.registerForm.card,
+      };
+      const userStore = useUserStore();
+      userStore
+        .register(data)
+        .then(async (res) => {
+          console.log(res);
+          if (res) {
+            this.loginForm.username = this.registerForm.username;
+            this.loginForm.password = this.registerForm.password;
+            this.userLogin();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    userForget() {
+      return 1;
+    },
+    changeRegister() {
+      this.formStatus = 'register';
+    },
+    changeLogin() {
+      this.formStatus = 'login';
     },
   },
 };

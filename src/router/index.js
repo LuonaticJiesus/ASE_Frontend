@@ -13,7 +13,7 @@ const router = createRouter({
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/home', '/404'];
+const whiteList = ['/login', '/404'];
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar
@@ -72,7 +72,6 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      console.log('111');
       next(`/login?redirect=${to.path}`);
       NProgress.done();
     }

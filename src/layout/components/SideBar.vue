@@ -20,12 +20,13 @@
           <!--        </router-link>-->
         </el-menu-item>
       </el-scrollbar>
+      <el-button @click="handleLogOut">LogOut</el-button>
     </el-menu>
   </div>
 </template>
 
 <script>
-import { usePermissionStore } from '/@/store/index.js';
+import { usePermissionStore, useUserStore } from '/@/store/index.js';
 import { Edit } from '@element-plus/icons-vue';
 import { isExternal } from '/@/utils/validate.ts';
 export default {
@@ -48,6 +49,10 @@ export default {
         return this.basePath;
       }
       return this.basePath + routePath;
+    },
+    handleLogOut() {
+      const userStore = useUserStore();
+      userStore.logout();
     },
   },
 };

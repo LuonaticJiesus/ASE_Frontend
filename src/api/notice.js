@@ -17,9 +17,11 @@ const MockURL = {
     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
 };
 
-const getNoticeList = async () => get({ url: URL.list });
+const getNoticeList = async (headers, data) =>
+  get({ url: URL.list, headers: headers, params: data });
 
-const getUndueNoticeList = async () => get({ url: URL.undueList });
+const getUndueNoticeList = async (headers, data) =>
+  get({ url: URL.undueList, headers: headers, params: data });
 
 const createNotice = async (data) => post(data, { url: URL.create });
 

@@ -1,14 +1,12 @@
 /* eslint-disable camelcase */
 import { defineStore } from 'pinia';
-import { setToken, clearToken } from '/@/utils/auth';
-import { login, logout, getUserProfile } from '/@/api/user';
+import { setToken, clearToken, getToken } from '/@/utils/auth';
+import { login, getUserProfile, signup } from '/@/api/user';
 // eslint-disable-next-line no-unused-vars
-import { status } from 'nprogress';
-import { state } from 'vue-tsc/out/shared.js';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    userid: undefined,
+    user_id: undefined,
     username: undefined,
     favor_count: undefined,
     status: false, // 判断是否登录，登录为true，没登录false
@@ -25,10 +23,10 @@ export const useUserStore = defineStore('user', {
   actions: {
     //设置是否登录信息
     setLoginStatus(status) {
-      state.status = status;
+      this.status = status;
     },
     setUserId(id) {
-      state.userid = id;
+      this.$patch({ user_id: id });
     },
     // 设置用户信息
     setInfo(partial) {
@@ -39,34 +37,40 @@ export const useUserStore = defineStore('user', {
       this.$reset();
     },
     async getInfo() {
-      const result = await getUserProfile;
+      const result = await getUserProfile({
+        userid: this.user_id,
+        token: getToken(),
+      });
       this.setInfo(result);
     },
     // 异步登录并存储token
     async login(loginForm) {
       const result = await login(loginForm);
       const token = result?.token;
-      const user_id = result?.user_id;
+      const user_id = result?.userid;
       if (token) {
         setToken(token);
         console.log('login success: ', result);
         this.setLoginStatus(true); // 更新登录状态
-        console.log('update status: ', state);
         this.setUserId(user_id);
-        console.log('update id: ', state);
       } else {
         console.log('login fail: ', result);
       }
       return result;
     },
+    // Register
+    async register(registerForm) {
+      await signup(registerForm);
+      return 1;
+    },
     // Logout
     async logout() {
-      await logout();
+      // await logout();
       this.resetInfo();
       clearToken();
       this.setLoginStatus(false);
       // 路由表重置
-      // location.reload();
+      location.reload();
     },
   },
 });

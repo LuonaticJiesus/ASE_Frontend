@@ -48,13 +48,23 @@ export default {
 import { onMounted, ref } from 'vue';
 import { getNoticeList, getUndueNoticeList } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
+import { useUserStore } from '/@/store/index.js';
+import { getToken } from '/@/utils/auth.ts';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
 const updateNoticeList = async () => {
-  const list = await getNoticeList();
+  const headers = {
+    userid: useUserStore().user_id,
+    token: getToken(),
+  };
+  const data = {
+    user_id: useUserStore().user_id,
+    show_confirm: 1,
+  };
+  const list = await getNoticeList(headers, { ...data, undue_op: 0 });
   // 根据截止时间分成两个array
   allNotices.value = list;
-  const undue = await getUndueNoticeList();
+  const undue = await getUndueNoticeList(headers, { ...data, undue_op: 1 });
   unEndedNotices.value = undue;
 };
 onMounted(() => {

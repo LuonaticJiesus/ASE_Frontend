@@ -61,10 +61,10 @@ const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
     service
       .request<any, AxiosResponse<defaultResponse>>(conf)
       .then((res: AxiosResponse<defaultResponse>) => {
-        // const {
-        //   data: { data },
-        // } = res;
-        return resolve(res as T);
+        const {
+          data: { data },
+        } = res;
+        return resolve(data as T);
       })
       .catch((err) => {
         console.log(err);
