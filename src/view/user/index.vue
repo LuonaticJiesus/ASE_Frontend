@@ -2,7 +2,9 @@
   <DivideContainer>
     <template #main>
       <div class="userSetting-head"></div>
-      <div class="userSetting-body"></div>
+      <div class="userSetting-body">
+        <router-view></router-view>
+      </div>
     </template>
     <template #right>
       <RightBoard></RightBoard>
