@@ -13,7 +13,7 @@ const router = createRouter({
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/home', '/404'];
+const whiteList = ['/login', '/404'];
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar

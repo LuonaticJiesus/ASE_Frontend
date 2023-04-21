@@ -4,10 +4,11 @@ const URL = {
   login: '/four_s/user/login/',
   logout: '/four_s/user/logout/',
   signup: '/four_s/user/signup/',
-  profile: '/four_s/user/info',
+  profile: '/four_s/user/myInfo/',
 };
 
-const getUserProfile = async (data) => post({ url: URL.profile, data });
+const getUserProfile = async (header) =>
+  post({ url: URL.profile, headers: header });
 const login = async (data) =>
   post({
     url: URL.login,

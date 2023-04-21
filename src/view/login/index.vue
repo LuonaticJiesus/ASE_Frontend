@@ -121,8 +121,8 @@
 <script>
 import { ChatDotRound, User, Lock, Connection } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
-import router from '/@/router/index.js';
 import { reactive, ref } from 'vue';
+import router from '/@/router/index.js';
 
 export default {
   name: 'userLogin',
@@ -202,7 +202,7 @@ export default {
           if (res) {
             await userStore.getInfo(); // 更新登录状态和获取用户信息
             await router.push({
-              name: '/home',
+              path: '/home',
             });
           }
         })
