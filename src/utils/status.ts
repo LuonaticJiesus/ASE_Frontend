@@ -1,4 +1,8 @@
-export const showMessage = (status: number | string): string => {
+/* eslint-disable indent */
+import { ElMessage } from 'element-plus';
+import 'element-plus/theme-chalk/el-message.css';
+
+export const showNetworkMessage = (status: number | string): string => {
   let message = '';
   switch (status) {
     case 400:
@@ -37,5 +41,19 @@ export const showMessage = (status: number | string): string => {
     default:
       message = `连接出错(${status})!`;
   }
-  return `${message}，请检查网络或联系管理员！`;
+  const info = `${message}，请检查网络或联系管理员！`;
+  ElMessage.error({
+    showClose: true,
+    duration: 2000,
+    message: info,
+  });
+  return info;
+};
+
+export const showServerMessage = (info) => {
+  ElMessage.error({
+    showClose: true,
+    duration: 2000,
+    message: info,
+  });
 };

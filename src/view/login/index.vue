@@ -63,6 +63,7 @@
 //import { login } from '/@/api/user.js';
 import { ChatDotRound, User, Lock } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
+import router from '/@/router/index.js';
 
 export default {
   name: 'userLogin',
@@ -97,7 +98,7 @@ export default {
           console.log(res);
           if (res) {
             await userStore.getInfo(); // 更新登录状态和获取用户信息
-            this.$router.push({
+            await router.push({
               name: 'home',
             });
           }

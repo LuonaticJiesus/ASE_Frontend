@@ -13,7 +13,7 @@ const router = createRouter({
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/home', '/', '/404'];
+const whiteList = ['/login', '/home', '/404'];
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar
@@ -23,9 +23,9 @@ router.beforeEach(async (to, from, next) => {
   // document.title = getPageTitle(to.meta.title);
 
   // determine whether the user has logged in
-  //let hasToken = getToken();
-  //hasToken += 'DevToken'; // 开发环境使用，暂时认为有token
-  let hasToken = null;
+  let hasToken = getToken();
+  // hasToken += 'DevToken'; // 开发环境使用，暂时认为有token
+  // let hasToken = null;
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
@@ -72,6 +72,7 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       // other pages that do not have permission to access are redirected to the login page.
+      console.log('111');
       next(`/login?redirect=${to.path}`);
       NProgress.done();
     }

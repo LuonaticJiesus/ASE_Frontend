@@ -2,9 +2,9 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
-  list: 'back/notice/user',
+  list: 'four_s/notice/queryRecv/',
   create: 'back/notice/create',
-  undueList: 'back/notice/undue',
+  undueList: 'four_s/notice/queryRecv/',
   queryBlock: 'four_s/notice/queryBlock/',
 };
 
@@ -17,9 +17,9 @@ const MockURL = {
     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
 };
 
-const getNoticeList = async () => get({ url: MockURL.list });
+const getNoticeList = async () => get({ url: URL.list });
 
-const getUndueNoticeList = async () => get({ url: MockURL.undueList });
+const getUndueNoticeList = async () => get({ url: URL.undueList });
 
 const createNotice = async (data) => post(data, { url: URL.create });
 
