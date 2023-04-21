@@ -33,12 +33,12 @@ service.interceptors.response.use(
   (response: AxiosResponse) => {
     if (response.status !== 200) {
       showNetworkMessage(response.status);
-      return response;
+      return Promise.reject(response.status);
     }
 
     if (response.data.status && response.data.status !== 0) {
       showServerMessage(response.data.info);
-      return response;
+      return Promise.reject(response.data.status);
     }
 
     return response;
@@ -61,10 +61,13 @@ const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
     service
       .request<any, AxiosResponse<defaultResponse>>(conf)
       .then((res: AxiosResponse<defaultResponse>) => {
-        const {
-          data: { data },
-        } = res;
-        return resolve(data as T);
+        // const {
+        //   data: { data },
+        // } = res;
+        return resolve(res as T);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   });
 };
