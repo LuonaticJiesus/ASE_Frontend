@@ -4,49 +4,37 @@
       <el-table-column prop="fig" label="" width="100" />
       <el-table-column prop="title" label="标题" width="150" />
       <el-table-column prop="txt" label="预览" width="250" />
-      <el-table-column prop="author" label="作者" width="150" />
-      <el-table-column prop="like_cnt" label="点赞" />
-      <el-table-column prop="comment_cnt" label="评论" />
-      <el-table-column prop="time" label="更新时间" />
+      <el-table-column prop="userid" label="发布者" width="150" />
+      <el-table-column prop="time" label="发布时间" />
+      <el-table-column prop="ddl" label="截止时间" />
     </el-table>
   </div>
 </template>
 
 <script>
-import { moduleArticles } from '/@/api/article.js';
-// import axios from 'axios';
+import { moduleNotices } from '/@/api/notice';
 
 export default {
-  name: 'ShareView',
+  name: 'NoticeView',
   components: {},
   data: () => {
     return {
       tableData: [
         {
           // eslint-disable-next-line camelcase
-          post_id: 123,
+          notice_id: 123,
           title: 'xxx',
-          author: 'author',
+          txt: 'yyy',
           // eslint-disable-next-line camelcase
-          user_id: 231,
+          user_id: 123,
           // eslint-disable-next-line camelcase
-          user_name: 'yyy',
-          txt: 'xxx',
+          user_name: 'xxx',
           // eslint-disable-next-line camelcase
-          block_id: 222,
+          block_id: 456,
           // eslint-disable-next-line camelcase
           block_name: 'zzz',
-          time: '2222-33-44 22:55:00',
-          // eslint-disable-next-line camelcase
-          like_cnt: 456,
-          // eslint-disable-next-line camelcase
-          comment_cnt: 123,
-          // eslint-disable-next-line camelcase
-          like_state: 1,
-          // eslint-disable-next-line camelcase
-          latest_update_user: 'xxxx',
-          // eslint-disable-next-line camelcase
-          latest_time: '2222-33-44 22:55:00',
+          time: 'yyyy-MM-dd hh:mm:ss',
+          ddl: 'yyyy-MM-dd hh:mm:ss',
         },
       ],
     };
@@ -56,14 +44,14 @@ export default {
   },
   methods: {
     fetchData() {
-      console.log('fetchData....', this);
-      moduleArticles(0, 0, '')
+      console.log('fetchData...', this);
+      moduleNotices(0, 0, '')
         .then((res) => {
-          console.log('share.vue fetchData success: ', res);
+          console.log('notice.vue fetchData success: ', res);
           this.tableData = res;
         })
         .catch((err) => {
-          console.log('share.vue fetchData fail: ', err);
+          console.log('notice.vue fetchData fail: ', err);
         });
     },
   },
