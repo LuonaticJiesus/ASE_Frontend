@@ -12,6 +12,13 @@
         <el-input
           v-model="infoForm.username"
           placeholder="当前用户名"
+          style="max-width: 460px"
+        />
+      </el-form-item>
+      <el-form-item label="用户名" prop="userName">
+        <el-input
+          v-model="infoForm.userName"
+          placeholder="输入"
           autocomplete="off"
         />
       </el-form-item>
@@ -37,6 +44,11 @@
         />
       </el-form-item>
       <el-form-item class="form-button">
+        <el-button type="primary" @click="submitUserInfoChange(infoFormRef)">
+          提交修改
+        </el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button type="primary" @click="submitUserInfoChange(infoFormRef)">
           提交修改
         </el-button>
@@ -68,6 +80,7 @@ const infoFormRef = ref<FormInstance>();
 
 const infoForm = reactive({
   username: '',
+  userName: '',
   email: '',
   studentId: '',
   name: '',
