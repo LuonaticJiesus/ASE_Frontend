@@ -76,7 +76,7 @@
               <el-input
                 v-model="registerForm.password"
                 type="password"
-                placeholder="请输入密码"
+                placeholder="密码【8-16字符，包含字母数字】"
                 :prefix-icon="Lock"
                 show-password
               ></el-input>
@@ -88,6 +88,22 @@
                 placeholder="确认密码"
                 :prefix-icon="Lock"
                 show-password
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="phone">
+              <el-input
+                v-model="registerForm.phone"
+                type="phone"
+                placeholder="绑定手机号【可选】"
+                :prefix-icon="Connection"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="email">
+              <el-input
+                v-model="registerForm.email"
+                type="email"
+                placeholder="绑定邮箱【可选】"
+                :prefix-icon="Connection"
               ></el-input>
             </el-form-item>
             <el-form-item prop="card">
@@ -147,6 +163,8 @@ export default {
       username: '',
       password: '',
       confirm: '',
+      email: '',
+      phone: '',
       card: '',
     });
     const validateConfirm = (rule, value, callback) => {
@@ -191,7 +209,7 @@ export default {
   methods: {
     userLogin() {
       let data = {
-        username: this.loginForm.username,
+        name: this.loginForm.username,
         password: this.loginForm.password,
       };
       const userStore = useUserStore();
@@ -212,10 +230,17 @@ export default {
     },
     userRegister() {
       let data = {
-        username: this.registerForm.username,
+        name: this.registerForm.username,
         password: this.registerForm.password,
         card_id: this.registerForm.card,
+        phone: this.registerForm.phone,
+        email: this.registerForm.email,
       };
+      for (const key in data) {
+        if (data[key] === null || data[key] === '' || data[key] === undefined) {
+          delete data[key];
+        }
+      }
       const userStore = useUserStore();
       userStore
         .register(data)
