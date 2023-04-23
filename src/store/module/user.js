@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia';
 import { setToken, clearToken, getToken } from '/@/utils/auth';
 import { login, getUserProfile, signup } from '/@/api/user';
+//import { state } from 'vue-tsc/out/shared.js';
 // eslint-disable-next-line no-unused-vars
 
 export const useUserStore = defineStore('user', {
@@ -21,6 +22,9 @@ export const useUserStore = defineStore('user', {
     },
   },
   actions: {
+    getUserId() {
+      return this.user_id;
+    },
     //设置是否登录信息
     setLoginStatus(status) {
       this.status = status;

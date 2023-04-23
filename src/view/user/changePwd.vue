@@ -41,7 +41,9 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
-
+import { changePwd } from '/@/api/user';
+import { getToken } from '/@/utils/auth';
+import { useUserStore } from '/@/store/index.js';
 const pwdFormRef = ref<FormInstance>();
 
 const pwdForm = reactive({
@@ -90,9 +92,20 @@ const rules = reactive<FormRules>({
 
 const submitPwdChange = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
+  const userStore = useUserStore();
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!');
+      let header = {
+        userid: userStore.getUserId(),
+        token: getToken(),
+      };
+      let data = {
+        old_password: pwdForm.oldPwd,
+        password: pwdForm.newPwd,
+      };
+      changePwd(data, header);
+      console.log('post!');
     } else {
       console.log('error submit!');
       return false;
