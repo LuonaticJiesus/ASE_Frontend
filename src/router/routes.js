@@ -106,17 +106,6 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        name: 'NoticePreview',
-        path: '/notice/preview',
-        component: () => import('/@/view/notice/preview.vue'),
-      },
-    ],
-  },
-  {
-    path: '/',
-    component: Layout,
-    children: [
-      {
         name: 'user',
         path: '/user',
         component: () => import('/@/view/user/index.vue'),

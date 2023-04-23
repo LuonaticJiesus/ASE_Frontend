@@ -41,7 +41,7 @@ module.exports = {
     'no-unused-vars': 'error', // 禁止出现未使用过的变量
     'no-const-assign': 'error', // 禁止修改 const 声明的变量
     'no-func-assign': 'error', // 禁止对 function 声明重新赋值
-    camelcase: 'error', // 强制使用骆驼拼写法命名约定
+    camelcase: 'off', // 强制使用骆驼拼写法命名约定
     'no-mixed-spaces-and-tabs': 'error', //禁止混用tab和空格
     indent: ['warn', 2], //缩进风格这里不做硬性规定，但是产品组内要达成统一
     quotes: ['warn', 'single'], //要求引号类型 `` ' ''
