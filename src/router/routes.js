@@ -135,27 +135,4 @@ export const asyncRoutes = [
       },
     ],
   },
-  {
-    path: '/',
-    component: Layout,
-    children: [
-      {
-        name: 'user',
-        path: 'user',
-        component: () => import('/@/view/user/index.vue'),
-        children: [
-          {
-            name: 'basicInfo',
-            path: 'basicInfo',
-            component: () => import('/@/view/user/basicInfo.vue'),
-          },
-          {
-            name: 'changePwd',
-            path: 'changePwd',
-            component: () => import('/@/view/user/changePwd.vue'),
-          },
-        ],
-      },
-    ],
-  },
 ];
