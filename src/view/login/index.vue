@@ -122,12 +122,6 @@ export default {
     userForget() {
       return 1;
     },
-    changeRegister() {
-      this.formStatus = 'register';
-    },
-    changeLogin() {
-      this.formStatus = 'login';
-    },
     changeStatus(msg) {
       this.formStatus = msg;
     },
