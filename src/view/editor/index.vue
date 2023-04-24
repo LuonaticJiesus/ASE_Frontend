@@ -100,6 +100,14 @@ const richSetting = {
   link_title: false,
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
+  // 图片上传
+  custom_images_upload: true,
+  images_upload_url: 'http://112.126.71.119/four_s/upload/image',
+  custom_images_upload_callback: (res) => res.url,
+  custom_images_upload_header: { token: '' },
+  // images_upload_handler: function (blobInfo, succFun, failFun) {
+  //   let file = blobInfo.blob();
+  // },
 };
 const title: Ref<string> = ref('');
 const mdText: Ref<string> = ref('');
@@ -107,9 +115,6 @@ const richText: Ref<string> = ref(
   ' <h1>Heading</h1>\n' + '  <p>This Editor is awesome!</p>',
 );
 const editorType: Ref<string> = ref('rich');
-// let wordCount: Ref<number> = ref(
-//   editorType.value === 'rich' ? richText.value.length : mdText.value.length,
-// );
 const editorOptions = [
   {
     value: 'rich',
@@ -120,34 +125,6 @@ const editorOptions = [
     label: 'Markdown编辑器',
   },
 ];
-
-// const getWordCount = () => {
-//   if (editorType.value === 'md') {
-//     wordCount.value = mdText.value.length;
-//   } else {
-//     let total = richText.value.length;
-//     let total = 0;
-//     console.log(richText.value);
-//     let tag = false;
-//     for (let i = 0; i < richText.value.length; i++) {
-//       let c = richText.value.charAt(i);
-//       //基本汉字
-//       if (c.match(/[\u4e00-\u9fa5]/)) {
-//         total++;
-//       }
-//       //基本汉字补充
-//       else if (c.match(/[\u9FA6-\u9fcb]/)) {
-//         total++;
-//       } else if (c.match(/[^\x00-\xff]/)) {
-//         total++;
-//       }
-//       if (c.match(/[0-9]/)) {
-//         total++;
-//       }
-//     }
-//     wordCount.value = total;
-//   }
-// };
 
 const handlePublishArticle = async () => {
   const text: string =
