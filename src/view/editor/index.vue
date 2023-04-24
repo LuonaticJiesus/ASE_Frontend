@@ -106,6 +106,7 @@ const richSetting = {
   content_style: 'body{font-size: 16px}',
   // 图片上传
   custom_images_upload: true,
+<<<<<<< HEAD
   images_upload_url: '/dev-api/four_s/file/upload/',
   custom_images_upload_callback: (res) => res.data.url,
   custom_images_upload_header: {
@@ -129,6 +130,13 @@ const richSetting = {
   //   } else {
   //     console.log('Failed');
   //   }
+=======
+  images_upload_url: 'http://112.126.71.119/four_s/upload/image',
+  custom_images_upload_callback: (res) => res.url,
+  custom_images_upload_header: { token: '' },
+  // images_upload_handler: function (blobInfo, succFun, failFun) {
+  //   let file = blobInfo.blob();
+>>>>>>> 0d4d247 ([feat](upload))
   // },
 };
 const title: Ref<string> = ref('');
