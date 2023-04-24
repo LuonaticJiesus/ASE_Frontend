@@ -29,10 +29,10 @@
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item label="姓名" prop="name">
+      <el-form-item label="手机号" prop="name">
         <el-input
-          v-model="infoForm.name"
-          placeholder="姓名:绑定后不可修改"
+          v-model="infoForm.phone"
+          placeholder="手机号:绑定后不可修改"
           autocomplete="off"
         />
       </el-form-item>
@@ -47,7 +47,11 @@
 
 <script lang="ts">
 import { useUserStore } from '/@/store';
-
+import { getToken } from '/@/utils/auth';
+let header = {
+  userid: useUserStore().user_id,
+  token: getToken(),
+};
 export default {
   name: 'basicInfo',
   data() {
@@ -63,16 +67,39 @@ export default {
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
-
+import { getToken } from '/@/utils/auth';
+import { changeBasicInfo, getUserProfile } from '/@/api/user';
 const infoFormRef = ref<FormInstance>();
 
 const infoForm = reactive({
   username: '',
   email: '',
   studentId: '',
-  name: '',
+  phone: '',
 });
+async function initializeInfoForm() {
+  try {
+    const userProfile = await getUserProfile(header);
 
+    const {
+      oldusername = '',
+      oldemail = '',
+      oldstudentId = '',
+      oldphone = '',
+    } = userProfile;
+
+    infoForm.username = oldusername;
+    infoForm.email = oldemail;
+    infoForm.studentId = oldstudentId;
+    infoForm.phone = oldphone;
+    console.log('change');
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    // 根据需要处理错误
+  }
+}
+
+initializeInfoForm();
 const validateUserName = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入用户名'));
@@ -127,6 +154,17 @@ const submitUserInfoChange = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!');
+      let data = {
+        card_id: infoForm.studentId,
+        phone: infoForm.phone,
+        email: infoForm.email,
+      };
+      for (const key in data) {
+        if (data[key] === null || data[key] === '' || data[key] === undefined) {
+          delete data[key];
+        }
+      }
+      changeBasicInfo(data, header);
     } else {
       console.log('error submit!');
       return false;
