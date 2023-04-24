@@ -20,7 +20,6 @@
 
 .side-background {
     height: 40vh;
-    padding-top: 10vh;
     background-color: #383a45;
     background-image: linear-gradient(135deg, #4f5261 0%, #383a45 50%);
     display: flex;

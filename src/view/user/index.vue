@@ -98,7 +98,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
 <style scoped>
 .module-header {
-  background-color: silver;
+  background-color: #d1cbd1;
   height: 23vh;
   padding: 0;
 }

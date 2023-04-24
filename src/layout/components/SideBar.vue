@@ -13,10 +13,12 @@
           class="el-menu-item"
         >
           <!--        <router-link :to="route['children'][0].path">-->
-          <el-icon>
+          <el-icon :size="20">
             <Edit />
           </el-icon>
-          <span>{{ ' ' + route['children'][0]['name'] }}</span>
+          <span style="font-size: 18px">{{
+            ' ' + route['children'][0]['name']
+          }}</span>
           <!--        </router-link>-->
         </el-menu-item>
       </el-scrollbar>
@@ -62,6 +64,7 @@ export default {
 .side-bar-div {
   padding-top: 10vh;
   text-align: center;
+  margin-top: 30px;
 }
 .el-menu--vertical {
   background-color: rgba(255, 255, 255, 0);

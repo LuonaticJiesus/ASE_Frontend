@@ -1,18 +1,24 @@
 <template>
   <div class="user-info-div">
-    <el-row type="flex" justify="center">
+    <el-row type="flex">
       <el-col>
         <el-row justify="center">
           <el-image
-            style="border-radius: 50%; width: 60px; height: 60px"
+            style="
+              border-radius: 50%;
+              width: 70px;
+              height: 70px;
+              border: 4px solid white;
+              outline: 1px solid gray;
+            "
             :src="logo"
             :fit="'scale-down'"
             lazy
           >
           </el-image>
         </el-row>
-        <el-row justify="center"> User Name </el-row>
-        <el-divider></el-divider>
+        <el-row justify="center" style="margin-top: 5px"> User Name </el-row>
+        <el-divider style="margin-top: 10px; margin-bottom: 10px"></el-divider>
         <el-row>
           <el-col :span="12">
             <el-row justify="center" style="font-size: small"> 4 </el-row>
@@ -59,11 +65,12 @@ export default {
   background-color: white;
   border-radius: 12px;
   position: absolute;
-  padding: 36px 32px 36px 32px;
+  padding: 20px 20px 36px 20px;
   top: 27vh;
   bottom: auto;
   transform-style: preserve-3d;
   border: solid #e7e7e7 1px;
+  margin-top: -10px;
 }
 
 .user-info-div::before {
