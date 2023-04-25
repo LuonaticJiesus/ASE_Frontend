@@ -27,20 +27,28 @@
     </el-form-item>
     <el-form-item>
       <el-button
-        id="loginButton"
+        class="loginButton"
         @click="userLogin('ruleForm')"
         style="height: 45px; border-radius: 10px; margin: 10px 0 0 0"
         >登录
       </el-button>
     </el-form-item>
     <el-form-item>
-      <div id="links-container">
-        <el-link type="primary" @click="changeRegister()" class="link"
+      <div class="links-container">
+        <el-link
+          type="primary"
+          @click="changeRegister()"
+          class="link"
+          :underline="false"
           >注册账号
         </el-link>
-        <el-link type="primary" @click="userForget()" class="link"
-          >忘记密码</el-link
-        >
+        <el-link
+          type="primary"
+          @click="userForget()"
+          class="link"
+          :underline="false"
+          >忘记密码
+        </el-link>
       </div>
     </el-form-item>
   </el-form>
@@ -97,7 +105,7 @@ export default {
           if (res) {
             await userStore.getInfo(); // 更新登录状态和获取用户信息
             await router.push({
-              path: '/home',
+              path: 'home',
             });
           }
         })
@@ -121,20 +129,26 @@ export default {
   width: 300px;
   justify-content: center;
   align-items: center;
-  #loginButton {
-    width: 100%;
-    background-color: #9007ff;
-    color: #ffffff;
-    text-align: center;
-    cursor: pointer;
+}
+
+.loginButton {
+  width: 100%;
+  background-color: #9007ff;
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    filter: brightness(1.1);
   }
-  #links-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* 设置链接之间的间距 */
-  }
+}
+
+.links-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* 设置链接之间的间距 */
 }
 
 .login-text {
@@ -143,18 +157,25 @@ export default {
 }
 
 .link {
+  font-size: 16px;
   color: #9007ff;
-}
-
-.link :hover {
-  color: #9007ff;
-}
-
-.link :deep(.text-decoration) {
-  color: #9007ff;
-}
-
-.link :active {
-  color: #9007ff;
+  &:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #9007ff;
+    transition: all 0.3s;
+  }
+  &:hover {
+    filter: brightness(1.1);
+  }
+  &:hover:before {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
 }
 </style>

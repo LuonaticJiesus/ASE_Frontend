@@ -10,12 +10,11 @@
                   <el-image
                     style="
                       border-radius: 13px;
-                      width: 13vh;
-                      height: 13vh;
-                      margin-top: -10vh;
+                      width: 14vh;
+                      height: 14vh;
+                      margin-top: -10.5vh;
                       margin-bottom: 0;
-                      border: double 10px white;
-                      background-color: gray;
+                      border: solid 5px white;
                     "
                     :fit="'scale-down'"
                     lazy
@@ -24,39 +23,38 @@
                 </div>
               </el-row>
               <el-row type="flex" justify="center" style="font-size: 20px">
-                {{ userName }}
+                {{ this.userName }}
               </el-row>
             </el-col>
           </div>
         </el-header>
         <el-divider style="margin: 0" />
-        <div class="user-main">
-          <el-main style="padding: 0; margin: 5px">
-            <!--              状态栏+动态页面-->
-            <el-tabs
-              v-model="activeName"
-              class="demo-tabs"
-              @tab-click="handleClick"
-              stretch
-            >
-              <div class="tab-pane-wrapper">
-                <el-tab-pane label="基本信息" name="first">
-                  <div class="tab-pane-content">
-                    <basic-info />
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="修改密码" name="second">
-                  <div class="tab-pane-content">
-                    <change-pwd />
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="统计" name="third">
-                  <div class="tab-pane-content"></div>
-                </el-tab-pane>
-              </div>
-            </el-tabs>
-          </el-main>
-        </div>
+        <el-main class="user-main">
+          <el-tabs
+            v-model="activeName"
+            class="demo-tabs"
+            @tab-click="handleClick"
+            stretch
+          >
+            <div class="tab-pane-wrapper">
+              <el-tab-pane label="基本信息" name="first">
+                <div class="tab-pane-content">
+                  <basic-info />
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="修改密码" name="second">
+                <div class="tab-pane-content">
+                  <change-pwd />
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="统计" name="third">
+                <div class="tab-pane-content">
+                  <user-statistic />
+                </div>
+              </el-tab-pane>
+            </div>
+          </el-tabs>
+        </el-main>
       </el-container>
     </template>
     <template #right>
@@ -66,15 +64,17 @@
 </template>
 
 <script lang="ts">
-// import { useUserStore } from '/@/store';
+import { useUserStore } from '/@/store';
 
 export default {
   name: 'userView',
   data() {
-    // const userStore = useUserStore();
+    const userStore = useUserStore();
     return {
-      // userName: userStore.username,
-      userName: '周奕龙',
+      userName:
+        userStore.getUsername() === undefined
+          ? 'Undefined'
+          : userStore.getUsername(),
     };
   },
 };
@@ -88,6 +88,7 @@ import { ref } from 'vue';
 import type { TabsPaneContext } from 'element-plus';
 import BasicInfo from '/@/view/user/basicInfo.vue';
 import ChangePwd from '/@/view/user/changePwd.vue';
+import UserStatistic from '/@/view/user/userStatistic.vue';
 
 const activeName = ref('first');
 
@@ -99,9 +100,10 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 <style scoped>
 .module-header {
   background-color: #d1cbd1;
-  height: 23vh;
+  height: 22vh;
   padding: 0;
 }
+
 .module-pannel {
   display: flex;
   background-color: white;
@@ -109,9 +111,38 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   margin-top: 90px;
   margin-bottom: 0;
 }
+
+.user-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 5px;
+}
+
+.user-main >>> .el-tabs__nav-wrap::after {
+  position: static !important;
+}
+
+.el-tabs:deep(.el-tabs__item.is-active) {
+  color: #b33dd1;
+}
+
+.el-tabs:deep(.el-tabs__item:hover) {
+  color: #b33dd1;
+}
+
+.el-tabs:deep(.el-tabs__active-bar) {
+  background-color: #b33dd1;
+}
+
+.user-main >>> .el-tabs__item {
+  font-size: 16px !important;
+  color: gray;
+}
+
 ::v-deep .el-tabs__nav-scroll {
-  width: 50% !important;
-  margin: 0 auto !important;
+  width: 60% !important;
 }
 
 .el-tabs__content > .el-tab-pane::before {

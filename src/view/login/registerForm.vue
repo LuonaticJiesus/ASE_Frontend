@@ -57,18 +57,26 @@
     </el-form-item>
     <el-form-item>
       <el-button
-        id="loginButton"
+        class="loginButton"
         @click="userRegister('ruleForm')"
         style="height: 40px; border-radius: 10px"
         >注册
       </el-button>
     </el-form-item>
     <el-form-item>
-      <div id="links-container">
-        <el-link type="primary" @click="changeLogin()" class="link"
+      <div class="links-container">
+        <el-link
+          type="primary"
+          @click="changeLogin()"
+          class="link"
+          :underline="false"
           >已有账号
         </el-link>
-        <el-link type="primary" @click="userForget()" class="link"
+        <el-link
+          type="primary"
+          @click="userForget()"
+          class="link"
+          :underline="false"
           >忘记密码</el-link
         >
       </div>
@@ -80,7 +88,6 @@
 import { User, Lock, Connection } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
-import router from '/@/router/index.js';
 
 export default {
   name: 'registerForm',
@@ -157,9 +164,10 @@ export default {
             // this.loginForm.username = this.registerForm.username;
             // this.loginForm.password = this.registerForm.password;
             // this.userLogin();
-            await router.push({
-              path: 'login',
-            });
+            // await router.push({
+            //   path: 'login',
+            // });
+            this.$emit('transfer', 'login');
           }
         })
         .catch((err) => {
@@ -182,35 +190,45 @@ export default {
   width: 300px;
   justify-content: center;
   align-items: center;
-  #loginButton {
-    width: 100%;
-    background-color: #9007ff;
-    color: #ffffff;
-    text-align: center;
-    cursor: pointer;
-  }
-  #links-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* 设置链接之间的间距 */
-  }
+}
+
+.loginButton {
+  width: 100%;
+  background-color: #9007ff;
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.links-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* 设置链接之间的间距 */
 }
 
 .link {
+  font-size: 16px;
   color: #9007ff;
-}
-
-.link :hover {
-  color: #9007ff;
-}
-
-.link :deep(.text-decoration) {
-  color: #9007ff;
-}
-
-.link :active {
-  color: #9007ff;
+  &:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #9007ff;
+    transition: all 0.3s;
+  }
+  &:hover {
+    filter: brightness(1.1);
+  }
+  &:hover:before {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
 }
 </style>

@@ -17,7 +17,9 @@
           >
           </el-image>
         </el-row>
-        <el-row justify="center" style="margin-top: 5px"> User Name </el-row>
+        <el-row justify="center" style="margin-top: 5px; font-weight: bold">
+          {{ this.userName }}
+        </el-row>
         <el-divider style="margin-top: 10px; margin-bottom: 10px"></el-divider>
         <el-row>
           <el-col :span="12">
@@ -47,12 +49,24 @@
 </template>
 
 <script>
+import { useUserStore } from '/@/store/index.js';
+
 export default {
   name: 'UserInfo',
   setup() {
     const logo = '/src/assets/logo.png';
     return {
       logo,
+    };
+  },
+  data() {
+    const userStore = useUserStore();
+    console.log('SideBar username is: ' + userStore.getUsername());
+    return {
+      userName:
+        userStore.getUsername() === undefined
+          ? 'Undefined'
+          : userStore.getUsername(),
     };
   },
 };
