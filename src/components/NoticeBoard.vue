@@ -5,7 +5,9 @@
         <h3 class="right-board-title">通知版</h3>
       </el-col>
       <el-col :span="8">
-        <el-button v-show="true" @click="showNoticeEditor">发布通知</el-button>
+        <el-button v-show="hasPermission" @click="showNoticeEditor"
+          >发布通知</el-button
+        >
       </el-col>
     </el-row>
     <el-row justify="center">
@@ -39,6 +41,7 @@
       </el-tabs>
     </el-row>
     <NoticeEditor
+      v-if="hasPermission"
       v-model:visible="dialogEditor"
       @close="dialogEditor = false"
     ></NoticeEditor>
@@ -56,6 +59,8 @@ import { onMounted, ref } from 'vue';
 import { moduleNotices } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
 import NoticeEditor from '/@/components/NoticeEditor.vue';
+import router from '/@/router/index.js';
+import { queryRole, roles } from '/@/api/permission.js';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
 const updateNoticeList = async () => {
@@ -79,8 +84,23 @@ const showNoticeEditor = () => {
   dialogEditor.value = true;
 };
 
-onMounted(() => {
-  updateNoticeList();
+const hasPermission = ref(false);
+
+const checkPermission = async () => {
+  const block_id = router.currentRoute.value.params['id'];
+  if (block_id) {
+    const role = await queryRole(block_id);
+    console.log(role);
+    if (roles[role] === 'assistant' || roles[role] === 'admin') {
+      return true;
+    }
+  }
+  return false;
+};
+
+onMounted(async () => {
+  hasPermission.value = await checkPermission();
+  await updateNoticeList();
 });
 </script>
 
