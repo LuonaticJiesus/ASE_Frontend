@@ -40,8 +40,8 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           // try to repeat getting roles
-          // 以下两行是无后端时的处理
-          // await userStore.getInfo();
+          await userStore.getInfo();
+          // 暂时的处理
           userStore.roles.push('user');
 
           const roles = userStore.userRoles;
