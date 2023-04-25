@@ -48,8 +48,7 @@
 </template>
 
 <script lang="ts">
-import { useUserStore } from '/@/store';
-import { getToken } from '/@/utils/auth';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ref } from 'vue';
 import { getUserProfile } from '/@/api/user';
 
@@ -96,9 +95,8 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const userStore = await useUserStore();
         const userProfile = await getUserProfile({
-          userid: userStore.getUserId(),
+          userid: getLocalUserId(),
           token: getToken(),
         });
         const {
@@ -127,9 +125,8 @@ export default {
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import { getToken } from '/@/utils/auth';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 import { changeBasicInfo, getUserProfile } from '/@/api/user';
-import { useUserStore } from '/@/store';
 
 const infoFormRef = ref<FormInstance>();
 const infoForm = reactive({
@@ -140,7 +137,7 @@ const infoForm = reactive({
 });
 
 let header = {
-  userid: useUserStore().user_id,
+  userid: getLocalUserId(),
   token: getToken(),
 };
 

@@ -57,7 +57,7 @@ export const useUserStore = defineStore('user', {
     },
     async getInfo() {
       const result = await getUserProfile({
-        userid: this.getUserId(),
+        userid: getLocalUserId(),
         token: getToken(),
       });
       this.setInfo(result);

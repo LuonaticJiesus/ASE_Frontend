@@ -42,8 +42,7 @@
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { changePwd } from '/@/api/user';
-import { getToken } from '/@/utils/auth';
-import { useUserStore } from '/@/store/index.js';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 const pwdFormRef = ref<FormInstance>();
 
 const pwdForm = reactive({
@@ -92,12 +91,11 @@ const rules = reactive<FormRules>({
 
 const submitPwdChange = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  const userStore = useUserStore();
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!');
       let header = {
-        userid: userStore.getUserId(),
+        userid: getLocalUserId(),
         token: getToken(),
       };
       let data = {
