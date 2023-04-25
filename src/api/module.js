@@ -9,10 +9,10 @@ const URL = {
 };
 
 const MockURL = {
-  queryAll: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryAll',
-  search: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/search',
-  random: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/blcok/random',
-  info: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/info',
+  queryAll: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryAll/',
+  search: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/search/',
+  random: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/blcok/random/',
+  info: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/info/',
   members:
     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/permission/queryUser/',
 };
