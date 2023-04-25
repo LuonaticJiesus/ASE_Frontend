@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { constantRoutes } from '/@/router/routes';
 import NProgress from 'nprogress';
 // eslint-disable-next-line no-unused-vars
-import { getToken } from '/src/utils/auth';
+import { clearToken, getToken } from '/src/utils/auth';
 import { useUserStore, usePermissionStore } from '/src/store';
 import { ElMessage } from 'element-plus';
 

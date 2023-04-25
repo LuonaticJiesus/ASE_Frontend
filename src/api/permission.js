@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { get, post } from '/@/utils/request';
-import { getLocalUserId, getToken } from '/@/utils/auth.js';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 
 const URL = {
   query: '/four_s/permission/query/',
