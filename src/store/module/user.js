@@ -25,12 +25,18 @@ export const useUserStore = defineStore('user', {
     getUserId() {
       return this.user_id;
     },
+    getUsername() {
+      return this.username;
+    },
     //设置是否登录信息
     setLoginStatus(status) {
       this.status = status;
     },
     setUserId(id) {
       this.$patch({ user_id: id });
+    },
+    setUsername(username) {
+      this.username = username;
     },
     // 设置用户信息
     setInfo(partial) {
@@ -57,6 +63,7 @@ export const useUserStore = defineStore('user', {
         console.log('login success: ', result);
         this.setLoginStatus(true); // 更新登录状态
         this.setUserId(user_id);
+        this.setUsername(loginForm.username);
       } else {
         console.log('login fail: ', result);
       }

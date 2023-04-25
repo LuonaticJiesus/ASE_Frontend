@@ -8,32 +8,34 @@
       :rules="rules"
       class="form-wrapper"
     >
-      <el-form-item label="用户名" prop="userName">
+      <el-form-item label="用户名" prop="username">
         <el-input
           v-model="infoForm.username"
-          placeholder="当前用户名"
+          :placeholder="oldUsername"
           autocomplete="off"
         />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input
           v-model="infoForm.email"
-          placeholder="当前邮箱"
+          :placeholder="oldEmail"
           autocomplete="off"
         />
       </el-form-item>
       <el-form-item label="学号" prop="studentId">
         <el-input
           v-model="infoForm.studentId"
-          placeholder="学号:绑定后不可修改"
+          :placeholder="oldStudentid"
           autocomplete="off"
+          :disabled="this.idStatus === 'true'"
         />
       </el-form-item>
-      <el-form-item label="手机号" prop="name">
+      <el-form-item label="手机号" prop="phone">
         <el-input
           v-model="infoForm.phone"
-          placeholder="手机号:绑定后不可修改"
+          :placeholder="oldPhone"
           autocomplete="off"
+          :disabled="this.phoneStatus === 'true'"
         />
       </el-form-item>
       <el-form-item class="form-button">
@@ -48,18 +50,76 @@
 <script lang="ts">
 import { useUserStore } from '/@/store';
 import { getToken } from '/@/utils/auth';
-let header = {
-  userid: useUserStore().user_id,
-  token: getToken(),
-};
+import { ref } from 'vue';
+import { getUserProfile } from '/@/api/user';
+
 export default {
   name: 'basicInfo',
   data() {
-    const userStore = useUserStore();
     return {
-      userName: userStore.username,
-      // email: userStore.email,
+      userName: '',
+      email: '',
+      phone: '',
+      studentid: '',
     };
+  },
+  computed: {
+    oldUsername() {
+      if (this.userName === '') return '请输入用户名';
+      else return this.userName;
+    },
+    oldEmail() {
+      if (this.email === '') return '请输入邮箱';
+      else return this.email;
+    },
+    oldStudentid() {
+      if (this.studentid === '') return '请输入学号';
+      else {
+        this.idStatus = 'true';
+        return this.studentid;
+      }
+    },
+    oldPhone() {
+      if (this.phone === '') return '请输入手机号';
+      else {
+        this.phoneStatus = 'true';
+        return this.phone;
+      }
+    },
+  },
+  setup() {
+    return {
+      idStatus: ref('false'),
+      phoneStatus: ref('false'),
+    };
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const userStore = await useUserStore();
+        const userProfile = await getUserProfile({
+          userid: userStore.getUserId(),
+          token: getToken(),
+        });
+        const {
+          oldUsername = '',
+          oldEmail = '',
+          oldStudentId = '',
+          oldPhone = '',
+        } = userProfile;
+        this.userName = oldUsername;
+        this.email = oldEmail;
+        this.studentid = oldStudentId;
+        this.phone = oldPhone;
+        console.log('change');
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        // 根据需要处理错误
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>
@@ -69,84 +129,35 @@ import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { getToken } from '/@/utils/auth';
 import { changeBasicInfo, getUserProfile } from '/@/api/user';
-const infoFormRef = ref<FormInstance>();
+import { useUserStore } from '/@/store';
 
+const infoFormRef = ref<FormInstance>();
 const infoForm = reactive({
   username: '',
   email: '',
   studentId: '',
   phone: '',
 });
-async function initializeInfoForm() {
-  try {
-    const userProfile = await getUserProfile(header);
 
-    const {
-      oldusername = '',
-      oldemail = '',
-      oldstudentId = '',
-      oldphone = '',
-    } = userProfile;
-
-    infoForm.username = oldusername;
-    infoForm.email = oldemail;
-    infoForm.studentId = oldstudentId;
-    infoForm.phone = oldphone;
-    console.log('change');
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    // 根据需要处理错误
-  }
-}
-
-initializeInfoForm();
-const validateUserName = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请输入用户名'));
-  } else {
-    callback();
-  }
-};
-
-const validateEmail = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请输入邮箱'));
-  } else {
-    const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (!pattern.test(value)) {
-      callback(new Error('请输入正确的邮箱地址'));
-    } else {
-      callback();
-    }
-  }
-};
-
-const validateStudentId = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请输入学号'));
-  } else {
-    const pattern = /^\d{8}$/;
-    if (!pattern.test(value)) {
-      callback(new Error('请输入正确的学号'));
-    } else {
-      callback();
-    }
-  }
-};
-
-const validateName = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请输入姓名'));
-  } else {
-    callback();
-  }
+let header = {
+  userid: useUserStore().user_id,
+  token: getToken(),
 };
 
 const rules = reactive<FormRules>({
-  userName: [{ validator: validateUserName, trigger: 'blur' }],
-  email: [{ validator: validateEmail, trigger: 'blur' }],
-  studentId: [{ validator: validateStudentId, trigger: 'blur' }],
-  name: [{ validator: validateName, trigger: 'blur' }],
+  username: [{ required: true, message: '请输入用户名' }],
+  email: [
+    { required: true, message: '请输入邮箱' },
+    { type: 'email', message: '请输入正确的邮箱地址' },
+  ],
+  studentId: [
+    { required: true, message: '请输入学号' },
+    { pattern: '\^\\d{8}\$', message: '请输入正确的学号' },
+  ],
+  phone: [
+    { required: true, message: '请输入手机号' },
+    { pattern: '\^1[3456789]\\d{9}\$', message: '请输入正确的11位手机号' },
+  ],
 });
 
 const submitUserInfoChange = (formEl: FormInstance | undefined) => {

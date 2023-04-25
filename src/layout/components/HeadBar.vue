@@ -22,12 +22,12 @@
       <el-menu-item index="4"><h2>订阅</h2></el-menu-item>
       <el-menu-item index="5">
         <el-avatar class="mr-3" :size="32" src="/src/assets/logo.png" />
-        <span
+        <div
           class="text-large font-600 mr-3"
-          style="margin-left: 10px; font-size: 18px"
+          style="margin-left: 10px; font-size: 20px"
         >
-          Username
-        </span>
+          {{ this.userName }}
+        </div>
       </el-menu-item>
     </el-menu>
   </div>
@@ -44,8 +44,20 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 <script lang="ts">
 import { Search } from '@element-plus/icons-vue';
+import { useUserStore } from '/@/store';
+import { ref } from 'vue';
 
 export default {
+  data() {
+    const userStore = useUserStore();
+    console.log('HeadBar username is: ' + userStore.getUsername());
+    return {
+      userName:
+        userStore.getUsername() === undefined
+          ? 'Undefined'
+          : userStore.getUsername(),
+    };
+  },
   computed: {
     Search() {
       return Search;
