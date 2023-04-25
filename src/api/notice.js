@@ -6,6 +6,7 @@ const URL = {
   create: 'back/notice/create',
   undueList: 'four_s/notice/queryRecv/',
   queryBlock: 'four_s/notice/queryBlock/',
+  uploadImg: 'four_s/file/upload/',
 };
 
 const MockURL = {
@@ -32,4 +33,17 @@ const moduleNotices = async (block_id, userid, token) =>
     headers: { userid: userid, token: token },
   });
 
-export { getNoticeList, createNotice, getUndueNoticeList, moduleNotices };
+const uploadImage = async (userid, token, file) =>
+  post({
+    url: URL.uploadImg,
+    headers: { userid: userid, token: token },
+    data: file,
+  });
+
+export {
+  getNoticeList,
+  createNotice,
+  getUndueNoticeList,
+  moduleNotices,
+  uploadImage,
+};

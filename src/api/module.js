@@ -9,11 +9,22 @@ const URL = {
 };
 
 const MockURL = {
+  queryAll: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryAll',
   random: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/blcok/random',
   info: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/info',
   members:
     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/permission/queryUser/',
 };
+
+const moduleAll = async (userId, token) =>
+  get({
+    url: MockURL.queryAll,
+    params: {},
+    headers: {
+      userid: userId,
+      token: token,
+    },
+  });
 
 const moduleRandom = async (number, userId, token) =>
   get({
@@ -40,4 +51,4 @@ const moduleMembers = async (block_id, permission, userid, token) =>
     header: { userid: userid, token: token },
   });
 
-export { moduleRandom, moduleInfo, moduleMembers };
+export { moduleAll, moduleRandom, moduleInfo, moduleMembers };

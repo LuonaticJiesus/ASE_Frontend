@@ -16,6 +16,7 @@
         v-model="mdText"
         @upload-image="handleUploadImage"
         @save="handleSaveMdText"
+        :disabled-menus="[]"
       >
       </v-md-editor>
       <vue3-tinymce
@@ -84,6 +85,9 @@ import VMdEditor, { xss } from '@kangc/v-md-editor';
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { strippedHtml } from '/@/utils/string';
+import { useUserStore } from '/@/store';
+import { getToken } from '/@/utils/auth';
+import { uploadImage } from '/@/api/notice';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -100,6 +104,14 @@ const richSetting = {
   link_title: false,
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
+  // 图片上传
+  custom_images_upload: true,
+  images_upload_url: '/dev-api/four_s/file/upload/',
+  custom_images_upload_callback: (res) => res.data.url,
+  custom_images_upload_header: {
+    userid: useUserStore().user_id,
+    token: getToken(),
+  },
 };
 const title: Ref<string> = ref('');
 const mdText: Ref<string> = ref('');
@@ -107,9 +119,6 @@ const richText: Ref<string> = ref(
   ' <h1>Heading</h1>\n' + '  <p>This Editor is awesome!</p>',
 );
 const editorType: Ref<string> = ref('rich');
-// let wordCount: Ref<number> = ref(
-//   editorType.value === 'rich' ? richText.value.length : mdText.value.length,
-// );
 const editorOptions = [
   {
     value: 'rich',
@@ -121,34 +130,6 @@ const editorOptions = [
   },
 ];
 
-// const getWordCount = () => {
-//   if (editorType.value === 'md') {
-//     wordCount.value = mdText.value.length;
-//   } else {
-//     let total = richText.value.length;
-//     let total = 0;
-//     console.log(richText.value);
-//     let tag = false;
-//     for (let i = 0; i < richText.value.length; i++) {
-//       let c = richText.value.charAt(i);
-//       //基本汉字
-//       if (c.match(/[\u4e00-\u9fa5]/)) {
-//         total++;
-//       }
-//       //基本汉字补充
-//       else if (c.match(/[\u9FA6-\u9fcb]/)) {
-//         total++;
-//       } else if (c.match(/[^\x00-\xff]/)) {
-//         total++;
-//       }
-//       if (c.match(/[0-9]/)) {
-//         total++;
-//       }
-//     }
-//     wordCount.value = total;
-//   }
-// };
-
 const handlePublishArticle = async () => {
   const text: string =
     editorType.value === 'md' ? mdText.value : richText.value;
@@ -156,11 +137,31 @@ const handlePublishArticle = async () => {
     title: title,
     text: text,
   };
+  console.log(text);
   const res = await publishArticle(data);
 };
 
-const handleUploadImage = (event, insertImage, files) => {
-  return 1;
+const handleUploadImage = async (event, insertImage, files) => {
+  for (let file of files) {
+    let formData = new FormData();
+    formData.append('file', file, file.name);
+    const result = await uploadImage(
+      useUserStore().user_id,
+      getToken(),
+      formData,
+    );
+
+    const url = result?.url;
+    if (url) {
+      console.log('Success:' + result.url);
+      insertImage({
+        url: url,
+        desc: 'DESC',
+      });
+    } else {
+      console.log('Failed');
+    }
+  }
 };
 
 const handleSaveMdText = (text, html) => {

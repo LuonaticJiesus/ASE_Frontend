@@ -1,13 +1,20 @@
 /* eslint-disable camelcase */
 import { defineStore } from 'pinia';
-import { setToken, clearToken, getToken } from '/@/utils/auth';
+import {
+  setToken,
+  clearToken,
+  getToken,
+  setUserId,
+  getLocalUserId,
+  clearUserId,
+} from '/@/utils/auth';
 import { login, getUserProfile, signup } from '/@/api/user';
 //import { state } from 'vue-tsc/out/shared.js';
 // eslint-disable-next-line no-unused-vars
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user_id: undefined,
+    user_id: getLocalUserId(),
     username: undefined,
     favor_count: undefined,
     status: false, // 判断是否登录，登录为true，没登录false
@@ -33,6 +40,7 @@ export const useUserStore = defineStore('user', {
       this.status = status;
     },
     setUserId(id) {
+      setUserId(id);
       this.$patch({ user_id: id });
     },
     setUsername(username) {
@@ -40,6 +48,7 @@ export const useUserStore = defineStore('user', {
     },
     // 设置用户信息
     setInfo(partial) {
+      this.$patch({ status: true });
       this.$patch(partial);
     },
     // 重置用户信息
@@ -48,7 +57,7 @@ export const useUserStore = defineStore('user', {
     },
     async getInfo() {
       const result = await getUserProfile({
-        userid: this.user_id,
+        userid: this.getUserId(),
         token: getToken(),
       });
       this.setInfo(result);
@@ -79,6 +88,7 @@ export const useUserStore = defineStore('user', {
       // await logout();
       this.resetInfo();
       clearToken();
+      clearUserId();
       this.setLoginStatus(false);
       // 路由表重置
       location.reload();
