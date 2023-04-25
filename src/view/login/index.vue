@@ -53,7 +53,7 @@
               </div>
             </el-card>
           </div>
-          <div id="login-right-card" class="login-right-card">
+          <div class="login-right-card">
             <el-card id="el-card" :shadow="false">
               <div class="image-container">
                 <ChatDotRound
@@ -185,13 +185,14 @@ export default {
   #el-card {
     background-color: #9007ff;
     border: none;
-    .textForm {
-      width: 300px;
-      color: #ffffff;
-      justify-content: left;
-      align-items: flex-start;
-    }
   }
+}
+
+.textForm {
+  width: 300px;
+  color: #ffffff;
+  justify-content: left;
+  align-items: flex-start;
 }
 
 .intro_title {
