@@ -20,7 +20,13 @@
     <div class="card-body">
       <h2>{{ moduleName }}</h2>
       <div>{{ memberNumber }}人</div>
-      <el-button size="large" round color="#626aef" @click="enterModule">
+      <el-button
+        style="margin: 2vh"
+        size="large"
+        round
+        color="#626aef"
+        @click="enterModule"
+      >
         进入版块
       </el-button>
     </div>
@@ -68,6 +74,7 @@ export default {
 <style scoped>
 .el-card :deep(.el-card__header) {
   padding: 0;
+  margin: 0;
 }
 .card-header {
   display: flex;
@@ -80,11 +87,9 @@ export default {
   vertical-align: middle;
   text-align: center;
 }
-
 .card-body {
   margin-top: 2vh;
 }
-
 .card-header .card-avator {
   position: relative;
   padding-top: 50px;
@@ -92,11 +97,9 @@ export default {
 .text {
   font-size: 7px;
 }
-
 .item {
   margin-bottom: 9px;
 }
-
 .box-card {
   width: 30vh;
   height: 40vh;

@@ -32,6 +32,7 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu'];
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
     ElOption: typeof import('element-plus/es')['ElOption'];
+    ElPagination: typeof import('element-plus/es')['ElPagination'];
     ElRow: typeof import('element-plus/es')['ElRow'];
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar'];
     ElSelect: typeof import('element-plus/es')['ElSelect'];
@@ -45,5 +46,8 @@ declare module '@vue/runtime-core' {
     RightBoard: typeof import('./src/components/RightBoard.vue')['default'];
     RouterLink: typeof import('vue-router')['RouterLink'];
     RouterView: typeof import('vue-router')['RouterView'];
+  }
+  export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll'];
   }
 }

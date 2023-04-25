@@ -2,26 +2,31 @@
   <div style="margin: 3vh">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="所有版块" name="first">
-        <div>这里有个搜索栏和筛选选项</div>
-        <ul
-          :v-infinite-scroll="this.load"
-          class="infinite-list"
-          style="overflow: auto"
-        >
-          <li v-for="i in this.moduleList" :key="i" class="infinite-list-item">
-            <el-col
-              span="4"
-              v-for="item of this.moduleList[i]"
-              :key="item.moduelId"
-            >
-              <CardModule
-                :moduelId="item.moduleId"
-                :moduleAvator="item.moduleAvator"
-                :moduleName="item.moduleName"
-              />
-            </el-col>
-          </li>
-        </ul>
+        <el-container>
+          <el-header>这里有个搜索栏和筛选选项</el-header>
+          <el-main class="card-wrap">
+            <CardModule
+              v-for="item in moduleList.slice(
+                (currentPage - 1) * pageSize,
+                currentPage * pageSize,
+              )"
+              :key="item.modduleId"
+              :modduleId="item.block_id"
+              :moduleName="item.name"
+              :moduleAvator="item.avator"
+              :memberNumber="item.time"
+            ></CardModule>
+          </el-main>
+        </el-container>
+        <div style="height: 50px; width: 100px; margin: 50px auto auto">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-size="pageSize"
+            :total="moduleList.length"
+          >
+          </el-pagination>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="我的版块" name="second">我的版块</el-tab-pane>
     </el-tabs>
@@ -29,8 +34,9 @@
 </template>
 
 <script>
-import { moduleRandom } from '/@/api/module';
+import { moduleAll } from '/@/api/module';
 import CardModule from './components/CardModule.vue';
+import { getToken } from '/@/utils/auth';
 
 export default {
   name: 'ModuleListView',
@@ -39,6 +45,8 @@ export default {
     return {
       activeName: 'first',
       moduleList: [],
+      currentPage: 1,
+      pageSize: 6,
     };
   },
   mounted() {
@@ -47,42 +55,34 @@ export default {
   methods: {
     fetchData() {
       console.log('fetchData...', this);
-      this.load();
+      moduleAll(0, getToken())
+        .then((res) => {
+          console.log('module/list.vue fetchData success: ', res);
+          this.moduleList = res;
+        })
+        .catch((err) => {
+          console.log('module/list.vue fetchData failed: ', err);
+        });
     },
-    load() {
-      for (var i = 0; i < 5; i++) {
-        moduleRandom(3, 0, '')
-          .then((res) => {
-            console.log('list.vue load success: ', res);
-            this.moduleList.push(res.modules);
-            console.log(this.moduleList);
-          })
-          .catch((err) => {
-            console.log('list.vue load failed: ', err);
-          });
-      }
+    handleCurrentChange: function (currentPage) {
+      this.currentPage = currentPage;
     },
   },
 };
 </script>
 
 <style scoped>
-.infinite-list {
-  height: 70vh;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-.infinite-list .infinite-list-item {
+.card-wrap {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  height: 45vh;
-  background: white;
-  margin: 10px;
-  color: var(--el-color-primary);
+  margin: 0;
+  padding: 0;
 }
-.infinite-list .infinite-list-item + .list-item {
-  margin-top: 10px;
+.CardModule {
+  flex: 1;
+  width: 300px;
+  min-width: 300px;
+  margin: 0px;
 }
 </style>
