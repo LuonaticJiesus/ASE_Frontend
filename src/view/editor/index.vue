@@ -15,7 +15,7 @@
       />
     </el-header>
     <el-divider style="padding: 0; margin: 0" />
-    <el-main class="full-container" style="padding: 0; margin: 0">
+    <el-main class="full-container" style="padding: 0; margin: 0; height: 50vh">
       <!--      增加属性 :disabled-menus="[]"开启图片上传-->
       <v-md-editor
         ref="mdEditor"
