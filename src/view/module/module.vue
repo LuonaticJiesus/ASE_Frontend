@@ -130,6 +130,7 @@
               type="primary"
               style="width: 15vh; height: 7vh; border-radius: 4vh"
               @click="joinModule()"
+              v-show="userRole.value > 0"
             >
               <div>加入版块</div>
             </el-button>
@@ -141,6 +142,7 @@
               type="primary"
               style="width: 15vh; height: 7vh; border-radius: 4vh"
               @click="createShare()"
+              v-show="userRole.value > 0"
             >
               <div>创建分享</div>
             </el-button>
@@ -158,9 +160,10 @@
 <script>
 import { Edit } from '@element-plus/icons-vue';
 import router from '/@/router/index.js';
-import { moduleInfo, moduleSubscribe } from '/@/api/module';
-import { nextTick } from 'vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { moduleInfo, moduleSubscribe } from '/@/api/module';
+import { nextTick, ref } from 'vue';
+import { queryRole } from '/@/api/permission.js';
 
 export default {
   name: 'ModuleView',
@@ -170,12 +173,23 @@ export default {
       moduleName: 'QuadSSSS',
       moduleAvator: '/src/assets/logo.png',
       tableData: [],
+      userRole: ref(0),
     };
   },
   mounted() {
+    this.getUserRole();
     this.fetchData();
   },
   methods: {
+    async getUserRole() {
+      const block_id = router.currentRoute.value.params['id'];
+      if (block_id) {
+        let role = await queryRole(block_id);
+        if (role) {
+          this.userRole.value = role;
+        }
+      }
+    },
     fetchData() {
       console.log('fetchData...', this);
       moduleInfo(
