@@ -7,7 +7,7 @@ const URL = {
   queryAll: 'four_s/block/queryAll/',
   queryPermission: 'four_s/block/queryPermission/',
   search: 'four_s/block/search/',
-  random: 'four_s/blcok/random',
+  random: 'four_s/block/random',
   info: 'four_s/block/info',
   members: 'four_s/permission/queryUser/',
 };
