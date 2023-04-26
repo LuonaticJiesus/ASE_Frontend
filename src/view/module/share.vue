@@ -1,12 +1,17 @@
 <template>
   <div style="padding: 0">
-    <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="fig" label="" width="100" />
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      height="58vh"
+      @row-click="jump"
+    >
+      <el-table-column prop="fig" label="" width="20" />
       <el-table-column prop="title" label="标题" width="150" />
       <el-table-column prop="txt" label="预览" width="250" />
-      <el-table-column prop="author" label="作者" width="150" />
-      <el-table-column prop="like_cnt" label="点赞" />
-      <el-table-column prop="comment_cnt" label="评论" />
+      <el-table-column prop="user_name" label="作者" width="150" />
+      <el-table-column prop="like_cnt" label="点赞" width="75" />
+      <el-table-column prop="comment_cnt" label="评论" width="75" />
       <el-table-column prop="time" label="更新时间" />
     </el-table>
   </div>
@@ -14,6 +19,7 @@
 
 <script>
 import { moduleArticles } from '/@/api/article.js';
+import router from '/@/router';
 // import axios from 'axios';
 
 export default {
@@ -65,6 +71,10 @@ export default {
         .catch((err) => {
           console.log('share.vue fetchData fail: ', err);
         });
+    },
+    jump(row) {
+      console.log('jump to ', row.post_id);
+      router.push('/post/' + row.post_id);
     },
   },
 };

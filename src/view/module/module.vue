@@ -180,8 +180,8 @@ export default {
       moduleInfo(0, 0, '')
         .then((res) => {
           console.log('module.vue fetchData success: ', res);
-          this.moduleName = res.block_name;
-          this.moduleAvator = res.block_logo;
+          this.moduleName = res.name;
+          this.moduleAvator = res.avatar;
         })
         .catch((err) => {
           console.log('module.vue fetchData failed: ', err);

@@ -106,6 +106,18 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
+        name: 'post',
+        path: '/post/:id',
+        component: () => import('/@/view/post/preciew.vue'),
+        children: [],
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
         name: 'user',
         path: '/user',
         component: () => import('/@/view/user/index.vue'),
