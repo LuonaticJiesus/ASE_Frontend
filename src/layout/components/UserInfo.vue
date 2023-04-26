@@ -6,8 +6,8 @@
           <el-image
             style="
               border-radius: 50%;
-              width: 70px;
-              height: 70px;
+              width: 60px;
+              height: 60px;
               border: 4px solid white;
               outline: 1px solid gray;
             "
@@ -20,7 +20,7 @@
         <el-row justify="center" style="margin-top: 5px; font-weight: bold">
           {{ this.userName }}
         </el-row>
-        <el-divider style="margin-top: 10px; margin-bottom: 10px"></el-divider>
+        <el-divider style="margin-top: 5px; margin-bottom: 5px"></el-divider>
         <el-row>
           <el-col :span="12">
             <el-row justify="center" style="font-size: small"> 4 </el-row>
@@ -90,7 +90,7 @@ export default {
   background-color: white;
   border-radius: 12px;
   position: absolute;
-  padding: 20px 20px 36px 20px;
+  padding: 16px 14px 36px 14px;
   top: 27vh;
   bottom: auto;
   transform-style: preserve-3d;
