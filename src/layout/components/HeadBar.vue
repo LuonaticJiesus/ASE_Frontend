@@ -13,14 +13,15 @@
           placeholder="Please Input"
           :prefix-icon="Search"
           class="custom-input"
+          disabled
         />
       </div>
       <div class="flex-grow" />
-      <el-menu-item index="1"><h2>收藏</h2></el-menu-item>
-      <el-menu-item index="2"><h2>点赞</h2></el-menu-item>
-      <el-menu-item index="3"><h2>评论</h2></el-menu-item>
-      <el-menu-item index="4"><h2>订阅</h2></el-menu-item>
-      <el-menu-item index="5">
+      <el-menu-item index="1" disabled><h2>收藏</h2></el-menu-item>
+      <el-menu-item index="2" disabled><h2>点赞</h2></el-menu-item>
+      <el-menu-item index="3" disabled><h2>评论</h2></el-menu-item>
+      <el-menu-item index="4" disabled><h2>订阅</h2></el-menu-item>
+      <el-menu-item index="5" disabled>
         <el-avatar class="mr-3" :size="32" src="/src/assets/logo.png" />
         <div
           class="text-large font-600 mr-3"
