@@ -41,16 +41,20 @@ export default {
   name: 'BasicLayout',
   components: { HeadBar, SideBar, UserInfo, AppMain },
   methods: {
-    quit() {
-      const userStore = useUserStore();
-      userStore.logout();
+    quit(event) {
+      if (
+        event.currentTarget.performance.navigation.type !==
+        PerformanceNavigation.TYPE_RELOAD
+      ) {
+        const userStore = useUserStore();
+        userStore.logout();
+      } else {
+        console.log('just refresh');
+      }
     },
   },
   mounted() {
     window.addEventListener('beforeunload', this.quit);
-  },
-  beforeUnmount() {
-    window.removeEventListener('beforeunload', this.quit);
   },
 };
 </script>

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'PostView',
+  name: 'noticeView',
 };
 </script>
 

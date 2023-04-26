@@ -2,8 +2,8 @@
   <div style="padding: 0">
     <el-table
       :data="tableData"
+      class="notice-table"
       stripe
-      style="width: 100%"
       height="58vh"
       @row-click="jump"
     >
@@ -80,5 +80,12 @@ export default {
   height: 30vh;
   margin-top: 130px;
   margin-bottom: 0;
+}
+
+.notice-table {
+  width: 100%;
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>
