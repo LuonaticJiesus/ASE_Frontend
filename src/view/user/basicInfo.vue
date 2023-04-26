@@ -27,7 +27,7 @@
           v-model="infoForm.studentId"
           :placeholder="oldStudentId"
           autocomplete="off"
-          :disabled="this.idStatus === 'true'"
+          :disabled="this.idStatus"
         />
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
@@ -35,7 +35,7 @@
           v-model="infoForm.phone"
           :placeholder="oldPhone"
           autocomplete="off"
-          :disabled="this.phoneStatus === 'true'"
+          :disabled="this.phoneStatus"
         />
       </el-form-item>
       <el-form-item class="form-button">
@@ -49,52 +49,110 @@
 
 <script lang="ts">
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { ref } from 'vue';
-import { getUserProfile } from '/@/api/user';
+import { reactive, ref } from 'vue';
+import { changeBasicInfo, getUserProfile } from '/@/api/user';
+import { FormInstance, FormRules } from 'element-plus';
 
 export default {
   name: 'basicInfo',
   data() {
     return {
-      userName: '',
-      email: '',
-      phone: '',
-      studentid: '',
+      UserName: '',
+      Email: '',
+      Phone: '',
+      Studentid: '',
     };
   },
   computed: {
     oldUsername() {
       // if (this.userName === '') return '请输入用户名';
       // else return this.userName;
-      return this.userName;
+      return this.UserName;
     },
     oldEmail() {
-      if (this.email === undefined) return '请输入邮箱';
-      else return this.email;
+      if (this.Email === undefined) return '请输入邮箱';
+      else return this.Email;
     },
     oldStudentId() {
-      if (this.studentid === undefined) {
-        this.idStatus = 'false';
+      if (this.Studentid === undefined) {
         return '请输入学号';
       } else {
-        this.idStatus = 'true';
-        return this.studentid;
+        return this.Studentid;
       }
     },
     oldPhone() {
-      if (this.phone === undefined) {
-        this.phoneStatus = 'false';
+      if (this.Phone === undefined) {
         return '请输入手机号';
       } else {
-        this.phoneStatus = 'true';
-        return this.phone;
+        return this.Phone;
       }
     },
   },
   setup() {
+    const infoFormRef = ref<FormInstance>();
+    const infoForm = reactive({
+      username: '',
+      email: '',
+      studentId: '',
+      phone: '',
+    });
+
+    const header = {
+      userid: getLocalUserId(),
+      token: getToken(),
+    };
+
+    const rules = reactive<FormRules>({
+      username: [{ required: true, message: '请输入用户名' }],
+      email: [
+        { required: true, message: '请输入邮箱' },
+        { type: 'email', message: '请输入正确的邮箱地址' },
+      ],
+      studentId: [
+        { required: true, message: '请输入学号' },
+        { pattern: '\^\\d{8}\$', message: '请输入正确的学号' },
+      ],
+      phone: [
+        { required: true, message: '请输入手机号' },
+        { pattern: '\^1[3456789]\\d{9}\$', message: '请输入正确的11位手机号' },
+      ],
+    });
+
+    const submitUserInfoChange = (formEl: FormInstance | undefined) => {
+      if (!formEl) return;
+      formEl.validate((valid) => {
+        if (valid) {
+          console.log('submit!');
+          let data = {
+            card_id: infoForm.studentId,
+            phone: infoForm.phone,
+            email: infoForm.email,
+          };
+          for (const key in data) {
+            if (
+              data[key] === null ||
+              data[key] === '' ||
+              data[key] === undefined
+            ) {
+              delete data[key];
+            }
+          }
+          changeBasicInfo(data, header);
+          this.idStatus = true;
+          this.phoneStatus = true;
+        } else {
+          console.log('error submit!');
+          return false;
+        }
+      });
+    };
     return {
-      idStatus: ref('false'),
-      phoneStatus: ref('false'),
+      idStatus: ref(false),
+      phoneStatus: ref(false),
+      infoForm,
+      infoFormRef,
+      rules,
+      submitUserInfoChange,
     };
   },
   methods: {
@@ -105,10 +163,24 @@ export default {
           token: getToken(),
         });
         console.log(userProfile);
-        this.userName = userProfile.name;
-        this.email = userProfile.email;
-        this.studentid = userProfile.card_id;
-        this.phone = userProfile.phone;
+        this.UserName = userProfile.name;
+        this.Email = userProfile.email;
+        this.Studentid = userProfile.card_id;
+        this.Phone = userProfile.phone;
+        if (this.Studentid !== undefined) {
+          this.idStatus = true;
+        }
+        if (this.Phone !== undefined) {
+          this.phoneStatus = true;
+        }
+        console.log(
+          this.UserName,
+          this.Studentid,
+          this.Email,
+          this.Phone,
+          this.idStatus,
+          this.phoneStatus,
+        );
         console.log('change');
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -119,65 +191,6 @@ export default {
   mounted() {
     this.fetchData();
   },
-};
-</script>
-
-<script lang="ts" setup>
-import { reactive, ref } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus';
-import { getLocalUserId, getToken } from '/@/utils/auth';
-import { changeBasicInfo, getUserProfile } from '/@/api/user';
-
-const infoFormRef = ref<FormInstance>();
-const infoForm = reactive({
-  username: '',
-  email: '',
-  studentId: '',
-  phone: '',
-});
-
-const header = {
-  userid: getLocalUserId(),
-  token: getToken(),
-};
-
-const rules = reactive<FormRules>({
-  username: [{ required: true, message: '请输入用户名' }],
-  email: [
-    { required: true, message: '请输入邮箱' },
-    { type: 'email', message: '请输入正确的邮箱地址' },
-  ],
-  studentId: [
-    { required: true, message: '请输入学号' },
-    { pattern: '\^\\d{8}\$', message: '请输入正确的学号' },
-  ],
-  phone: [
-    { required: true, message: '请输入手机号' },
-    { pattern: '\^1[3456789]\\d{9}\$', message: '请输入正确的11位手机号' },
-  ],
-});
-
-const submitUserInfoChange = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate((valid) => {
-    if (valid) {
-      console.log('submit!');
-      let data = {
-        card_id: infoForm.studentId,
-        phone: infoForm.phone,
-        email: infoForm.email,
-      };
-      for (const key in data) {
-        if (data[key] === null || data[key] === '' || data[key] === undefined) {
-          delete data[key];
-        }
-      }
-      changeBasicInfo(data, header);
-    } else {
-      console.log('error submit!');
-      return false;
-    }
-  });
 };
 </script>
 
