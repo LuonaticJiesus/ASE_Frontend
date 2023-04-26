@@ -24,7 +24,7 @@ const MockURL = {
 
 const moduleAll = async (userId, token) =>
   get({
-    url: URL.queryAll,
+    url: MockURL.queryAll,
     params: {},
     headers: {
       userid: userId,
@@ -34,7 +34,7 @@ const moduleAll = async (userId, token) =>
 
 const modulePermission = async (permission, userId, token) =>
   get({
-    url: URL.queryAll,
+    url: MockURL.queryAll,
     body: {
       permission: permission,
     },

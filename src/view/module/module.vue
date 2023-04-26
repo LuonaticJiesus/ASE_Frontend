@@ -140,7 +140,7 @@
             <el-button
               type="primary"
               style="width: 15vh; height: 7vh; border-radius: 4vh"
-              disabled
+              @click="createShare()"
             >
               <div>创建分享</div>
             </el-button>
@@ -197,6 +197,18 @@ export default {
         });
       });
       //router.addRoute(router.currentRoute.value.fullPath + '/' + url);
+    },
+    createShare() {
+      console.log(
+        'module/module.vue createShare in ',
+        router.currentRoute.value.params['id'],
+      );
+      router.push({
+        path: '/editor',
+        query: {
+          moduleId: router.currentRoute.value.params['id'],
+        },
+      });
     },
   },
 };
