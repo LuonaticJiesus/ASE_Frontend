@@ -6,7 +6,12 @@
           <el-row type="flex" justify="center">
             <div class="card-avator">
               <el-image
-                style="border-radius: 50%; width: 65px; height: 65px"
+                style="
+                  border-radius: 50%;
+                  width: 75px;
+                  height: 75px;
+                  border: double 5px white;
+                "
                 :src="moduleAvator"
                 :fit="'scale-down'"
                 lazy
@@ -21,7 +26,7 @@
       <h2>{{ moduleName }}</h2>
       <div>{{ memberNumber }}人</div>
       <el-button
-        style="margin: 2vh"
+        style="margin: 20px; border: double 5px white"
         size="large"
         round
         color="#626aef"
@@ -80,15 +85,15 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  height: 5vh;
+  padding: 30px;
+  height: 20px;
   background-color: silver;
   border-radius: 12px;
   vertical-align: middle;
   text-align: center;
 }
 .card-body {
-  margin-top: 2vh;
+  margin-top: 20px;
 }
 .card-header .card-avator {
   position: relative;
@@ -101,9 +106,9 @@ export default {
   margin-bottom: 9px;
 }
 .box-card {
-  width: 30vh;
-  height: 40vh;
-  margin: 4vh;
+  width: 240px;
+  height: 300px;
+  margin: 20px;
   border-radius: 12px;
 }
 </style>
