@@ -11,6 +11,7 @@
         type="text"
         placeholder="请输入您的账号"
         :prefix-icon="User"
+        class="login-text"
       ></el-input>
     </el-form-item>
     <el-form-item prop="password">
@@ -20,6 +21,7 @@
         placeholder="密码【8-16字符，包含字母数字】"
         :prefix-icon="Lock"
         show-password
+        class="login-text"
       ></el-input>
     </el-form-item>
     <el-form-item prop="confirm">
@@ -29,37 +31,37 @@
         placeholder="确认密码"
         :prefix-icon="Lock"
         show-password
+        class="login-text"
       ></el-input>
     </el-form-item>
-    <el-form-item prop="phone">
-      <el-input
-        v-model="registerForm.phone"
-        type="phone"
-        placeholder="绑定手机号【可选】"
-        :prefix-icon="Connection"
-      ></el-input>
-    </el-form-item>
-    <el-form-item prop="email">
-      <el-input
-        v-model="registerForm.email"
-        type="email"
-        placeholder="绑定邮箱【可选】"
-        :prefix-icon="Connection"
-      ></el-input>
-    </el-form-item>
-    <el-form-item prop="card">
-      <el-input
-        v-model="registerForm.card"
-        type="text"
-        placeholder="绑定学号【可选】"
-        :prefix-icon="Connection"
-      ></el-input>
-    </el-form-item>
+    <!--    <el-form-item prop="phone">-->
+    <!--      <el-input-->
+    <!--        v-model="registerForm.phone"-->
+    <!--        type="phone"-->
+    <!--        placeholder="绑定手机号【可选】"-->
+    <!--        :prefix-icon="Connection"-->
+    <!--      ></el-input>-->
+    <!--    </el-form-item>-->
+    <!--    <el-form-item prop="email">-->
+    <!--      <el-input-->
+    <!--        v-model="registerForm.email"-->
+    <!--        type="email"-->
+    <!--        placeholder="绑定邮箱【可选】"-->
+    <!--        :prefix-icon="Connection"-->
+    <!--      ></el-input>-->
+    <!--    </el-form-item>-->
+    <!--    <el-form-item prop="card">-->
+    <!--      <el-input-->
+    <!--        v-model="registerForm.card"-->
+    <!--        type="text"-->
+    <!--        placeholder="绑定学号【可选】"-->
+    <!--        :prefix-icon="Connection"-->
+    <!--      ></el-input>-->
+    <!--    </el-form-item>-->
     <el-form-item>
       <el-button
         class="loginButton"
         @click="userRegister()"
-        style="height: 40px; border-radius: 10px"
         @keyup.enter="keyDown()"
         >注册
       </el-button>
@@ -212,7 +214,7 @@ export default {
 
 <style scoped>
 .registerForm {
-  width: 300px;
+  width: 250px;
   justify-content: center;
   align-items: center;
 }
@@ -224,6 +226,11 @@ export default {
   text-align: center;
   cursor: pointer;
   font-size: 16px;
+  height: 35px;
+  border-radius: 10px;
+  &:hover {
+    filter: brightness(1.1);
+  }
 }
 
 .links-container {
@@ -234,9 +241,14 @@ export default {
   gap: 20px; /* 设置链接之间的间距 */
 }
 
+.login-text {
+  height: 35px;
+}
+
 .link {
   font-size: 16px;
   color: #9007ff;
+  margin-top: 5px;
   &:before {
     content: '';
     position: absolute;
