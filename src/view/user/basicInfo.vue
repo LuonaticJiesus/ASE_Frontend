@@ -25,7 +25,7 @@
       <el-form-item label="学号" prop="studentId">
         <el-input
           v-model="infoForm.studentId"
-          :placeholder="oldStudentid"
+          :placeholder="oldStudentId"
           autocomplete="off"
           :disabled="this.idStatus === 'true'"
         />
@@ -64,23 +64,28 @@ export default {
   },
   computed: {
     oldUsername() {
-      if (this.userName === '') return '请输入用户名';
-      else return this.userName;
+      // if (this.userName === '') return '请输入用户名';
+      // else return this.userName;
+      return this.userName;
     },
     oldEmail() {
-      if (this.email === '') return '请输入邮箱';
+      if (this.email === undefined) return '请输入邮箱';
       else return this.email;
     },
-    oldStudentid() {
-      if (this.studentid === '') return '请输入学号';
-      else {
+    oldStudentId() {
+      if (this.studentid === undefined) {
+        this.idStatus = 'false';
+        return '请输入学号';
+      } else {
         this.idStatus = 'true';
         return this.studentid;
       }
     },
     oldPhone() {
-      if (this.phone === '') return '请输入手机号';
-      else {
+      if (this.phone === undefined) {
+        this.phoneStatus = 'false';
+        return '请输入手机号';
+      } else {
         this.phoneStatus = 'true';
         return this.phone;
       }
@@ -99,7 +104,7 @@ export default {
           userid: getLocalUserId(),
           token: getToken(),
         });
-        // console.log(userProfile);
+        console.log(userProfile);
         this.userName = userProfile.name;
         this.email = userProfile.email;
         this.studentid = userProfile.card_id;
