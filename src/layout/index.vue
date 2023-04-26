@@ -35,10 +35,23 @@ import '/@/style/layout.css';
 import UserInfo from '/@/layout/components/UserInfo.vue';
 import SideBar from '/@/layout/components/SideBar.vue';
 import HeadBar from '/@/layout/components/HeadBar.vue';
+import { useUserStore } from '/@/store/index.js';
 
 export default {
   name: 'BasicLayout',
   components: { HeadBar, SideBar, UserInfo, AppMain },
+  methods: {
+    quit() {
+      const userStore = useUserStore();
+      userStore.logout();
+    },
+  },
+  mounted() {
+    window.addEventListener('beforeunload', this.quit);
+  },
+  beforeUnmount() {
+    window.removeEventListener('beforeunload', this.quit);
+  },
 };
 </script>
 

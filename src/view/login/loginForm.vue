@@ -59,6 +59,7 @@ import { User, Lock, Connection } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
 import router from '/@/router/index.js';
+import { ElMessage } from 'element-plus';
 
 export default {
   name: 'loginForm',
@@ -117,7 +118,11 @@ export default {
       }
     },
     userForget() {
-      return 1;
+      ElMessage({
+        showClose: true,
+        message: '请联系管理员找回密码 !',
+        type: 'error',
+      });
     },
     changeRegister() {
       this.$emit('transfer', 'register');
