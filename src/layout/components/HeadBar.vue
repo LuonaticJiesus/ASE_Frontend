@@ -35,26 +35,30 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue';
-import { useUserStore } from '/@/store';
-const input2 = ref('');
-const activeIndex = ref('1');
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-</script>
-
 <script lang="ts">
 import { Search } from '@element-plus/icons-vue';
 import { ref } from 'vue';
 import { getUserProfile } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { useUserStore } from '/@/store';
 
 export default {
   data() {
     return {
       userName: '',
+    };
+  },
+  setup() {
+    const input2 = ref('');
+    const activeIndex = ref('1');
+    const handleSelect = (key: string, keyPath: string[]) => {
+      console.log(key, keyPath);
+    };
+    return {
+      input2,
+      activeIndex,
+      handleSelect,
+      useUserStore,
     };
   },
   computed: {

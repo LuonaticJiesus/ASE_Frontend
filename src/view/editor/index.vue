@@ -5,13 +5,14 @@
         v-model="title"
         placeholder="请输入标题（不多于50字）"
         size="large"
-        style="width: 67%"
+        style="width: 67%; height: 90%; margin: 0; padding: 0"
       />
-      <el-input
-        v-model="moduleId"
+      <el-select-v2
+        v-model="value"
+        filterable
+        :options="options"
         placeholder="请输入发布的模块ID"
-        size="large"
-        style="width: 31%; margin-left: 1%"
+        class="module-select-box"
       />
     </el-header>
     <el-divider style="padding: 0; margin: 0" />
@@ -97,6 +98,7 @@ import { getLocalUserId, getToken } from '/@/utils/auth';
 import { useUserStore } from '/@/store';
 import { uploadImage } from '/@/api/notice';
 import { useRoute } from 'vue-router';
+import { modulePermission } from '/@/api/module';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -150,7 +152,7 @@ const handlePublishArticle = async () => {
     txt: text,
     block_id: moduleId.value,
   };
-  console.log(text);
+  console.log('editor.vue publish to', value.value);
   publishArticle(getLocalUserId(), getToken(), data)
     .then((res) => {
       console.log('editor.vue publish success: ', res);
@@ -206,10 +208,21 @@ const handleEmitSave = () => {
   console.log(html);
 };
 
-onMounted(() => {
+// const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+const value = ref('');
+const myModules = ref([]);
+const options = ref([]);
+
+onMounted(async () => {
   // getWordCount();
+  myModules.value = await modulePermission(0, getLocalUserId(), getToken());
+  options.value = Array.from({ length: 10 }).map((_, idx) => ({
+    value: `${myModules.value[idx].block_id}`,
+    label: `${myModules.value[idx].name}`,
+  }));
 });
 </script>
+
 <script lang="ts">
 export default {
   name: 'PostEditor',
@@ -239,5 +252,14 @@ export default {
 .editor-bottom-label {
   margin: 0;
   text-align: center;
+}
+.module-select-box {
+  width: 31%;
+  height: 90%;
+  margin: 0;
+  margin-left: 1%;
+}
+.module-select-box /deep/ .el-select-v2__wrapper {
+  height: 100%;
 }
 </style>
