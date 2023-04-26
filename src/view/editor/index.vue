@@ -1,13 +1,21 @@
 <template>
   <el-container>
-    <el-header style="height: fit-content; padding: 2px">
+    <el-header style="height: fit-content; padding: 2vh; margin: 0">
       <el-input
         v-model="title"
         placeholder="请输入标题（不多于50字）"
         size="large"
+        style="width: 67%"
+      />
+      <el-input
+        v-model="moduleId"
+        placeholder="请输入发布的模块ID"
+        size="large"
+        style="width: 31%; margin-left: 1%"
       />
     </el-header>
-    <el-main class="full-container" style="padding: 0">
+    <el-divider style="padding: 0; margin: 0" />
+    <el-main class="full-container" style="padding: 0; margin: 0">
       <!--      增加属性 :disabled-menus="[]"开启图片上传-->
       <v-md-editor
         ref="mdEditor"
@@ -88,6 +96,7 @@ import { strippedHtml } from '/@/utils/string';
 import { useUserStore } from '/@/store';
 import { getToken } from '/@/utils/auth';
 import { uploadImage } from '/@/api/notice';
+import { useRoute } from 'vue-router';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -114,11 +123,14 @@ const richSetting = {
   },
 };
 const title: Ref<string> = ref('');
+const moduleId: Ref<string> = ref('');
+const route = useRoute();
+moduleId.value = String(route.query.moduleId);
 const mdText: Ref<string> = ref('');
 const richText: Ref<string> = ref(
   ' <h1>Heading</h1>\n' + '  <p>This Editor is awesome!</p>',
 );
-const editorType: Ref<string> = ref('rich');
+const editorType: Ref<string> = ref('md');
 const editorOptions = [
   {
     value: 'rich',
@@ -135,7 +147,8 @@ const handlePublishArticle = async () => {
     editorType.value === 'md' ? mdText.value : richText.value;
   const data = {
     title: title,
-    text: text,
+    txt: text,
+    block_id: moduleId.value,
   };
   console.log(text);
   const res = await publishArticle(data);
