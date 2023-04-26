@@ -3,6 +3,7 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
+  subscribe: 'four_s/block/subscribe/',
   queryAll: 'four_s/block/queryAll/',
   queryPermission: 'four_s/block/queryPermission/',
   search: 'four_s/block/search/',
@@ -12,6 +13,8 @@ const URL = {
 };
 
 const MockURL = {
+  subscribe:
+    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/subscribe/',
   queryAll: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryAll/',
   queryPermission:
     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryPermission/',
@@ -81,6 +84,19 @@ const moduleMembers = async (block_id, permission, userid, token) =>
     header: { userid: userid, token: token },
   });
 
+const moduleSubscribe = async (block_id, subscribe, userid, token) =>
+  post({
+    url: MockURL.subscribe,
+    header: {
+      userid: userid,
+      token: token,
+    },
+    body: {
+      block_id: block_id,
+      subscribe: subscribe,
+    },
+  });
+
 export {
   moduleAll,
   modulePermission,
@@ -88,4 +104,5 @@ export {
   moduleRandom,
   moduleInfo,
   moduleMembers,
+  moduleSubscribe,
 };
