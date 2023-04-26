@@ -18,15 +18,15 @@
         />
       </div>
       <div class="flex-grow" />
-      <el-menu-item index="1" disabled><h2>收藏</h2></el-menu-item>
-      <el-menu-item index="2" disabled><h2>点赞</h2></el-menu-item>
-      <el-menu-item index="3" disabled><h2>评论</h2></el-menu-item>
-      <el-menu-item index="4" disabled><h2>订阅</h2></el-menu-item>
+      <el-menu-item index="1" disabled><h3>收藏</h3></el-menu-item>
+      <el-menu-item index="2" disabled><h3>点赞</h3></el-menu-item>
+      <el-menu-item index="3" disabled><h3>评论</h3></el-menu-item>
+      <el-menu-item index="4" disabled><h3>订阅</h3></el-menu-item>
       <el-menu-item index="5" disabled>
         <el-avatar class="mr-3" :size="32" :src="useUserStore().avatar" />
         <div
           class="text-large font-600 mr-3"
-          style="margin-left: 10px; font-size: 20px"
+          style="margin-left: 10px; font-size: 16px"
         >
           {{ this.userName }}
         </div>
@@ -104,11 +104,11 @@ export default {
   flex-grow: 1;
 }
 .custom-input {
-  font-size: 20px;
+  font-size: 16px;
   height: 50%;
-  width: 400px;
+  width: 450px;
   margin-left: 50px;
-  box-shadow: 0px 2px 0px 0px #e5e5e5;
+  box-shadow: 0 2px 0 0 #e5e5e5;
 }
 .custom-input :deep(.el-input__wrapper) {
   background-color: #f9f3f9;

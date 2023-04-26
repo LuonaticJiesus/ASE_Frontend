@@ -19,9 +19,9 @@
                     <el-image
                       style="
                         border-radius: 13px;
-                        width: 14vh;
-                        height: 14vh;
-                        margin-top: -10.5vh;
+                        width: 13vh;
+                        height: 13vh;
+                        margin-top: -20vh;
                         margin-bottom: 0;
                         border: solid 5px white;
                       "
@@ -33,7 +33,7 @@
                   </div>
                 </el-upload>
               </el-row>
-              <el-row type="flex" justify="center" style="font-size: 20px">
+              <el-row type="flex" justify="center" style="font-size: 17px">
                 {{ this.userName }}
               </el-row>
             </el-col>
@@ -75,14 +75,74 @@
 </template>
 
 <script lang="ts">
-import { getUserProfile } from '/@/api/user';
+import { changeBasicInfo, getUserProfile } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { ref } from 'vue';
+import { useUserStore } from '/@/store';
+import { ElMessage, TabsPaneContext } from 'element-plus';
+import DivideContainer from '/@/layout/components/DivideContainer.vue';
+import RightBoard from '/@/components/RightBoard.vue';
+import BasicInfo from '/@/view/user/basicInfo.vue';
+import ChangePwd from '/@/view/user/changePwd.vue';
+import UserStatistic from '/@/view/user/userStatistic.vue';
 
 export default {
   name: 'userView',
+  components: {
+    BasicInfo,
+    ChangePwd,
+    UserStatistic,
+    RightBoard,
+    DivideContainer,
+  },
   data() {
     return {
       userName: '',
+    };
+  },
+  setup() {
+    const activeName = ref('first');
+
+    const headers = {
+      userid: getLocalUserId(),
+      token: getToken(),
+    };
+
+    const userAvatar = ref(useUserStore().avatar);
+
+    const handleClick = (tab: TabsPaneContext, event: Event) => {
+      console.log(tab, event);
+    };
+
+    const beforeAvatarUpload = (rawFile) => {
+      if (rawFile.type !== 'image/jpeg') {
+        ElMessage.error('头像必须是.jpg格式!');
+        return false;
+      } else if (rawFile.size / 1024 / 1024 > 2) {
+        ElMessage.error('头像不能大于2MB!');
+        return false;
+      }
+      return true;
+    };
+
+    const handleExceed = () => {
+      ElMessage.error('不能上传多张图片!');
+    };
+
+    const updateAvtar = async (res) => {
+      console.log('avatar is ' + res.data.url);
+      await changeBasicInfo({ avatar: res.data.url }, headers);
+      await useUserStore().getInfo();
+      userAvatar.value = useUserStore().avatar;
+    };
+    return {
+      activeName,
+      headers,
+      userAvatar,
+      handleClick,
+      beforeAvatarUpload,
+      handleExceed,
+      updateAvtar,
     };
   },
   methods: {
@@ -106,60 +166,10 @@ export default {
 };
 </script>
 
-<script lang="ts" setup>
-import DivideContainer from '/@/layout/components/DivideContainer.vue';
-import RightBoard from '/@/components/RightBoard.vue';
-
-import { ref } from 'vue';
-import type { TabsPaneContext } from 'element-plus';
-import BasicInfo from '/@/view/user/basicInfo.vue';
-import ChangePwd from '/@/view/user/changePwd.vue';
-import UserStatistic from '/@/view/user/userStatistic.vue';
-import { getLocalUserId, getToken } from '/@/utils/auth';
-import { useUserStore } from '/@/store';
-import { ElMessage } from 'element-plus';
-import { changeBasicInfo, getUserProfile } from '/@/api/user';
-
-const activeName = ref('first');
-
-const headers = {
-  userid: getLocalUserId(),
-  token: getToken(),
-};
-
-const userAvatar = ref(useUserStore().avatar);
-
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event);
-};
-
-const beforeAvatarUpload = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('头像必须是.jpg格式!');
-    return false;
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('头像不能大于2MB!');
-    return false;
-  }
-  return true;
-};
-
-const handleExceed = () => {
-  ElMessage.error('不能上传多张图片!');
-};
-
-const updateAvtar = async (res) => {
-  console.log('avatar is ' + res.data.url);
-  await changeBasicInfo({ avatar: res.data.url }, headers);
-  await useUserStore().getInfo();
-  userAvatar.value = useUserStore().avatar;
-};
-</script>
-
 <style scoped>
 .module-header {
   background-color: #d1cbd1;
-  height: 22vh;
+  height: 20vh;
   padding: 0;
 }
 
@@ -167,7 +177,7 @@ const updateAvtar = async (res) => {
   display: flex;
   background-color: white;
   height: 20vh;
-  margin-top: 90px;
+  margin-top: 13vh;
   margin-bottom: 0;
 }
 

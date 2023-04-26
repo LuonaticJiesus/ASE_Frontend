@@ -3,7 +3,7 @@
     <el-aside class="layout-aside">
       <div class="side-background">
         <el-image
-          style="border-radius: 50%; width: 230px; height: 230px; margin-top: 0"
+          style="border-radius: 50%; width: 210px; height: 210px; margin-top: 0"
           :src="'/src/assets/logo-vv.png'"
           :fit="'cover'"
           lazy

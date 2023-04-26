@@ -4,19 +4,18 @@
 2. sideBar排列Item布局，设置link-to
 3. todo: 手动维护active?--->
     <!--    先摆了，有个导航就行-->
-    <el-menu class="el-menu--vertical" :router="true">
+    <el-menu class="custom-menu" :router="true">
       <el-scrollbar>
         <el-menu-item
           v-for="(route, index) in routes"
           :key="index"
           :index="route['children'][0].path"
-          class="el-menu-item"
         >
           <!--        <router-link :to="route['children'][0].path">-->
-          <el-icon :size="20">
+          <el-icon :size="16">
             <Edit />
           </el-icon>
-          <span style="font-size: 18px">{{
+          <span style="font-size: 16px">{{
             ' ' + route['children'][0]['name']
           }}</span>
           <!--        </router-link>-->
@@ -66,7 +65,7 @@ export default {
   text-align: center;
   margin-top: 30px;
 }
-.el-menu--vertical {
+.custom-menu {
   background-color: rgba(255, 255, 255, 0);
   max-height: 30vh;
 }

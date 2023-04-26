@@ -28,7 +28,6 @@
       <el-button
         class="loginButton"
         @click="userLogin()"
-        style="height: 45px; border-radius: 10px; margin: 10px 0 0 0"
         @keyup.enter="keyDown()"
         >登录
       </el-button>
@@ -147,7 +146,7 @@ export default {
 
 <style scoped>
 .loginForm {
-  width: 300px;
+  width: 250px;
   justify-content: center;
   align-items: center;
 }
@@ -159,6 +158,9 @@ export default {
   text-align: center;
   cursor: pointer;
   font-size: 16px;
+  height: 40px;
+  border-radius: 10px;
+  margin: 10px 0 0 0;
   &:hover {
     filter: brightness(1.1);
   }
@@ -173,8 +175,7 @@ export default {
 }
 
 .login-text {
-  height: 50px;
-  margin: 10px 0 10px 0;
+  height: 40px;
 }
 
 .link {

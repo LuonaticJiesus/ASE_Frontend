@@ -6,8 +6,8 @@
           <el-image
             style="
               border-radius: 50%;
-              width: 70px;
-              height: 70px;
+              width: 60px;
+              height: 60px;
               border: 4px solid white;
               outline: 1px solid gray;
             "
@@ -20,10 +20,12 @@
         <el-row justify="center" style="margin-top: 5px; font-weight: bold">
           {{ this.userName }}
         </el-row>
-        <el-divider style="margin-top: 10px; margin-bottom: 10px"></el-divider>
+        <el-divider style="margin-top: 5px; margin-bottom: 5px"></el-divider>
         <el-row>
           <el-col :span="12">
-            <el-row justify="center" style="font-size: small"> 4 </el-row>
+            <el-row justify="center" style="font-size: small">
+              {{ this.subscribeCnt }}
+            </el-row>
             <el-row
               type="flex"
               justify="center"
@@ -33,7 +35,9 @@
             </el-row>
           </el-col>
           <el-col :span="12">
-            <el-row justify="center" style="font-size: small"> 1 </el-row>
+            <el-row justify="center" style="font-size: small">
+              {{ this.postCnt }}
+            </el-row>
             <el-row
               type="flex"
               justify="center"
@@ -52,12 +56,16 @@
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { getUserProfile } from '/@/api/user';
 import { useUserStore } from '/@/store';
+import { modulePermission } from '/@/api/module';
+import { userArticles } from '/@/api/article';
 
 export default {
   name: 'userInfo',
   data() {
     return {
       userName: '',
+      subscribeCnt: 0,
+      postCnt: 0,
     };
   },
   methods: {
@@ -68,9 +76,18 @@ export default {
           userid: getLocalUserId(),
           token: getToken(),
         });
-        // console.log('userInfo test userProfile:');
-        // console.log(userProfile);
+        const userModuleGetter = await modulePermission(
+          0,
+          getLocalUserId(),
+          getToken(),
+        );
+        const userPostGetter = await userArticles({
+          userid: getLocalUserId(),
+          token: getToken(),
+        });
         this.userName = userProfile.name;
+        this.subscribeCnt = userModuleGetter.length;
+        this.postCnt = userPostGetter.length;
       } catch (error) {
         console.error('Error fetching user profile:', error);
         // 根据需要处理错误
@@ -90,7 +107,7 @@ export default {
   background-color: white;
   border-radius: 12px;
   position: absolute;
-  padding: 20px 20px 36px 20px;
+  padding: 16px 14px 36px 14px;
   top: 27vh;
   bottom: auto;
   transform-style: preserve-3d;

@@ -1,6 +1,6 @@
 <template>
-  <el-container style="height: 100%">
-    <el-header style="height: 70px; padding: 0">
+  <el-container style="height: 100vh">
+    <el-header style="height: 11vh; padding: 0">
       <LoginHeadBar />
     </el-header>
     <el-main
@@ -69,13 +69,15 @@
                   "
                 />
               </div>
-              <div style="font-size: 30px; font-weight: bold; margin: 10px">
+              <div
+                style="font-size: 25px; font-weight: bold; margin: 10px 0 20px"
+              >
                 欢迎使用
               </div>
-              <div v-if="formStatus === 'login'">
+              <div v-if="formStatus === 'login'" style="height: 250px">
                 <login-form @transfer="changeStatus" />
               </div>
-              <div v-else-if="formStatus === 'register'">
+              <div v-else-if="formStatus === 'register'" style="height: 250px">
                 <register-form @transfer="changeStatus" />
               </div>
             </el-card>
@@ -119,9 +121,6 @@ export default {
     };
   },
   methods: {
-    userForget() {
-      return 1;
-    },
     changeStatus(msg) {
       this.formStatus = msg;
     },
@@ -134,8 +133,8 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
   pointer-events: none;
   z-index: 0;
@@ -152,8 +151,8 @@ export default {
 }
 
 .contain {
-  height: 600px;
-  width: 850px;
+  height: 75vh;
+  width: 48vw;
   margin-top: 50px;
   position: relative;
   display: flex;
@@ -161,15 +160,16 @@ export default {
   text-align: center;
   align-items: center;
   z-index: 9999;
+  border-radius: 5px;
 }
 
 .image-container {
   display: inline-block; /* 将容器设置为行内块，以便可以在其中包含图像 */
-  margin: 10px; /* 添加外边距 */
+  margin: 0; /* 添加外边距 */
   padding: 0; /* 取消容器的内边距 */
   box-sizing: border-box; /* 设置盒模型为border-box，以便边框宽度不会增加元素的宽度 */
-  width: 60px; /* 设置容器宽度 */
-  height: 60px; /* 设置容器高度 */
+  width: 50px; /* 设置容器宽度 */
+  height: 50px; /* 设置容器高度 */
   border: #9007ff solid 5px;
   border-radius: 15%;
   position: relative;
@@ -177,11 +177,12 @@ export default {
 
 .login-left-card {
   background-color: #9007ff;
-  width: 400px;
+  width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px 0 0 5px;
   #el-card {
     background-color: #9007ff;
     border: none;
@@ -196,23 +197,23 @@ export default {
 }
 
 .intro_title {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .intro_title :deep(.el-form-item__content) {
-  font-size: 28px; /* 设置字体大小为 24px */
+  font-size: 24px; /* 设置字体大小为 24px */
   font-weight: bold; /* 设置字体粗细为加粗 */
 }
 
 .intro_content :deep(.el-form-item__content) {
-  font-size: 16px; /* 设置字体大小为 16px */
+  font-size: 14px; /* 设置字体大小为 16px */
   font-family: Arial, sans-serif; /* 设置字体样式为 Arial, sans-serif */
   line-height: 1.5; /* 设置行高为 1.5 */
 }
 
 .compass {
-  width: 4em;
-  height: 4em;
+  width: 3em;
+  height: 3em;
   color: white;
   border-radius: 10px;
   border: 5px solid white;
@@ -227,7 +228,7 @@ export default {
 }
 
 .intro_func_content {
-  margin-left: 20px;
+  margin: 0 0 10px 20px;
   height: 4em;
 }
 
@@ -235,10 +236,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: left;
-  font-size: 20px;
+  font-size: 18px;
   color: white;
   font-weight: bold;
-  margin-top: 0;
+  margin-top: 6px;
 }
 
 .func_content {
@@ -253,11 +254,12 @@ export default {
 
 .login-right-card {
   background-color: #ffffff;
-  width: 400px;
+  width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 0 5px 5px 0;
   #el-card {
     display: flex;
     border: none;
