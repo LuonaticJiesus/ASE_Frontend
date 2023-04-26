@@ -51,14 +51,14 @@
               type="primary"
               color="#626aef"
               style="height: 7vh; width: 7vh"
-              @click="jump('member')"
+              @click="jump('notice')"
             >
               <el-col>
                 <el-row>
                   <el-icon class="el-icon--right"><Edit /></el-icon>
                 </el-row>
                 <el-row>
-                  <div style="padding-top: 5px">成员</div>
+                  <div style="padding-top: 5px">通知</div>
                 </el-row>
               </el-col>
             </el-button>
@@ -70,14 +70,14 @@
               type="primary"
               color="#626aef"
               style="height: 7vh; width: 7vh"
-              @click="jump('notice')"
+              @click="jump('member')"
             >
               <el-col>
                 <el-row>
                   <el-icon class="el-icon--right"><Edit /></el-icon>
                 </el-row>
                 <el-row>
-                  <div style="padding-top: 5px">通知</div>
+                  <div style="padding-top: 5px">成员</div>
                 </el-row>
               </el-col>
             </el-button>

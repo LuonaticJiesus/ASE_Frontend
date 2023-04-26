@@ -107,8 +107,8 @@ export const asyncRoutes = [
     children: [
       {
         name: 'post',
-        path: '/post/:id',
-        component: () => import('/@/view/post/preciew.vue'),
+        path: '/post',
+        component: () => import('/@/view/post/index.vue'),
         children: [],
       },
     ],
