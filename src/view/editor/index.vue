@@ -93,8 +93,8 @@ import VMdEditor, { xss } from '@kangc/v-md-editor';
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { strippedHtml } from '/@/utils/string';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 import { useUserStore } from '/@/store';
-import { getToken } from '/@/utils/auth';
 import { uploadImage } from '/@/api/notice';
 import { useRoute } from 'vue-router';
 
@@ -151,7 +151,13 @@ const handlePublishArticle = async () => {
     block_id: moduleId.value,
   };
   console.log(text);
-  const res = await publishArticle(data);
+  publishArticle(getLocalUserId(), getToken(), data)
+    .then((res) => {
+      console.log('editor.vue publish success: ', res);
+    })
+    .catch((err) => {
+      console.log('editor.vue publish failed: ', err);
+    });
 };
 
 const handleUploadImage = async (event, insertImage, files) => {
