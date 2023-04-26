@@ -3,6 +3,9 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
+  queryAll: 'four_s/block/queryAll/',
+  queryPermission: 'four_s/block/queryPermission/',
+  search: 'four_s/block/search/',
   random: 'four_s/blcok/random',
   info: 'four_s/block/info',
   members: 'four_s/permission/queryUser/',
@@ -10,6 +13,8 @@ const URL = {
 
 const MockURL = {
   queryAll: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryAll/',
+  queryPermission:
+    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryPermission/',
   search: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/search/',
   random: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/blcok/random/',
   info: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/info/',
@@ -19,8 +24,20 @@ const MockURL = {
 
 const moduleAll = async (userId, token) =>
   get({
-    url: MockURL.queryAll,
+    url: URL.queryAll,
     params: {},
+    headers: {
+      userid: userId,
+      token: token,
+    },
+  });
+
+const modulePermission = async (permission, userId, token) =>
+  get({
+    url: URL.queryAll,
+    body: {
+      permission: permission,
+    },
     headers: {
       userid: userId,
       token: token,
@@ -64,4 +81,11 @@ const moduleMembers = async (block_id, permission, userid, token) =>
     header: { userid: userid, token: token },
   });
 
-export { moduleAll, moduleSearch, moduleRandom, moduleInfo, moduleMembers };
+export {
+  moduleAll,
+  modulePermission,
+  moduleSearch,
+  moduleRandom,
+  moduleInfo,
+  moduleMembers,
+};

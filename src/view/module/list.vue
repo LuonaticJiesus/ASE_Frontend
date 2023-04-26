@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { moduleAll, moduleSearch } from '/@/api/module';
+import { moduleAll, modulePermission, moduleSearch } from '/@/api/module';
 import CardModule from './components/CardModule.vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { Search } from '@element-plus/icons-vue';
@@ -116,18 +116,18 @@ export default {
   methods: {
     fetchData() {
       console.log('fetchData...', this);
-      moduleAll(0, getToken())
+      moduleAll(getLocalUserId(), getToken())
         .then((res) => {
-          console.log('module/list.vue fetchData success: ', res);
-          this.moduleList = res;
+          console.log('module/list.vue fetchData success 2: ', res);
+          this.myModuleList = res;
         })
         .catch((err) => {
           console.log('module/list.vue fetchData failed: ', err);
         });
-      moduleAll(getLocalUserId(), getToken())
+      modulePermission(0, getLocalUserId(), getToken())
         .then((res) => {
-          console.log('module/list.vue fetchData success: ', res);
-          this.myModuleList = res;
+          console.log('module/list.vue fetchData success 1: ', res);
+          this.moduleList = res;
         })
         .catch((err) => {
           console.log('module/list.vue fetchData failed: ', err);
