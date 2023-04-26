@@ -16,6 +16,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user_id: getLocalUserId(),
     username: undefined,
+    avatar: 'src/assets/logo.png',
     favor_count: undefined,
     status: false, // 判断是否登录，登录为true，没登录false
     roles: [], // 开发环境使用，暂时认为已登录

@@ -21,7 +21,6 @@ router.beforeEach(async (to, from, next) => {
 
   // set page title
   // document.title = getPageTitle(to.meta.title);
-
   // determine whether the user has logged in
   let hasToken = getToken();
   // hasToken += 'DevToken'; // 开发环境使用，暂时认为有token

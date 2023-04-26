@@ -18,7 +18,7 @@
     <template #default>
       <el-form>
         <el-form-item label="通知标题:" required>
-          <el-input placeholder="请输入标题"> </el-input>
+          <el-input v-model="title" placeholder="请输入标题"> </el-input>
         </el-form-item>
         <el-form-item label="通知内容:" required>
           <vue3-tinymce v-model="content" :setting="richSetting">
@@ -72,6 +72,8 @@ const richSetting = {
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
 };
+
+const title = ref('');
 
 const content = '请输入内容';
 
