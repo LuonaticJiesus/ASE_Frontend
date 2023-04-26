@@ -24,7 +24,7 @@
                   :key="item.block_id"
                   :modduleId="item.block_id"
                   :moduleName="item.name"
-                  :moduleAvator="item.avator"
+                  :moduleAvator="item.avatar"
                   :memberNumber="item.population"
                 ></CardModule>
               </div>
@@ -64,7 +64,7 @@
                   :key="item.block_id"
                   :modduleId="item.block_id"
                   :moduleName="item.name"
-                  :moduleAvator="item.avator"
+                  :moduleAvator="item.avatar"
                   :memberNumber="item.population"
                 ></CardModule>
               </div>
