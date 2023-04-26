@@ -1,7 +1,7 @@
 <template>
   <el-form
-    id="registerForm"
     class="registerForm"
+    ref="ruleFormRef"
     :model="registerForm"
     :rules="registerRules"
   >
@@ -58,8 +58,9 @@
     <el-form-item>
       <el-button
         class="loginButton"
-        @click="userRegister('ruleForm')"
+        @click="userRegister()"
         style="height: 40px; border-radius: 10px"
+        @keyup.enter="keyDown()"
         >注册
       </el-button>
     </el-form-item>
@@ -88,6 +89,7 @@
 import { User, Lock, Connection } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
+import { ElMessage } from 'element-plus';
 
 export default {
   name: 'registerForm',
@@ -132,6 +134,11 @@ export default {
         ],
         password: [
           { required: true, message: '您还没有输入密码', trigger: 'blur' },
+          {
+            pattern: '\^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}\$',
+            message: '请输入包含字母和数字的8-16位密码',
+            trigger: 'blur',
+          },
         ],
         confirm: [
           { required: true, message: '您还没有确认密码', trigger: 'blur' },
@@ -143,44 +150,62 @@ export default {
   },
   methods: {
     userRegister() {
-      let data = {
-        name: this.registerForm.username,
-        password: this.registerForm.password,
-        card_id: this.registerForm.card,
-        phone: this.registerForm.phone,
-        email: this.registerForm.email,
-      };
-      for (const key in data) {
-        if (data[key] === null || data[key] === '' || data[key] === undefined) {
-          delete data[key];
-        }
-      }
-      const userStore = useUserStore();
-      userStore
-        .register(data)
-        .then(async (res) => {
-          console.log(res);
-          if (res) {
-            // this.loginForm.username = this.registerForm.username;
-            // this.loginForm.password = this.registerForm.password;
-            // this.userLogin();
-            // await router.push({
-            //   path: 'login',
-            // });
-            this.$emit('transfer', 'login');
+      if (this.$refs.ruleFormRef.validate()) {
+        console.log('register validate');
+        let data = {
+          name: this.registerForm.username,
+          password: this.registerForm.password,
+          card_id: this.registerForm.card,
+          phone: this.registerForm.phone,
+          email: this.registerForm.email,
+        };
+        for (const key in data) {
+          if (
+            data[key] === null ||
+            data[key] === '' ||
+            data[key] === undefined
+          ) {
+            delete data[key];
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        }
+        const userStore = useUserStore();
+        userStore
+          .register(data)
+          .then(async (res) => {
+            console.log(res);
+            if (res) {
+              this.$emit('transfer', 'login');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     userForget() {
-      return 1;
+      ElMessage({
+        showClose: true,
+        message: '请联系管理员找回密码 !',
+        type: 'error',
+      });
     },
     changeLogin() {
       this.$emit('transfer', 'login');
       // this.formStatus = 'login';
     },
+    keyDown(e) {
+      if (e.keyCode === 13) {
+        this.userRegister();
+      }
+    },
+  },
+  mounted() {
+    //绑定事件
+    window.addEventListener('keydown', this.keyDown);
+  },
+  //销毁事件
+  unmounted() {
+    window.removeEventListener('keydown', this.keyDown, false);
   },
 };
 </script>

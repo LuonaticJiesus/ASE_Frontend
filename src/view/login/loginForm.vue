@@ -1,10 +1,9 @@
 <template>
   <el-form
-    id="loginForm"
     class="loginForm"
+    ref="ruleFormRef"
     :model="loginForm"
     :rules="loginRules"
-    v-if="formStatus === 'login'"
   >
     <el-form-item prop="username">
       <el-input
@@ -28,8 +27,9 @@
     <el-form-item>
       <el-button
         class="loginButton"
-        @click="userLogin('ruleForm')"
+        @click="userLogin()"
         style="height: 45px; border-radius: 10px; margin: 10px 0 0 0"
+        @keyup.enter="keyDown()"
         >登录
       </el-button>
     </el-form-item>
@@ -59,6 +59,7 @@ import { User, Lock, Connection } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
 import router from '/@/router/index.js';
+import { ElMessage } from 'element-plus';
 
 export default {
   name: 'loginForm',
@@ -93,33 +94,53 @@ export default {
   },
   methods: {
     userLogin() {
-      let data = {
-        name: this.loginForm.username,
-        password: this.loginForm.password,
-      };
-      const userStore = useUserStore();
-      userStore
-        .login(data)
-        .then(async (res) => {
-          console.log(res);
-          if (res) {
-            await userStore.getInfo(); // 更新登录状态和获取用户信息
-            await router.push({
-              path: 'home',
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (this.$refs.ruleFormRef.validate()) {
+        console.log('login validate!');
+        let data = {
+          name: this.loginForm.username,
+          password: this.loginForm.password,
+        };
+        const userStore = useUserStore();
+        userStore
+          .login(data)
+          .then(async (res) => {
+            console.log(res);
+            if (res) {
+              await userStore.getInfo(); // 更新登录状态和获取用户信息
+              await router.push({
+                path: '/home',
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     userForget() {
-      return 1;
+      ElMessage({
+        showClose: true,
+        message: '请联系管理员找回密码 !',
+        type: 'error',
+      });
     },
     changeRegister() {
       this.$emit('transfer', 'register');
       // this.formStatus = 'register';
     },
+    keyDown(e) {
+      if (e.keyCode === 13) {
+        this.userLogin();
+      }
+    },
+  },
+  mounted() {
+    //绑定事件
+    window.addEventListener('keydown', this.keyDown);
+  },
+  //销毁事件
+  unmounted() {
+    window.removeEventListener('keydown', this.keyDown, false);
   },
 };
 </script>

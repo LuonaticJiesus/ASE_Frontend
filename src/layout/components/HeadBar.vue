@@ -45,24 +45,39 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 <script lang="ts">
 import { Search } from '@element-plus/icons-vue';
-import { useUserStore } from '/@/store';
 import { ref } from 'vue';
+import { getUserProfile } from '/@/api/user';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 
 export default {
   data() {
-    const userStore = useUserStore();
-    console.log('HeadBar username is: ' + userStore.getUsername());
     return {
-      userName:
-        userStore.getUsername() === undefined
-          ? 'Undefined'
-          : userStore.getUsername(),
+      userName: '',
     };
   },
   computed: {
     Search() {
       return Search;
     },
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const userProfile = await getUserProfile({
+          userid: getLocalUserId(),
+          token: getToken(),
+        });
+        // console.log(userProfile);
+        // console.log('headBar test profile:');
+        this.userName = userProfile.name;
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        // 根据需要处理错误
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>

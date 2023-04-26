@@ -2,7 +2,7 @@
   <div style="padding: 0">
     <el-table
       :data="tableData"
-      style="width: 100%"
+      class="share-table"
       height="58vh"
       @row-click="jump"
     >
@@ -92,5 +92,12 @@ export default {
   height: 30vh;
   margin-top: 130px;
   margin-bottom: 0;
+}
+
+.share-table {
+  width: 100%;
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>

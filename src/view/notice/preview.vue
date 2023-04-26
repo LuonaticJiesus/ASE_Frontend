@@ -1,7 +1,7 @@
 <template>
   <DivideContainer>
     <template #main>
-      <div style="margin: 20px">
+      <div style="margin: 10px 20px">
         <el-row style="display: flex; justify-content: left">
           <h2>{{ notice.title }}</h2>
         </el-row>
@@ -61,7 +61,15 @@
         <el-calendar>
           <template #date-cell="{ data }">
             <div class="calendar-day">
-              <p :class="isDDL(data.day) ? 'is-ddl' : ''">
+              <p
+                :class="
+                  isDDL(data.day)
+                    ? 'is-ddl'
+                    : isToday(data.day)
+                    ? 'is-today'
+                    : ''
+                "
+              >
                 {{ data.day.split('-').slice(2).join('-') }}
               </p>
             </div>
@@ -120,6 +128,12 @@ const isDDL = (day) => {
   return date.toDateString() === ddl.value.toDateString();
 };
 
+const today = ref(new Date());
+const isToday = (day) => {
+  const date = new Date(day);
+  return date.toDateString() === today.value.toDateString();
+};
+
 const creatorName = ref('');
 const creatorAvatar = ref('');
 const moduleName = ref('');
@@ -176,6 +190,7 @@ onMounted(async () => {
   console.log(notice);
 });
 </script>
+
 <script>
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 
@@ -188,6 +203,8 @@ export default {
 <style>
 .is-ddl {
   color: red;
+}
+.is-today {
 }
 .el-calendar-table__row .current .calendar-day {
   text-align: center;
