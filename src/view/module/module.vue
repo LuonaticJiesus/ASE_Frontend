@@ -129,9 +129,9 @@
             <el-button
               type="primary"
               style="width: 15vh; height: 7vh; border-radius: 4vh"
-              disabled
+              @click="joinModule()"
             >
-              <div>订阅分享</div>
+              <div>加入版块</div>
             </el-button>
           </div>
         </el-col>
@@ -158,8 +158,9 @@
 <script>
 import { Edit } from '@element-plus/icons-vue';
 import router from '/@/router/index.js';
-import { moduleInfo } from '/@/api/module';
+import { moduleInfo, moduleSubscribe } from '/@/api/module';
 import { nextTick } from 'vue';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 
 export default {
   name: 'ModuleView',
@@ -177,7 +178,11 @@ export default {
   methods: {
     fetchData() {
       console.log('fetchData...', this);
-      moduleInfo(0, 0, '')
+      moduleInfo(
+        router.currentRoute.value.params['id'],
+        getLocalUserId(),
+        getToken(),
+      )
         .then((res) => {
           console.log('module.vue fetchData success: ', res);
           this.moduleName = res.name;
@@ -209,6 +214,19 @@ export default {
           moduleId: router.currentRoute.value.params['id'],
         },
       });
+    },
+    joinModule() {
+      let moduleId = router.currentRoute.value.params['id'];
+      let userId = getLocalUserId();
+      let token = getToken();
+      console.log('module/module.vue joinModule', moduleId);
+      moduleSubscribe(moduleId, 1, userId, token)
+        .then((res) => {
+          console.log('module/module.vue joinModule success ', res);
+        })
+        .catch((err) => {
+          console.log('module/module.vue joinModule failed ', err);
+        });
     },
   },
 };
