@@ -6,21 +6,32 @@
           <div class="module-pannel">
             <el-col :span="4">
               <el-row type="flex" justify="center">
-                <div class="card-avator">
-                  <el-image
-                    style="
-                      border-radius: 13px;
-                      width: 14vh;
-                      height: 14vh;
-                      margin-top: -10.5vh;
-                      margin-bottom: 0;
-                      border: solid 5px white;
-                    "
-                    :fit="'scale-down'"
-                    lazy
-                  >
-                  </el-image>
-                </div>
+                <el-upload
+                  :show-file-list="false"
+                  :limit="1"
+                  action="dev-api/four_s/file/upload/"
+                  :headers="headers"
+                  :before-upload="beforeAvatarUpload"
+                  :on-success="updateAvtar"
+                  :on-exceed="handleExceed"
+                >
+                  <div class="card-avator">
+                    <el-image
+                      style="
+                        border-radius: 13px;
+                        width: 14vh;
+                        height: 14vh;
+                        margin-top: -10.5vh;
+                        margin-bottom: 0;
+                        border: solid 5px white;
+                      "
+                      :fit="'scale-down'"
+                      lazy
+                      :src="userAvatar"
+                    >
+                    </el-image>
+                  </div>
+                </el-upload>
               </el-row>
               <el-row type="flex" justify="center" style="font-size: 20px">
                 {{ this.userName }}
@@ -104,11 +115,44 @@ import type { TabsPaneContext } from 'element-plus';
 import BasicInfo from '/@/view/user/basicInfo.vue';
 import ChangePwd from '/@/view/user/changePwd.vue';
 import UserStatistic from '/@/view/user/userStatistic.vue';
+import { getLocalUserId, getToken } from '/@/utils/auth';
+import { useUserStore } from '/@/store';
+import { ElMessage } from 'element-plus';
+import { changeBasicInfo, getUserProfile } from '/@/api/user';
 
 const activeName = ref('first');
 
+const headers = {
+  userid: getLocalUserId(),
+  token: getToken(),
+};
+
+const userAvatar = ref(useUserStore().avatar);
+
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
+};
+
+const beforeAvatarUpload = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('头像必须是.jpg格式!');
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('头像不能大于2MB!');
+    return false;
+  }
+  return true;
+};
+
+const handleExceed = () => {
+  ElMessage.error('不能上传多张图片!');
+};
+
+const updateAvtar = async (res) => {
+  console.log('avatar is ' + res.data.url);
+  await changeBasicInfo({ avatar: res.data.url }, headers);
+  await useUserStore().getInfo();
+  userAvatar.value = useUserStore().avatar;
 };
 </script>
 

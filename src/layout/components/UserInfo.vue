@@ -11,7 +11,7 @@
               border: 4px solid white;
               outline: 1px solid gray;
             "
-            :src="logo"
+            :src="useUserStore().avatar"
             :fit="'scale-down'"
             lazy
           >
@@ -51,6 +51,7 @@
 <script lang="ts">
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { getUserProfile } from '/@/api/user';
+import { useUserStore } from '/@/store';
 
 export default {
   name: 'userInfo',
@@ -59,13 +60,8 @@ export default {
       userName: '',
     };
   },
-  setup() {
-    const logo = '/src/assets/logo.png';
-    return {
-      logo,
-    };
-  },
   methods: {
+    useUserStore,
     async fetchData() {
       try {
         const userProfile = await getUserProfile({

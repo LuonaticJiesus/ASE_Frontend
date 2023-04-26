@@ -8,6 +8,7 @@
       @select="handleSelect"
     >
       <div style="display: flex; align-items: center">
+        <!--suppress TypeScriptValidateTypes -->
         <el-input
           v-model="input2"
           placeholder="Please Input"
@@ -22,7 +23,7 @@
       <el-menu-item index="3" disabled><h2>评论</h2></el-menu-item>
       <el-menu-item index="4" disabled><h2>订阅</h2></el-menu-item>
       <el-menu-item index="5" disabled>
-        <el-avatar class="mr-3" :size="32" src="/src/assets/logo.png" />
+        <el-avatar class="mr-3" :size="32" :src="useUserStore().avatar" />
         <div
           class="text-large font-600 mr-3"
           style="margin-left: 10px; font-size: 20px"
@@ -36,6 +37,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useUserStore } from '/@/store';
 const input2 = ref('');
 const activeIndex = ref('1');
 const handleSelect = (key: string, keyPath: string[]) => {
