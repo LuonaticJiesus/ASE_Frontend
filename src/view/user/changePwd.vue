@@ -51,14 +51,6 @@ const pwdForm = reactive({
   reNewPwd: '',
 });
 
-const validateOldPass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请输入原密码'));
-  } else {
-    callback();
-  }
-};
-
 const validateNewPass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入新密码'));
@@ -84,7 +76,7 @@ const validateReNewPass = (rule: any, value: any, callback: any) => {
 };
 
 const rules = reactive<FormRules>({
-  oldPwd: [{ validator: validateOldPass, trigger: 'blur' }],
+  oldPwd: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
   newPwd: [{ validator: validateNewPass, trigger: 'blur' }],
   reNewPwd: [{ validator: validateReNewPass, trigger: 'blur' }],
 });

@@ -48,26 +48,41 @@
   </div>
 </template>
 
-<script>
-import { useUserStore } from '/@/store/index.js';
+<script lang="ts">
+import { getLocalUserId, getToken } from '/@/utils/auth';
+import { getUserProfile } from '/@/api/user';
 
 export default {
-  name: 'UserInfo',
+  name: 'userInfo',
+  data() {
+    return {
+      userName: '',
+    };
+  },
   setup() {
     const logo = '/src/assets/logo.png';
     return {
       logo,
     };
   },
-  data() {
-    const userStore = useUserStore();
-    console.log('SideBar username is: ' + userStore.getUsername());
-    return {
-      userName:
-        userStore.getUsername() === undefined
-          ? 'Undefined'
-          : userStore.getUsername(),
-    };
+  methods: {
+    async fetchData() {
+      try {
+        const userProfile = await getUserProfile({
+          userid: getLocalUserId(),
+          token: getToken(),
+        });
+        // console.log('userInfo test userProfile:');
+        // console.log(userProfile);
+        this.userName = userProfile.name;
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        // 根据需要处理错误
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>

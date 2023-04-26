@@ -99,16 +99,11 @@ export default {
           userid: getLocalUserId(),
           token: getToken(),
         });
-        const {
-          oldUsername = '',
-          oldEmail = '',
-          oldStudentId = '',
-          oldPhone = '',
-        } = userProfile;
-        this.userName = oldUsername;
-        this.email = oldEmail;
-        this.studentid = oldStudentId;
-        this.phone = oldPhone;
+        // console.log(userProfile);
+        this.userName = userProfile.name;
+        this.email = userProfile.email;
+        this.studentid = userProfile.card_id;
+        this.phone = userProfile.phone;
         console.log('change');
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -136,7 +131,7 @@ const infoForm = reactive({
   phone: '',
 });
 
-let header = {
+const header = {
   userid: getLocalUserId(),
   token: getToken(),
 };
