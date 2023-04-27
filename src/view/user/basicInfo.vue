@@ -8,36 +8,38 @@
       :rules="rules"
       class="form-wrapper"
     >
-      <el-form-item label="用户名" prop="username">
-        <el-input
-          v-model="infoForm.username"
-          :placeholder="oldUsername"
-          autocomplete="off"
-        />
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input
-          v-model="infoForm.email"
-          :placeholder="oldEmail"
-          autocomplete="off"
-        />
-      </el-form-item>
-      <el-form-item label="学号" prop="studentId">
-        <el-input
-          v-model="infoForm.studentId"
-          :placeholder="oldStudentId"
-          autocomplete="off"
-          :disabled="this.idStatus"
-        />
-      </el-form-item>
-      <el-form-item label="手机号" prop="phone">
-        <el-input
-          v-model="infoForm.phone"
-          :placeholder="oldPhone"
-          autocomplete="off"
-          :disabled="this.phoneStatus"
-        />
-      </el-form-item>
+      <el-scrollbar max-height="42vh">
+        <!--        <el-form-item label="用户名" prop="username">-->
+        <!--          <el-input-->
+        <!--            v-model="infoForm.username"-->
+        <!--            :placeholder="oldUsername"-->
+        <!--            autocomplete="off"-->
+        <!--          />-->
+        <!--        </el-form-item>-->
+        <el-form-item label="邮箱" prop="email">
+          <el-input
+            v-model="infoForm.email"
+            :placeholder="oldEmail"
+            autocomplete="off"
+          />
+        </el-form-item>
+        <el-form-item label="学号" :prop="idProp">
+          <el-input
+            v-model="infoForm.studentId"
+            :placeholder="oldStudentId"
+            autocomplete="off"
+            :disabled="this.idStatus"
+          />
+        </el-form-item>
+        <el-form-item label="手机号" :prop="phoneProp">
+          <el-input
+            v-model="infoForm.phone"
+            :placeholder="oldPhone"
+            autocomplete="off"
+            :disabled="this.phoneStatus"
+          />
+        </el-form-item>
+      </el-scrollbar>
       <el-form-item class="form-button">
         <el-button type="primary" @click="submitUserInfoChange(infoFormRef)">
           提交修改
@@ -87,8 +89,18 @@ export default {
         return this.Phone;
       }
     },
+    idProp() {
+      if (this.Studentid === undefined) return 'studentId';
+      else return 'none';
+    },
+    phoneProp() {
+      if (this.Phone === undefined) return 'phone';
+      else return 'none';
+    },
   },
   setup() {
+    const idStatus = ref(false);
+    const phoneStatus = ref(false);
     const infoFormRef = ref<FormInstance>();
     const infoForm = reactive({
       username: '',
@@ -138,8 +150,9 @@ export default {
             }
           }
           changeBasicInfo(data, header);
-          this.idStatus = true;
-          this.phoneStatus = true;
+          idStatus.value = true;
+          phoneStatus.value = true;
+          location.reload();
         } else {
           console.log('error submit!');
           return false;
@@ -147,8 +160,6 @@ export default {
       });
     };
     return {
-      idStatus: ref(false),
-      phoneStatus: ref(false),
       infoForm,
       infoFormRef,
       rules,
@@ -173,14 +184,6 @@ export default {
         if (this.Phone !== undefined) {
           this.phoneStatus = true;
         }
-        console.log(
-          this.UserName,
-          this.Studentid,
-          this.Email,
-          this.Phone,
-          this.idStatus,
-          this.phoneStatus,
-        );
         console.log('change');
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -203,10 +206,10 @@ export default {
   border: none;
 }
 .form-wrapper {
-  width: 460px;
+  width: 40vw;
 }
 .form-wrapper:deep(.el-form-item__label) {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
 }
 .form-button {

@@ -21,7 +21,7 @@
                         border-radius: 13px;
                         width: 13vh;
                         height: 13vh;
-                        margin-top: -20vh;
+                        margin-top: -10vh;
                         margin-bottom: 0;
                         border: solid 5px white;
                       "
@@ -33,7 +33,11 @@
                   </div>
                 </el-upload>
               </el-row>
-              <el-row type="flex" justify="center" style="font-size: 17px">
+              <el-row
+                type="flex"
+                justify="center"
+                style="font-size: 17px; margin-top: -6px"
+              >
                 {{ this.userName }}
               </el-row>
             </el-col>
@@ -177,7 +181,7 @@ export default {
   display: flex;
   background-color: white;
   height: 20vh;
-  margin-top: 13vh;
+  margin-top: 11vh;
   margin-bottom: 0;
 }
 
@@ -206,7 +210,7 @@ export default {
 }
 
 .user-main >>> .el-tabs__item {
-  font-size: 16px !important;
+  font-size: 13px !important;
   color: gray;
 }
 
