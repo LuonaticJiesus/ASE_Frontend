@@ -52,9 +52,7 @@ const pwdForm = reactive({
 });
 
 const validateNewPass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请输入新密码'));
-  } else if (pwdForm.oldPwd === value) {
+  if (pwdForm.oldPwd === value) {
     callback(new Error('与原密码一致，请重新输入'));
   } else {
     if (pwdForm.reNewPwd !== '') {
@@ -66,10 +64,8 @@ const validateNewPass = (rule: any, value: any, callback: any) => {
 };
 
 const validateReNewPass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请再输入一遍新密码!'));
-  } else if (value !== pwdForm.newPwd) {
-    callback(new Error('两次输入密码不一致!'));
+  if (value !== pwdForm.newPwd) {
+    callback(new Error('两次输入密码不一致'));
   } else {
     callback();
   }
@@ -77,8 +73,17 @@ const validateReNewPass = (rule: any, value: any, callback: any) => {
 
 const rules = reactive<FormRules>({
   oldPwd: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
-  newPwd: [{ validator: validateNewPass, trigger: 'blur' }],
-  reNewPwd: [{ validator: validateReNewPass, trigger: 'blur' }],
+  newPwd: [
+    { required: true, message: '请输入新密码', trigger: 'blur' },
+    {
+      validator: validateNewPass,
+      trigger: 'blur',
+    },
+  ],
+  reNewPwd: [
+    { required: true, message: '请重复输入一遍新密码', trigger: 'blur' },
+    { validator: validateReNewPass, trigger: 'blur' },
+  ],
 });
 
 const submitPwdChange = (formEl: FormInstance | undefined) => {
@@ -113,10 +118,10 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
   border: none;
 }
 .form-wrapper {
-  width: 460px;
+  width: 35vw;
 }
 .form-wrapper:deep(.el-form-item__label) {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
 }
 .form-button {

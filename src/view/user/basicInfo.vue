@@ -9,13 +9,6 @@
       class="form-wrapper"
     >
       <el-scrollbar max-height="42vh">
-        <!--        <el-form-item label="用户名" prop="username">-->
-        <!--          <el-input-->
-        <!--            v-model="infoForm.username"-->
-        <!--            :placeholder="oldUsername"-->
-        <!--            autocomplete="off"-->
-        <!--          />-->
-        <!--        </el-form-item>-->
         <el-form-item label="邮箱" prop="email">
           <el-input
             v-model="infoForm.email"
@@ -67,8 +60,6 @@ export default {
   },
   computed: {
     oldUsername() {
-      // if (this.userName === '') return '请输入用户名';
-      // else return this.userName;
       return this.UserName;
     },
     oldEmail() {
@@ -206,7 +197,7 @@ export default {
   border: none;
 }
 .form-wrapper {
-  width: 40vw;
+  width: 35vw;
 }
 .form-wrapper:deep(.el-form-item__label) {
   font-size: 17px;

@@ -216,6 +216,7 @@ export default {
   align-items: center;
   padding: 0;
   margin: 5px;
+  height: 67vh;
 }
 
 .user-main:deep(.el-tabs__nav-wrap::after) {
