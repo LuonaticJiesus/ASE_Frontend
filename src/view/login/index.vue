@@ -18,10 +18,10 @@
             <el-card id="el-card" :shadow="false">
               <el-form id="textForm" class="textForm">
                 <el-form-item id="title" class="intro_title">
-                  Our Introduction
+                  QuadSSSS
                 </el-form-item>
                 <el-form-item id="content" class="intro_content">
-                  Xxxxxxxxxxxxxxxxxxxxxxxxx
+                  Subscription·Sharing·Syncretism·Success
                 </el-form-item>
               </el-form>
               <div class="intro_func">
@@ -29,8 +29,8 @@
                   <Compass />
                 </div>
                 <div class="intro_func_content">
-                  <div class="func_title">Func</div>
-                  <div class="func_content">Introduction of func</div>
+                  <div class="func_title">Subscription</div>
+                  <div class="func_content">订阅：抓住你感兴趣的一切</div>
                 </div>
               </div>
               <div class="intro_func">
@@ -38,8 +38,8 @@
                   <Compass />
                 </div>
                 <div class="intro_func_content">
-                  <div class="func_title">Func</div>
-                  <div class="func_content">Introduction of func</div>
+                  <div class="func_title">Sharign</div>
+                  <div class="func_content">分享：向世界表达自己</div>
                 </div>
               </div>
               <div class="intro_func">
@@ -47,8 +47,17 @@
                   <Compass />
                 </div>
                 <div class="intro_func_content">
-                  <div class="func_title">Func</div>
-                  <div class="func_content">Introduction of func</div>
+                  <div class="func_title">Syncretism</div>
+                  <div class="func_content">融合：交流产生智慧</div>
+                </div>
+              </div>
+              <div class="intro_func">
+                <div class="compass">
+                  <Compass />
+                </div>
+                <div class="intro_func_content">
+                  <div class="func_title">Success</div>
+                  <div class="func_content">成功：互助走向成功</div>
                 </div>
               </div>
             </el-card>
