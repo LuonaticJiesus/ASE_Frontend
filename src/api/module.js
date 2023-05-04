@@ -38,7 +38,7 @@ const moduleAll = async (userId, token) =>
 const modulePermission = async (permission, userId, token) =>
   get({
     url: URL.queryAll,
-    body: {
+    params: {
       permission: permission,
     },
     headers: {
@@ -93,7 +93,7 @@ const moduleSubscribe = async (block_id, subscribe, userid, token) =>
       userid: userid,
       token: token,
     },
-    body: {
+    data: {
       block_id: block_id,
       subscribe: subscribe,
     },
