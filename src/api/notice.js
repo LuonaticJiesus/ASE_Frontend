@@ -29,14 +29,22 @@ const createNotice = async (data) => post(data, { url: URL.create });
 const moduleNotices = async (block_id, userid, token) =>
   get({
     url: MockURL.queryBlock,
-    params: { block_id: block_id },
-    headers: { userid: userid, token: token },
+    params: {
+      block_id: block_id,
+    },
+    headers: {
+      userid: userid,
+      token: token,
+    },
   });
 
 const uploadImage = async (userid, token, file) =>
   post({
     url: URL.uploadImg,
-    headers: { userid: userid, token: token },
+    headers: {
+      userid: userid,
+      token: token,
+    },
     data: file,
   });
 

@@ -1,6 +1,6 @@
 <template>
-  <el-main style="padding: 0">
-    <router-view></router-view>
+  <el-main class="post-div">
+    <router-view class="post-router"></router-view>
   </el-main>
 </template>
 
@@ -10,4 +10,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.post-div {
+  padding: 0;
+  height: 100%;
+}
+.post-router {
+  height: 100%;
+}
+</style>

@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
 import { get, post } from '/@/utils/request';
 
 const URL = {
@@ -81,7 +80,6 @@ const moduleInfo = async (block_id, userid, token) =>
 const moduleMembers = async (block_id, permission, userid, token) =>
   get({
     url: URL.members,
-    // eslint-disable-next-line camelcase
     params: { block_id: block_id, permission: permission },
     headers: { userid: userid, token: token },
   });
