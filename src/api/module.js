@@ -12,18 +12,18 @@ const URL = {
   members: 'four_s/permission/queryUser/',
 };
 
-const MockURL = {
-  subscribe:
-    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/subscribe/',
-  queryAll: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryAll/',
-  queryPermission:
-    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryPermission/',
-  search: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/search/',
-  random: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/blcok/random/',
-  info: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/info/',
-  members:
-    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/permission/queryUser/',
-};
+// const MockURL = {
+//   subscribe:
+//     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/subscribe/',
+//   queryAll: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryAll/',
+//   queryPermission:
+//     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/queryPermission/',
+//   search: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/search/',
+//   random: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/blcok/random/',
+//   info: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/block/info/',
+//   members:
+//     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/permission/queryUser/',
+// };
 
 const moduleAll = async (userId, token) =>
   get({
