@@ -136,9 +136,9 @@ export default {
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage;
     },
-    handleSearch: function () {
+    handleSearch() {
       console.log('module/list.vue search');
-      moduleSearch(0, getToken())
+      moduleSearch(this.searchContent, getLocalUserId(), getToken())
         .then((res) => {
           console.log('module/list.vue search success: ', res);
           this.moduleList = res;
@@ -146,7 +146,7 @@ export default {
         .catch((err) => {
           console.log('module/list.vue search failed: ', err);
         });
-      moduleSearch(getLocalUserId(), getToken())
+      moduleSearch(this.searchContent, getLocalUserId(), getToken())
         .then((res) => {
           console.log('module/list.vue search success: ', res);
           this.myModuleList = res;
