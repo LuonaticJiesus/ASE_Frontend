@@ -61,10 +61,16 @@ import NoticeSimple from '/@/components/NoticeSimple.vue';
 import NoticeEditor from '/@/components/NoticeEditor.vue';
 import router from '/@/router/index.js';
 import { queryRole, roles } from '/@/api/permission.js';
+import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
 const updateNoticeList = async () => {
-  const list = await moduleNotices(0, 0, '');
+  const block_id = router.currentRoute.value.params['id'];
+  let list = [];
+  if (block_id) {
+    console.log(block_id);
+    list = await moduleNotices(block_id, getLocalUserId(), getToken());
+  }
   // 根据截止时间分成两个array
   allNotices.value = list;
   const undue = [];

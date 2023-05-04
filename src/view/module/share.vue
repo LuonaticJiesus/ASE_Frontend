@@ -20,6 +20,7 @@
 <script>
 import { moduleArticles } from '/@/api/article.js';
 import router from '/@/router';
+import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 // import axios from 'axios';
 
 export default {
@@ -63,7 +64,8 @@ export default {
   methods: {
     fetchData() {
       console.log('fetchData....', this);
-      moduleArticles(0, 0, '')
+      const block_id = router.currentRoute.value.params['id'];
+      moduleArticles(block_id, getLocalUserId(), getToken())
         .then((res) => {
           console.log('share.vue fetchData success: ', res);
           this.tableData = res;

@@ -20,6 +20,7 @@
 <script>
 import { moduleNotices } from '/@/api/notice';
 import router from '/@/router';
+import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 
 export default {
   name: 'NoticeView',
@@ -52,7 +53,8 @@ export default {
   methods: {
     fetchData() {
       console.log('fetchData...', this);
-      moduleNotices(0, 0, '')
+      const block_id = router.currentRoute.value.params['id'];
+      moduleNotices(block_id, getLocalUserId(), getToken())
         .then((res) => {
           console.log('notice.vue fetchData success: ', res);
           this.tableData = res;
