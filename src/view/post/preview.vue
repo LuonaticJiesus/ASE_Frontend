@@ -117,6 +117,7 @@ import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { Check, Pointer, Share, Star } from '@element-plus/icons-vue';
 import { articleDetail } from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { defaultLogo } from '/@/utils/string';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -132,7 +133,7 @@ const richSetting = {
   readonly: true,
 };
 
-const avatar = ref('/src/assets/logo.png');
+const avatar = ref(defaultLogo);
 const newComment = ref('');
 const handleCreateComment = () => {
   return 1;

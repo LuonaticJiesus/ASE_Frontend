@@ -193,7 +193,7 @@ export default {
   margin: 5px;
 }
 
-.user-main >>> .el-tabs__nav-wrap::after {
+.user-main:deep(.el-tabs__nav-wrap::after) {
   position: static !important;
 }
 
@@ -209,7 +209,7 @@ export default {
   background-color: #b33dd1;
 }
 
-.user-main >>> .el-tabs__item {
+.user-main:deep(.el-tabs__item) {
   font-size: 13px !important;
   color: gray;
 }

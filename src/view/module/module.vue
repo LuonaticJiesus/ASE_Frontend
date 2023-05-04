@@ -164,6 +164,7 @@ import { nextTick, ref } from 'vue';
 import { queryRole } from '/@/api/permission.js';
 import { ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
+import { defaultLogo } from '/@/utils/string.ts';
 
 export default {
   name: 'ModuleView',
@@ -200,7 +201,7 @@ export default {
     };
     return {
       moduleName: 'QuadSSSS',
-      moduleAvator: '/src/assets/logo.png',
+      moduleAvator: defaultLogo,
       tableData: [],
       userRole,
       activeTab,

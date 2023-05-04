@@ -215,11 +215,16 @@ const options = ref([]);
 
 onMounted(async () => {
   // getWordCount();
-  myModules.value = await modulePermission(0, getLocalUserId(), getToken());
-  options.value = Array.from({ length: 10 }).map((_, idx) => ({
-    value: `${myModules.value[idx].block_id}`,
-    label: `${myModules.value[idx].name}`,
-  }));
+  for (let p = 0; p <= 3; p++) {
+    const res = await modulePermission(p, getLocalUserId(), getToken());
+    myModules.value.push(...res);
+  }
+  options.value = Array.from({ length: myModules.value.length }).map(
+    (_, idx) => ({
+      value: `${myModules.value[idx].block_id}`,
+      label: `${myModules.value[idx].name}`,
+    }),
+  );
 });
 </script>
 
@@ -256,10 +261,9 @@ export default {
 .module-select-box {
   width: 31%;
   height: 90%;
-  margin: 0;
-  margin-left: 1%;
+  margin: 0 0 0 1%;
 }
-.module-select-box /deep/ .el-select-v2__wrapper {
+.module-select-box:deep(.el-select-v2__wrapper) {
   height: 100%;
 }
 </style>

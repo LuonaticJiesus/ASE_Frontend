@@ -28,7 +28,7 @@
           <el-date-picker
             v-model="ddl"
             type="datetime"
-            placeholder="Select date and time"
+            placeholder="请选择截止时间"
             :shortcuts="shortcuts"
           />
         </el-form-item>

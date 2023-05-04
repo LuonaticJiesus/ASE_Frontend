@@ -12,15 +12,16 @@
 <script>
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import NoticeBoard from '/@/components/NoticeBoard.vue';
+import { defaultLogo } from '/@/utils/string.ts';
 
 export default {
   name: 'ModuleView',
   components: { NoticeBoard, DivideContainer },
-  data: () => {
+  setup() {
     return {
       activeName: 'first',
       moduleName: 'QuadSSSS',
-      moduleAvator: '/src/assets/logo.png',
+      moduleAvator: defaultLogo,
       tableData: [],
     };
   },
