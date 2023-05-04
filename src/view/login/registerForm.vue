@@ -5,6 +5,15 @@
     :model="registerForm"
     :rules="registerRules"
   >
+    <el-form-item prop="email">
+      <el-input
+        v-model="registerForm.email"
+        type="text"
+        placeholder="请输入您的邮箱"
+        :prefix-icon="User"
+        class="login-text"
+      ></el-input>
+    </el-form-item>
     <el-form-item prop="username">
       <el-input
         v-model="registerForm.username"
@@ -130,6 +139,13 @@ export default {
       registerForm,
       formStatus: ref('login'),
       registerRules: reactive({
+        email: [
+          { required: true, message: '您还没有输入邮箱', trigger: 'blur' },
+          {
+            pattern: '^[a-zA-Z0-9_-]+@buaa.edu.cn$',
+            message: '请输入北航邮箱',
+          },
+        ],
         username: [
           { required: true, message: '您还没有输入账号', trigger: 'blur' },
           { min: 5, max: 20, message: '账号限定5-20个字符', trigger: 'blur' },

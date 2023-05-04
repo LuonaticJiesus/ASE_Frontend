@@ -22,7 +22,7 @@
                     currentPage * pageSize,
                   )"
                   :key="item.block_id"
-                  :modduleId="item.block_id"
+                  :moduleId="item.block_id"
                   :moduleName="item.name"
                   :moduleAvator="item.avatar"
                   :memberNumber="item.population"
@@ -62,7 +62,7 @@
                     currentPage * pageSize,
                   )"
                   :key="item.block_id"
-                  :modduleId="item.block_id"
+                  :moduleId="item.block_id"
                   :moduleName="item.name"
                   :moduleAvator="item.avatar"
                   :memberNumber="item.population"
