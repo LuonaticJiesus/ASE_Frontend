@@ -7,8 +7,8 @@ const URL = {
   queryAll: 'four_s/block/queryAll/',
   queryPermission: 'four_s/block/queryPermission/',
   search: 'four_s/block/search/',
-  random: 'four_s/block/random',
-  info: 'four_s/block/info',
+  random: 'four_s/block/random/',
+  info: 'four_s/block/info/',
   members: 'four_s/permission/queryUser/',
 };
 
@@ -75,7 +75,7 @@ const moduleInfo = async (block_id, userid, token) =>
   get({
     url: URL.info,
     params: { block_id: block_id },
-    header: { userid: userid, token: token },
+    headers: { userid: userid, token: token },
   });
 
 const moduleMembers = async (block_id, permission, userid, token) =>
@@ -83,13 +83,13 @@ const moduleMembers = async (block_id, permission, userid, token) =>
     url: URL.members,
     // eslint-disable-next-line camelcase
     params: { block_id: block_id, permission: permission },
-    header: { userid: userid, token: token },
+    headers: { userid: userid, token: token },
   });
 
 const moduleSubscribe = async (block_id, subscribe, userid, token) =>
   post({
     url: URL.subscribe,
-    header: {
+    headers: {
       userid: userid,
       token: token,
     },
