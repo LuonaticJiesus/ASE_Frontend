@@ -37,7 +37,7 @@ const moduleAll = async (userId, token) =>
 
 const modulePermission = async (permission, userId, token) =>
   get({
-    url: URL.queryAll,
+    url: URL.queryPermission,
     params: {
       permission: permission,
     },
