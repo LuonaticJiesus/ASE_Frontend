@@ -125,7 +125,7 @@ export default {
         .catch((err) => {
           console.log('module/list.vue fetchData failed: ', err);
         });
-      for (let p = 0; p <= 3; p++) {
+      for (let p = 0; p <= 4; p++) {
         modulePermission(p, getLocalUserId(), getToken())
           .then((res) => {
             console.log('module/list.vue fetchData success 1: ', res);
