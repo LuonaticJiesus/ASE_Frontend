@@ -8,7 +8,7 @@
         style="width: 67%; height: 90%; margin: 0; padding: 0"
       />
       <el-select-v2
-        v-model="value"
+        v-model="selectedModule"
         filterable
         :options="options"
         placeholder="请输入发布的模块ID"
@@ -125,9 +125,9 @@ const richSetting = {
   },
 };
 const title: Ref<string> = ref('');
-const moduleId: Ref<string> = ref('');
+const moduleId: Ref<number> = ref(0);
 const route = useRoute();
-moduleId.value = String(route.query.moduleId);
+moduleId.value = Number(route.query.moduleId);
 const mdText: Ref<string> = ref('');
 const richText: Ref<string> = ref(
   ' <h1>Heading</h1>\n' + '  <p>This Editor is awesome!</p>',
@@ -148,11 +148,11 @@ const handlePublishArticle = async () => {
   const text: string =
     editorType.value === 'md' ? mdText.value : richText.value;
   const data = {
-    title: title,
+    title: title.value,
     txt: text,
-    block_id: moduleId.value,
+    block_id: selectedModule.value,
   };
-  console.log('editor.vue publish to', value.value);
+  console.log('editor.vue publish to', selectedModule.value);
   publishArticle(getLocalUserId(), getToken(), data)
     .then((res) => {
       console.log('editor.vue publish success: ', res);
@@ -209,7 +209,7 @@ const handleEmitSave = () => {
 };
 
 // const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-const value = ref('');
+const selectedModule: Ref<number> = ref(0);
 const myModules = ref([]);
 const options = ref([]);
 

@@ -10,6 +10,8 @@
 
 <script>
 import { moduleMembers } from '/@/api/module.js';
+import router from '/@/router/index.js';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 
 export default {
   name: 'MemberView',
@@ -34,7 +36,8 @@ export default {
   methods: {
     fetchData() {
       console.log('fetchData...', this);
-      moduleMembers(0, 0, 0, '')
+      const block_id = router.currentRoute.value.params['id'];
+      moduleMembers(block_id, -1, getLocalUserId(), getToken())
         .then((res) => {
           console.log('member.vue fetchData success: ', res);
           this.tableData = res;
