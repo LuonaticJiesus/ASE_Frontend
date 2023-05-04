@@ -76,14 +76,17 @@ export default {
           userid: getLocalUserId(),
           token: getToken(),
         });
-        const userModuleGetter = await modulePermission(
-          0,
-          getLocalUserId(),
-          getToken(),
-        );
+        for (let p = 0; p <= 3; p++) {
+          modulePermission(p, getLocalUserId(), getToken())
+            .then((res) => {
+              this.subscribeCnt += res.length;
+            })
+            .catch((err) => {
+              console.log('UserInfo fetchData failed: ', err);
+            });
+        }
         const userPostGetter = await userArticles(getLocalUserId(), getToken());
         this.userName = userProfile.name;
-        this.subscribeCnt = userModuleGetter.length;
         this.postCnt = userPostGetter.length;
       } catch (error) {
         console.error('Error fetching user profile:', error);

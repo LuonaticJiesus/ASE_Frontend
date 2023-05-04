@@ -5,7 +5,7 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { getToken, TokenPrefix } from '/@/utils/auth';
+import { clearToken, clearUserId, getToken, TokenPrefix } from '/@/utils/auth';
 import { showNetworkMessage, showServerMessage } from '/@/utils/status';
 import { defaultResponse } from '/@/utils/type';
 
@@ -38,6 +38,10 @@ service.interceptors.response.use(
 
     if (response.data.status && response.data.status !== 0) {
       showServerMessage(response.data.info);
+      if (response.data.status === -100) {
+        clearToken();
+        clearUserId();
+      }
       return Promise.reject(response.data.status);
     }
 

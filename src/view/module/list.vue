@@ -57,7 +57,7 @@
             <el-scrollbar height="63vh" style="padding: 0">
               <div class="card-wrap">
                 <CardModule
-                  v-for="item in moduleList.slice(
+                  v-for="item in myModuleList.slice(
                     (currentPage - 1) * pageSize,
                     currentPage * pageSize,
                   )"
@@ -119,19 +119,21 @@ export default {
       moduleAll(getLocalUserId(), getToken())
         .then((res) => {
           console.log('module/list.vue fetchData success 2: ', res);
-          this.myModuleList = res;
-        })
-        .catch((err) => {
-          console.log('module/list.vue fetchData failed: ', err);
-        });
-      modulePermission(0, getLocalUserId(), getToken())
-        .then((res) => {
-          console.log('module/list.vue fetchData success 1: ', res);
           this.moduleList = res;
         })
         .catch((err) => {
           console.log('module/list.vue fetchData failed: ', err);
         });
+      for (let p = 0; p <= 3; p++) {
+        modulePermission(p, getLocalUserId(), getToken())
+          .then((res) => {
+            console.log('module/list.vue fetchData success 1: ', res);
+            this.myModuleList.push(...res);
+          })
+          .catch((err) => {
+            console.log('module/list.vue fetchData failed: ', err);
+          });
+      }
     },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage;

@@ -128,7 +128,7 @@
               :dark="false"
               @click="userRole > 0 ? cancelJoinModule() : joinModule()"
             >
-              <div>{{ userRole > 0 ? '取消订阅' : '加入版块' }}</div>
+              <div>{{ userRole > 0 ? '取消订阅' : '订阅版块' }}</div>
             </el-button>
           </div>
         </el-col>
@@ -162,6 +162,8 @@ import { getLocalUserId, getToken } from '/@/utils/auth';
 import { moduleInfo, moduleSubscribe } from '/@/api/module';
 import { nextTick, ref } from 'vue';
 import { queryRole } from '/@/api/permission.js';
+import { ElNotification } from 'element-plus';
+import 'element-plus/theme-chalk/el-notification.css';
 
 export default {
   name: 'ModuleView',
@@ -261,16 +263,40 @@ export default {
       moduleSubscribe(moduleId, 1, userId, token)
         .then((res) => {
           console.log('module/module.vue joinModule success ', res);
+          location.reload();
+          ElNotification({
+            title: this.moduleName,
+            message: '订阅成功',
+          });
         })
         .catch((err) => {
           console.log('module/module.vue joinModule failed ', err);
+          ElNotification({
+            title: this.moduleName,
+            message: '订阅失败',
+          });
         });
     },
     cancelJoinModule() {
       let moduleId = router.currentRoute.value.params['id'];
       let userId = getLocalUserId();
       let token = getToken();
-      moduleSubscribe(moduleId, 0, userId, token);
+      moduleSubscribe(moduleId, 0, userId, token)
+        .then((res) => {
+          location.reload();
+          console.log('module/module.vue cancelJoinModule success ', res);
+          ElNotification({
+            title: this.moduleName,
+            message: '取消订阅成功',
+          });
+        })
+        .catch((err) => {
+          console.log('module/module.vue cancelJoinModule failed ', err);
+          ElNotification({
+            title: this.moduleName,
+            message: '取消订阅失败',
+          });
+        });
     },
   },
 };
