@@ -9,14 +9,14 @@ const URL = {
   uploadImg: 'four_s/file/upload/',
 };
 
-const MockURL = {
-  list: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
-  create: '',
-  queryBlock:
-    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryBlock/',
-  undueList:
-    'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
-};
+// const MockURL = {
+//   list: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
+//   create: '',
+//   queryBlock:
+//     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryBlock/',
+//   undueList:
+//     'http://127.0.0.1:4523/m1/2544583-0-default/four_s/notice/queryRecv/',
+// };
 
 const getNoticeList = async (headers, data) =>
   get({ url: URL.list, headers: headers, params: data });
