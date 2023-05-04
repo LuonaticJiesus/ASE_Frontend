@@ -27,7 +27,7 @@ const MockURL = {
 
 const moduleAll = async (userId, token) =>
   get({
-    url: MockURL.queryAll,
+    url: URL.queryAll,
     params: {},
     headers: {
       userid: userId,
@@ -37,7 +37,7 @@ const moduleAll = async (userId, token) =>
 
 const modulePermission = async (permission, userId, token) =>
   get({
-    url: MockURL.queryAll,
+    url: URL.queryAll,
     body: {
       permission: permission,
     },
@@ -49,7 +49,7 @@ const modulePermission = async (permission, userId, token) =>
 
 const moduleSearch = async (keyword, userId, token) =>
   get({
-    url: MockURL.search,
+    url: URL.search,
     params: {
       keyword: keyword,
     },
@@ -61,7 +61,7 @@ const moduleSearch = async (keyword, userId, token) =>
 
 const moduleRandom = async (number, userId, token) =>
   get({
-    url: MockURL.random,
+    url: URL.random,
     params: {
       number: number,
     },
@@ -73,12 +73,14 @@ const moduleRandom = async (number, userId, token) =>
 
 const moduleInfo = async (block_id, userid, token) =>
   get({
-    url: MockURL.info,
+    url: URL.info,
+    params: { block_id: block_id },
+    header: { userid: userid, token: token },
   });
 
 const moduleMembers = async (block_id, permission, userid, token) =>
   get({
-    url: MockURL.members,
+    url: URL.members,
     // eslint-disable-next-line camelcase
     params: { block_id: block_id, permission: permission },
     header: { userid: userid, token: token },
@@ -86,7 +88,7 @@ const moduleMembers = async (block_id, permission, userid, token) =>
 
 const moduleSubscribe = async (block_id, subscribe, userid, token) =>
   post({
-    url: MockURL.subscribe,
+    url: URL.subscribe,
     header: {
       userid: userid,
       token: token,

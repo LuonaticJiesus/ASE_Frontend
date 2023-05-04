@@ -81,10 +81,7 @@ export default {
           getLocalUserId(),
           getToken(),
         );
-        const userPostGetter = await userArticles({
-          userid: getLocalUserId(),
-          token: getToken(),
-        });
+        const userPostGetter = await userArticles(getLocalUserId(), getToken());
         this.userName = userProfile.name;
         this.subscribeCnt = userModuleGetter.length;
         this.postCnt = userPostGetter.length;
