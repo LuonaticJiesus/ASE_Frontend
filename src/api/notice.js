@@ -28,7 +28,7 @@ const createNotice = async (data) => post(data, { url: URL.create });
 
 const moduleNotices = async (block_id, userid, token) =>
   get({
-    url: MockURL.queryBlock,
+    url: URL.queryBlock,
     params: { block_id: block_id },
     headers: { userid: userid, token: token },
   });
