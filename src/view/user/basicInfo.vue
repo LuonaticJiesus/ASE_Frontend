@@ -97,6 +97,8 @@ export default {
       phone: '',
     });
 
+    const idStatus = ref(false);
+    const phoneStatus = ref(false);
     const header = {
       userid: getLocalUserId(),
       token: getToken(),
@@ -138,8 +140,8 @@ export default {
             }
           }
           changeBasicInfo(data, header);
-          this.idStatus = true;
-          this.phoneStatus = true;
+          idStatus.value = true;
+          phoneStatus.value = true;
         } else {
           console.log('error submit!');
           return false;
@@ -147,8 +149,8 @@ export default {
       });
     };
     return {
-      idStatus: ref(false),
-      phoneStatus: ref(false),
+      idStatus,
+      phoneStatus,
       infoForm,
       infoFormRef,
       rules,

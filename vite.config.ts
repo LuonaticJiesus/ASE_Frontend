@@ -63,6 +63,10 @@ export default defineConfig({
         rewrite: (path) =>
           path.replace(new RegExp(`^${MOCK_API_BASE_URL}`), ''),
       },
+      '/prod-api': {
+        target: 'http://124.220.153.34:9097/',
+        rewrite: (path) => path.replace(new RegExp('^/prod-api'), ''),
+      },
     },
   },
 });
