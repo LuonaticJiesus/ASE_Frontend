@@ -183,10 +183,11 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 5px 0 0 5px;
-  #el-card {
-    background-color: #9007ff;
-    border: none;
-  }
+}
+
+.login-left-card .el-card {
+  background-color: #9007ff;
+  border: none;
 }
 
 .textForm {
@@ -260,9 +261,10 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 0 5px 5px 0;
-  #el-card {
-    display: flex;
-    border: none;
-  }
+}
+
+.login-right-card .el-card {
+  display: flex;
+  border: none;
 }
 </style>
