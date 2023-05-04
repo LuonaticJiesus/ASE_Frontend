@@ -30,13 +30,12 @@
           <div style="padding-top: 3vh">
             <el-button
               type="primary"
-              color="#626aef"
-              style="height: 7vh; width: 7vh"
+              :class="this.activeTab === 1 ? 'active-tab' : 'module-tab'"
               @click="jump('share')"
             >
               <el-col>
-                <el-row>
-                  <el-icon class="el-icon--right"><Edit /></el-icon>
+                <el-row justify="center">
+                  <el-icon size="large"><ChatLineSquare /></el-icon>
                 </el-row>
                 <el-row>
                   <div style="padding-top: 5px">分享</div>
@@ -49,13 +48,12 @@
           <div style="padding-top: 3vh">
             <el-button
               type="primary"
-              color="#626aef"
-              style="height: 7vh; width: 7vh"
+              :class="this.activeTab === 2 ? 'active-tab' : 'module-tab'"
               @click="jump('notice')"
             >
               <el-col>
-                <el-row>
-                  <el-icon class="el-icon--right"><Edit /></el-icon>
+                <el-row justify="center">
+                  <el-icon size="large"><Edit /></el-icon>
                 </el-row>
                 <el-row>
                   <div style="padding-top: 5px">通知</div>
@@ -68,13 +66,12 @@
           <div style="padding-top: 3vh">
             <el-button
               type="primary"
-              color="#626aef"
-              style="height: 7vh; width: 7vh"
+              :class="this.activeTab === 3 ? 'active-tab' : 'module-tab'"
               @click="jump('member')"
             >
               <el-col>
-                <el-row>
-                  <el-icon class="el-icon--right"><Edit /></el-icon>
+                <el-row justify="center">
+                  <el-icon size="large"><Edit /></el-icon>
                 </el-row>
                 <el-row>
                   <div style="padding-top: 5px">成员</div>
@@ -87,14 +84,13 @@
           <div style="padding-top: 3vh">
             <el-button
               type="primary"
-              color="#626aef"
-              style="height: 7vh; width: 7vh"
+              :class="this.activeTab === 4 ? 'active-tab' : 'module-tab'"
               @click="jump('self')"
-              disabled
+              v-show="userRole > 0"
             >
               <el-col>
-                <el-row>
-                  <el-icon class="el-icon--right"><Edit /></el-icon>
+                <el-row justify="center">
+                  <el-icon size="large"><Edit /></el-icon>
                 </el-row>
                 <el-row>
                   <div style="padding-top: 5px">我的</div>
@@ -107,14 +103,13 @@
           <div style="padding-top: 3vh">
             <el-button
               type="primary"
-              color="#626aef"
-              style="height: 7vh; width: 7vh"
+              :class="this.activeTab === 5 ? 'active-tab' : 'module-tab'"
               @click="jump('manage')"
-              disabled
+              v-show="userRole > 1"
             >
               <el-col>
-                <el-row>
-                  <el-icon class="el-icon--right"><Edit /></el-icon>
+                <el-row justify="center">
+                  <el-icon size="large"><Edit /></el-icon>
                 </el-row>
                 <el-row>
                   <div style="padding-top: 5px">管理</div>
@@ -127,22 +122,25 @@
         <el-col :span="3">
           <div style="padding-top: 3vh">
             <el-button
-              type="primary"
-              style="width: 15vh; height: 7vh; border-radius: 4vh"
-              @click="joinModule()"
-              v-show="userRole.value > 0"
+              plain
+              class="subscribe-button"
+              color="#7728F5"
+              :dark="false"
+              @click="userRole > 0 ? cancelJoinModule() : joinModule()"
             >
-              <div>加入版块</div>
+              <div>{{ userRole > 0 ? '取消订阅' : '加入版块' }}</div>
             </el-button>
           </div>
         </el-col>
         <el-col :span="3">
           <div style="padding-top: 3vh">
             <el-button
-              type="primary"
-              style="width: 15vh; height: 7vh; border-radius: 4vh"
+              plain
+              color="#7728F5"
+              :dark="false"
+              class="subscribe-button"
               @click="createShare()"
-              v-show="userRole.value > 0"
+              :disabled="userRole <= 0"
             >
               <div>创建分享</div>
             </el-button>
@@ -158,7 +156,7 @@
 </template>
 
 <script>
-import { Edit } from '@element-plus/icons-vue';
+import { ChatLineSquare, Edit } from '@element-plus/icons-vue';
 import router from '/@/router/index.js';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { moduleInfo, moduleSubscribe } from '/@/api/module';
@@ -167,29 +165,55 @@ import { queryRole } from '/@/api/permission.js';
 
 export default {
   name: 'ModuleView',
-  components: { Edit },
-  data: () => {
-    return {
-      moduleName: 'QuadSSSS',
-      moduleAvator: '/src/assets/logo.png',
-      tableData: [],
-      userRole: ref(0),
+  components: { ChatLineSquare, Edit },
+  setup() {
+    const userRole = ref(0);
+    const activeTab = ref(0);
+    const tabMap = {
+      moduleSharesView: 1,
+      moduleNoticesView: 2,
+      moduleMembersView: 3,
+      moduleSelfView: 4,
+      moduleManageView: 5,
     };
-  },
-  mounted() {
-    this.getUserRole();
-    this.fetchData();
-  },
-  methods: {
-    async getUserRole() {
+    const getUserRole = async () => {
       const block_id = router.currentRoute.value.params['id'];
       if (block_id) {
         let role = await queryRole(block_id);
         if (role) {
-          this.userRole.value = role;
+          userRole.value = role;
         }
       }
-    },
+    };
+    const updateActiveStyle = () => {
+      if (
+        router.currentRoute.value.name &&
+        router.currentRoute.value.name in tabMap
+      ) {
+        activeTab.value = tabMap[router.currentRoute.value.name];
+        console.log('now active is ' + activeTab.value);
+      } else {
+        activeTab.value = 0;
+      }
+    };
+    return {
+      moduleName: 'QuadSSSS',
+      moduleAvator: '/src/assets/logo.png',
+      tableData: [],
+      userRole,
+      activeTab,
+      tabMap,
+      getUserRole,
+      updateActiveStyle,
+    };
+  },
+  mounted() {
+    this.fetchData();
+    this.getUserRole();
+    this.updateActiveStyle();
+    console.log('mounted completed');
+  },
+  methods: {
     fetchData() {
       console.log('fetchData...', this);
       moduleInfo(
@@ -242,6 +266,12 @@ export default {
           console.log('module/module.vue joinModule failed ', err);
         });
     },
+    cancelJoinModule() {
+      let moduleId = router.currentRoute.value.params['id'];
+      let userId = getLocalUserId();
+      let token = getToken();
+      moduleSubscribe(moduleId, 0, userId, token);
+    },
   },
 };
 </script>
@@ -258,5 +288,40 @@ export default {
   height: 20vh;
   margin-top: 130px;
   margin-bottom: 0;
+}
+
+.module-tab {
+  width: 8vh;
+  height: 7vh;
+  background-color: rgba(255, 255, 255, 0);
+  border: 0;
+  color: #838daa;
+  font-weight: bold;
+}
+
+.module-tab:hover {
+  color: #8224e3;
+}
+
+.active-tab {
+  width: 8vh;
+  height: 7vh;
+  background-image: linear-gradient(
+    135deg,
+    rgb(195, 149, 241) 0%,
+    rgb(130, 36, 227) 75%
+  );
+  border: 0;
+  color: white;
+  box-shadow: rgba(58, 46, 68, 0.7) 0px 10px 20px -8px;
+  font-weight: bold;
+}
+
+.subscribe-button {
+  width: 15vh;
+  height: 5vh;
+  border-radius: 20px;
+  margin-left: 12px;
+  font-weight: bold;
 }
 </style>

@@ -13,6 +13,7 @@ const roles = {
   1: 'user',
   2: 'assistant',
   3: 'admin',
+  4: 'super',
 };
 
 const queryRole = async (block_id) =>

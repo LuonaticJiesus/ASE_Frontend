@@ -108,7 +108,6 @@ export default {
       studentId: '',
       phone: '',
     });
-
     const header = {
       userid: getLocalUserId(),
       token: getToken(),
@@ -152,7 +151,6 @@ export default {
           changeBasicInfo(data, header);
           idStatus.value = true;
           phoneStatus.value = true;
-          location.reload();
         } else {
           console.log('error submit!');
           return false;
@@ -160,6 +158,8 @@ export default {
       });
     };
     return {
+      idStatus,
+      phoneStatus,
       infoForm,
       infoFormRef,
       rules,

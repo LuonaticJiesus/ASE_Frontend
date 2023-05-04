@@ -5,7 +5,7 @@ export const constantRoutes = [
   {
     hidden: true,
     path: '/redirect/:path(.*)',
-    component: () => import('/@/view/redirect/index'),
+    component: () => import('/@/view/redirect/index.vue'),
   },
   {
     path: '/',
