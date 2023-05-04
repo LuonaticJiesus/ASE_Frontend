@@ -95,6 +95,11 @@ export const asyncRoutes = [
                 path: 'notice',
                 component: () => import('/@/view/module/notice.vue'),
               },
+              {
+                name: 'moduleManageView',
+                path: 'manage',
+                component: () => import('/@/view/module/manage.vue'),
+              },
             ],
           },
         ],
