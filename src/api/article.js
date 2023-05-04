@@ -16,7 +16,7 @@ const MockURL = {
 const publishArticle = async (userid, token, data) =>
   post({
     url: URL.publish,
-    header: {
+    headers: {
       userid: userid,
       token: token,
     },
@@ -29,14 +29,14 @@ const moduleArticles = async (block_id, userid, token) =>
     url: URL.module,
     // eslint-disable-next-line camelcase
     params: { block_id: block_id },
-    header: { userid: userid, token: token },
+    headers: { userid: userid, token: token },
   });
 
 const userArticles = async (userid, token) =>
   get({
     url: URL.user,
     params: { user_id: userid },
-    header: { userid: userid, token: token },
+    headers: { userid: userid, token: token },
   });
 
 export { publishArticle, moduleArticles, userArticles };
