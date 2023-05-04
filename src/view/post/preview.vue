@@ -3,12 +3,18 @@
     <template #main>
       <div style="margin: 20px; position: relative">
         <el-row style="display: flex; justify-content: left">
-          <h2 style="margin: 10px">{{ post.title }}</h2>
+          <h1 style="margin: 10px">{{ post.title }}</h1>
         </el-row>
         <el-row style="display: block">
-          <el-scrollbar max-height="66vh">
+          <el-scrollbar max-height="61.5vh">
             <vue3-tinymce
-              style="width: auto; position: absolute; left: 5px; right: 5px"
+              style="
+                height: 80vh;
+                width: auto;
+                position: absolute;
+                left: 5px;
+                right: 5px;
+              "
               v-model="post.txt"
               :setting="richSetting"
             ></vue3-tinymce>
@@ -109,6 +115,8 @@ import { onMounted, ref } from 'vue';
 import router from '/@/router/index.js';
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { Check, Pointer, Share, Star } from '@element-plus/icons-vue';
+import { articleDetail } from '/@/api/article';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -150,38 +158,24 @@ const post = ref({
 
 const handleLikePost = async () => {
   console.log('like');
+  let post_id = router.currentRoute.value.params['id'];
 };
 
 const handleFavorPost = async () => {
   console.log('favor');
+  let post_id = router.currentRoute.value.params['id'];
 };
 
 const fetchData = async (post_id) => {
-  post.value = {
-    post_id: 123,
-    title: 'xxx',
-    user_id: 231,
-    user_name: 'lyy',
-    txt:
-      '<h1>Heading</h1>\n' +
-      '  <p>This Editor is awesome!</p>' +
-      '<h1>Heading</h1>\n' +
-      '<h1>Heading</h1>\n' +
-      '<h1>Heading</h1>\n' +
-      '<h1>Heading</h1>\n' +
-      '  <p>This Editor is awesome!</p>' +
-      '<h1>Heading</h1>\n' +
-      '<h1>Heading</h1>\n' +
-      '<h1>Heading</h1>\n',
-    block_id: 222,
-    block_name: 'zzz',
-    time: '2222-33-44 22:55:00',
-    like_cnt: 456,
-    comment_cnt: 123,
-    like_state: 1,
-    latest_update_user: 'xxxx',
-    latest_time: '2222-33-44 22:55:00',
-  };
+  console.log('post/preview.vue fetchData...');
+  articleDetail(post_id, getLocalUserId(), getToken())
+    .then((res) => {
+      console.log('post/preview.vue query article success: ', res);
+      post.value = res;
+    })
+    .catch((err) => {
+      console.log('post/preview.vue query article fail: ', err);
+    });
 };
 
 onMounted(async () => {
@@ -197,4 +191,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.DivideContainer {
+  height: 100%;
+}
+</style>
