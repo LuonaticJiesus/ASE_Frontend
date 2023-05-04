@@ -74,6 +74,8 @@ const moduleRandom = async (number, userId, token) =>
 const moduleInfo = async (block_id, userid, token) =>
   get({
     url: URL.info,
+    params: { block_id: block_id },
+    header: { userid: userid, token: token },
   });
 
 const moduleMembers = async (block_id, permission, userid, token) =>
