@@ -1,7 +1,7 @@
 <template>
   <div class="head-bar-div">
     <el-menu
-      :default-active="activeIndex"
+      :default-active="$router.currentRoute.value.path"
       style="height: 100%"
       mode="horizontal"
       :ellipsis="false"
@@ -18,11 +18,10 @@
         />
       </div>
       <div class="flex-grow" />
-      <el-menu-item index="1" disabled><h3>收藏</h3></el-menu-item>
-      <el-menu-item index="2" disabled><h3>点赞</h3></el-menu-item>
-      <el-menu-item index="3" disabled><h3>评论</h3></el-menu-item>
-      <el-menu-item index="4" disabled><h3>订阅</h3></el-menu-item>
-      <el-menu-item index="5" disabled>
+      <el-menu-item index="/home"><h3>首页</h3></el-menu-item>
+      <el-menu-item index="/editor"><h3>发布</h3></el-menu-item>
+      <el-menu-item index="/module"><h3>版块</h3></el-menu-item>
+      <el-menu-item index="/user">
         <el-avatar class="mr-3" :size="32" :src="useUserStore().avatar" />
         <div
           class="text-large font-600 mr-3"
@@ -41,6 +40,7 @@ import { ref } from 'vue';
 import { getUserProfile } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { useUserStore } from '/@/store';
+import router from '/@/router';
 
 export default {
   data() {
@@ -50,13 +50,12 @@ export default {
   },
   setup() {
     const input2 = ref('');
-    const activeIndex = ref('1');
     const handleSelect = (key: string, keyPath: string[]) => {
       console.log(key, keyPath);
+      router.push(key);
     };
     return {
       input2,
-      activeIndex,
       handleSelect,
       useUserStore,
     };
