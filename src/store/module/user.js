@@ -9,6 +9,7 @@ import {
   clearUserId,
 } from '/@/utils/auth';
 import { login, getUserProfile, signup } from '/@/api/user';
+import { defaultLogo } from '/@/utils/string.ts';
 //import { state } from 'vue-tsc/out/shared.js';
 // eslint-disable-next-line no-unused-vars
 
@@ -16,7 +17,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user_id: getLocalUserId(),
     username: undefined,
-    avatar: 'src/assets/logo.png',
+    avatar: defaultLogo,
     favor_count: undefined,
     status: false, // 判断是否登录，登录为true，没登录false
     roles: [], // 开发环境使用，暂时认为已登录

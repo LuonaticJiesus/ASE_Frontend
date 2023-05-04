@@ -2,7 +2,7 @@
   <el-card :key="noticeItem" class="notice-card-simple" shadow="hover">
     <el-row justify="space-between">
       <el-col :span="6" class="notice-module-image">
-        <el-image src="/src/assets/logo.png" :fit="'fill'"></el-image>
+        <el-image :src="defaultLogo" :fit="'fill'"></el-image>
       </el-col>
       <el-col :span="18" class="notice-info-div">
         <h4 class="notice-title-simple">
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 // eslint-disable-next-line no-unused-vars
 import { PropType } from 'vue';
+import { defaultLogo } from '/@/utils/string';
 interface noticeType {
   notice_id: number;
   title: string;

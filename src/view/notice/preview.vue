@@ -97,6 +97,7 @@ import { onMounted, ref } from 'vue';
 import router from '/@/router/index.js';
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
+import { defaultLogo } from '/@/utils/string.ts';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -169,7 +170,7 @@ const fetchData = async (notice_id) => {
 const fetchCreator = async (user_id) => {
   const result = {
     username: 'CCC',
-    avatar_url: '/src/assets/logo.png',
+    avatar_url: defaultLogo,
   };
   creatorName.value = result.username;
   creatorAvatar.value = result.avatar_url;

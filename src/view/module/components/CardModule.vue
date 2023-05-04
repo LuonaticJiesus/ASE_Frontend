@@ -40,15 +40,10 @@
 
 <script>
 import router from '/@/router/index.js';
+import { defaultLogo } from '/@/utils/string.ts';
 
 export default {
   name: 'CardModule',
-  setup() {
-    const logo = '/src/assets/logo.png';
-    return {
-      logo,
-    };
-  },
   props: {
     moduleId: {
       type: Number,
@@ -60,7 +55,7 @@ export default {
     },
     moduleAvator: {
       type: String,
-      default: '',
+      default: defaultLogo,
     },
     memberNumber: {
       type: Number,

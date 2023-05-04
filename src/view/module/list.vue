@@ -1,7 +1,7 @@
 <template>
   <div style="margin: 2vh">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane label="所有版块" name="first">
+      <el-tab-pane label="所有版块" name="first" class="list-tab">
         <el-container style="margin: 0; padding: 0">
           <el-header class="header">
             <el-input
@@ -41,7 +41,7 @@
           </div>
         </el-container>
       </el-tab-pane>
-      <el-tab-pane label="我的版块" name="second">
+      <el-tab-pane label="我的版块" name="second" class="list-tab">
         <el-container style="margin: 0; padding: 0">
           <el-header class="header">
             <el-input
@@ -76,6 +76,7 @@
               :current-page="currentPage"
               :page-size="pageSize"
               :total="moduleList.length"
+              class="pager-bg"
             >
             </el-pagination>
           </div>
@@ -198,5 +199,34 @@ export default {
   color: var(--el-color-primary);
   display: flex;
   align-items: center;
+}
+
+.el-card:deep(.el-card__body) {
+  padding: 10px 0 10px;
+}
+
+.el-tabs:deep(.el-tabs__item) {
+  font-weight: bold;
+  font-size: medium;
+}
+
+.el-tabs:deep(.el-tabs__item.is-active) {
+  color: blueviolet;
+}
+
+.el-tabs:deep(.el-tabs__item:hover) {
+  color: blueviolet;
+}
+
+.el-tabs:deep(.el-tabs__active-bar) {
+  background-color: blueviolet;
+}
+
+.el-pager li.is-active {
+  color: blueviolet;
+}
+
+.pager-bg:deep(.el-pager li:deep(.is-active)) {
+  color: red;
 }
 </style>
