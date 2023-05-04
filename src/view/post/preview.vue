@@ -117,7 +117,7 @@ import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { Check, Pointer, Share, Star } from '@element-plus/icons-vue';
 import { articleDetail } from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { defaultLogo } from '/@/utils/string.ts';
+import { defaultLogo } from '/@/utils/string';
 
 const richSetting = {
   language: 'zh-Hans',
