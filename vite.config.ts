@@ -8,7 +8,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { resolve } from 'path';
 
 export const API_BASE_URL = '/dev-api';
-export const API_TARGET_URL = 'http://112.126.71.119/';
+// export const API_TARGET_URL = 'http://112.126.71.119/';
+export const API_TARGET_URL = 'http://112.126.71.119:3000/';
 // mock
 export const MOCK_API_BASE_URL = '/m1/2544583-0-default/four_s';
 export const MOCK_API_TARGET_URL = 'http://127.0.0.1:4523';
