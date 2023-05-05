@@ -76,3 +76,6 @@ jobs:
             rm -rf /home/alpha_frontend/dist-test
             mkdir /home/alpha_frontend/dist-test
             scp -r dist/* /home/alpha_frontend/dist-test
+            
+            
+            
