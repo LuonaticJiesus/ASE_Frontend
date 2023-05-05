@@ -82,8 +82,7 @@ export default {
     cursor: pointer;
   }
 }
-.el-tooltip__popper {
-  font-size: 14px;
-  width: 40%;
+.el-table :deep(.el-popper) {
+  display: none;
 }
 </style>
