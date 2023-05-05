@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - thermal_rennewal
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@v0.1.2
+        with:
+          host: 112.126.71.119
+          username: root
+          password: LuonaticJiesus2020
+          port: 3000
+          source: "dist/*"
+          target: "/home/alpha_frontend/dist-test"
