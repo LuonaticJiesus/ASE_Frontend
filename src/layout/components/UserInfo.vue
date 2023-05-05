@@ -76,7 +76,7 @@ export default {
           userid: getLocalUserId(),
           token: getToken(),
         });
-        for (let p = 0; p <= 3; p++) {
+        for (let p = 0; p <= 4; p++) {
           modulePermission(p, getLocalUserId(), getToken())
             .then((res) => {
               this.subscribeCnt += res.length;

@@ -217,7 +217,7 @@ const options = ref([]);
 
 onMounted(async () => {
   // getWordCount();
-  for (let p = 0; p <= 3; p++) {
+  for (let p = 0; p <= 4; p++) {
     const res = await modulePermission(p, getLocalUserId(), getToken());
     myModules.value.push(...res);
   }

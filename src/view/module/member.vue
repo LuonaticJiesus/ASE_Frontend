@@ -3,7 +3,7 @@
     <el-table :data="tableData" stripe style="width: 100%" height="58vh">
       <el-table-column prop="fig" label="" width="20" />
       <el-table-column prop="name" label="昵称" width="480" />
-      <el-table-column prop="point" label="权限" />
+      <el-table-column prop="point" label="积分" />
     </el-table>
   </div>
 </template>
