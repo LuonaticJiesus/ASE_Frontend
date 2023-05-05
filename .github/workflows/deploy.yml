@@ -68,7 +68,6 @@ jobs:
             aFD86RDL/ffxBaj4hq1SzP8P91PpMGI5ZqSqGAxtf/UDB3YpPQQeot8bWfh7eRlazXD6bx
             q508XEFz4kLDkAAAAQOTg3NTA3OTM1QHFxLmNvbQECAw==
             -----END OPENSSH PRIVATE KEY-----
-
           port: 22
           script: |
             rm -rf /home/alpha_frontend/dist-test
