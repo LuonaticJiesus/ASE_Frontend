@@ -25,11 +25,11 @@ jobs:
         run: yarn build
 
       - name: Deploy to server
-        uses: appleboy/scp-action@v0.1.2
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: 112.126.71.119
           username: root
-          password: LuonaticJiesus2020
+          key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDWrUtxLAC/ftozybfXrewYJC/jO/XTBu69KasCLuxzlJOig+oI4pCqXaGzgU2fmaarOvax+lWOz5cWNuLebVvlBHP8ZCSjPSi4cUZVZ7fJ/HMtumYfN9Pa+sd2QzkEcEVTe8sMZzDUFW5NJooBs/6OjRJU4W+D70ZBKp9yheK1ot7Hke0fa394DeVk03+ck+r3U31edR0xl0XpfZxstZ7T8nTTOzWM6fGaWjQHBBOPgcXYKhnSWGVd1u4CP/huZq4XX/ZLKucM4AAZVnjNOjUgwish3yE2k3ibVSBjgktn3WSVgBzIz9ds8wA1RglpRPFycTmjbwVFadJJehCRIw/uD6Crnxif/hsOYl6N/cHm/gucEj1drWi3aaO5HO6IFJIxyPVcWHKl0BdyFXyCajAJJA630AH1oKpKfpq9HMtaifWfUYmgViwlI4EXINOALIzBHwlvu+15eWGO7yiIB9X/s+X2mSTkiqHE6nX+T7zsD0Vmhkb1w+igVUL4ZldCQDk= 987507935@qq.com
           port: 22
           source: "dist/*"
           target: "/home/alpha_frontend/dist-test"
