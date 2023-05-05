@@ -147,7 +147,11 @@ const editorOptions = [
 
 const handlePublishArticle = async () => {
   const text: string =
-    editorType.value === 'md' ? mdText.value : richText.value;
+    editorType.value === 'md'
+      ? xss.process(
+          VMdEditor.vMdParser.themeConfig.markdownParser.render(mdText.value),
+        )
+      : richText.value;
   const data = {
     title: title.value,
     txt: text,
