@@ -235,7 +235,7 @@ export default {
     },
     jump: async (url) => {
       // console.log(route);
-      console.log('jump to 111', router.currentRoute.value);
+      // console.log('jump to 111', router.currentRoute.value);
       // eslint-disable-next-line vue/valid-next-tick
       await nextTick(() => {
         router.push({

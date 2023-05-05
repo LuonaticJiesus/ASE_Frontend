@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     fetchData() {
-      console.log('fetchData....', this);
+      console.log('module/share.vue fetchData....', this);
       const block_id = router.currentRoute.value.params['id'];
       moduleArticles(block_id, getLocalUserId(), getToken())
         .then((res) => {

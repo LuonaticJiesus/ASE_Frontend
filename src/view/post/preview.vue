@@ -180,7 +180,8 @@ const fetchData = async (post_id) => {
 };
 
 onMounted(async () => {
-  let post_id = router.currentRoute.value.params;
+  let post_id = router.currentRoute.value.params['id'];
+  console.log(post_id);
   await fetchData(post_id);
   console.log(post);
 });

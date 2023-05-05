@@ -99,6 +99,7 @@ import { useUserStore } from '/@/store';
 import { uploadImage } from '/@/api/notice';
 import { useRoute } from 'vue-router';
 import { modulePermission } from '/@/api/module';
+import router from '/@/router';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -156,6 +157,7 @@ const handlePublishArticle = async () => {
   publishArticle(getLocalUserId(), getToken(), data)
     .then((res) => {
       console.log('editor.vue publish success: ', res);
+      router.push('/post/' + res.post_id);
     })
     .catch((err) => {
       console.log('editor.vue publish failed: ', err);

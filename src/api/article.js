@@ -5,19 +5,19 @@ const URL = {
   publish: '/four_s/post/publish/',
   module: '/four_s/post/queryBlock/',
   user: '/four_s/post/queryUser/',
-  detail: '/four_s/post/detail/',
+  detail: '/four_s/post/queryByID/',
 };
 
-const MockURL = {
-  publish: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/publish/',
-  module: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/queryBlock/',
-  user: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/queryUser/',
-  detail: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/detail/',
-};
+// const MockURL = {
+//   publish: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/publish/',
+//   module: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/queryBlock/',
+//   user: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/queryUser/',
+//   detail: 'http://127.0.0.1:4523/m1/2544583-0-default/four_s/post/queryById',
+// };
 
 const articleDetail = async (post_id, userid, token) =>
   get({
-    url: MockURL.detail,
+    url: URL.detail,
     headers: {
       userid: userid,
       token: token,
@@ -40,15 +40,25 @@ const publishArticle = async (userid, token, data) =>
 const moduleArticles = async (block_id, userid, token) =>
   get({
     url: URL.module,
-    params: { block_id: block_id },
-    headers: { userid: userid, token: token },
+    params: {
+      block_id: block_id,
+    },
+    headers: {
+      userid: userid,
+      token: token,
+    },
   });
 
 const userArticles = async (userid, token) =>
   get({
     url: URL.user,
-    params: { user_id: userid },
-    headers: { userid: userid, token: token },
+    params: {
+      user_id: userid,
+    },
+    headers: {
+      userid: userid,
+      token: token,
+    },
   });
 
 export { articleDetail, publishArticle, moduleArticles, userArticles };
