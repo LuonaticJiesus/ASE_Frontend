@@ -34,5 +34,6 @@ jobs:
           source: "dist/*"
           target: "/home/alpha_frontend/dist-test"
             
-            
+        env:
+          INPUT_DEBUG: true
             
