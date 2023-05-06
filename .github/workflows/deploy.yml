@@ -29,7 +29,6 @@ jobs:
         with:
           host: 112.126.71.119
           username: root
-          password: LuonaticJiesus2020
           port: 22
           key: |
             -----BEGIN OPENSSH PRIVATE KEY-----
