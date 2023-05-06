@@ -71,8 +71,8 @@ jobs:
           USERNAME: root
           SERVER_IP: 112.126.71.119
         run: |
-          echo "$PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem 
-          scp -i private_key -o StrictHostKeyChecking=no -r local_directory_to_copy $REMOTE_USER@$REMOTE_HOST:/path/to/remote/directory
-          ssh -i private_key -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "cd /home/alpha_frontend && rm -rf /dist-test && mkdir dist-test && scp -r dist/* /home/alpha_frontend/dist-test "
+          echo "$PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          scp -i private_key -o StrictHostKeyChecking=no -r dist/* root@112.126.71.119:/home/alpha_frontend/dist-test
+#          ssh -i private_key -o StrictHostKeyChecking=no root@112.126.71.119 "cd /home/alpha_frontend && rm -rf /dist-test && mkdir dist-test && scp -r dist/* /home/alpha_frontend/dist-test "
           rm -f private_key   
