@@ -25,14 +25,55 @@ jobs:
         run: yarn build
 
       - name: Deploy to server
-        uses: appleboy/scp-action@v0.1.2
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: 112.126.71.119
           username: root
           password: LuonaticJiesus2020
           port: 22
-          source: "dist/*"
-          target: "/home/alpha_frontend/dist-test"
+          key: |
+            -----BEGIN OPENSSH PRIVATE KEY-----
+            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
+            -----END OPENSSH PRIVATE KEY-----
+          script: |
+            rm -rf /path/to/your/server/dist
+            mkdir /path/to/your/server/dist
+            scp -r dist/* /path/to/your/server/dist
             
         env:
           INPUT_DEBUG: true
