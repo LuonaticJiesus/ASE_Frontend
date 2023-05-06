@@ -5,7 +5,7 @@ export const constantRoutes = [
   {
     hidden: true,
     path: '/redirect/:path(.*)',
-    component: () => import('/@/view/redirect/index'),
+    component: () => import('/@/view/redirect/index.vue'),
   },
   {
     path: '/',
@@ -25,14 +25,14 @@ export const constantRoutes = [
   //{ path: '/:pathMatch(.*)*', redirect: '/404', hidden: true },
 ];
 
-export const userRoutes = [
+export const asyncRoutes = [
   {
     path: '/',
     component: Layout,
     children: [
       {
         name: 'home',
-        path: 'home',
+        path: '/home',
         component: () => import('/@/view/home/index.vue'),
       },
     ],
@@ -43,13 +43,114 @@ export const userRoutes = [
     children: [
       {
         name: 'profile',
-        path: 'profile',
+        path: '/profile',
         component: () => import('/@/view/profile/index.vue'),
+      },
+    ],
+    hidden: true,
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'editor',
+        path: '/editor',
+        component: () => import('/@/view/editor/index.vue'),
+        meta: { roles: ['user', 'teacher'] },
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'module',
+        path: '/module',
+        component: () => import('/@/view/module/index.vue'),
+        children: [
+          {
+            name: 'moduleListView',
+            path: '',
+            component: () => import('/@/view/module/list.vue'),
+          },
+          {
+            name: 'moduleDetailView',
+            path: ':id',
+            component: () => import('/@/view/module/module.vue'),
+            children: [
+              {
+                name: 'moduleSharesView',
+                path: 'share',
+                component: () => import('/@/view/module/share.vue'),
+              },
+              {
+                name: 'moduleMembersView',
+                path: 'member',
+                component: () => import('/@/view/module/member.vue'),
+              },
+              {
+                name: 'moduleNoticesView',
+                path: 'notice',
+                component: () => import('/@/view/module/notice.vue'),
+              },
+              {
+                name: 'moduleManageView',
+                path: 'manage',
+                component: () => import('/@/view/module/manage.vue'),
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'post',
+        path: '/post',
+        component: () => import('/@/view/post/index.vue'),
+        children: [
+          {
+            name: 'shareSingleView',
+            path: ':id',
+            component: () => import('/@/view/post/preview.vue'),
+          },
+        ],
+      },
+      {
+        name: 'notice',
+        path: '/notice',
+        component: () => import('/@/view/notice/index.vue'),
+        children: [
+          {
+            name: 'noticeSingleView',
+            path: ':id',
+            component: () => import('/@/view/notice/preview.vue'),
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'user',
+        path: '/user',
+        component: () => import('/@/view/user/index.vue'),
+        children: [
+          {
+            name: 'basicInfo',
+            path: '',
+            component: () => import('/@/view/user/basicInfo.vue'),
+          },
+          {
+            name: 'changePwd',
+            path: 'changePwd',
+            component: () => import('/@/view/user/changePwd.vue'),
+          },
+        ],
       },
     ],
   },
 ];
-
-export const taRoutes = [];
-
-export const teacherRoutes = [];

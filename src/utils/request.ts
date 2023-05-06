@@ -5,8 +5,8 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { getToken, TokenPrefix } from '/@/utils/auth';
-import { showMessage } from '/@/utils/status';
+import { clearToken, clearUserId, getToken, TokenPrefix } from '/@/utils/auth';
+import { showNetworkMessage, showServerMessage } from '/@/utils/status';
 import { defaultResponse } from '/@/utils/type';
 
 const service: AxiosInstance = axios.create({
@@ -31,10 +31,20 @@ service.interceptors.request.use(
 // axios实例拦截响应
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    if (response.status === 200) {
-      return response;
+    if (response.status !== 200) {
+      showNetworkMessage(response.status);
+      return Promise.reject(response.status);
     }
-    showMessage(response.status);
+
+    if (response.data.status && response.data.status !== 0) {
+      showServerMessage(response.data.info);
+      if (response.data.status === -100) {
+        clearToken();
+        clearUserId();
+      }
+      return Promise.reject(response.data.status);
+    }
+
     return response;
   },
   // 请求失败
@@ -42,10 +52,10 @@ service.interceptors.response.use(
     const { response } = error;
     if (response) {
       // 请求已发出，但是不在2xx的范围
-      showMessage(response.status);
+      showNetworkMessage(response.status);
       return Promise.reject(response.data);
     }
-    showMessage('网络连接异常,请稍后再试!');
+    showNetworkMessage('网络连接异常,请稍后再试!');
   },
 );
 
@@ -58,7 +68,10 @@ const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
         const {
           data: { data },
         } = res;
-        resolve(data as T);
+        return resolve(data as T);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   });
 };

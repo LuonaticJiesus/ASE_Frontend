@@ -8,12 +8,10 @@
 
 ### 1. 运行
 
-本项目包管理工具使用`npm`
-
 运行命令：
 
 ```shell
-    npm install
+    yarn install
     npm run dev
 ```
 
@@ -31,7 +29,7 @@
         - module            // 功能模块
     - style                 // 全局样式表
     - utils                 // 全局工具类
-        - http              // axios封装
+        - request.ts        // axios封装
     - view                  // 页面视图
         - login
             - {components}  // 可选:局部组件

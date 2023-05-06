@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { constantRoutes } from '/@/router/routes';
 import NProgress from 'nprogress';
-import { getToken } from '/src/utils/auth';
+// eslint-disable-next-line no-unused-vars
+import { clearToken, getToken } from '/src/utils/auth';
 import { useUserStore, usePermissionStore } from '/src/store';
 import { ElMessage } from 'element-plus';
 
@@ -12,7 +13,7 @@ const router = createRouter({
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/home', '/', '/404'];
+const whiteList = ['/login', '/404'];
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar
@@ -20,10 +21,10 @@ router.beforeEach(async (to, from, next) => {
 
   // set page title
   // document.title = getPageTitle(to.meta.title);
-
   // determine whether the user has logged in
   let hasToken = getToken();
-  hasToken += 'DevToken'; // 开发环境使用，暂时认为有token
+  // hasToken += 'DevToken'; // 开发环境使用，暂时认为有token
+  // let hasToken = null;
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
@@ -38,8 +39,8 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           // try to repeat getting roles
-          // 以下两行是无后端时的处理
-          // await userStore.getInfo();
+          await userStore.getInfo();
+          // 暂时的处理
           userStore.roles.push('user');
 
           const roles = userStore.userRoles;
@@ -50,6 +51,7 @@ router.beforeEach(async (to, from, next) => {
           for (const item of accessRoutes) {
             router.addRoute(item);
           }
+
           next({ ...to, replace: true });
         } catch (error) {
           await userStore.resetInfo();

@@ -1,22 +1,30 @@
 <template>
   <div class="user-info-div">
-    <el-row type="flex" justify="center">
+    <el-row type="flex">
       <el-col>
-        <el-row type="flex" justify="center">
+        <el-row justify="center">
           <el-image
-            style="border-radius: 50%; width: 60px; height: 60px"
-            :src="logo"
+            style="
+              border-radius: 50%;
+              width: 60px;
+              height: 60px;
+              border: 4px solid white;
+              outline: 1px solid gray;
+            "
+            :src="useUserStore().avatar"
             :fit="'scale-down'"
             lazy
           >
           </el-image>
         </el-row>
-        <el-row type="flex" justify="center"> User Name </el-row>
-        <el-divider></el-divider>
+        <el-row justify="center" style="margin-top: 5px; font-weight: bold">
+          {{ this.userName }}
+        </el-row>
+        <el-divider style="margin-top: 5px; margin-bottom: 5px"></el-divider>
         <el-row>
           <el-col :span="12">
-            <el-row type="flex" justify="center" style="font-size: small">
-              4
+            <el-row justify="center" style="font-size: small">
+              {{ this.subscribeCnt }}
             </el-row>
             <el-row
               type="flex"
@@ -27,8 +35,8 @@
             </el-row>
           </el-col>
           <el-col :span="12">
-            <el-row type="flex" justify="center" style="font-size: small">
-              1
+            <el-row justify="center" style="font-size: small">
+              {{ this.postCnt }}
             </el-row>
             <el-row
               type="flex"
@@ -44,14 +52,50 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { getLocalUserId, getToken } from '/@/utils/auth';
+import { getUserProfile } from '/@/api/user';
+import { useUserStore } from '/@/store';
+import { modulePermission } from '/@/api/module';
+import { userArticles } from '/@/api/article';
+
 export default {
-  name: 'UserInfo',
-  setup() {
-    const logo = '/src/assets/logo.png';
+  name: 'userInfo',
+  data() {
     return {
-      logo,
+      userName: '',
+      subscribeCnt: 0,
+      postCnt: 0,
     };
+  },
+  methods: {
+    useUserStore,
+    async fetchData() {
+      try {
+        const userProfile = await getUserProfile({
+          userid: getLocalUserId(),
+          token: getToken(),
+        });
+        for (let p = 0; p <= 4; p++) {
+          modulePermission(p, getLocalUserId(), getToken())
+            .then((res) => {
+              this.subscribeCnt += res.length;
+            })
+            .catch((err) => {
+              console.log('UserInfo fetchData failed: ', err);
+            });
+        }
+        const userPostGetter = await userArticles(getLocalUserId(), getToken());
+        this.userName = userProfile.name;
+        this.postCnt = userPostGetter.length;
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        // 根据需要处理错误
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>
@@ -63,16 +107,18 @@ export default {
   background-color: white;
   border-radius: 12px;
   position: absolute;
-  padding: 36px 32px 36px 32px;
+  padding: 16px 14px 36px 14px;
   top: 27vh;
   bottom: auto;
   transform-style: preserve-3d;
+  border: solid #e7e7e7 1px;
+  margin-top: -10px;
 }
 
 .user-info-div::before {
   content: '';
   width: 94%;
-  height: 27vh;
+  height: 25vh;
   position: absolute;
   left: 3%;
   right: 3%;

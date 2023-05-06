@@ -1,5 +1,8 @@
 const TokenKey = 'Token';
 const TokenPrefix = 'Luojie ';
+
+const UserId = 'userid';
+
 const isLogin = () => {
   return !!localStorage.getItem(TokenKey);
 };
@@ -12,4 +15,25 @@ const setToken = (token: string) => {
 const clearToken = () => {
   localStorage.removeItem(TokenKey);
 };
-export { TokenPrefix, isLogin, getToken, setToken, clearToken };
+
+const getLocalUserId = () => {
+  return localStorage.getItem(UserId);
+};
+
+const setUserId = (id: string) => {
+  localStorage.setItem(UserId, id);
+};
+const clearUserId = () => {
+  localStorage.removeItem(UserId);
+};
+
+export {
+  TokenPrefix,
+  isLogin,
+  getToken,
+  setToken,
+  clearToken,
+  getLocalUserId,
+  setUserId,
+  clearUserId,
+};
