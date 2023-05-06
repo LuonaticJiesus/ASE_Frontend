@@ -24,6 +24,9 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Install SSH client
+        run: sudo apt-get install -y ssh
+
       - name: Set up private key and connect to the server
         env:
           PRIVATE_KEY: |
@@ -70,7 +73,6 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem 
-          cd /home/alpha_frontend
-          rm -rf /dist-test
-          mkdir dist-test
-          scp -r dist/* /home/alpha_frontend/dist-test    
+          scp -i private_key -o StrictHostKeyChecking=no -r local_directory_to_copy $REMOTE_USER@$REMOTE_HOST:/path/to/remote/directory
+          ssh -i private_key -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "cd /home/alpha_frontend && rm -rf /dist-test && mkdir dist-test && scp -r dist/* /home/alpha_frontend/dist-test "
+          rm -f private_key   
