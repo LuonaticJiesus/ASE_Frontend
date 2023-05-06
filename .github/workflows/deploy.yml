@@ -74,5 +74,8 @@ jobs:
           echo "$PRIVATE_KEY" > private_key
           chmod 600 private_key
           scp -i private_key -o StrictHostKeyChecking=no -r dist/* root@112.126.71.119:/home/alpha_frontend/dist-test
-#          ssh -i private_key -o StrictHostKeyChecking=no root@112.126.71.119 "cd /home/alpha_frontend && rm -rf /dist-test && mkdir dist-test && scp -r dist/* /home/alpha_frontend/dist-test "
           rm -f private_key   
+
+
+
+#          ssh -i private_key -o StrictHostKeyChecking=no root@112.126.71.119 "cd /home/alpha_frontend && rm -rf /dist-test && mkdir dist-test && scp -r dist/* /home/alpha_frontend/dist-test "
