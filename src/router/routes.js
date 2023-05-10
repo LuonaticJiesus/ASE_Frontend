@@ -33,7 +33,7 @@ export const asyncRoutes = [
       {
         name: 'home',
         path: '/home',
-        component: () => import('/@/view/module/list.vue'),
+        component: () => import('/@/view/home/index.vue'),
       },
     ],
     hidden: true,

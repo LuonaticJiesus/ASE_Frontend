@@ -13,7 +13,7 @@
         prop="txt"
         label="预览"
         width="250"
-        show-overflow-tooltip
+        show-overflow-tooltip="true"
       />
       <el-table-column prop="user_name" label="作者" width="150" />
       <el-table-column prop="like_cnt" label="点赞" width="75" />

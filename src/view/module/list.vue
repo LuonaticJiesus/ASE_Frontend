@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 2vh">
+  <div style="margin: 1vh 2vh">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="所有版块" name="first" class="list-tab">
         <el-container style="margin: 0; padding: 0">
@@ -167,6 +167,7 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 0;
+  height: 8vh;
 }
 .card-wrap {
   display: flex;

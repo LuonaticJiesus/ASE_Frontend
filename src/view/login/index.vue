@@ -15,7 +15,7 @@
         <div class="mask"></div>
         <div id="contain" class="contain">
           <div id="login-left-card" class="login-left-card">
-            <el-card id="el-card" :shadow="false">
+            <el-card :shadow="false">
               <el-form id="textForm" class="textForm">
                 <el-form-item id="title" class="intro_title">
                   QuadSSSS
@@ -234,7 +234,6 @@ export default {
   align-items: center;
   justify-content: left;
   height: 100%;
-  margin-bottom: 15px;
 }
 
 .intro_func_content {
