@@ -25,10 +25,18 @@ const login = async (data) =>
 const changeBasicInfo = async (data, headerData) =>
   post({ url: URL.changeInfo, headers: headerData, data });
 // 更改用户密码
-const changePwd = async (data, headerData) => {
-  post({ url: URL.changePwd, headers: headerData, data });
-  console.log('post!!!');
-};
+const changePwd = async (oldPwd, newPwd, userId, token) =>
+  post({
+    url: URL.changePwd,
+    headers: {
+      userid: userId,
+      token: token,
+    },
+    data: {
+      old_password: oldPwd,
+      password: newPwd,
+    },
+  });
 const logout = async () => post({ url: URL.logout });
 const signup = async (data) =>
   post({

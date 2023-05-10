@@ -43,6 +43,7 @@ import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { changePwd } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { ElMessage } from 'element-plus';
 const pwdFormRef = ref<FormInstance>();
 
 const pwdForm = reactive({
@@ -88,19 +89,20 @@ const rules = reactive<FormRules>({
 
 const submitPwdChange = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
-      console.log('submit!');
-      let header = {
-        userid: getLocalUserId(),
-        token: getToken(),
-      };
-      let data = {
-        old_password: pwdForm.oldPwd,
-        password: pwdForm.newPwd,
-      };
-      changePwd(data, header);
-      console.log('post!');
+      console.log('change pwd');
+      const userid = getLocalUserId();
+      const token = getToken();
+      const old_password = pwdForm.oldPwd;
+      const password = pwdForm.newPwd;
+      console.log(old_password, password, userid, token);
+      await changePwd(old_password, password, userid, token);
+      ElMessage.success({
+        showClose: true,
+        duration: 2000,
+        message: '修改密码成功!',
+      });
     } else {
       console.log('error submit!');
       return false;
@@ -117,15 +119,23 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
   height: 100%;
   border: none;
 }
+
 .form-wrapper {
   width: 35vw;
 }
+
 .form-wrapper:deep(.el-form-item__label) {
   font-size: 17px;
   font-weight: bold;
 }
+
 .form-button {
   display: flex;
   float: right;
+}
+
+.form-button :deep(.el-button) {
+  background: #9007ff;
+  border-color: #9007ff;
 }
 </style>

@@ -43,38 +43,16 @@
         class="login-text"
       ></el-input>
     </el-form-item>
-    <!--    <el-form-item prop="phone">-->
-    <!--      <el-input-->
-    <!--        v-model="registerForm.phone"-->
-    <!--        type="phone"-->
-    <!--        placeholder="绑定手机号【可选】"-->
-    <!--        :prefix-icon="Connection"-->
-    <!--      ></el-input>-->
-    <!--    </el-form-item>-->
-    <!--    <el-form-item prop="email">-->
-    <!--      <el-input-->
-    <!--        v-model="registerForm.email"-->
-    <!--        type="email"-->
-    <!--        placeholder="绑定邮箱【可选】"-->
-    <!--        :prefix-icon="Connection"-->
-    <!--      ></el-input>-->
-    <!--    </el-form-item>-->
-    <!--    <el-form-item prop="card">-->
-    <!--      <el-input-->
-    <!--        v-model="registerForm.card"-->
-    <!--        type="text"-->
-    <!--        placeholder="绑定学号【可选】"-->
-    <!--        :prefix-icon="Connection"-->
-    <!--      ></el-input>-->
-    <!--    </el-form-item>-->
-    <el-form-item>
-      <el-button
-        class="loginButton"
-        @click="userRegister()"
-        @keyup.enter="keyDown()"
-        >注册
-      </el-button>
-    </el-form-item>
+    <div class="loginButtonContainer">
+      <el-form-item>
+        <el-button
+          class="loginButton"
+          @click="userRegister()"
+          @keyup.enter="keyDown()"
+          >注册
+        </el-button>
+      </el-form-item>
+    </div>
     <el-form-item>
       <div class="links-container">
         <el-link
@@ -249,6 +227,10 @@ export default {
   }
 }
 
+.loginButtonContainer :deep(.el-form-item) {
+  margin-bottom: 0;
+}
+
 .links-container {
   width: 100%;
   display: flex;
@@ -258,7 +240,8 @@ export default {
 }
 
 .login-text {
-  height: 35px;
+  height: 30px;
+  margin: 0;
 }
 
 .link {

@@ -20,10 +20,10 @@ export default {
   border: none;
 }
 .form-wrapper {
-  width: 460px;
+  width: 35vw;
 }
 .form-wrapper:deep(.el-form-item__label) {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
 }
 </style>

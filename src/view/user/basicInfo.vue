@@ -196,15 +196,23 @@ export default {
   height: 100%;
   border: none;
 }
+
 .form-wrapper {
   width: 35vw;
 }
+
 .form-wrapper:deep(.el-form-item__label) {
   font-size: 17px;
   font-weight: bold;
 }
+
 .form-button {
   display: flex;
   float: right;
+}
+
+.form-button :deep(.el-button) {
+  background: #9007ff;
+  border-color: #9007ff;
 }
 </style>
