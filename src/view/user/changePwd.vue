@@ -103,11 +103,16 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
         duration: 2000,
         message: '修改密码成功!',
       });
+      cleanForm();
     } else {
       console.log('error submit!');
       return false;
     }
   });
+};
+
+const cleanForm = () => {
+  pwdFormRef.value.resetFields();
 };
 </script>
 
@@ -137,5 +142,6 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
 .form-button :deep(.el-button) {
   background: #9007ff;
   border-color: #9007ff;
+  // 还需要加一些active,hover的操作
 }
 </style>
