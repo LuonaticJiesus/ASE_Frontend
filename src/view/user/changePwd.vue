@@ -142,6 +142,5 @@ const cleanForm = () => {
 .form-button :deep(.el-button) {
   background: #9007ff;
   border-color: #9007ff;
-  // 还需要加一些active,hover的操作
 }
 </style>
