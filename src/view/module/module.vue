@@ -313,7 +313,7 @@ export default {
   display: flex;
   background-color: white;
   height: 20vh;
-  margin-top: 130px;
+  margin-top: 18vh;
   margin-bottom: 0;
 }
 
