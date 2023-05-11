@@ -172,7 +172,7 @@ const fetchData = async (post_id) => {
   articleDetail(post_id, getLocalUserId(), getToken())
     .then((res) => {
       console.log('post/preview.vue query article success: ', res);
-      post.value = res;
+      post.value = res[0];
     })
     .catch((err) => {
       console.log('post/preview.vue query article fail: ', err);

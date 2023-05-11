@@ -105,33 +105,33 @@ export const asyncRoutes = [
           },
         ],
       },
-    ],
-  },
-  {
-    name: 'post',
-    path: '/post',
-    component: () => import('/@/view/post/index.vue'),
-    children: [
       {
-        name: 'shareSingleView',
-        path: ':id',
-        component: () => import('/@/view/post/preview.vue'),
+        name: 'post',
+        path: '/post',
+        component: () => import('/@/view/post/index.vue'),
+        children: [
+          {
+            name: 'shareSingleView',
+            path: ':id',
+            component: () => import('/@/view/post/preview.vue'),
+          },
+        ],
+        hidden: true,
+      },
+      {
+        name: 'notice',
+        path: '/notice',
+        component: () => import('/@/view/notice/index.vue'),
+        children: [
+          {
+            name: 'noticeSingleView',
+            path: ':id',
+            component: () => import('/@/view/notice/preview.vue'),
+          },
+        ],
+        hidden: true,
       },
     ],
-    hidden: true,
-  },
-  {
-    name: 'notice',
-    path: '/notice',
-    component: () => import('/@/view/notice/index.vue'),
-    children: [
-      {
-        name: 'noticeSingleView',
-        path: ':id',
-        component: () => import('/@/view/notice/preview.vue'),
-      },
-    ],
-    hidden: true,
   },
   {
     path: '/',
