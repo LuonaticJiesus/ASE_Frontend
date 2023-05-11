@@ -118,7 +118,8 @@ const richSetting = {
   content_style: 'body{font-size: 16px}',
   // 图片上传
   custom_images_upload: true,
-  images_upload_url: '/dev-api/four_s/file/upload/',
+  images_upload_url:
+    import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/upload/',
   custom_images_upload_callback: (res) => res.data.url,
   custom_images_upload_header: {
     userid: useUserStore().user_id,

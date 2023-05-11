@@ -7,13 +7,16 @@
             <el-col :span="4">
               <el-row type="flex" justify="center">
                 <el-upload
+                  ref="upload"
                   :show-file-list="false"
                   :limit="1"
-                  action="dev-api/four_s/file/upload/"
+                  :action="uploadUrl"
                   :headers="headers"
                   :before-upload="beforeAvatarUpload"
                   :on-success="updateAvtar"
                   :on-exceed="handleExceed"
+                  :http-request="handleUploadAvatar"
+                  with-credentials
                 >
                   <div class="card-avator">
                     <el-image
@@ -83,12 +86,14 @@ import { changeBasicInfo, getUserProfile } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ref } from 'vue';
 import { useUserStore } from '/@/store';
-import { ElMessage, TabsPaneContext } from 'element-plus';
+import { ElMessage, TabsPaneContext, genFileId } from 'element-plus';
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import RightBoard from '/@/components/RightBoard.vue';
 import BasicInfo from '/@/view/user/basicInfo.vue';
 import ChangePwd from '/@/view/user/changePwd.vue';
 import UserStatistic from '/@/view/user/userStatistic.vue';
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
+import { uploadImage } from '/@/api/notice';
 
 export default {
   name: 'userView',
@@ -106,6 +111,9 @@ export default {
   },
   setup() {
     const activeName = ref('first');
+
+    const uploadUrl: string =
+      import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/upload/';
 
     const headers = {
       userid: getLocalUserId(),
@@ -129,17 +137,33 @@ export default {
       return true;
     };
 
-    const handleExceed = () => {
-      ElMessage.error('不能上传多张图片!');
+    const upload = ref<UploadInstance>();
+
+    const handleExceed: UploadProps['onExceed'] = (files) => {
+      upload.value!.clearFiles();
+      const file = files[0] as UploadRawFile;
+      file.uid = genFileId();
+      upload.value!.handleStart(file);
     };
 
     const updateAvtar = async (res) => {
-      console.log('avatar is ' + res.data.url);
-      await changeBasicInfo({ avatar: res.data.url }, headers);
-      await useUserStore().getInfo();
-      userAvatar.value = useUserStore().avatar;
+      if (res.data) {
+        await changeBasicInfo({ avatar: res.data.url }, headers);
+        await useUserStore().getInfo();
+        userAvatar.value = useUserStore().avatar;
+        // this.$refs['upload'].clearFiles();
+        // this.$refs['upload'].handleStart();
+      }
     };
+
+    const handleUploadAvatar = async (param) => {
+      const formData = new FormData();
+      formData.append('file', param.file);
+      await uploadImage(useUserStore().user_id, getToken(), formData);
+    };
+
     return {
+      uploadUrl,
       activeName,
       headers,
       userAvatar,
@@ -147,6 +171,7 @@ export default {
       beforeAvatarUpload,
       handleExceed,
       updateAvtar,
+      handleUploadAvatar,
     };
   },
   methods: {
