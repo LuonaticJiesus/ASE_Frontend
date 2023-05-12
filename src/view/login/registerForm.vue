@@ -187,7 +187,6 @@ export default {
     },
     changeLogin() {
       this.$emit('transfer', 'login');
-      // this.formStatus = 'login';
     },
     keyDown(e) {
       if (e.keyCode === 13) {

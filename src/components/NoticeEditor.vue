@@ -16,24 +16,35 @@
       </div>
     </template>
     <template #default>
-      <el-form>
+      <el-form ref="noticeFormRef">
         <el-form-item label="通知标题:" required>
-          <el-input v-model="title" placeholder="请输入标题"> </el-input>
+          <el-input v-model="noticeForm.title" placeholder="请输入标题">
+          </el-input>
         </el-form-item>
         <el-form-item label="通知内容:" required>
-          <vue3-tinymce v-model="content" :setting="richSetting">
+          <vue3-tinymce v-model="noticeForm.content" :setting="richSetting">
           </vue3-tinymce>
         </el-form-item>
         <el-form-item label="截止时间:">
           <el-date-picker
-            v-model="ddl"
+            v-model="noticeForm.ddl"
             type="datetime"
+            format="YYYY-MM-DD hh:mm:ss"
+            value-format="YYYY-MM-DD hh:mm:ss"
             placeholder="请选择截止时间"
             :shortcuts="shortcuts"
           />
         </el-form-item>
         <el-row style="justify-content: right">
-          <el-button type="primary"> 确认发布 </el-button>
+          <el-button
+            type="primary"
+            @click="
+              postNotice();
+              closeDialog();
+            "
+          >
+            确认发布
+          </el-button>
         </el-row>
       </el-form>
     </template>
@@ -46,7 +57,19 @@ import { CircleCloseFilled } from '@element-plus/icons-vue';
 
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+import { publishNotice } from '/@/api/notice';
+import { getLocalUserId, getToken } from '/@/utils/auth';
+import { ElMessage, FormInstance } from 'element-plus';
+import router from '/@/router';
+
+const noticeFormRef = ref<FormInstance>();
+
+const noticeForm = reactive({
+  title: '',
+  content: '请输入内容',
+  ddl: '',
+});
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -72,12 +95,6 @@ const richSetting = {
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
 };
-
-const title = ref('');
-
-const content = '请输入内容';
-
-const ddl = ref('');
 
 const shortcuts = [
   {
@@ -105,6 +122,37 @@ const shortcuts = [
     },
   },
 ];
+
+const postNotice = async () => {
+  const header = {
+    userid: getLocalUserId(),
+    token: getToken(),
+  };
+  const data = {
+    title: noticeForm.title,
+    txt: noticeForm.content,
+    block_id: router.currentRoute.value.params['id'],
+    ddl: noticeForm.ddl,
+  };
+  console.log('check postNotice');
+  console.log(header);
+  console.log(data);
+  await publishNotice(header, data);
+  ElMessage.success({
+    showClose: true,
+    duration: 2000,
+    message: '发布通知成功!',
+  });
+  cleanForm();
+};
+
+const cleanForm = () => {
+  noticeFormRef.value.resetFields();
+};
+
+const closeDialog = () => {
+  this.$emit('closeDialog', false);
+};
 </script>
 
 <script lang="ts">
