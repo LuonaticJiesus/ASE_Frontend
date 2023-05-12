@@ -12,6 +12,7 @@ const URL = {
   profile: '/four_s/user/myInfo/',
   changePwd: '/four_s/user/changePwd/',
   changeInfo: '/four_s/user/modify/',
+  info: '/four_s/user/info/',
 };
 
 const getUserProfile = async (header) =>
@@ -44,4 +45,15 @@ const signup = async (data) =>
     data,
   });
 
-export { getUserProfile, logout, login, signup, changePwd, changeBasicInfo };
+const fetchInfo = async (headers, data) =>
+  post({ url: URL.info, headers: headers, data });
+
+export {
+  getUserProfile,
+  logout,
+  login,
+  signup,
+  changePwd,
+  changeBasicInfo,
+  fetchInfo,
+};
