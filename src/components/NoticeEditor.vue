@@ -33,7 +33,7 @@
           />
         </el-form-item>
         <el-row style="justify-content: right">
-          <el-button type="primary"> 确认发布 </el-button>
+          <el-button type="primary" @click="postNotice()"> 确认发布 </el-button>
         </el-row>
       </el-form>
     </template>
@@ -47,6 +47,9 @@ import { CircleCloseFilled } from '@element-plus/icons-vue';
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { ref } from 'vue';
+import { publishNotice } from '/@/api/notice';
+import { getLocalUserId, getToken } from '/@/utils/auth';
+import { ElMessage } from 'element-plus';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -75,7 +78,7 @@ const richSetting = {
 
 const title = ref('');
 
-const content = '请输入内容';
+const content = ref('请输入内容');
 
 const ddl = ref('');
 
@@ -105,6 +108,28 @@ const shortcuts = [
     },
   },
 ];
+
+const postNotice = async () => {
+  const header = {
+    userid: getLocalUserId(),
+    token: getToken(),
+  };
+  const data = {
+    title: title.value,
+    txt: content.value,
+    block_id: 0,
+    ddl: ddl.value,
+  };
+  console.log('check postNotice');
+  console.log(header);
+  console.log(data);
+  await publishNotice(header, data);
+  ElMessage.success({
+    showClose: true,
+    duration: 2000,
+    message: '发布通知成功!',
+  });
+};
 </script>
 
 <script lang="ts">
