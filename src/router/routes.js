@@ -106,6 +106,11 @@ export const asyncRoutes = [
                 path: 'manage',
                 component: () => import('/@/view/module/manage.vue'),
               },
+              {
+                name: 'moduleSelfView',
+                path: 'self',
+                component: () => import('/@/view/module/self.vue'),
+              },
             ],
           },
         ],
