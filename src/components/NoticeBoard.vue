@@ -88,10 +88,12 @@ const updateNoticeList = async () => {
 const dialogEditor = ref(false);
 const showNoticeEditor = () => {
   dialogEditor.value = true;
+  console.log('showNoticeEditor');
 };
 
-const closeNoticeEditor = (value) => {
-  dialogEditor.value = value;
+const closeNoticeEditor = () => {
+  dialogEditor.value = false;
+  console.log('closeNoticeEditor');
 };
 
 const hasPermission = ref(false);
