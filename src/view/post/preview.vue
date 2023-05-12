@@ -131,6 +131,7 @@ const richSetting = {
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
   readonly: true,
+  content_css: '@kangc/v-md-editor/lib/theme/style/github.css',
 };
 
 const avatar = ref(defaultLogo);
