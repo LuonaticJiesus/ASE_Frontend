@@ -6,6 +6,7 @@ const URL = {
   module: '/four_s/post/queryBlock/',
   user: '/four_s/post/queryUser/',
   detail: '/four_s/post/queryByID/',
+  moduleUser: '/four_s/post/queryUserBlock/',
 };
 
 // const MockURL = {
@@ -61,4 +62,23 @@ const userArticles = async (userid, token) =>
     },
   });
 
-export { articleDetail, publishArticle, moduleArticles, userArticles };
+const moduleUserArticles = async (userid, token, block_id) =>
+  get({
+    url: URL.moduleUser,
+    headers: {
+      userid: userid,
+      token: token,
+    },
+    params: {
+      block_id: block_id,
+      user_id: userid,
+    },
+  });
+
+export {
+  articleDetail,
+  publishArticle,
+  moduleArticles,
+  userArticles,
+  moduleUserArticles,
+};
