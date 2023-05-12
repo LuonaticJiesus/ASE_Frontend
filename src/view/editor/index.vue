@@ -118,7 +118,8 @@ const richSetting = {
   content_style: 'body{font-size: 16px}',
   // 图片上传
   custom_images_upload: true,
-  images_upload_url: '/dev-api/four_s/file/upload/',
+  images_upload_url:
+    import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/upload/',
   custom_images_upload_callback: (res) => res.data.url,
   custom_images_upload_header: {
     userid: useUserStore().user_id,
@@ -146,6 +147,7 @@ const editorOptions = [
 ];
 
 const handlePublishArticle = async () => {
+  // noinspection TypeScriptUnresolvedReference
   const text: string =
     editorType.value === 'md'
       ? xss.process(
@@ -271,5 +273,13 @@ export default {
 }
 .module-select-box:deep(.el-select-v2__wrapper) {
   height: 100%;
+}
+
+.el-input {
+  --el-input-focus-border-color: #9007ff;
+}
+
+.el-select-v2 {
+  --el-select-input-focus-border-color: #9007ff;
 }
 </style>

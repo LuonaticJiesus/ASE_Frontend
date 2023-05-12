@@ -12,6 +12,7 @@ const URL = {
   profile: '/four_s/user/myInfo/',
   changePwd: '/four_s/user/changePwd/',
   changeInfo: '/four_s/user/modify/',
+  info: '/four_s/user/info/',
 };
 
 const getUserProfile = async (header) =>
@@ -25,10 +26,18 @@ const login = async (data) =>
 const changeBasicInfo = async (data, headerData) =>
   post({ url: URL.changeInfo, headers: headerData, data });
 // 更改用户密码
-const changePwd = async (data, headerData) => {
-  post({ url: URL.changePwd, headers: headerData, data });
-  console.log('post!!!');
-};
+const changePwd = async (oldPwd, newPwd, userId, token) =>
+  post({
+    url: URL.changePwd,
+    headers: {
+      userid: userId,
+      token: token,
+    },
+    data: {
+      old_password: oldPwd,
+      password: newPwd,
+    },
+  });
 const logout = async () => post({ url: URL.logout });
 const signup = async (data) =>
   post({
@@ -36,4 +45,15 @@ const signup = async (data) =>
     data,
   });
 
-export { getUserProfile, logout, login, signup, changePwd, changeBasicInfo };
+const fetchInfo = async (headers, data) =>
+  post({ url: URL.info, headers: headers, data });
+
+export {
+  getUserProfile,
+  logout,
+  login,
+  signup,
+  changePwd,
+  changeBasicInfo,
+  fetchInfo,
+};

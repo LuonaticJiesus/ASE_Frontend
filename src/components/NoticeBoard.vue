@@ -43,7 +43,7 @@
     <NoticeEditor
       v-if="hasPermission"
       v-model:visible="dialogEditor"
-      @close="dialogEditor = false"
+      @closeDialog="closeNoticeEditor"
     ></NoticeEditor>
   </div>
 </template>
@@ -60,7 +60,7 @@ import { moduleNotices } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
 import NoticeEditor from '/@/components/NoticeEditor.vue';
 import router from '/@/router/index.js';
-import { queryRole, roles } from '/@/api/permission.js';
+import { queryRole } from '/@/api/permission.js';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
@@ -88,6 +88,12 @@ const updateNoticeList = async () => {
 const dialogEditor = ref(false);
 const showNoticeEditor = () => {
   dialogEditor.value = true;
+  console.log('showNoticeEditor');
+};
+
+const closeNoticeEditor = () => {
+  dialogEditor.value = false;
+  console.log('closeNoticeEditor');
 };
 
 const hasPermission = ref(false);
@@ -96,8 +102,8 @@ const checkPermission = async () => {
   const block_id = router.currentRoute.value.params['id'];
   if (block_id) {
     const role = await queryRole(block_id);
-    console.log(role);
-    if (roles[role] === 'assistant' || roles[role] === 'admin') {
+    console.log('current role is ' + role);
+    if (role > 1) {
       return true;
     }
   }

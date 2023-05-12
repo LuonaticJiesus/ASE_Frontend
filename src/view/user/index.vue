@@ -7,13 +7,16 @@
             <el-col :span="4">
               <el-row type="flex" justify="center">
                 <el-upload
+                  ref="upload"
                   :show-file-list="false"
                   :limit="1"
-                  action="dev-api/four_s/file/upload/"
+                  :action="uploadUrl"
                   :headers="headers"
                   :before-upload="beforeAvatarUpload"
                   :on-success="updateAvtar"
                   :on-exceed="handleExceed"
+                  :http-request="handleUploadAvatar"
+                  with-credentials
                 >
                   <div class="card-avator">
                     <el-image
@@ -89,6 +92,8 @@ import RightBoard from '/@/components/RightBoard.vue';
 import BasicInfo from '/@/view/user/basicInfo.vue';
 import ChangePwd from '/@/view/user/changePwd.vue';
 import UserStatistic from '/@/view/user/userStatistic.vue';
+import type { UploadProps } from 'element-plus';
+import { uploadImage } from '/@/api/notice';
 
 export default {
   name: 'userView',
@@ -105,7 +110,12 @@ export default {
     };
   },
   setup() {
+    const fileList = [];
+
     const activeName = ref('first');
+
+    const uploadUrl: string =
+      import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/upload/';
 
     const headers = {
       userid: getLocalUserId(),
@@ -129,17 +139,42 @@ export default {
       return true;
     };
 
-    const handleExceed = () => {
-      ElMessage.error('不能上传多张图片!');
+    // const upload = ref<UploadInstance>();
+
+    const handleExceed: UploadProps['onExceed'] = (files) => {
+      // upload.value!.clearFiles();
+      // const file = files[0] as UploadRawFile;
+      // file.uid = genFileId();
+      // upload.value!.handleStart(file);
+      console.log(files);
+      ElMessage.error('不可连续上传头像，请刷新页面！');
     };
 
     const updateAvtar = async (res) => {
-      console.log('avatar is ' + res.data.url);
-      await changeBasicInfo({ avatar: res.data.url }, headers);
-      await useUserStore().getInfo();
-      userAvatar.value = useUserStore().avatar;
+      console.log(res);
+      if (res) {
+        await changeBasicInfo({ avatar: res.url }, headers);
+        await useUserStore().getInfo();
+        userAvatar.value = useUserStore().avatar;
+        // this.$refs['upload'].clearFiles();
+        // this.$refs['upload'].handleStart();
+      }
     };
+
+    const handleUploadAvatar = async (param) => {
+      const formData = new FormData();
+      formData.append('file', param.file);
+      let res = await uploadImage(useUserStore().user_id, getToken(), formData);
+      if (res) {
+        param.onSuccess(res);
+      } else {
+        param.onError('Failed');
+      }
+    };
+
     return {
+      fileList,
+      uploadUrl,
       activeName,
       headers,
       userAvatar,
@@ -147,6 +182,7 @@ export default {
       beforeAvatarUpload,
       handleExceed,
       updateAvtar,
+      handleUploadAvatar,
     };
   },
   methods: {
@@ -191,6 +227,7 @@ export default {
   align-items: center;
   padding: 0;
   margin: 5px;
+  height: 67vh;
 }
 
 .user-main:deep(.el-tabs__nav-wrap::after) {

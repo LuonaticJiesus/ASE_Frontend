@@ -43,6 +43,7 @@ import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { changePwd } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { ElMessage } from 'element-plus';
 const pwdFormRef = ref<FormInstance>();
 
 const pwdForm = reactive({
@@ -52,9 +53,7 @@ const pwdForm = reactive({
 });
 
 const validateNewPass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请输入新密码'));
-  } else if (pwdForm.oldPwd === value) {
+  if (pwdForm.oldPwd === value) {
     callback(new Error('与原密码一致，请重新输入'));
   } else {
     if (pwdForm.reNewPwd !== '') {
@@ -66,10 +65,8 @@ const validateNewPass = (rule: any, value: any, callback: any) => {
 };
 
 const validateReNewPass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请再输入一遍新密码!'));
-  } else if (value !== pwdForm.newPwd) {
-    callback(new Error('两次输入密码不一致!'));
+  if (value !== pwdForm.newPwd) {
+    callback(new Error('两次输入密码不一致'));
   } else {
     callback();
   }
@@ -77,30 +74,45 @@ const validateReNewPass = (rule: any, value: any, callback: any) => {
 
 const rules = reactive<FormRules>({
   oldPwd: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
-  newPwd: [{ validator: validateNewPass, trigger: 'blur' }],
-  reNewPwd: [{ validator: validateReNewPass, trigger: 'blur' }],
+  newPwd: [
+    { required: true, message: '请输入新密码', trigger: 'blur' },
+    {
+      validator: validateNewPass,
+      trigger: 'blur',
+    },
+  ],
+  reNewPwd: [
+    { required: true, message: '请重复输入一遍新密码', trigger: 'blur' },
+    { validator: validateReNewPass, trigger: 'blur' },
+  ],
 });
 
 const submitPwdChange = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
-      console.log('submit!');
-      let header = {
-        userid: getLocalUserId(),
-        token: getToken(),
-      };
-      let data = {
-        old_password: pwdForm.oldPwd,
-        password: pwdForm.newPwd,
-      };
-      changePwd(data, header);
-      console.log('post!');
+      console.log('change pwd');
+      const userid = getLocalUserId();
+      const token = getToken();
+      const old_password = pwdForm.oldPwd;
+      const password = pwdForm.newPwd;
+      console.log(old_password, password, userid, token);
+      await changePwd(old_password, password, userid, token);
+      ElMessage.success({
+        showClose: true,
+        duration: 2000,
+        message: '修改密码成功!',
+      });
+      cleanForm();
     } else {
       console.log('error submit!');
       return false;
     }
   });
+};
+
+const cleanForm = () => {
+  pwdFormRef.value.resetFields();
 };
 </script>
 
@@ -112,15 +124,23 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
   height: 100%;
   border: none;
 }
+
 .form-wrapper {
-  width: 460px;
+  width: 35vw;
 }
+
 .form-wrapper:deep(.el-form-item__label) {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
 }
+
 .form-button {
   display: flex;
   float: right;
+}
+
+.form-button :deep(.el-button) {
+  background: #9007ff;
+  border-color: #9007ff;
 }
 </style>

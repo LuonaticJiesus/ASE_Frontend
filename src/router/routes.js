@@ -34,8 +34,10 @@ export const asyncRoutes = [
         name: 'home',
         path: '/home',
         component: () => import('/@/view/home/index.vue'),
+        meta: { title: '主页', icon: 'House' },
       },
     ],
+    hidden: true,
   },
   {
     path: '/',
@@ -57,7 +59,7 @@ export const asyncRoutes = [
         name: 'editor',
         path: '/editor',
         component: () => import('/@/view/editor/index.vue'),
-        meta: { roles: ['user', 'teacher'] },
+        meta: { title: '发布', icon: 'Edit', roles: ['user', 'teacher'] },
       },
     ],
   },
@@ -69,6 +71,10 @@ export const asyncRoutes = [
         name: 'module',
         path: '/module',
         component: () => import('/@/view/module/index.vue'),
+        meta: {
+          title: '模块',
+          icon: 'Collection',
+        },
         children: [
           {
             name: 'moduleListView',
@@ -115,6 +121,7 @@ export const asyncRoutes = [
             component: () => import('/@/view/post/preview.vue'),
           },
         ],
+        hidden: true,
       },
       {
         name: 'notice',
@@ -127,6 +134,7 @@ export const asyncRoutes = [
             component: () => import('/@/view/notice/preview.vue'),
           },
         ],
+        hidden: true,
       },
     ],
   },
@@ -138,6 +146,7 @@ export const asyncRoutes = [
         name: 'user',
         path: '/user',
         component: () => import('/@/view/user/index.vue'),
+        meta: { title: '用户', icon: 'User' },
         children: [
           {
             name: 'basicInfo',

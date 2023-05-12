@@ -4,7 +4,7 @@
       <div class="side-background">
         <el-image
           style="border-radius: 50%; width: 210px; height: 210px; margin-top: 0"
-          :src="'/src/assets/logo-vv.png'"
+          :src="'https://2023-ase-quadssss-1314332102.cos.ap-beijing.myqcloud.com/16838978307581384pya7nx6c.png'"
           :fit="'cover'"
           lazy
         >

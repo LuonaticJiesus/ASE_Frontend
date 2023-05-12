@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 2vh">
+  <div style="margin: 1vh 2vh">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="所有版块" name="first" class="list-tab">
         <el-container style="margin: 0; padding: 0">
@@ -87,7 +87,12 @@
 </template>
 
 <script>
-import { moduleAll, modulePermission, moduleSearch } from '/@/api/module';
+import {
+  moduleAll,
+  modulePermission,
+  moduleSearchAll,
+  moduleSearchMy,
+} from '/@/api/module';
 import CardModule from './components/CardModule.vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { Search } from '@element-plus/icons-vue';
@@ -141,21 +146,21 @@ export default {
     },
     handleSearch() {
       console.log('module/list.vue search');
-      moduleSearch(this.searchContent, getLocalUserId(), getToken())
+      moduleSearchAll(this.searchContent, getLocalUserId(), getToken())
         .then((res) => {
-          console.log('module/list.vue search success: ', res);
+          console.log('module/list.vue searchAll success: ', res);
           this.moduleList = res;
         })
         .catch((err) => {
-          console.log('module/list.vue search failed: ', err);
+          console.log('module/list.vue searchAll failed: ', err);
         });
-      moduleSearch(this.searchContent, getLocalUserId(), getToken())
+      moduleSearchMy(this.searchContent, getLocalUserId(), getToken())
         .then((res) => {
-          console.log('module/list.vue search success: ', res);
+          console.log('module/list.vue searchMy success: ', res);
           this.myModuleList = res;
         })
         .catch((err) => {
-          console.log('module/list.vue search failed: ', err);
+          console.log('module/list.vue searchMy failed: ', err);
         });
     },
   },
@@ -167,6 +172,7 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 0;
+  height: 8vh;
 }
 .card-wrap {
   display: flex;

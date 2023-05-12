@@ -3,9 +3,10 @@
     <template #main>
       <div style="margin: 10px 20px">
         <el-row style="display: flex; justify-content: left">
-          <h2>{{ notice.title }}</h2>
+          <h2 style="margin-bottom: 0">{{ notice.title }}</h2>
         </el-row>
-        <el-row style="margin: 10px 0 10px">
+        <el-divider></el-divider>
+        <el-row style="margin: 0px 0 10px">
           <el-col :span="3">
             <el-row justify="space-between">
               <h4 style="margin: 0">所属模块:</h4>
@@ -16,17 +17,26 @@
           </el-col>
         </el-row>
         <el-row align="middle" style="margin: 10px 0 10px">
-          <el-col :span="4">
-            <el-row justify="space-between" align="middle">
-              <h4 style="margin: 0">发布者:</h4>
+          <el-col :span="6">
+            <el-row justify="start" align="middle">
+              <h4 style="margin: 0 10px 0 0">发布者:</h4>
               <el-avatar :src="creatorAvatar"> </el-avatar>
-              <h4 style="margin: 0; color: #bebebe">{{ creatorName }}</h4>
+              <h4 style="margin: 0 0 0 10px; color: #bebebe">
+                {{ creatorName }}
+              </h4>
             </el-row>
           </el-col>
-          <el-col :span="7" :offset="2">
-            <el-row justify="space-between" align="middle">
-              <h4 style="margin: 0">发布时间:</h4>
-              <h4 style="margin: 0; color: #bebebe">{{ notice.time }}</h4>
+          <el-col :span="10" :offset="4">
+            <el-row justify="start" align="middle">
+              <h4 style="margin: 0 10px 0 0">发布时间:</h4>
+              <el-date-picker
+                v-model="notice.time"
+                type="datetime"
+                readonly
+                style="width: auto"
+              >
+              </el-date-picker>
+              <!--              <h4 style="margin: 0; color: #bebebe">{{ notice.time }}</h4>-->
             </el-row>
           </el-col>
         </el-row>
@@ -98,6 +108,10 @@ import router from '/@/router/index.js';
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { defaultLogo } from '/@/utils/string.ts';
+import { queryNoticeById } from '/@/api/notice.js';
+import { getLocalUserId, getToken } from '/@/utils/auth.ts';
+import { fetchInfo } from '/@/api/user.js';
+import { moduleInfo } from '/@/api/module.js';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -149,43 +163,55 @@ const notice = ref({
   ddl: String,
 });
 
-const fetchData = async (notice_id) => {
-  notice.value = {
-    title: '标题',
-    txt:
-      '<h1>Heading</h1>\n' +
-      '  <p>This Editor is awesome!</p>' +
-      '<h1>Heading</h1>\n' +
-      '<h1>Heading</h1>\n' +
-      '<h1>Heading</h1>\n',
-    user_id: 1,
-    block_id: 1,
-    time: '2014-03-20 13:28:32',
-    ddl: '2023-04-19 21:15:29',
-  };
-  ddl.value = new Date(notice.value.ddl);
-  return 1;
+const fetchData = async () => {
+  const notice_id = router.currentRoute.value.params['id'];
+  const headers = { token: getToken(), userid: getLocalUserId() };
+  const params = { notice_id: notice_id };
+  const result = await queryNoticeById(headers, params);
+  if (result && result.length > 0) {
+    notice.value = result[0];
+    ddl.value = new Date(notice.value.ddl);
+  }
+  // notice.value = {
+  //   title: '标题',
+  //   txt:
+  //     '<h1>Heading</h1>\n' +
+  //     '  <p>This Editor is awesome!</p>' +
+  //     '<h1>Heading</h1>\n' +
+  //     '<h1>Heading</h1>\n' +
+  //     '<h1>Heading</h1>\n',
+  //   user_id: 1,
+  //   block_id: 1,
+  //   time: '2014-03-20 13:28:32',
+  //   ddl: '2023-04-19 21:15:29',
+  // };
 };
 
 const fetchCreator = async (user_id) => {
-  const result = {
-    username: 'CCC',
-    avatar_url: defaultLogo,
-  };
-  creatorName.value = result.username;
-  creatorAvatar.value = result.avatar_url;
+  // const result = {
+  //   username: 'CCC',
+  //   avatar_url: defaultLogo,
+  // };
+  const headers = { token: getToken(), userid: getLocalUserId() };
+  const result = await fetchInfo(headers, { user_id: user_id });
+  creatorName.value = result.name;
+  creatorAvatar.value = result.avatar;
+  if (creatorAvatar.value === '' || creatorAvatar.value === undefined) {
+    creatorAvatar.value = defaultLogo;
+  }
 };
 
 const fetchModule = async (module_id) => {
-  const result = {
-    name: 'BBB',
-  };
+  // const result = {
+  //   name: 'BBB',
+  // };
+  const result = await moduleInfo(module_id, getLocalUserId(), getToken());
   moduleName.value = result.name;
 };
 
 onMounted(async () => {
   let notice_id = router.currentRoute.value.params;
-  await fetchData(notice_id);
+  await fetchData();
   await fetchCreator(notice.value.user_id);
   await fetchModule(notice.value.block_id);
   console.log(notice);

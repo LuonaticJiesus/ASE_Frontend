@@ -131,6 +131,7 @@ const richSetting = {
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
   readonly: true,
+  content_css: '@kangc/v-md-editor/lib/theme/style/github.css',
 };
 
 const avatar = ref(defaultLogo);
@@ -172,7 +173,7 @@ const fetchData = async (post_id) => {
   articleDetail(post_id, getLocalUserId(), getToken())
     .then((res) => {
       console.log('post/preview.vue query article success: ', res);
-      post.value = res;
+      post.value = res[0];
     })
     .catch((err) => {
       console.log('post/preview.vue query article fail: ', err);

@@ -5,10 +5,12 @@ const URL = {
   subscribe: 'four_s/block/subscribe/',
   queryAll: 'four_s/block/queryAll/',
   queryPermission: 'four_s/block/queryPermission/',
-  search: 'four_s/block/search/',
+  searchAll: 'four_s/block/searchAll/',
+  searchMy: 'four_s/block/searchMy/',
   random: 'four_s/block/random/',
   info: 'four_s/block/info/',
   members: 'four_s/permission/queryUser/',
+  setPermission: '/four_s/permission/set/',
 };
 
 // const MockURL = {
@@ -46,9 +48,21 @@ const modulePermission = async (permission, userId, token) =>
     },
   });
 
-const moduleSearch = async (keyword, userId, token) =>
+const moduleSearchAll = async (keyword, userId, token) =>
   get({
-    url: URL.search,
+    url: URL.searchAll,
+    params: {
+      keyword: keyword,
+    },
+    headers: {
+      userid: userId,
+      token: token,
+    },
+  });
+
+const moduleSearchMy = async (keyword, userId, token) =>
+  get({
+    url: URL.searchMy,
     params: {
       keyword: keyword,
     },
@@ -97,12 +111,25 @@ const moduleSubscribe = async (block_id, subscribe, userid, token) =>
     },
   });
 
+const moduleSetPermission = async (headers, block_id, user_id, permission) =>
+  post({
+    url: URL.setPermission,
+    headers,
+    data: {
+      user_id: user_id,
+      block_id: block_id,
+      permission: permission,
+    },
+  });
+
 export {
   moduleAll,
   modulePermission,
-  moduleSearch,
+  moduleSearchAll,
+  moduleSearchMy,
   moduleRandom,
   moduleInfo,
   moduleMembers,
   moduleSubscribe,
+  moduleSetPermission,
 };

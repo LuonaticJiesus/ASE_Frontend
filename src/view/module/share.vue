@@ -13,7 +13,7 @@
         prop="txt"
         label="预览"
         width="250"
-        show-overflow-tooltip
+        show-overflow-tooltip="true"
       />
       <el-table-column prop="user_name" label="作者" width="150" />
       <el-table-column prop="like_cnt" label="点赞" width="75" />
@@ -48,8 +48,9 @@ export default {
         .then((res) => {
           console.log('share.vue fetchData success: ', res);
           this.tableData = res;
-          for (i in this.tableData) {
+          for (let i of this.tableData) {
             i.txt = strippedHtml(i.txt);
+            i.time = new Date(i.time).toLocaleString();
           }
         })
         .catch((err) => {
