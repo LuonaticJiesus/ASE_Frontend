@@ -147,6 +147,7 @@ const editorOptions = [
 ];
 
 const handlePublishArticle = async () => {
+  // noinspection TypeScriptUnresolvedReference
   const text: string =
     editorType.value === 'md'
       ? xss.process(
