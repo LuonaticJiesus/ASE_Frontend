@@ -43,7 +43,7 @@
     <NoticeEditor
       v-if="hasPermission"
       v-model:visible="dialogEditor"
-      @close="dialogEditor = false"
+      @closeDialog="closeNoticeEditor"
     ></NoticeEditor>
   </div>
 </template>
@@ -88,6 +88,10 @@ const updateNoticeList = async () => {
 const dialogEditor = ref(false);
 const showNoticeEditor = () => {
   dialogEditor.value = true;
+};
+
+const closeNoticeEditor = (value) => {
+  dialogEditor.value = value;
 };
 
 const hasPermission = ref(false);

@@ -50,7 +50,7 @@ const uploadImage = async (userid, token, file) =>
   });
 
 const publishNotice = async (headers, data) =>
-  post({ url: URL.publish, headers: headers, params: data });
+  post({ url: URL.publish, headers: headers, data: data });
 
 export {
   getNoticeList,
