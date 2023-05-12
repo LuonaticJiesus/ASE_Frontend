@@ -118,8 +118,7 @@
             </el-button>
           </div>
         </el-col>
-        <el-col :span="1"></el-col>
-        <el-col :span="3">
+        <el-col :offset="1" :span="3">
           <div style="padding-top: 3vh">
             <el-button
               plain
@@ -345,7 +344,7 @@ export default {
 }
 
 .subscribe-button {
-  width: 15vh;
+  width: 7vw;
   height: 5vh;
   border-radius: 20px;
   margin-left: 12px;

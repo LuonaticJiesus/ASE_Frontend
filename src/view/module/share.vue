@@ -48,7 +48,7 @@ export default {
         .then((res) => {
           console.log('share.vue fetchData success: ', res);
           this.tableData = res;
-          for (i in this.tableData) {
+          for (let i of this.tableData) {
             i.txt = strippedHtml(i.txt);
           }
         })
