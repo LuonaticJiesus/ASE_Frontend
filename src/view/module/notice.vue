@@ -9,8 +9,8 @@
     >
       <el-table-column prop="fig" label="" width="20" />
       <el-table-column prop="title" label="标题" width="150" />
-      <el-table-column prop="txt" label="预览" width="300" />
-      <el-table-column prop="user_id" label="发布者" width="75" />
+      <el-table-column prop="txt" label="预览" width="275" />
+      <el-table-column prop="user_name" label="发布者" width="100" />
       <el-table-column prop="time" label="发布时间" width="175" />
       <el-table-column prop="ddl" label="截止时间" />
     </el-table>
@@ -21,6 +21,7 @@
 import { moduleNotices } from '/@/api/notice';
 import router from '/@/router';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
+import { strippedHtml } from '/@/utils/string.ts';
 
 export default {
   name: 'NoticeView',
@@ -58,6 +59,9 @@ export default {
         .then((res) => {
           console.log('notice.vue fetchData success: ', res);
           this.tableData = res;
+          for (let i of this.tableData) {
+            i.txt = strippedHtml(i.txt);
+          }
         })
         .catch((err) => {
           console.log('notice.vue fetchData fail: ', err);

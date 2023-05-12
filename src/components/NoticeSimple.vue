@@ -1,5 +1,10 @@
 <template>
-  <el-card :key="noticeItem" class="notice-card-simple" shadow="hover">
+  <el-card
+    :key="noticeItem"
+    class="notice-card-simple"
+    shadow="hover"
+    @click="jump"
+  >
     <el-row justify="space-between">
       <el-col :span="6" class="notice-module-image">
         <el-image :src="defaultLogo" :fit="'fill'"></el-image>
@@ -20,6 +25,7 @@
 // eslint-disable-next-line no-unused-vars
 import { PropType } from 'vue';
 import { defaultLogo } from '/@/utils/string';
+import router from '/@/router';
 interface noticeType {
   notice_id: number;
   title: string;
@@ -37,6 +43,9 @@ const props = defineProps({
   },
 });
 
+const jump = () => {
+  router.push('/notice/' + props.noticeItem.notice_id);
+};
 // onMounted(() => {
 //   console.log(props.noticeItem);
 // });
