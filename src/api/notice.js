@@ -8,6 +8,7 @@ const URL = {
   queryBlock: 'four_s/notice/queryBlock/',
   uploadImg: 'four_s/file/upload/',
   publish: '/four_s/notice/publish/',
+  queryById: 'four_s/notice/queryById/',
 };
 
 // const MockURL = {
@@ -52,6 +53,13 @@ const uploadImage = async (userid, token, file) =>
 const publishNotice = async (headers, data) =>
   post({ url: URL.publish, headers: headers, data: data });
 
+const queryNoticeById = async (headers, data) =>
+  get({
+    url: URL.queryById,
+    headers: headers,
+    params: data,
+  });
+
 export {
   getNoticeList,
   createNotice,
@@ -59,4 +67,5 @@ export {
   moduleNotices,
   uploadImage,
   publishNotice,
+  queryNoticeById,
 };
