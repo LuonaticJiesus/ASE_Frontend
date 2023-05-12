@@ -50,6 +50,7 @@ import { ref } from 'vue';
 import { publishNotice } from '/@/api/notice';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ElMessage } from 'element-plus';
+import router from '/@/router';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -117,7 +118,7 @@ const postNotice = async () => {
   const data = {
     title: title.value,
     txt: content.value,
-    block_id: 0,
+    block_id: router.currentRoute.value.params['id'],
     ddl: ddl.value,
   };
   console.log('check postNotice');
