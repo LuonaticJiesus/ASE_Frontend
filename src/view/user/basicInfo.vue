@@ -9,13 +9,6 @@
       class="form-wrapper"
     >
       <el-scrollbar max-height="42vh">
-        <!--        <el-form-item label="用户名" prop="username">-->
-        <!--          <el-input-->
-        <!--            v-model="infoForm.username"-->
-        <!--            :placeholder="oldUsername"-->
-        <!--            autocomplete="off"-->
-        <!--          />-->
-        <!--        </el-form-item>-->
         <el-form-item label="邮箱" prop="email">
           <el-input
             v-model="infoForm.email"
@@ -41,7 +34,13 @@
         </el-form-item>
       </el-scrollbar>
       <el-form-item class="form-button">
-        <el-button type="primary" @click="submitUserInfoChange(infoFormRef)">
+        <el-button
+          class="submit-button"
+          plain
+          color="white"
+          :dark="false"
+          @click="submitUserInfoChange(infoFormRef)"
+        >
           提交修改
         </el-button>
       </el-form-item>
@@ -67,8 +66,6 @@ export default {
   },
   computed: {
     oldUsername() {
-      // if (this.userName === '') return '请输入用户名';
-      // else return this.userName;
       return this.UserName;
     },
     oldEmail() {
@@ -205,15 +202,37 @@ export default {
   height: 100%;
   border: none;
 }
+
 .form-wrapper {
-  width: 40vw;
+  width: 35vw;
 }
+
 .form-wrapper:deep(.el-form-item__label) {
   font-size: 17px;
   font-weight: bold;
 }
+
 .form-button {
   display: flex;
   float: right;
+}
+
+.form-button :deep(.el-button) {
+  background: #9007ff;
+  border-color: #9007ff;
+}
+
+.submit-button {
+  width: 7vw;
+  height: 4vh;
+  border-radius: 12px;
+  background-color: rgb(130, 36, 227);
+  background-image: linear-gradient(
+    90deg,
+    rgb(130, 36, 227) 0px,
+    rgb(169, 104, 236)
+  );
+  box-shadow: rgba(130, 36, 227, 0.5) 0 1px 2px 0;
+  font-size: medium;
 }
 </style>

@@ -31,7 +31,7 @@
               justify="center"
               style="font-size: smaller; color: gainsboro"
             >
-              订阅模块
+              已订阅
             </el-row>
           </el-col>
           <el-col :span="12">
@@ -43,7 +43,7 @@
               justify="center"
               style="font-size: smaller; color: gainsboro"
             >
-              发布内容
+              已发布
             </el-row>
           </el-col>
         </el-row>

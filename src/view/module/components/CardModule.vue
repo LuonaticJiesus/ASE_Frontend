@@ -64,8 +64,8 @@ export default {
   },
   methods: {
     enterModule() {
-      console.log('jump to ', '/module/' + this.moduleId);
-      router.push('/module/' + this.moduleId);
+      // console.log('jump to ', '/module/' + this.moduleId);
+      router.push('/module/' + this.moduleId + '/share');
     },
   },
 };
