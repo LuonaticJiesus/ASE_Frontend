@@ -86,13 +86,13 @@ import { changeBasicInfo, getUserProfile } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ref } from 'vue';
 import { useUserStore } from '/@/store';
-import { ElMessage, TabsPaneContext, genFileId } from 'element-plus';
+import { ElMessage, TabsPaneContext } from 'element-plus';
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import RightBoard from '/@/components/RightBoard.vue';
 import BasicInfo from '/@/view/user/basicInfo.vue';
 import ChangePwd from '/@/view/user/changePwd.vue';
 import UserStatistic from '/@/view/user/userStatistic.vue';
-import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
+import type { UploadProps } from 'element-plus';
 import { uploadImage } from '/@/api/notice';
 
 export default {
@@ -110,6 +110,8 @@ export default {
     };
   },
   setup() {
+    const fileList = [];
+
     const activeName = ref('first');
 
     const uploadUrl: string =
@@ -137,18 +139,21 @@ export default {
       return true;
     };
 
-    const upload = ref<UploadInstance>();
+    // const upload = ref<UploadInstance>();
 
     const handleExceed: UploadProps['onExceed'] = (files) => {
-      upload.value!.clearFiles();
-      const file = files[0] as UploadRawFile;
-      file.uid = genFileId();
-      upload.value!.handleStart(file);
+      // upload.value!.clearFiles();
+      // const file = files[0] as UploadRawFile;
+      // file.uid = genFileId();
+      // upload.value!.handleStart(file);
+      console.log(files);
+      ElMessage.error('不可连续上传头像，请刷新页面！');
     };
 
     const updateAvtar = async (res) => {
-      if (res.data) {
-        await changeBasicInfo({ avatar: res.data.url }, headers);
+      console.log(res);
+      if (res) {
+        await changeBasicInfo({ avatar: res.url }, headers);
         await useUserStore().getInfo();
         userAvatar.value = useUserStore().avatar;
         // this.$refs['upload'].clearFiles();
@@ -159,10 +164,16 @@ export default {
     const handleUploadAvatar = async (param) => {
       const formData = new FormData();
       formData.append('file', param.file);
-      await uploadImage(useUserStore().user_id, getToken(), formData);
+      let res = await uploadImage(useUserStore().user_id, getToken(), formData);
+      if (res) {
+        param.onSuccess(res);
+      } else {
+        param.onError('Failed');
+      }
     };
 
     return {
+      fileList,
       uploadUrl,
       activeName,
       headers,
