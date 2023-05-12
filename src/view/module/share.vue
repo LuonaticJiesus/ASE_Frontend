@@ -50,6 +50,7 @@ export default {
           this.tableData = res;
           for (let i of this.tableData) {
             i.txt = strippedHtml(i.txt);
+            i.time = new Date(i.time).toLocaleString();
           }
         })
         .catch((err) => {
