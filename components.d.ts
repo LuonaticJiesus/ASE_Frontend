@@ -20,7 +20,6 @@ declare module '@vue/runtime-core' {
     ElDialog: typeof import('element-plus/es')['ElDialog'];
     ElDivider: typeof import('element-plus/es')['ElDivider'];
     ElEmpty: typeof import('element-plus/es')['ElEmpty'];
-    ElFooter: typeof import('element-plus/es')['ElFooter'];
     ElForm: typeof import('element-plus/es')['ElForm'];
     ElFormItem: typeof import('element-plus/es')['ElFormItem'];
     ElHeader: typeof import('element-plus/es')['ElHeader'];
@@ -31,17 +30,13 @@ declare module '@vue/runtime-core' {
     ElMain: typeof import('element-plus/es')['ElMain'];
     ElMenu: typeof import('element-plus/es')['ElMenu'];
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
-    ElOption: typeof import('element-plus/es')['ElOption'];
     ElPagination: typeof import('element-plus/es')['ElPagination'];
     ElRow: typeof import('element-plus/es')['ElRow'];
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar'];
-    ElSelect: typeof import('element-plus/es')['ElSelect'];
-    ElSelectV2: typeof import('element-plus/es')['ElSelectV2'];
     ElTable: typeof import('element-plus/es')['ElTable'];
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
     ElTabPane: typeof import('element-plus/es')['ElTabPane'];
     ElTabs: typeof import('element-plus/es')['ElTabs'];
-    ElUpload: typeof import('element-plus/es')['ElUpload'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     MdEditor: typeof import('./src/components/MdEditor.vue')['default'];
     NoticeBoard: typeof import('./src/components/NoticeBoard.vue')['default'];
