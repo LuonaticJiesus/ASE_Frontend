@@ -12,6 +12,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --el-color-primary: #9007ff;
+  --el-color-primary-light-3: #af4dff;
+  --el-color-primary-light-5: #cf94ef;
+  --el-color-primary-light-7: #dfb8ff;
+  --el-color-primary-light-8: #efdbff;
+  --el-color-primary-light-9: #f5eaff;
 }
 
 a {

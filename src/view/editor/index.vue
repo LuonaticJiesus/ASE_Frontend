@@ -274,4 +274,12 @@ export default {
 .module-select-box:deep(.el-select-v2__wrapper) {
   height: 100%;
 }
+
+.el-input {
+  --el-input-focus-border-color: #9007ff;
+}
+
+.el-select-v2 {
+  --el-select-input-focus-border-color: #9007ff;
+}
 </style>
