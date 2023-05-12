@@ -8,13 +8,7 @@
     <template #header="{ titleId, titleClass }">
       <div class="my-header">
         <h4 :id="titleId" :class="titleClass" style="margin: 0">发布通知</h4>
-        <el-button
-          type="danger"
-          @click="
-            cleanForm();
-            closeDialog();
-          "
-        >
+        <el-button type="danger" @click="closeDialog()">
           <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
           关闭
         </el-button>
