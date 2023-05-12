@@ -1,31 +1,36 @@
 <template>
   <el-dialog
     :model-value="visible"
-    destroy-on-close
     modal
     :show-close="false"
     style="border-radius: 12px"
   >
-    <template #header="{ close, titleId, titleClass }">
+    <template #header="{ titleId, titleClass }">
       <div class="my-header">
         <h4 :id="titleId" :class="titleClass" style="margin: 0">发布通知</h4>
-        <el-button type="danger" @click="close">
+        <el-button
+          type="danger"
+          @click="
+            cleanForm();
+            closeDialog();
+          "
+        >
           <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
           关闭
         </el-button>
       </div>
     </template>
     <template #default>
-      <el-form ref="noticeFormRef">
-        <el-form-item label="通知标题:" required>
+      <el-form ref="noticeFormRef" :model="noticeForm">
+        <el-form-item label="通知标题:" required prop="title">
           <el-input v-model="noticeForm.title" placeholder="请输入标题">
           </el-input>
         </el-form-item>
-        <el-form-item label="通知内容:" required>
+        <el-form-item label="通知内容:" required prop="content">
           <vue3-tinymce v-model="noticeForm.content" :setting="richSetting">
           </vue3-tinymce>
         </el-form-item>
-        <el-form-item label="截止时间:">
+        <el-form-item label="截止时间:" prop="ddl">
           <el-date-picker
             v-model="noticeForm.ddl"
             type="datetime"
@@ -134,9 +139,6 @@ const postNotice = async () => {
     block_id: router.currentRoute.value.params['id'],
     ddl: noticeForm.ddl,
   };
-  console.log('check postNotice');
-  console.log(header);
-  console.log(data);
   await publishNotice(header, data);
   ElMessage.success({
     showClose: true,
@@ -148,16 +150,18 @@ const postNotice = async () => {
 
 const cleanForm = () => {
   noticeFormRef.value.resetFields();
-};
-
-const closeDialog = () => {
-  this.$emit('closeDialog', false);
+  console.log('clean notice form');
 };
 </script>
 
 <script lang="ts">
 export default {
   name: 'NoticeEditor',
+  methods: {
+    closeDialog() {
+      this.$emit('closeDialog');
+    },
+  },
 };
 </script>
 
