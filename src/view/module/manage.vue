@@ -2,35 +2,64 @@
   <el-table :data="tableData" stripe style="width: 100%" height="58vh">
     <el-table-column prop="fig" label="" width="20" />
     <el-table-column prop="name" label="昵称" width="150" />
-    <el-table-column prop="card_id" label="学工号" width="150" />
-    <el-table-column prop="point" label="积分" width="100" />
-    <el-table-column prop="approve_permission" label="当前权限" width="120" />
+    <el-table-column prop="card_id" label="学工号" sortable width="150" />
+    <el-table-column prop="point" label="积分" sortable width="100" />
+    <el-table-column
+      prop="approve_permission"
+      sortable
+      label="当前权限"
+      width="120"
+    />
     <el-table-column prop="approve_permission" label="操作">
       <template #default="{ row }">
         <el-button
           plain
           type="danger"
-          :disabled="userRole >= 2 && userRole > row.approve_permission"
+          :disabled="canDelete(row.approve_permission)"
+          @click="setPermission(row.user_id, -1)"
         >
           <el-icon><Delete /></el-icon>
           移除
         </el-button>
         <el-button
+          v-if="row.approve_permission < 2"
           plain
           type="success"
-          :disabled="
-            userRole >= 3 &&
-            (row.approve_permission === 1 || row.approve_permission === 0)
-          "
+          :disabled="canSetAssistant(row.approve_permission)"
+          @click="setPermission(row.user_id, 2)"
         >
+          <el-icon><Check /></el-icon>
           <span>设为助手</span>
         </el-button>
         <el-button
+          v-else
+          plain
+          type="success"
+          :disabled="canCancelAssistant(row.approve_permission)"
+          @click="setPermission(row.user_id, 1)"
+        >
+          <el-icon><Close /></el-icon>
+          <span>取消助手</span>
+        </el-button>
+        <el-button
+          v-if="row.approve_permission < 1"
           plain
           type="primary"
-          :disabled="userRole >= 2 && row.approve_permission === 0"
+          :disabled="canSetPost(row.approve_permission)"
+          @click="setPermission(row.user_id, 1)"
         >
+          <el-icon><Check /></el-icon>
           <span>允许发帖</span>
+        </el-button>
+        <el-button
+          v-else
+          plain
+          type="primary"
+          :disabled="canCancelPost(row.approve_permission)"
+          @click="setPermission(row.user_id, 0)"
+        >
+          <el-icon><Close /></el-icon>
+          <span>禁止发帖</span>
         </el-button>
       </template>
     </el-table-column>
@@ -40,9 +69,9 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue';
 import router from '/@/router';
-import { moduleMembers } from '/@/api/module';
+import { moduleMembers, moduleSetPermission } from '/@/api/module';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { Delete } from '@element-plus/icons-vue';
+import { Check, Close, Delete } from '@element-plus/icons-vue';
 import { queryRole } from '/@/api/permission';
 interface member {
   name: string;
@@ -52,6 +81,8 @@ interface member {
 
 const tableData: Ref<Array<member>> = ref([]);
 const userRole = ref(2);
+
+const headers = { token: getToken(), userid: getLocalUserId() };
 const fetchData = async () => {
   console.log('fetchData...', this);
   const block_id = router.currentRoute.value.params['id'];
@@ -64,6 +95,32 @@ const getUserRole = async () => {
     return await queryRole(block_id);
   }
   return undefined;
+};
+
+const canDelete = (role) => {
+  return !(userRole.value >= 2 && userRole.value > role);
+};
+
+const canSetAssistant = (role) => {
+  return !(userRole.value >= 3 && (role === 1 || role === 0));
+};
+
+const canCancelAssistant = (role) => {
+  return !(userRole.value >= 3 && role === 2);
+};
+
+const canSetPost = (role) => {
+  return !(userRole.value >= 2 && role === 0);
+};
+
+const canCancelPost = (role) => {
+  return !(userRole.value >= 2 && role === 1);
+};
+
+const setPermission = async (user_id, permission) => {
+  const block_id = router.currentRoute.value.params['id'];
+  await moduleSetPermission(headers, block_id, user_id, permission);
+  location.reload();
 };
 
 onMounted(async () => {

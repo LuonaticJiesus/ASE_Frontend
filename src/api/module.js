@@ -10,6 +10,7 @@ const URL = {
   random: 'four_s/block/random/',
   info: 'four_s/block/info/',
   members: 'four_s/permission/queryUser/',
+  setPermission: '/four_s/permission/set/',
 };
 
 // const MockURL = {
@@ -110,6 +111,17 @@ const moduleSubscribe = async (block_id, subscribe, userid, token) =>
     },
   });
 
+const moduleSetPermission = async (headers, block_id, user_id, permission) =>
+  post({
+    url: URL.setPermission,
+    headers,
+    data: {
+      user_id: user_id,
+      block_id: block_id,
+      permission: permission,
+    },
+  });
+
 export {
   moduleAll,
   modulePermission,
@@ -119,4 +131,5 @@ export {
   moduleInfo,
   moduleMembers,
   moduleSubscribe,
+  moduleSetPermission,
 };
