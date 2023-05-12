@@ -1,7 +1,8 @@
 <template>
   <el-table :data="tableData" stripe style="width: 100%" height="58vh">
     <el-table-column prop="fig" label="" width="20" />
-    <el-table-column prop="name" label="昵称" width="300" />
+    <el-table-column prop="name" label="昵称" width="150" />
+    <el-table-column prop="card_id" label="学工号" width="150" />
     <el-table-column prop="point" label="积分" width="100" />
     <el-table-column prop="approve_permission" label="当前权限" width="120" />
     <el-table-column prop="approve_permission" label="操作">
