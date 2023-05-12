@@ -71,7 +71,10 @@ export const asyncRoutes = [
         name: 'module',
         path: '/module',
         component: () => import('/@/view/module/index.vue'),
-        meta: { title: '模块', icon: '<el-icon><Collection /></el-icon>' },
+        meta: {
+          title: '模块',
+          icon: 'Collection',
+        },
         children: [
           {
             name: 'moduleListView',
@@ -143,7 +146,7 @@ export const asyncRoutes = [
         name: 'user',
         path: '/user',
         component: () => import('/@/view/user/index.vue'),
-        meta: { title: '用户', icon: '<el-icon><User /></el-icon>' },
+        meta: { title: '用户', icon: 'User' },
         children: [
           {
             name: 'basicInfo',

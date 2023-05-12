@@ -12,11 +12,14 @@
           :index="route['children'][0].path"
         >
           <!--        <router-link :to="route['children'][0].path">-->
+          <!--          <el-icon :size="16">-->
+          <!--            <Edit />-->
+          <!--          </el-icon>-->
           <el-icon :size="16">
-            <Edit />
+            <component :is="route['children'][0].meta['icon']"></component>
           </el-icon>
           <span style="font-size: 16px">{{
-            ' ' + route['children'][0]['name']
+            ' ' + route['children'][0].meta['title']
           }}</span>
           <!--        </router-link>-->
         </el-menu-item>
@@ -28,11 +31,11 @@
 
 <script>
 import { usePermissionStore, useUserStore } from '/@/store/index.js';
-import { Edit } from '@element-plus/icons-vue';
+import { Edit, Collection, User } from '@element-plus/icons-vue';
 import { isExternal } from '/@/utils/validate.ts';
 export default {
   name: 'SideBar',
-  components: { Edit },
+  components: { Edit, Collection, User },
   setup() {
     const routes = usePermissionStore().sideRoutes;
     const basePath = '/';
