@@ -3,6 +3,8 @@
     <el-menu
       :default-active="$router.currentRoute.value.path"
       style="height: 100%"
+      active-text-color="blueviolet"
+      background-color="white"
       mode="horizontal"
       :ellipsis="false"
       @select="handleSelect"
@@ -111,5 +113,17 @@ export default {
 }
 .custom-input :deep(.el-input__wrapper) {
   background-color: #f9f3f9;
+}
+
+.el-menu-item:hover {
+  outline: 0 !important;
+  color: blueviolet !important;
+}
+
+.el-submenu__title:focus,
+.el-submenu__title:hover {
+  outline: 0 !important;
+  color: blueviolet !important;
+  background: none !important;
 }
 </style>

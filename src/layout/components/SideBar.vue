@@ -4,27 +4,37 @@
 2. sideBar排列Item布局，设置link-to
 3. todo: 手动维护active?--->
     <!--    先摆了，有个导航就行-->
-    <el-menu class="custom-menu" :router="true">
+    <el-menu
+      class="custom-menu"
+      :router="true"
+      active-text-color="blueviolet"
+      background-color="#FAF4FF"
+    >
       <el-scrollbar>
         <el-menu-item
           v-for="(route, index) in routes"
           :key="index"
           :index="route['children'][0].path"
+          style="padding-left: 20px; padding-right: 20px"
         >
           <!--        <router-link :to="route['children'][0].path">-->
           <!--          <el-icon :size="16">-->
           <!--            <Edit />-->
           <!--          </el-icon>-->
-          <el-icon :size="16">
+          <el-icon :size="20">
             <component :is="route['children'][0].meta['icon']"></component>
           </el-icon>
-          <span style="font-size: 16px">{{
-            ' ' + route['children'][0].meta['title']
-          }}</span>
+          <span
+            style="
+              font-size: 16px;
+              font-family: 'Microsoft YaHei', 'Segoe UI Emoji';
+            "
+            >{{ ' ' + route['children'][0].meta['title'] }}</span
+          >
           <!--        </router-link>-->
         </el-menu-item>
       </el-scrollbar>
-      <el-button @click="handleLogOut">LogOut</el-button>
+      <el-button @click="handleLogOut">登出</el-button>
     </el-menu>
   </div>
 </template>
