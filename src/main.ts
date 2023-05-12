@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
-import '/@/style/style.css';
 import router from '/@/router/index';
 import piniaStore from '/@/store/index';
+import '/@/style/style.css';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import VMdEditor from '@kangc/v-md-editor';
