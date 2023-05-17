@@ -29,7 +29,7 @@
         style="margin: 20px; border: double 5px white"
         size="large"
         round
-        color="#626aef"
+        color="blueviolet"
         @click="enterModule"
       >
         进入版块
