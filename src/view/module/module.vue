@@ -1,157 +1,162 @@
 <template>
-  <el-container style="margin: 0">
-    <el-header class="module-header">
-      <div class="module-pannel">
-        <el-col :span="6">
-          <el-row type="flex" justify="center">
-            <div class="card-avator">
-              <el-image
-                style="
-                  border-radius: 13px;
-                  width: 20vh;
-                  height: 20vh;
-                  margin-top: -15vh;
-                  margin-bottom: 0;
-                  border: double 3px white;
-                  background-color: gray;
-                "
-                :src="moduleAvator"
-                :fit="'scale-down'"
-                lazy
-              >
-              </el-image>
-            </div>
-          </el-row>
-          <el-row type="flex" justify="center">
-            {{ moduleName }}
-          </el-row>
-        </el-col>
-        <el-col :span="2">
-          <div style="padding-top: 3vh">
-            <el-button
-              type="primary"
-              :class="this.activeTab === 1 ? 'active-tab' : 'module-tab'"
-              @click="jump('share')"
-            >
-              <el-col>
-                <el-row justify="center">
-                  <el-icon size="large"><ChatLineSquare /></el-icon>
-                </el-row>
-                <el-row>
-                  <div style="padding-top: 5px">分享</div>
-                </el-row>
-              </el-col>
-            </el-button>
+  <DivideContainer>
+    <template #main>
+      <el-container style="margin: 0">
+        <el-header class="module-header">
+          <div class="module-pannel">
+            <el-col :span="6">
+              <el-row type="flex" justify="center">
+                <div class="card-avator">
+                  <el-image
+                    style="
+                      border-radius: 13px;
+                      width: 20vh;
+                      height: 20vh;
+                      margin-top: -15vh;
+                      margin-bottom: 0;
+                      border: double 3px white;
+                      background-color: gray;
+                    "
+                    :src="moduleAvatar"
+                    :fit="'scale-down'"
+                    lazy
+                  >
+                  </el-image>
+                </div>
+              </el-row>
+              <el-row type="flex" justify="center">
+                {{ moduleName }}
+              </el-row>
+            </el-col>
+            <el-col :span="2">
+              <div style="padding-top: 3vh">
+                <el-button
+                  type="primary"
+                  :class="this.activeTab === 1 ? 'active-tab' : 'module-tab'"
+                  @click="jump('share')"
+                >
+                  <el-col>
+                    <el-row justify="center">
+                      <el-icon size="large"><ChatLineSquare /></el-icon>
+                    </el-row>
+                    <el-row>
+                      <div style="padding-top: 5px">分享</div>
+                    </el-row>
+                  </el-col>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div style="padding-top: 3vh">
+                <el-button
+                  type="primary"
+                  :class="this.activeTab === 2 ? 'active-tab' : 'module-tab'"
+                  @click="jump('notice')"
+                >
+                  <el-col>
+                    <el-row justify="center">
+                      <el-icon size="large"><Edit /></el-icon>
+                    </el-row>
+                    <el-row>
+                      <div style="padding-top: 5px">通知</div>
+                    </el-row>
+                  </el-col>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div style="padding-top: 3vh">
+                <el-button
+                  type="primary"
+                  :class="this.activeTab === 3 ? 'active-tab' : 'module-tab'"
+                  @click="jump('member')"
+                >
+                  <el-col>
+                    <el-row justify="center">
+                      <el-icon size="large"><Edit /></el-icon>
+                    </el-row>
+                    <el-row>
+                      <div style="padding-top: 5px">成员</div>
+                    </el-row>
+                  </el-col>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div style="padding-top: 3vh">
+                <el-button
+                  type="primary"
+                  :class="this.activeTab === 4 ? 'active-tab' : 'module-tab'"
+                  @click="jump('self')"
+                  v-show="userRole > 0"
+                >
+                  <el-col>
+                    <el-row justify="center">
+                      <el-icon size="large"><Edit /></el-icon>
+                    </el-row>
+                    <el-row>
+                      <div style="padding-top: 5px">我的</div>
+                    </el-row>
+                  </el-col>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <div style="padding-top: 3vh">
+                <el-button
+                  type="primary"
+                  :class="this.activeTab === 5 ? 'active-tab' : 'module-tab'"
+                  @click="jump('manage')"
+                  v-show="userRole > 1"
+                >
+                  <el-col>
+                    <el-row justify="center">
+                      <el-icon size="large"><Edit /></el-icon>
+                    </el-row>
+                    <el-row>
+                      <div style="padding-top: 5px">管理</div>
+                    </el-row>
+                  </el-col>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :offset="1" :span="3">
+              <div style="padding-top: 3vh">
+                <el-button
+                  plain
+                  class="subscribe-button"
+                  color="#7728F5"
+                  :dark="false"
+                  @click="userRole >= 0 ? cancelJoinModule() : joinModule()"
+                >
+                  <div>{{ userRole >= 0 ? '取消订阅' : '订阅版块' }}</div>
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :span="3">
+              <div style="padding-top: 3vh">
+                <el-button
+                  plain
+                  color="#7728F5"
+                  :dark="false"
+                  class="subscribe-button"
+                  @click="createShare()"
+                  :disabled="userRole <= 0"
+                >
+                  <div>创建分享</div>
+                </el-button>
+              </div>
+            </el-col>
           </div>
-        </el-col>
-        <el-col :span="2">
-          <div style="padding-top: 3vh">
-            <el-button
-              type="primary"
-              :class="this.activeTab === 2 ? 'active-tab' : 'module-tab'"
-              @click="jump('notice')"
-            >
-              <el-col>
-                <el-row justify="center">
-                  <el-icon size="large"><Edit /></el-icon>
-                </el-row>
-                <el-row>
-                  <div style="padding-top: 5px">通知</div>
-                </el-row>
-              </el-col>
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="2">
-          <div style="padding-top: 3vh">
-            <el-button
-              type="primary"
-              :class="this.activeTab === 3 ? 'active-tab' : 'module-tab'"
-              @click="jump('member')"
-            >
-              <el-col>
-                <el-row justify="center">
-                  <el-icon size="large"><Edit /></el-icon>
-                </el-row>
-                <el-row>
-                  <div style="padding-top: 5px">成员</div>
-                </el-row>
-              </el-col>
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="2">
-          <div style="padding-top: 3vh">
-            <el-button
-              type="primary"
-              :class="this.activeTab === 4 ? 'active-tab' : 'module-tab'"
-              @click="jump('self')"
-              v-show="userRole >= 0"
-            >
-              <el-col>
-                <el-row justify="center">
-                  <el-icon size="large"><Edit /></el-icon>
-                </el-row>
-                <el-row>
-                  <div style="padding-top: 5px">我的</div>
-                </el-row>
-              </el-col>
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="2">
-          <div style="padding-top: 3vh">
-            <el-button
-              type="primary"
-              :class="this.activeTab === 5 ? 'active-tab' : 'module-tab'"
-              @click="jump('manage')"
-              v-show="userRole > 1"
-            >
-              <el-col>
-                <el-row justify="center">
-                  <el-icon size="large"><Edit /></el-icon>
-                </el-row>
-                <el-row>
-                  <div style="padding-top: 5px">管理</div>
-                </el-row>
-              </el-col>
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :offset="1" :span="3">
-          <div style="padding-top: 3vh">
-            <el-button
-              plain
-              class="subscribe-button"
-              color="#7728F5"
-              :dark="false"
-              @click="userRole >= 0 ? cancelJoinModule() : joinModule()"
-            >
-              <div>{{ userRole >= 0 ? '取消订阅' : '订阅版块' }}</div>
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="3">
-          <div style="padding-top: 3vh">
-            <el-button
-              plain
-              color="#7728F5"
-              :dark="false"
-              class="subscribe-button"
-              @click="createShare()"
-              :disabled="userRole <= 0"
-            >
-              <div>创建分享</div>
-            </el-button>
-          </div>
-        </el-col>
-      </div>
-    </el-header>
-    <el-divider style="margin: 0" />
-    <el-main style="padding: 0">
-      <router-view></router-view>
-    </el-main>
-  </el-container>
+        </el-header>
+        <el-divider style="margin: 0" />
+        <el-main style="padding: 0">
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </template>
+    <template #right> <NoticeBoard /></template>
+  </DivideContainer>
 </template>
 
 <script>
@@ -164,10 +169,12 @@ import { queryRole } from '/@/api/permission.js';
 import { ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
 import { defaultLogo } from '/@/utils/string.ts';
+import DivideContainer from '/@/layout/components/DivideContainer.vue';
+import NoticeBoard from '/@/components/NoticeBoard.vue';
 
 export default {
   name: 'ModuleView',
-  components: { ChatLineSquare, Edit },
+  components: { NoticeBoard, DivideContainer, ChatLineSquare, Edit },
   setup() {
     const userRole = ref(0);
     const activeTab = ref(0);
@@ -198,9 +205,11 @@ export default {
         activeTab.value = 0;
       }
     };
+    const moduleAvatar = ref(defaultLogo);
+    const moduleName = ref('QuadSSSS');
     return {
-      moduleName: 'QuadSSSS',
-      moduleAvator: defaultLogo,
+      moduleName,
+      moduleAvatar,
       tableData: [],
       userRole,
       activeTab,
@@ -226,7 +235,7 @@ export default {
         .then((res) => {
           console.log('module.vue fetchData success: ', res);
           this.moduleName = res.name;
-          this.moduleAvator = res.avatar;
+          this.moduleAvatar = res.avatar;
         })
         .catch((err) => {
           console.log('module.vue fetchData failed: ', err);
@@ -339,7 +348,7 @@ export default {
   );
   border: 0;
   color: white;
-  box-shadow: rgba(58, 46, 68, 0.7) 0px 10px 20px -8px;
+  box-shadow: rgba(58, 46, 68, 0.7) 0 10px 20px -8px;
   font-weight: bold;
 }
 
