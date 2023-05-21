@@ -12,7 +12,7 @@
                   height: 75px;
                   border: double 5px white;
                 "
-                :src="moduleAvator"
+                :src="moduleAvatar"
                 :fit="'scale-down'"
                 lazy
               >
@@ -53,7 +53,7 @@ export default {
       type: String,
       default: '版块名称',
     },
-    moduleAvator: {
+    moduleAvatar: {
       type: String,
       default: defaultLogo,
     },
