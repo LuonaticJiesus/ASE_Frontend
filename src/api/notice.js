@@ -2,13 +2,13 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
-  list: 'four_s/notice/queryRecv/',
-  create: 'back/notice/create',
-  undueList: 'four_s/notice/queryRecv/',
-  queryBlock: 'four_s/notice/queryBlock/',
-  uploadImg: 'four_s/file/upload/',
+  list: '/four_s/notice/queryRecv/',
+  create: '/back/notice/create',
+  undueList: '/four_s/notice/queryRecv/',
+  queryBlock: '/four_s/notice/queryBlock/',
+  uploadImg: '/four_s/file/upload/',
   publish: '/four_s/notice/publish/',
-  queryById: 'four_s/notice/queryById/',
+  queryById: '/four_s/notice/queryById/',
 };
 
 // const MockURL = {
