@@ -2,8 +2,24 @@
   <div style="padding: 0">
     <el-table :data="tableData" stripe style="width: 100%" height="58vh">
       <el-table-column prop="fig" label="" width="20" />
-      <el-table-column prop="name" label="昵称" width="480" />
-      <el-table-column prop="point" label="积分" />
+      <el-table-column prop="name" label="昵称" width="280" />
+      <el-table-column prop="card_id" label="学工号" sortable />
+      <el-table-column prop="point" label="积分" sortable />
+      <el-table-column prop="approve_permission" label="身份" sortable>
+        <template #default="{ row }">
+          <el-tag type="success" v-show="row.approve_permission > 1">
+            {{
+              row.approve_permission === 2
+                ? 'Assistant'
+                : row.approve_permission === 3
+                ? 'Manager'
+                : row.approve_permission === 4
+                ? 'SuperManger'
+                : 'None'
+            }}
+          </el-tag>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
