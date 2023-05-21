@@ -5,6 +5,7 @@ import NProgress from 'nprogress';
 import { clearToken, getToken } from '/src/utils/auth';
 import { useUserStore, usePermissionStore } from '/src/store';
 import { ElMessage } from 'element-plus';
+import { validateAccount } from '/@/api/user.js';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -18,7 +19,14 @@ const whiteList = ['/login', '/404'];
 router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start();
-
+  const needValidate = to.query['active_code'];
+  if (needValidate) {
+    const param = {
+      active_code: needValidate,
+    };
+    await validateAccount(param);
+    next('/');
+  }
   // set page title
   // document.title = getPageTitle(to.meta.title);
   // determine whether the user has logged in

@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 
-import { get, post } from '/@/utils/request';
+import { post, get } from '/@/utils/request';
 
 const URL = {
   login: '/four_s/user/login/',
@@ -14,6 +14,7 @@ const URL = {
   changeInfo: '/four_s/user/modify/',
   info: '/four_s/user/info/',
   querySubscribe: '/four_s/user/querySubscribe/',
+  validate: '/four_s/user/active/',
 };
 
 const getUserProfile = async (header) =>
@@ -60,6 +61,7 @@ const querySubscribe = async (userid, token, user_id) =>
       user_id: user_id,
     },
   });
+const validateAccount = async (params) => get({ url: URL.validate, params });
 
 export {
   getUserProfile,
@@ -70,4 +72,5 @@ export {
   changeBasicInfo,
   fetchInfo,
   querySubscribe,
+  validateAccount,
 };
