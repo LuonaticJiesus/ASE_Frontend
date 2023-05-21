@@ -14,6 +14,7 @@
             v-model="infoForm.email"
             :placeholder="oldEmail"
             autocomplete="off"
+            disabled="disabled"
           />
         </el-form-item>
         <el-form-item label="学号" :prop="idProp">
