@@ -4,7 +4,7 @@
       <!--      !!!!!在这里填页面-->
       <h1>Home</h1>
       <!--      temp!-->
-      <el-button @click="showNoticeEditor">Show Notice Editor</el-button>
+      <!-- <el-button @click="showNoticeEditor">Show Notice Editor</el-button> -->
       <NoticeEditor
         v-model:visible="dialogEditor"
         @close="dialogEditor = false"
