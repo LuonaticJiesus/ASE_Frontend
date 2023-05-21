@@ -3,19 +3,8 @@
 </template>
 
 <script>
-import { defaultLogo } from '/@/utils/string.ts';
-
 export default {
   name: 'ModuleView',
-  setup() {
-    return {
-      activeName: 'first',
-      moduleName: 'QuadSSSS',
-      moduleAvator: defaultLogo,
-      tableData: [],
-    };
-  },
-  methods: {},
 };
 </script>
 
