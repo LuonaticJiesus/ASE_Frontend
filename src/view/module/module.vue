@@ -125,9 +125,9 @@
               class="subscribe-button"
               color="#7728F5"
               :dark="false"
-              @click="userRole > 0 ? cancelJoinModule() : joinModule()"
+              @click="userRole >= 0 ? cancelJoinModule() : joinModule()"
             >
-              <div>{{ userRole > 0 ? '取消订阅' : '订阅版块' }}</div>
+              <div>{{ userRole >= 0 ? '取消订阅' : '订阅版块' }}</div>
             </el-button>
           </div>
         </el-col>
