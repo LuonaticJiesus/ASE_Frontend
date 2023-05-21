@@ -223,10 +223,12 @@ const options = ref([]);
 
 onMounted(async () => {
   // getWordCount();
-  for (let p = 0; p <= 4; p++) {
-    const res = await modulePermission(p, getLocalUserId(), getToken());
-    myModules.value.push(...res);
-  }
+  const res = await modulePermission(
+    [0, 1, 2, 3, 4],
+    getLocalUserId(),
+    getToken(),
+  );
+  myModules.value.push(...res);
   options.value = Array.from({ length: myModules.value.length }).map(
     (_, idx) => ({
       value: `${myModules.value[idx].block_id}`,

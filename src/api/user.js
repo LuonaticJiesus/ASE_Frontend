@@ -13,7 +13,7 @@ const URL = {
   changePwd: '/four_s/user/changePwd/',
   changeInfo: '/four_s/user/modify/',
   info: '/four_s/user/info/',
-  querySubscribe: '/four_s/user/querySubscribe/',
+  querySubscribe: '/four_s/user/querySubscribe/', // 废弃
   validate: '/four_s/user/active/',
 };
 
