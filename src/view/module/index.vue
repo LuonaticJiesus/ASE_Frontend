@@ -1,22 +1,12 @@
 <template>
-  <DivideContainer>
-    <template #main>
-      <router-view />
-    </template>
-    <template #right>
-      <NoticeBoard />
-    </template>
-  </DivideContainer>
+  <router-view />
 </template>
 
 <script>
-import DivideContainer from '/@/layout/components/DivideContainer.vue';
-import NoticeBoard from '/@/components/NoticeBoard.vue';
 import { defaultLogo } from '/@/utils/string.ts';
 
 export default {
   name: 'ModuleView',
-  components: { NoticeBoard, DivideContainer },
   setup() {
     return {
       activeName: 'first',

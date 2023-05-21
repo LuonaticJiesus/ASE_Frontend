@@ -10,7 +10,7 @@
         <el-tab-pane label="未截止" class="notice-tab">
           <el-empty
             v-if="unEndedNotices.length === 0"
-            description="没有未截止的通知"
+            description="当前没有未截止的通知"
           />
           <el-scrollbar>
             <NoticeSimple
@@ -21,10 +21,7 @@
           </el-scrollbar>
         </el-tab-pane>
         <el-tab-pane label="所有" class="notice-tab">
-          <el-empty
-            v-if="allNotices.length === 0"
-            description="没有未截止的通知"
-          />
+          <el-empty v-if="allNotices.length === 0" description="当前没有通知" />
           <el-scrollbar>
             <NoticeSimple
               v-for="notice of allNotices"
