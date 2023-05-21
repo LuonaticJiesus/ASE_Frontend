@@ -43,4 +43,20 @@ const setPermission = async (member_id, block_id, permission) =>
     url: URL.set,
   });
 
-export { roles, queryRole, setPermission };
+const permissionMap = {
+  0: 'Follower',
+  1: 'Member',
+  2: 'Assistant',
+  3: 'Manager',
+  4: 'SuperManager',
+};
+
+const permissionColor = {
+  0: 'info',
+  1: 'primary',
+  2: 'success',
+  3: 'plain',
+  4: 'error',
+};
+
+export { roles, queryRole, setPermission, permissionMap, permissionColor };
