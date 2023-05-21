@@ -2,7 +2,7 @@
 import { get, post } from '/@/utils/request';
 
 const URL = {
-  subscribe: 'four_s/block/subscribe/',
+  subscribe: '/four_s/block/subscribe/',
   queryAll: 'four_s/block/queryAll/',
   queryPermission: 'four_s/block/queryPermission/',
   searchAll: 'four_s/block/searchAll/',
