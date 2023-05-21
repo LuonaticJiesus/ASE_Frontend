@@ -102,6 +102,11 @@
               <Share />
             </el-icon>
           </el-button>
+          <el-button size="large" circle type="danger" plain disabled>
+            <el-icon>
+              <Delete />
+            </el-icon>
+          </el-button>
         </el-row>
       </div>
     </template>
@@ -114,7 +119,7 @@ import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import { onMounted, ref } from 'vue';
 import router from '/@/router/index.js';
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
-import { Check, Pointer, Share, Star } from '@element-plus/icons-vue';
+import { Check, Pointer, Share, Star, Delete } from '@element-plus/icons-vue';
 import { articleDetail } from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { defaultLogo } from '/@/utils/string';
