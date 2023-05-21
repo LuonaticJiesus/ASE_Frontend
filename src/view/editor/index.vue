@@ -5,6 +5,7 @@
         v-model="title"
         placeholder="请输入标题（不多于50字）"
         size="large"
+        maxlength="50"
         style="width: 67%; height: 90%; margin: 0; padding: 0"
       />
       <el-select-v2
@@ -116,6 +117,7 @@ const richSetting = {
   link_title: false,
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
+  placeholder: '请输入内容',
   // 图片上传
   custom_images_upload: true,
   images_upload_url:
@@ -131,10 +133,8 @@ const moduleId: Ref<number> = ref(0);
 const route = useRoute();
 moduleId.value = Number(route.query.moduleId);
 const mdText: Ref<string> = ref('');
-const richText: Ref<string> = ref(
-  ' <h1>Heading</h1>\n' + '  <p>This Editor is awesome!</p>',
-);
-const editorType: Ref<string> = ref('md');
+const richText: Ref<string> = ref('');
+const editorType: Ref<string> = ref('rich');
 const editorOptions = [
   {
     value: 'rich',
