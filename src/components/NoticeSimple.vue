@@ -11,10 +11,10 @@
       </el-col>
       <el-col :span="18" class="notice-info-div">
         <h4 class="notice-title-simple">
-          {{ noticeItem.title }}
+          {{ strippedHtml(noticeItem.title) }}
         </h4>
         <span class="notice-content-simple">
-          {{ noticeItem.txt }}
+          {{ strippedHtml(noticeItem.txt) }}
         </span>
       </el-col>
     </el-row>
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 // eslint-disable-next-line no-unused-vars
 import { PropType } from 'vue';
-import { defaultLogo } from '/@/utils/string';
+import { defaultLogo, strippedHtml } from '/@/utils/string';
 import router from '/@/router';
 interface noticeType {
   notice_id: number;
