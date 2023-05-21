@@ -66,7 +66,7 @@ const noticeFormRef = ref<FormInstance>();
 
 const noticeForm = reactive({
   title: '',
-  content: '请输入内容',
+  content: '',
   ddl: '',
 });
 
@@ -89,6 +89,7 @@ const richSetting = {
     'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
   plugins: 'codesample link image table lists fullscreen',
   toolbar_mode: 'sliding',
+  placeholder: '请输入内容',
   nonbreaking_force_tab: true,
   link_title: false,
   link_default_target: '_blank',
