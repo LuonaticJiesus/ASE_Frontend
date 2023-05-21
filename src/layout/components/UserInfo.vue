@@ -54,9 +54,10 @@
 
 <script lang="ts">
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { getUserProfile, querySubscribe } from '/@/api/user';
+import { getUserProfile } from '/@/api/user';
 import { useUserStore } from '/@/store';
 import { userArticles } from '/@/api/article';
+import { modulePermission } from '/@/api/module';
 
 export default {
   name: 'userInfo',
@@ -78,9 +79,14 @@ export default {
           token: token,
         });
         this.userName = userProfile.name;
-        const userSubscribes = await querySubscribe(userid, token, userid);
-        console.log(userSubscribes);
-        this.subscribeCnt = userSubscribes.length;
+        modulePermission([0, 1, 2, 3, 4], userid, token)
+          .then((res) => {
+            console.log('UserInfo.vue query success', res);
+            this.subscribeCnt = res.length;
+          })
+          .catch((err) => {
+            console.log('UserInfo.vue query failed', err);
+          });
         const userPostGetter = await userArticles(userid, token);
         console.log(userPostGetter);
         this.postCnt = userPostGetter.length;
