@@ -16,9 +16,12 @@ import { defaultLogo } from '/@/utils/string.ts';
 export const useUserStore = defineStore('user', {
   state: () => ({
     user_id: getLocalUserId(),
-    username: undefined,
+    name: undefined,
+    card_id: undefined,
+    phone: undefined,
+    email: undefined,
     avatar: defaultLogo,
-    favor_count: undefined,
+    point: undefined,
     status: false, // 判断是否登录，登录为true，没登录false
     roles: [], // 开发环境使用，暂时认为已登录
   }),

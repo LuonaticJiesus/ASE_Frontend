@@ -9,7 +9,7 @@
       class="form-wrapper"
     >
       <el-scrollbar max-height="42vh">
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="邮箱" prop="none">
           <el-input
             v-model="infoForm.email"
             :placeholder="oldEmail"
@@ -30,8 +30,9 @@
             v-model="infoForm.phone"
             :placeholder="oldPhone"
             autocomplete="off"
-            :disabled="this.phoneStatus"
           />
+          <!--            :disabled="this.phoneStatus"-->
+          <!--            />-->
         </el-form-item>
       </el-scrollbar>
       <el-form-item class="form-button">
@@ -52,8 +53,9 @@
 <script lang="ts">
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { reactive, ref } from 'vue';
-import { changeBasicInfo, getUserProfile } from '/@/api/user';
+import { changeBasicInfo } from '/@/api/user';
 import { FormInstance, FormRules } from 'element-plus';
+import { useUserStore } from '/@/store';
 
 export default {
   name: 'basicInfo',
@@ -70,8 +72,7 @@ export default {
       return this.UserName;
     },
     oldEmail() {
-      if (this.Email === undefined) return '请输入邮箱';
-      else return this.Email;
+      return this.Email;
     },
     oldStudentId() {
       if (this.Studentid === undefined) {
@@ -92,8 +93,9 @@ export default {
       else return 'none';
     },
     phoneProp() {
-      if (this.Phone === undefined) return 'phone';
-      else return 'none';
+      // if (this.Phone === undefined) return 'phone';
+      // else return 'none';
+      return 'phone';
     },
   },
   setup() {
@@ -113,10 +115,11 @@ export default {
 
     const rules = reactive<FormRules>({
       username: [{ required: true, message: '请输入用户名' }],
-      email: [
-        { required: true, message: '请输入邮箱' },
-        { type: 'email', message: '请输入正确的邮箱地址' },
-      ],
+      // 不需要邮箱校验，如后续需要，将邮箱的prop改为email
+      // email: [
+      //   { required: true, message: '请输入邮箱' },
+      //   { type: 'email', message: '请输入正确的邮箱地址' },
+      // ],
       studentId: [
         { required: true, message: '请输入学号' },
         { pattern: '\^\\d{8}\$', message: '请输入正确的学号' },
@@ -131,12 +134,13 @@ export default {
       if (!formEl) return;
       formEl.validate((valid) => {
         if (valid) {
-          console.log('submit!');
+          console.log('basicInfo.vue submit!');
           let data = {
             card_id: infoForm.studentId,
             phone: infoForm.phone,
             email: infoForm.email,
           };
+          console.log(data);
           for (const key in data) {
             if (
               data[key] === null ||
@@ -167,22 +171,16 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const userProfile = await getUserProfile({
-          userid: getLocalUserId(),
-          token: getToken(),
-        });
-        console.log(userProfile);
-        this.UserName = userProfile.name;
-        this.Email = userProfile.email;
-        this.Studentid = userProfile.card_id;
-        this.Phone = userProfile.phone;
+        this.UserName = useUserStore().name;
+        this.Email = useUserStore().email;
+        this.Studentid = useUserStore().card_id;
+        this.Phone = useUserStore().phone;
         if (this.Studentid !== undefined) {
           this.idStatus = true;
         }
         if (this.Phone !== undefined) {
           this.phoneStatus = true;
         }
-        console.log('change');
       } catch (error) {
         console.error('Error fetching user profile:', error);
         // 根据需要处理错误
