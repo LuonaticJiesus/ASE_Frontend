@@ -1,89 +1,100 @@
 <template>
-  <div style="margin: 1vh 2vh">
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane label="所有版块" name="first" class="list-tab">
-        <el-container style="margin: 0; padding: 0">
-          <el-header class="header">
-            <el-input
-              v-model="searchContent"
-              placeholder="在所有模块中搜索"
-              :prefix-icon="Search"
-              class="custom-input"
-              @change="handleSearch"
-            ></el-input>
-          </el-header>
-          <el-divider style="margin: 0" />
-          <el-main style="margin: 0; padding: 0">
-            <el-scrollbar height="63vh" style="padding: 0">
-              <div class="card-wrap">
-                <CardModule
-                  v-for="item in moduleList.slice(
-                    (currentPage - 1) * pageSize,
-                    currentPage * pageSize,
-                  )"
-                  :key="item.block_id"
-                  :moduleId="item.block_id"
-                  :moduleName="item.name"
-                  :moduleAvator="item.avatar"
-                  :memberNumber="item.population"
-                ></CardModule>
+  <DivideContainer>
+    <template #main>
+      <div style="margin: 1vh 2vh">
+        <el-tabs
+          v-model="activeName"
+          class="demo-tabs"
+          @tab-click="handleClick"
+        >
+          <el-tab-pane label="所有版块" name="first" class="list-tab">
+            <el-container style="margin: 0; padding: 0">
+              <el-header class="header">
+                <el-input
+                  v-model="searchContent"
+                  placeholder="在所有模块中搜索"
+                  :prefix-icon="Search"
+                  class="custom-input"
+                  @change="handleSearch"
+                ></el-input>
+              </el-header>
+              <el-divider style="margin: 0" />
+              <el-main style="margin: 0; padding: 0">
+                <el-scrollbar height="63vh" style="padding: 0">
+                  <div class="card-wrap">
+                    <CardModule
+                      v-for="item in moduleList.slice(
+                        (currentPage - 1) * pageSize,
+                        currentPage * pageSize,
+                      )"
+                      :key="item.block_id"
+                      :moduleId="item.block_id"
+                      :moduleName="item.name"
+                      :moduleAvator="item.avatar"
+                      :memberNumber="item.population"
+                    ></CardModule>
+                  </div>
+                </el-scrollbar>
+              </el-main>
+              <div style="height: 4.5vh; width: 30vw; margin: 1.5vh auto auto">
+                <el-pagination
+                  @current-change="handleCurrentChange"
+                  :current-page="currentPage"
+                  :page-size="pageSize"
+                  :total="moduleList.length"
+                >
+                </el-pagination>
               </div>
-            </el-scrollbar>
-          </el-main>
-          <div style="height: 4.5vh; width: 30vw; margin: 1.5vh auto auto">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-size="pageSize"
-              :total="moduleList.length"
-            >
-            </el-pagination>
-          </div>
-        </el-container>
-      </el-tab-pane>
-      <el-tab-pane label="我的版块" name="second" class="list-tab">
-        <el-container style="margin: 0; padding: 0">
-          <el-header class="header">
-            <el-input
-              v-model="searchContent"
-              placeholder="在所有模块中搜索"
-              :prefix-icon="Search"
-              class="custom-input"
-              @change="handleSearch"
-            ></el-input>
-          </el-header>
-          <el-divider style="margin: 0" />
-          <el-main style="margin: 0; padding: 0">
-            <el-scrollbar height="63vh" style="padding: 0">
-              <div class="card-wrap">
-                <CardModule
-                  v-for="item in myModuleList.slice(
-                    (currentPage - 1) * pageSize,
-                    currentPage * pageSize,
-                  )"
-                  :key="item.block_id"
-                  :moduleId="item.block_id"
-                  :moduleName="item.name"
-                  :moduleAvator="item.avatar"
-                  :memberNumber="item.population"
-                ></CardModule>
+            </el-container>
+          </el-tab-pane>
+          <el-tab-pane label="我的版块" name="second" class="list-tab">
+            <el-container style="margin: 0; padding: 0">
+              <el-header class="header">
+                <el-input
+                  v-model="searchContent"
+                  placeholder="在所有模块中搜索"
+                  :prefix-icon="Search"
+                  class="custom-input"
+                  @change="handleSearch"
+                ></el-input>
+              </el-header>
+              <el-divider style="margin: 0" />
+              <el-main style="margin: 0; padding: 0">
+                <el-scrollbar height="63vh" style="padding: 0">
+                  <div class="card-wrap">
+                    <CardModule
+                      v-for="item in myModuleList.slice(
+                        (currentPage - 1) * pageSize,
+                        currentPage * pageSize,
+                      )"
+                      :key="item.block_id"
+                      :moduleId="item.block_id"
+                      :moduleName="item.name"
+                      :moduleAvator="item.avatar"
+                      :memberNumber="item.population"
+                    ></CardModule>
+                  </div>
+                </el-scrollbar>
+              </el-main>
+              <div style="height: 4.5vh; width: 30vw; margin: 1.5vh auto auto">
+                <el-pagination
+                  @current-change="handleCurrentChange"
+                  :current-page="currentPage"
+                  :page-size="pageSize"
+                  :total="moduleList.length"
+                  class="pager-bg"
+                >
+                </el-pagination>
               </div>
-            </el-scrollbar>
-          </el-main>
-          <div style="height: 4.5vh; width: 30vw; margin: 1.5vh auto auto">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-size="pageSize"
-              :total="moduleList.length"
-              class="pager-bg"
-            >
-            </el-pagination>
-          </div>
-        </el-container>
-      </el-tab-pane>
-    </el-tabs>
-  </div>
+            </el-container>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </template>
+    <template #right>
+      <RightBoard />
+    </template>
+  </DivideContainer>
 </template>
 
 <script>
@@ -96,10 +107,12 @@ import {
 import CardModule from './components/CardModule.vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { Search } from '@element-plus/icons-vue';
+import DivideContainer from '/@/layout/components/DivideContainer.vue';
+import RightBoard from '/@/components/RightBoard.vue';
 
 export default {
   name: 'ModuleListView',
-  components: { CardModule },
+  components: { RightBoard, DivideContainer, CardModule },
   computed: {
     Search() {
       return Search;

@@ -3,13 +3,13 @@ import { get, post } from '/@/utils/request';
 
 const URL = {
   subscribe: '/four_s/block/subscribe/',
-  queryAll: 'four_s/block/queryAll/',
-  queryPermission: 'four_s/block/queryPermission/',
-  searchAll: 'four_s/block/searchAll/',
-  searchMy: 'four_s/block/searchMy/',
-  random: 'four_s/block/random/',
-  info: 'four_s/block/info/',
-  members: 'four_s/permission/queryUser/',
+  queryAll: '/four_s/block/queryAll/',
+  queryPermission: '/four_s/block/queryPermission/',
+  searchAll: '/four_s/block/searchAll/',
+  searchMy: '/four_s/block/searchMy/',
+  random: '/four_s/block/random/',
+  info: '/four_s/block/info/',
+  members: '/four_s/permission/queryUser/',
   setPermission: '/four_s/permission/set/',
 };
 
