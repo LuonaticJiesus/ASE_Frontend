@@ -6,24 +6,37 @@
     <el-table-column prop="point" label="积分" sortable width="100" />
     <el-table-column
       prop="approve_permission"
+      label="身份"
       sortable
-      label="当前权限"
-      width="120"
-    />
+      width="140"
+    >
+      <template #default="{ row }">
+        <el-tag
+          :type="permissionColor[row.approve_permission]"
+          v-show="row.approve_permission >= 0"
+        >
+          {{
+            // noinspection TypeScriptUnresolvedReference
+            permissionMap[row.approve_permission]
+          }}
+        </el-tag>
+      </template>
+    </el-table-column>
     <el-table-column prop="approve_permission" label="操作">
       <template #default="{ row }">
-        <el-button
-          plain
-          type="danger"
-          :disabled="canDelete(row.approve_permission)"
-          @click="setPermission(row.user_id, -1)"
-        >
-          <el-icon><Delete /></el-icon>
-          移除
-        </el-button>
+        <!--        <el-button-->
+        <!--          plain-->
+        <!--          type="danger"-->
+        <!--          :disabled="canDelete(row.approve_permission)"-->
+        <!--          @click="setPermission(row.user_id, -1)"-->
+        <!--        >-->
+        <!--          <el-icon><Delete /></el-icon>-->
+        <!--          移除-->
+        <!--        </el-button>-->
         <el-button
           v-if="row.approve_permission < 2"
           plain
+          size="small"
           type="success"
           :disabled="canSetAssistant(row.approve_permission)"
           @click="setPermission(row.user_id, 2)"
@@ -34,6 +47,7 @@
         <el-button
           v-else
           plain
+          size="small"
           type="success"
           :disabled="canCancelAssistant(row.approve_permission)"
           @click="setPermission(row.user_id, 1)"
@@ -44,6 +58,7 @@
         <el-button
           v-if="row.approve_permission < 1"
           plain
+          size="small"
           type="primary"
           :disabled="canSetPost(row.approve_permission)"
           @click="setPermission(row.user_id, 1)"
@@ -54,6 +69,7 @@
         <el-button
           v-else
           plain
+          size="small"
           type="primary"
           :disabled="canCancelPost(row.approve_permission)"
           @click="setPermission(row.user_id, 0)"
@@ -71,8 +87,8 @@ import { onMounted, Ref, ref } from 'vue';
 import router from '/@/router';
 import { moduleMembers, moduleSetPermission } from '/@/api/module';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { Check, Close, Delete } from '@element-plus/icons-vue';
-import { queryRole } from '/@/api/permission';
+import { Check, Close } from '@element-plus/icons-vue';
+import { permissionColor, permissionMap, queryRole } from '/@/api/permission';
 interface member {
   name: string;
   point: number;
@@ -95,10 +111,6 @@ const getUserRole = async () => {
     return await queryRole(block_id);
   }
   return undefined;
-};
-
-const canDelete = (role) => {
-  return !(userRole.value >= 2 && userRole.value > role);
 };
 
 const canSetAssistant = (role) => {

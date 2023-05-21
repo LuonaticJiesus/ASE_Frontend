@@ -7,16 +7,11 @@
       <el-table-column prop="point" label="积分" sortable />
       <el-table-column prop="approve_permission" label="身份" sortable>
         <template #default="{ row }">
-          <el-tag type="success" v-show="row.approve_permission > 1">
-            {{
-              row.approve_permission === 2
-                ? 'Assistant'
-                : row.approve_permission === 3
-                ? 'Manager'
-                : row.approve_permission === 4
-                ? 'SuperManger'
-                : 'None'
-            }}
+          <el-tag
+            :type="permissionColor[row.approve_permission]"
+            v-show="row.approve_permission >= 0"
+          >
+            {{ permissionMap[row.approve_permission] }}
           </el-tag>
         </template>
       </el-table-column>
@@ -28,9 +23,18 @@
 import { moduleMembers } from '/@/api/module.js';
 import router from '/@/router/index.js';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { permissionColor, permissionMap } from '/@/api/permission';
 
 export default {
   name: 'MemberView',
+  computed: {
+    permissionColor() {
+      return permissionColor;
+    },
+    permissionMap() {
+      return permissionMap;
+    },
+  },
   components: {},
   data: () => {
     return {
