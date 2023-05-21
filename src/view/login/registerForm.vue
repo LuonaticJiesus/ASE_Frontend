@@ -78,7 +78,8 @@
 import { User, Lock, Connection } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElNotification } from 'element-plus';
+import 'element-plus/theme-chalk/el-notification.css';
 
 export default {
   name: 'registerForm',
@@ -120,13 +121,17 @@ export default {
         email: [
           { required: true, message: '您还没有输入邮箱', trigger: 'blur' },
           {
-            pattern: '^[a-zA-Z0-9_-]+@buaa.edu.cn$',
+            pattern: '^[a-zA-Z0-9_-]+@buaa[.]edu[.]cn$',
             message: '请输入北航邮箱',
           },
         ],
         username: [
           { required: true, message: '您还没有输入账号', trigger: 'blur' },
-          { min: 5, max: 20, message: '账号限定5-20个字符', trigger: 'blur' },
+          {
+            pattern: '^[\u4e00-\u9fa5a-zA-Z0-9]{5,20}$',
+            message: '请输入包含字母、数字和汉字的5-20位账号',
+            trigger: 'blur',
+          },
         ],
         password: [
           { required: true, message: '您还没有输入密码', trigger: 'blur' },
@@ -170,11 +175,19 @@ export default {
           .then(async (res) => {
             console.log(res);
             if (res) {
+              ElNotification({
+                title: this.registerForm.username,
+                message: '注册成功，请查收邮件进行验证！',
+              });
               this.$emit('transfer', 'login');
             }
           })
           .catch((err) => {
             console.log(err);
+            ElNotification({
+              title: this.registerForm.username,
+              message: '注册失败，请检查网络环境或联系管理员。',
+            });
           });
       }
     },
