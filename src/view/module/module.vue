@@ -86,7 +86,7 @@
               type="primary"
               :class="this.activeTab === 4 ? 'active-tab' : 'module-tab'"
               @click="jump('self')"
-              v-show="userRole > 0"
+              v-show="userRole >= 0"
             >
               <el-col>
                 <el-row justify="center">
