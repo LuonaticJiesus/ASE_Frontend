@@ -5,7 +5,7 @@
         <h3 class="right-board-title">通知版</h3>
       </el-col>
       <el-col :span="8">
-        <el-button v-show="hasPermission" @click="showNoticeEditor"
+        <el-button v-show="postNoticePermission" @click="showNoticeEditor"
           >发布通知</el-button
         >
       </el-col>
@@ -14,8 +14,12 @@
       <el-tabs style="width: 90%">
         <el-tab-pane label="未截止" class="notice-tab">
           <el-empty
-            v-if="unEndedNotices.length === 0"
-            description="没有未截止的通知"
+            v-if="unEndedNotices.length === 0 || !readNoticePermission"
+            :description="
+              readNoticePermission
+                ? '当前没有未截止的通知'
+                : '订阅之后才能查看通知'
+            "
           />
           <el-scrollbar>
             <NoticeSimple
@@ -27,8 +31,10 @@
         </el-tab-pane>
         <el-tab-pane label="所有" class="notice-tab">
           <el-empty
-            v-if="allNotices.length === 0"
-            description="没有未截止的通知"
+            v-if="allNotices.length === 0 || !readNoticePermission"
+            :description="
+              readNoticePermission ? '当前没有通知' : '订阅之后才能查看通知'
+            "
           />
           <el-scrollbar>
             <NoticeSimple
@@ -41,7 +47,7 @@
       </el-tabs>
     </el-row>
     <NoticeEditor
-      v-if="hasPermission"
+      v-if="postNoticePermission"
       v-model:visible="dialogEditor"
       @closeDialog="closeNoticeEditor"
     ></NoticeEditor>
@@ -96,22 +102,25 @@ const closeNoticeEditor = () => {
   console.log('closeNoticeEditor');
 };
 
-const hasPermission = ref(false);
+const postNoticePermission = ref(false);
+const readNoticePermission = ref(false);
 
 const checkPermission = async () => {
   const block_id = router.currentRoute.value.params['id'];
   if (block_id) {
     const role = await queryRole(block_id);
     console.log('current role is ' + role);
+    if (role > -1) {
+      readNoticePermission.value = true;
+    }
     if (role > 1) {
-      return true;
+      postNoticePermission.value = true;
     }
   }
-  return false;
 };
 
 onMounted(async () => {
-  hasPermission.value = await checkPermission();
+  await checkPermission();
   await updateNoticeList();
 });
 </script>
