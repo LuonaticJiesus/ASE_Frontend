@@ -19,7 +19,6 @@
                     "
                     :src="moduleAvatar"
                     :fit="'scale-down'"
-                    lazy
                   >
                   </el-image>
                 </div>
@@ -168,9 +167,9 @@ import { nextTick, ref } from 'vue';
 import { queryRole } from '/@/api/permission.js';
 import { ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
-import { defaultLogo } from '/@/utils/string.ts';
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import NoticeBoard from '/@/components/NoticeBoard.vue';
+import { transparentLogo } from '/@/utils/string';
 
 export default {
   name: 'ModuleView',
@@ -205,8 +204,8 @@ export default {
         activeTab.value = 0;
       }
     };
-    const moduleAvatar = ref(defaultLogo);
-    const moduleName = ref('QuadSSSS');
+    const moduleAvatar = ref(transparentLogo);
+    const moduleName = ref('Quad-SSSS');
     return {
       moduleName,
       moduleAvatar,
@@ -224,6 +223,11 @@ export default {
     this.updateActiveStyle();
     console.log('mounted completed');
   },
+  beforeUpdate() {
+    this.fetchData();
+    console.log('Now avatar is ' + this.moduleAvatar);
+    this.updateActiveStyle();
+  },
   methods: {
     fetchData() {
       console.log('fetchData...', this);
@@ -234,8 +238,10 @@ export default {
       )
         .then((res) => {
           console.log('module.vue fetchData success: ', res);
-          this.moduleName = res.name;
+          //useModuleStore().setModuleAvatar(res.avatar);
           this.moduleAvatar = res.avatar;
+          //useModuleStore().setModuleName(res.name);
+          this.moduleName = res.name;
         })
         .catch((err) => {
           console.log('module.vue fetchData failed: ', err);
@@ -245,11 +251,15 @@ export default {
       // console.log(route);
       // console.log('jump to 111', router.currentRoute.value);
       // eslint-disable-next-line vue/valid-next-tick
-      await nextTick(() => {
-        router.push({
-          path: `/module/${router.currentRoute.value.params['id']}/${url}`,
-        });
+      // await nextTick(() => {
+      //   router.push({
+      //     path: `/module/${router.currentRoute.value.params['id']}/${url}`,
+      //   });
+      // });
+      await router.push({
+        path: `/module/${router.currentRoute.value.params['id']}/${url}`,
       });
+      await nextTick();
       //router.addRoute(router.currentRoute.value.fullPath + '/' + url);
     },
     createShare() {

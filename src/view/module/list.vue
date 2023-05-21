@@ -30,7 +30,7 @@
                       :key="item.block_id"
                       :moduleId="item.block_id"
                       :moduleName="item.name"
-                      :moduleAvator="item.avatar"
+                      :moduleAvatar="item.avatar"
                       :memberNumber="item.population"
                     ></CardModule>
                   </div>
@@ -70,7 +70,7 @@
                       :key="item.block_id"
                       :moduleId="item.block_id"
                       :moduleName="item.name"
-                      :moduleAvator="item.avatar"
+                      :moduleAvatar="item.avatar"
                       :memberNumber="item.population"
                     ></CardModule>
                   </div>
