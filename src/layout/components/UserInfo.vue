@@ -54,9 +54,8 @@
 
 <script lang="ts">
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { getUserProfile } from '/@/api/user';
+import { getUserProfile, querySubscribe } from '/@/api/user';
 import { useUserStore } from '/@/store';
-import { modulePermission } from '/@/api/module';
 import { userArticles } from '/@/api/article';
 
 export default {
@@ -72,21 +71,18 @@ export default {
     useUserStore,
     async fetchData() {
       try {
+        const userid = getLocalUserId();
+        const token = getToken();
         const userProfile = await getUserProfile({
-          userid: getLocalUserId(),
-          token: getToken(),
+          userid: userid,
+          token: token,
         });
-        for (let p = 0; p <= 4; p++) {
-          modulePermission(p, getLocalUserId(), getToken())
-            .then((res) => {
-              this.subscribeCnt += res.length;
-            })
-            .catch((err) => {
-              console.log('UserInfo fetchData failed: ', err);
-            });
-        }
-        const userPostGetter = await userArticles(getLocalUserId(), getToken());
         this.userName = userProfile.name;
+        const userSubscribes = await querySubscribe(userid, token, userid);
+        console.log(userSubscribes);
+        this.subscribeCnt = userSubscribes.length;
+        const userPostGetter = await userArticles(userid, token);
+        console.log(userPostGetter);
         this.postCnt = userPostGetter.length;
       } catch (error) {
         console.error('Error fetching user profile:', error);
