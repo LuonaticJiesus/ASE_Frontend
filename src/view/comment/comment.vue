@@ -68,7 +68,7 @@
       <el-col :offset="2" :span="22">
         <SubComment
           v-for="subItem of commentItem.children"
-          :key="subItem"
+          :key="subItem.comment_id"
           :comment-item="subItem"
           :show-parent-comment-editor="handleSubCommentEditorShow"
         ></SubComment>

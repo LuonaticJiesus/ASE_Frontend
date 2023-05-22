@@ -4,7 +4,7 @@
     v-for="item of commentList"
     :commentItem="item"
     :permission="permission"
-    :key="item"
+    :key="item.comment_id"
   />
 </template>
 
