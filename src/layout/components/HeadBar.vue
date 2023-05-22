@@ -9,9 +9,19 @@
       :ellipsis="false"
       @select="handleSelect"
     >
+      <div
+        v-if="$router.currentRoute.value.matched.length <= 3"
+        style="display: flex; align-items: center"
+      >
+        <el-avatar :size="40" style="margin: 3vh" :src="this.userAvatar" />
+        <span class="text-large font-600 mr-3">
+          {{ this.userName }}
+        </span>
+      </div>
       <el-page-header
         style="display: flex; align-items: center; margin-left: 5vh"
         @back="goBack"
+        v-if="$router.currentRoute.value.matched.length > 3"
       >
         <template #content>
           <div style="display: flex; align-items: center">
@@ -95,7 +105,8 @@ export default {
   },
   methods: {
     goBack() {
-      router.go(-1);
+      console.log(router.currentRoute);
+      this.$router.go(-1);
     },
     async fetchData() {
       try {
