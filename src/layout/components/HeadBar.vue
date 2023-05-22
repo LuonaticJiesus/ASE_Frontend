@@ -10,7 +10,7 @@
       @select="handleSelect"
     >
       <div
-        v-if="$router.currentRoute.value.matched.length <= 3"
+        v-if="$router.currentRoute.value.matched.length <= 2"
         style="display: flex; align-items: center"
       >
         <el-avatar :size="40" style="margin: 3vh" :src="this.userAvatar" />
@@ -21,7 +21,7 @@
       <el-page-header
         style="display: flex; align-items: center; margin-left: 5vh"
         @back="goBack"
-        v-if="$router.currentRoute.value.matched.length > 3"
+        v-if="$router.currentRoute.value.matched.length > 2"
       >
         <template #content>
           <div style="display: flex; align-items: center">
