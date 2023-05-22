@@ -1,9 +1,10 @@
 <template>
   <DivideContainer>
     <template #main>
-      <div v-if="mdDocument">
-        <v-md-preview :text="mdDocument"></v-md-preview>
-      </div>
+      <!--      !!!!!在这里填页面-->
+      <h1>Home</h1>
+      <!--      temp!-->
+      <!-- <el-button @click="showNoticeEditor">Show Notice Editor</el-button> -->
       <NoticeEditor
         v-model:visible="dialogEditor"
         @close="dialogEditor = false"
@@ -24,16 +25,6 @@ import NoticeEditor from '/@/components/NoticeEditor.vue';
 export default {
   name: 'HomeView',
   components: { NoticeEditor, RightBoard, DivideContainer },
-  data() {
-    return {
-      mdDocument: null,
-    };
-  },
-  async mounted() {
-    let response = await fetch('src\\assets\\markdown\\firstPage.md');
-    this.mdDocument = await response.text();
-    console.log('md:', this.mdDocument);
-  },
   setup() {
     let dialogEditor = ref(false);
     const showNoticeEditor = () => {
