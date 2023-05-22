@@ -164,6 +164,7 @@ const handleCreateComment = () => {
       ElNotification({
         title: '评论成功',
       });
+      location.reload();
     })
     .catch((err) => {
       console.log('Create comment failed ' + err);
