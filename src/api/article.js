@@ -7,7 +7,6 @@ const URL = {
   user: '/four_s/post/queryUser/',
   detail: '/four_s/post/queryByID/',
   moduleUser: '/four_s/post/queryUserBlock/',
-  delete: '/four_s/post/delete/',
 };
 
 // const MockURL = {
@@ -76,23 +75,10 @@ const moduleUserArticles = async (userid, token, block_id) =>
     },
   });
 
-const deleteArticle = async (post_id, userid, token) =>
-  post({
-    url: URL.delete,
-    headers: {
-      userid: userid,
-      token: token,
-    },
-    data: {
-      post_id: post_id,
-    },
-  });
-
 export {
   articleDetail,
   publishArticle,
   moduleArticles,
   userArticles,
   moduleUserArticles,
-  deleteArticle,
 };
