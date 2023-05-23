@@ -72,7 +72,7 @@ export const asyncRoutes = [
         path: '/module',
         component: () => import('/@/view/module/index.vue'),
         meta: {
-          title: '模块',
+          title: '版块',
           icon: 'Collection',
         },
         children: [
