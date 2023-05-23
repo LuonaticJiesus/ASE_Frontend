@@ -23,7 +23,9 @@ VMdEditor.use(githubTheme, {
   Hljs: hljs,
 });
 
-VMdPreview.use(githubTheme);
+VMdPreview.use(githubTheme, {
+  Hljs: hljs,
+});
 
 const app = createApp(App);
 app.use(router);

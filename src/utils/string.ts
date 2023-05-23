@@ -1,5 +1,9 @@
 export function strippedHtml(html: string) {
-  return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/gi, '');
+  return html
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/gi, '')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>');
 }
 
 // export function getDateDiff(dateTimeStamp) {
