@@ -7,18 +7,23 @@
             <h1 style="margin: 10px">{{ post.title }}</h1>
           </el-row>
           <el-row style="display: block">
-            <el-scrollbar max-height="61.5vh">
-              <vue3-tinymce
-                style="
-                  height: 80vh;
-                  width: auto;
-                  position: absolute;
-                  left: 5px;
-                  right: 5px;
-                "
-                v-model="post.txt"
-                :setting="richSetting"
-              ></vue3-tinymce>
+            <el-scrollbar>
+              <!--              <vue3-tinymce-->
+              <!--                style="-->
+              <!--                  height: 80vh;-->
+              <!--                  width: auto;-->
+              <!--                  position: absolute;-->
+              <!--                  left: 5px;-->
+              <!--                  right: 5px;-->
+              <!--                "-->
+              <!--                v-model="post.txt"-->
+              <!--                :setting="richSetting"-->
+              <!--              ></vue3-tinymce>-->
+              <v-md-preview-html
+                style="text-align: start"
+                :html="post.txt"
+                preview-class="github-markdown-body"
+              ></v-md-preview-html>
             </el-scrollbar>
             <el-row style="display: block">
               <div
@@ -116,7 +121,7 @@
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import { onMounted, ref } from 'vue';
 import router from '/@/router/index.js';
-import Vue3Tinymce from '@jsdawn/vue3-tinymce';
+// import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { Check, Pointer, Share, Star } from '@element-plus/icons-vue';
 import { articleDetail } from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
@@ -127,20 +132,20 @@ import { ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
 import { queryRole } from '/@/api/permission.js';
 
-const richSetting = {
-  language: 'zh-Hans',
-  language_url:
-    'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
-  menubar: false,
-  toolbar: false,
-  plugins: 'codesample link image table lists autoresize',
-  nonbreaking_force_tab: true,
-  link_title: false,
-  link_default_target: '_blank',
-  content_style: 'body{font-size: 16px}',
-  readonly: true,
-  content_css: '/@kangc/v-md-editor/lib/theme/style/github.css',
-};
+// const richSetting = {
+//   language: 'zh-Hans',
+//   language_url:
+//     'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
+//   menubar: false,
+//   toolbar: false,
+//   plugins: 'codesample link image table lists autoresize',
+//   nonbreaking_force_tab: true,
+//   link_title: false,
+//   link_default_target: '_blank',
+//   content_style: 'body{font-size: 16px}',
+//   readonly: true,
+//   content_css: '/src/style/github.css',
+// };
 
 const avatar = ref(defaultLogo);
 const newComment = ref('');

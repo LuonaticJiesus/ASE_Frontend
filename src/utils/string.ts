@@ -62,8 +62,6 @@ export function getDateDiff(time) {
     t.getSeconds();
     // 相隔多少秒
     const timestampDiff = currentTimestamp - oldTimestamp;
-    console.log('===========================');
-    console.log('间距--》', timestampDiff);
     if (timestampDiff < 60) {
       // 一分钟以内
       return '刚刚';
