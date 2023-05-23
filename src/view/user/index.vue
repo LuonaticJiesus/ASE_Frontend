@@ -250,7 +250,7 @@ export default {
   color: gray;
 }
 
-::v-deep .el-tabs__nav-scroll {
+.user-main:deep(.el-tabs__nav-scroll) {
   width: 60% !important;
 }
 
