@@ -30,7 +30,7 @@ export default {
     };
   },
   async mounted() {
-    let response = await fetch('src\\assets\\markdown\\firstPage.md');
+    let response = await fetch('src/assets/markdown/firstPage.md');
     this.mdDocument = await response.text();
     console.log('md:', this.mdDocument);
   },
