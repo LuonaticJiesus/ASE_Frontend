@@ -152,6 +152,9 @@ export default {
           console.log('module/list.vue fetchData failed: ', err);
         });
     },
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage;
     },

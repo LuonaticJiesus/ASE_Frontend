@@ -6,9 +6,11 @@ const locale = zhCn;
 
 <template>
   <el-config-provider :locale="locale">
-    <keep-alive>
-      <router-view />
-    </keep-alive>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </el-config-provider>
 </template>
 
