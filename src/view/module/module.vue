@@ -150,7 +150,10 @@
         </el-header>
         <el-divider style="margin: 0" />
         <el-main style="padding: 0">
-          <router-view v-slot="{ Component }">
+          <router-view
+            v-slot="{ Component }"
+            :key="$router.currentRoute.value.params['id']"
+          >
             <keep-alive>
               <component :is="Component" />
             </keep-alive>
