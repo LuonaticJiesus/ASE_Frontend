@@ -18,36 +18,16 @@
       <el-table-column prop="user_name" label="作者" width="150" />
       <el-table-column prop="like_cnt" label="点赞" width="75" />
       <el-table-column prop="comment_cnt" label="评论" width="75" />
-      <el-table-column prop="time" label="更新时间" width="200" />
-      <el-table-column fixed="right" label="Operations" width="140">
-        <template #default="scope">
-          <el-button
-            size="small"
-            @click.stop="handleEdit(scope.$index, scope.row)"
-            disabled
-          >
-            加精
-          </el-button>
-          <el-button
-            size="small"
-            type="danger"
-            @click.stop="handleDelete(scope.$index, scope.row)"
-          >
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
+      <el-table-column prop="time" label="更新时间" />
     </el-table>
   </div>
 </template>
 
 <script>
-import { moduleArticles, deleteArticle } from '/@/api/article.js';
+import { moduleArticles } from '/@/api/article.js';
 import router from '/@/router';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 import { strippedHtml } from '/@/utils/string';
-import { ElMessage, ElMessageBox } from 'element-plus';
-import 'element-plus/theme-chalk/index.css';
 
 export default {
   name: 'ShareView',
@@ -79,32 +59,6 @@ export default {
     },
     jump(row) {
       router.push('/post/' + row.post_id);
-    },
-    handleDelete(index, row) {
-      ElMessageBox.confirm('确定删除这篇文章?', 'Warning', {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
-        type: 'warning',
-      })
-        .then(() => {
-          deleteArticle(row.post_id, getLocalUserId(), getToken())
-            .then((res) => {
-              console.log(res);
-              ElMessage({
-                type: 'success',
-                message: 'Delete completed',
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch(() => {
-          ElMessage({
-            type: 'info',
-            message: 'Delete canceled',
-          });
-        });
     },
   },
 };
