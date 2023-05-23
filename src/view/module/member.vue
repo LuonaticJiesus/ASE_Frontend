@@ -40,10 +40,8 @@ export default {
     return {
       tableData: [
         {
-          // eslint-disable-next-line camelcase
           user_id: 123,
           name: 'xxx',
-          // eslint-disable-next-line camelcase
           card_id: 'xxx',
           point: 10,
         },
