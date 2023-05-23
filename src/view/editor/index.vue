@@ -31,7 +31,6 @@
       >
       </v-md-editor>
       <vue3-tinymce
-        style="width: 70vh"
         v-model="richText"
         v-if="editorType === 'rich'"
         :setting="richSetting"
