@@ -224,7 +224,6 @@ export default {
 .user-main {
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 0;
   margin: 5px;
   height: 67vh;
