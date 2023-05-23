@@ -3,7 +3,7 @@
     <template #main>
       <div class="scrollable">
         <div v-if="mdDocument">
-          <v-md-preview :text="mdDocument"></v-md-preview>
+          <v-md-preview :text="mdDocument" class="left-aligned"></v-md-preview>
         </div>
       </div>
       <NoticeEditor
@@ -20,30 +20,26 @@
 <script>
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import RightBoard from '/@/components/RightBoard.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import NoticeEditor from '/@/components/NoticeEditor.vue';
-
 export default {
   name: 'HomeView',
   components: { NoticeEditor, RightBoard, DivideContainer },
-  data() {
-    return {
-      mdDocument: null,
-    };
-  },
-  async mounted() {
-    let response = await fetch('src/assets/markdown/firstPage.md');
-    this.mdDocument = await response.text();
-    console.log('md:', this.mdDocument);
-  },
+
   setup() {
     let dialogEditor = ref(false);
     const showNoticeEditor = () => {
       dialogEditor.value = true;
     };
+    const mdDocument = ref(null);
+    onMounted(async () => {
+      const response = await fetch('/markdown/firstPage.md');
+      mdDocument.value = await response.text();
+    });
     return {
       dialogEditor,
       showNoticeEditor,
+      mdDocument,
     };
   },
 };
@@ -53,6 +49,10 @@ export default {
 .scrollable {
   height: 85vh;
   overflow-y: auto;
+}
+
+.left-aligned {
+  text-align: left;
 }
 </style>
 
