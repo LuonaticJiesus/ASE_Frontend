@@ -37,7 +37,7 @@
               >
                 <el-row align="middle">
                   <el-col :span="2">
-                    <el-avatar :src="avatar"></el-avatar>
+                    <el-avatar :src="userAvatar"></el-avatar>
                   </el-col>
                   <el-col :span="20">
                     <el-input
@@ -70,7 +70,7 @@
         </el-row>
         <el-row align="middle">
           <el-col :span="4">
-            <el-avatar :src="avatar"></el-avatar>
+            <el-avatar :src="creatorAvatar"></el-avatar>
           </el-col>
           <el-col :offset="1" :span="4">
             <h4 style="margin: 0">{{ post.user_name }}</h4>
@@ -82,34 +82,75 @@
         <el-row>
           <el-date-picker readonly v-model="post.time"></el-date-picker>
         </el-row>
-        <el-row style="margin-top: 20px" justify="space-around">
-          <el-button
-            size="large"
-            circle
-            type="success"
-            :plain="likeState"
-            @click="handleLikePost"
-          >
-            <el-icon>
-              <Pointer />
-            </el-icon>
-          </el-button>
-          <el-button
-            size="large"
-            circle
-            type="success"
-            :plain="favorSate"
-            @click="handleFavorPost"
-          >
-            <el-icon>
-              <Star />
-            </el-icon>
-          </el-button>
-          <el-button size="large" circle type="success" plain>
-            <el-icon>
-              <Share />
-            </el-icon>
-          </el-button>
+        <el-row style="margin-top: 20px" justify="space-around" align="middle">
+          <el-col :span="4">
+            <el-row justify="center">
+              <el-tooltip
+                effect="dark"
+                :content="isLiked ? '取消点赞' : '点赞'"
+              >
+                <el-button
+                  size="large"
+                  circle
+                  type="primary"
+                  :plain="!isLiked"
+                  @click="handleLikePost"
+                >
+                  <el-icon>
+                    <MagicStick />
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+            </el-row>
+            <el-row justify="center">
+              <span style="color: gray; font-size: small">{{
+                post.like_cnt
+              }}</span>
+            </el-row>
+          </el-col>
+          <el-col :span="4">
+            <el-row justify="center">
+              <el-tooltip
+                effect="dark"
+                :content="isFavored ? '取消收藏' : '收藏'"
+              >
+                <el-button
+                  size="large"
+                  circle
+                  type="primary"
+                  :plain="!isFavored"
+                  @click="handleFavorPost"
+                >
+                  <el-icon>
+                    <Star />
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+            </el-row>
+            <el-row justify="center">
+              <span style="color: gray; font-size: small">{{
+                post.favor_cnt
+              }}</span>
+            </el-row>
+          </el-col>
+          <el-col :span="4">
+            <el-row justify="center">
+              <el-button
+                size="large"
+                circle
+                type="primary"
+                plain
+                @click="copy()"
+              >
+                <el-icon>
+                  <Share />
+                </el-icon>
+              </el-button>
+            </el-row>
+            <el-row>
+              <span style="visibility: hidden">0</span>
+            </el-row>
+          </el-col>
         </el-row>
       </div>
     </template>
@@ -122,8 +163,8 @@ import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import { onMounted, ref } from 'vue';
 import router from '/@/router/index.js';
 // import Vue3Tinymce from '@jsdawn/vue3-tinymce';
-import { Check, Pointer, Share, Star } from '@element-plus/icons-vue';
-import { articleDetail } from '/@/api/article';
+import { Check, MagicStick, Share, Star } from '@element-plus/icons-vue';
+import { articleDetail, changePostFavor, changePostLike } from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { defaultLogo } from '/@/utils/string';
 import CommentZone from '/@/view/comment/index.vue';
@@ -131,7 +172,8 @@ import { createComment } from '/@/api/comment.js';
 import { ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
 import { queryRole } from '/@/api/permission.js';
-
+import useClipboard from 'vue-clipboard3';
+import { useUserStore } from '/@/store/index.js';
 // const richSetting = {
 //   language: 'zh-Hans',
 //   language_url:
@@ -146,8 +188,24 @@ import { queryRole } from '/@/api/permission.js';
 //   readonly: true,
 //   content_css: '/src/style/github.css',
 // };
+const { toClipboard } = useClipboard();
+const copy = async () => {
+  try {
+    const text = location.href;
+    await toClipboard(text); //实现复制
+    ElNotification({
+      title: '已复制分享链接',
+    });
+    console.log('Success');
+  } catch (e) {
+    ElNotification({
+      title: '分享失败，请检查网络',
+    });
+  }
+};
 
-const avatar = ref(defaultLogo);
+const creatorAvatar = ref(defaultLogo);
+const userAvatar = useUserStore().avatar;
 const newComment = ref('');
 const handleCreateComment = () => {
   const data = {
@@ -173,33 +231,58 @@ const handleCreateComment = () => {
       });
     });
 };
-const likeState = ref(true);
-const favorSate = ref(false);
+const post_id = router.currentRoute.value.params['id'];
+const headers = {
+  userid: getLocalUserId(),
+  token: getToken(),
+};
 
 const post = ref({
   post_id: Number,
   title: String,
   user_id: Number,
   user_name: String,
+  user_avatar: String,
   txt: String,
   block_id: Number,
   block_name: String,
   time: String,
   like_cnt: Number,
-  comment_cnt: Number,
   like_state: Number,
+  favor_cnt: Number,
+  favor_state: Number,
+  comment_cnt: Number,
   latest_update_user: String,
   latest_time: String,
 });
 
+const isLiked = ref(false);
+const isFavored = ref(false);
+
 const handleLikePost = async () => {
-  console.log('like');
-  let post_id = router.currentRoute.value.params['id'];
+  const data = {
+    post_id: post_id,
+  };
+  await changePostLike(data, headers);
+  if (isLiked.value) {
+    post.value.like_cnt -= 1;
+  } else {
+    post.value.like_cnt += 1;
+  }
+  isLiked.value = !isLiked.value;
 };
 
 const handleFavorPost = async () => {
-  console.log('favor');
-  let post_id = router.currentRoute.value.params['id'];
+  const data = {
+    post_id: post_id,
+  };
+  await changePostFavor(data, headers);
+  if (isFavored.value) {
+    post.value.favor_cnt -= 1;
+  } else {
+    post.value.favor_cnt += 1;
+  }
+  isFavored.value = !isFavored.value;
 };
 
 const fetchData = async (post_id) => {
@@ -208,6 +291,11 @@ const fetchData = async (post_id) => {
     .then((res) => {
       console.log('post/preview.vue query article success: ', res);
       post.value = res[0];
+      isLiked.value = post.value.like_state === 1;
+      isFavored.value = post.value.favor_state === 1;
+      creatorAvatar.value = post.value.user_avatar
+        ? post.value.user_avatar
+        : defaultLogo;
     })
     .catch((err) => {
       console.log('post/preview.vue query article fail: ', err);
@@ -238,8 +326,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.DivideContainer {
-  height: 100%;
-}
-</style>
+<style scoped></style>

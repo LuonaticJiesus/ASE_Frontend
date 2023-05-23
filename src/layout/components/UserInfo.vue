@@ -11,7 +11,7 @@
               border: 4px solid white;
               outline: 1px solid gray;
             "
-            :src="useUserStore().avatar"
+            :src="userAvatar"
             :fit="'scale-down'"
             lazy
           >
@@ -54,7 +54,6 @@
 
 <script lang="ts">
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { getUserProfile } from '/@/api/user';
 import { useUserStore } from '/@/store';
 import { userArticles } from '/@/api/article';
 import { modulePermission } from '/@/api/module';
@@ -64,21 +63,18 @@ export default {
   data() {
     return {
       userName: '',
+      userAvatar: '',
       subscribeCnt: 0,
       postCnt: 0,
     };
   },
   methods: {
-    useUserStore,
     async fetchData() {
       try {
         const userid = getLocalUserId();
         const token = getToken();
-        const userProfile = await getUserProfile({
-          userid: userid,
-          token: token,
-        });
-        this.userName = userProfile.name;
+        this.userName = useUserStore().name;
+        this.userAvatar = useUserStore().avatar;
         modulePermission([0, 1, 2, 3, 4], userid, token)
           .then((res) => {
             console.log('UserInfo.vue query success', res);
