@@ -7,6 +7,8 @@ const URL = {
   user: '/four_s/post/queryUser/',
   detail: '/four_s/post/queryByID/',
   moduleUser: '/four_s/post/queryUserBlock/',
+  like: '/four_s/post/like/',
+  favor: '/four_s/post/favor/',
 };
 
 // const MockURL = {
@@ -75,10 +77,26 @@ const moduleUserArticles = async (userid, token, block_id) =>
     },
   });
 
+const changePostLike = async (data, headers) =>
+  post({
+    url: URL.like,
+    headers: headers,
+    data: data,
+  });
+
+const changePostFavor = async (data, headers) =>
+  post({
+    url: URL.favor,
+    headers: headers,
+    data: data,
+  });
+
 export {
   articleDetail,
   publishArticle,
   moduleArticles,
   userArticles,
   moduleUserArticles,
+  changePostLike,
+  changePostFavor,
 };
