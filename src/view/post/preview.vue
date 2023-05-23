@@ -1,59 +1,62 @@
 <template>
   <DivideContainer>
     <template #main>
-      <div style="margin: 20px; position: relative">
-        <el-row style="display: flex; justify-content: left">
-          <h1 style="margin: 10px">{{ post.title }}</h1>
-        </el-row>
-        <el-row style="display: block">
-          <el-scrollbar max-height="61.5vh">
-            <vue3-tinymce
-              style="
-                height: 80vh;
-                width: auto;
-                position: absolute;
-                left: 5px;
-                right: 5px;
-              "
-              v-model="post.txt"
-              :setting="richSetting"
-            ></vue3-tinymce>
-          </el-scrollbar>
-          <el-row style="display: block">
-            <div
-              style="
-                box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-                border: 2px solid #e7e7e7;
-                border-radius: 12px;
-                margin-top: 10px;
-                padding: 10px;
-              "
-            >
-              <el-row align="middle">
-                <el-col :span="2">
-                  <el-avatar :src="avatar"></el-avatar>
-                </el-col>
-                <el-col :span="20">
-                  <el-input
-                    v-model="newComment"
-                    placeholder="请输入评论"
-                    clearable
-                    type="textarea"
-                    maxlength="200"
-                    show-word-limit
-                    :autosize="{ minRows: 1, maxRows: 3 }"
-                  ></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <el-button @click="handleCreateComment"
-                    ><el-icon> <Check></Check> </el-icon
-                  ></el-button>
-                </el-col>
-              </el-row>
-            </div>
+      <el-scrollbar>
+        <div style="margin: 20px; position: relative; max-height: 79vh">
+          <el-row style="display: flex; justify-content: left">
+            <h1 style="margin: 10px">{{ post.title }}</h1>
           </el-row>
-        </el-row>
-      </div>
+          <el-row style="display: block">
+            <el-scrollbar max-height="61.5vh">
+              <vue3-tinymce
+                style="
+                  height: 80vh;
+                  width: auto;
+                  position: absolute;
+                  left: 5px;
+                  right: 5px;
+                "
+                v-model="post.txt"
+                :setting="richSetting"
+              ></vue3-tinymce>
+            </el-scrollbar>
+            <el-row style="display: block">
+              <div
+                style="
+                  box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
+                  border: 2px solid #e7e7e7;
+                  border-radius: 12px;
+                  margin-top: 10px;
+                  padding: 10px;
+                "
+              >
+                <el-row align="middle">
+                  <el-col :span="2">
+                    <el-avatar :src="avatar"></el-avatar>
+                  </el-col>
+                  <el-col :span="20">
+                    <el-input
+                      v-model="newComment"
+                      placeholder="请输入评论"
+                      clearable
+                      type="textarea"
+                      maxlength="200"
+                      show-word-limit
+                      :autosize="{ minRows: 1, maxRows: 3 }"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button @click="handleCreateComment"
+                      ><el-icon> <Check></Check> </el-icon
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </div>
+              <CommentZone :permission="permission"></CommentZone>
+            </el-row>
+          </el-row>
+        </div>
+      </el-scrollbar>
     </template>
     <template #right>
       <div style="margin: 10px">
@@ -118,6 +121,11 @@ import { Check, Pointer, Share, Star } from '@element-plus/icons-vue';
 import { articleDetail } from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { defaultLogo } from '/@/utils/string';
+import CommentZone from '/@/view/comment/index.vue';
+import { createComment } from '/@/api/comment.js';
+import { ElNotification } from 'element-plus';
+import 'element-plus/theme-chalk/el-notification.css';
+import { queryRole } from '/@/api/permission.js';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -131,13 +139,34 @@ const richSetting = {
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
   readonly: true,
-  content_css: '@kangc/v-md-editor/lib/theme/style/github.css',
+  content_css: '/@kangc/v-md-editor/lib/theme/style/github.css',
 };
 
 const avatar = ref(defaultLogo);
 const newComment = ref('');
 const handleCreateComment = () => {
-  return 1;
+  const data = {
+    post_id: post.value.post_id,
+    txt: newComment.value,
+  };
+  const headers = {
+    userid: getLocalUserId(),
+    token: getToken(),
+  };
+  createComment(data, headers)
+    .then((res) => {
+      console.log('Create comment success ' + res);
+      ElNotification({
+        title: '评论成功',
+      });
+      location.reload();
+    })
+    .catch((err) => {
+      console.log('Create comment failed ' + err);
+      ElNotification({
+        title: '评论失败',
+      });
+    });
 };
 const likeState = ref(true);
 const favorSate = ref(false);
@@ -180,10 +209,20 @@ const fetchData = async (post_id) => {
     });
 };
 
+const permission = ref(-1);
+const getUserRole = async () => {
+  const block_id = post.value.block_id();
+  const result = await queryRole(block_id);
+  if (result) {
+    permission.value = result;
+  }
+};
+
 onMounted(async () => {
   let post_id = router.currentRoute.value.params['id'];
   console.log(post_id);
   await fetchData(post_id);
+  await getUserRole();
   console.log(post);
 });
 </script>

@@ -80,6 +80,7 @@ import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
 import { ElMessage, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
+import 'element-plus/theme-chalk/el-message.css';
 
 export default {
   name: 'registerForm',
