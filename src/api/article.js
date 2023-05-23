@@ -9,6 +9,7 @@ const URL = {
   moduleUser: '/four_s/post/queryUserBlock/',
   like: '/four_s/post/like/',
   favor: '/four_s/post/favor/',
+  delete: '/four_s/post/delete/',
 };
 
 // const MockURL = {
@@ -40,15 +41,27 @@ const publishArticle = async (userid, token, data) =>
     data: data,
   });
 
-const moduleArticles = async (block_id, userid, token) =>
-  get({
-    url: URL.module,
-    params: {
-      block_id: block_id,
-    },
+const deleteArticle = async (post_id, userid, token) =>
+  post({
+    url: URL.delete,
     headers: {
       userid: userid,
       token: token,
+    },
+    data: {
+      post_id: post_id,
+    },
+  });
+
+const moduleArticles = async (block_id, userid, token) =>
+  get({
+    url: URL.module,
+    headers: {
+      userid: userid,
+      token: token,
+    },
+    params: {
+      block_id: block_id,
     },
   });
 
@@ -94,6 +107,7 @@ const changePostFavor = async (data, headers) =>
 export {
   articleDetail,
   publishArticle,
+  deleteArticle,
   moduleArticles,
   userArticles,
   moduleUserArticles,
