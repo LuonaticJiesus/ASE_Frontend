@@ -12,6 +12,19 @@
     </el-row>
     <el-row justify="center">
       <el-tabs style="width: 90%">
+        <el-tab-pane label="未确认" class="notice-tab">
+          <el-empty
+            v-if="unConfirmedNotices.length === 0"
+            description="当前没有未确认的通知"
+          />
+          <el-scrollbar>
+            <NoticeSimple
+              v-for="notice of unEndedNotices"
+              :key="notice"
+              :noticeItem="notice"
+            ></NoticeSimple>
+          </el-scrollbar>
+        </el-tab-pane>
         <el-tab-pane label="未截止" class="notice-tab">
           <el-empty
             v-if="unEndedNotices.length === 0 || !readNoticePermission"
@@ -70,6 +83,7 @@ import { queryRole } from '/@/api/permission.js';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
+let unConfirmedNotices = ref([]);
 const updateNoticeList = async () => {
   const block_id = router.currentRoute.value.params['id'];
   let list = [];
@@ -80,15 +94,20 @@ const updateNoticeList = async () => {
   // 根据截止时间分成两个array
   allNotices.value = list;
   const undue = [];
+  const unConfirmed = [];
   // 均为毫秒时间戳
   const time = new Date().getTime();
   for (let item of list) {
     const ddl = new Date(item.ddl).getTime();
     if (ddl > time) {
       undue.push(item);
+      if (item.confirm_state === 0) {
+        unConfirmed.push(item);
+      }
     }
   }
   unEndedNotices.value = undue;
+  unConfirmedNotices.value = unConfirmed;
 };
 
 const dialogEditor = ref(false);

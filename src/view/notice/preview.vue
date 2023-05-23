@@ -7,10 +7,17 @@
         </el-row>
         <el-divider></el-divider>
         <el-row style="margin: 0px 0 10px">
-          <el-col :span="3">
-            <el-row justify="space-between">
+          <el-col :span="12">
+            <el-row>
               <h4 style="margin: 0">所属模块:</h4>
-              <h4 style="margin: 0; padding-left: 5px; color: #bebebe">
+              <h4
+                style="
+                  margin: 0;
+                  padding-left: 10px;
+                  color: #bebebe;
+                  text-align: left;
+                "
+              >
                 {{ moduleName }}
               </h4>
             </el-row>
@@ -88,12 +95,18 @@
       </el-row>
       <el-row justify="space-around" align="middle" style="margin-top: 10px">
         <el-col :span="6">
-          <h4 style="margin: 0">完成确认:</h4>
+          <h4 style="margin: 0">{{ isConfirmed ? '已确认:' : '完成确认:' }}</h4>
         </el-col>
         <el-col :span="16">
-          <el-button>
-            <el-icon><check></check></el-icon
-          ></el-button>
+          <el-tooltip :content="isConfirmed ? '取消确认' : '还未确认'">
+            <el-button
+              @click="handleChangeConfirm"
+              :plain="!isConfirmed"
+              type="primary"
+            >
+              <el-icon><check></check></el-icon
+            ></el-button>
+          </el-tooltip>
         </el-col>
       </el-row>
     </template>
@@ -108,10 +121,13 @@ import router from '/@/router/index.js';
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { defaultLogo } from '/@/utils/string.ts';
-import { queryNoticeById } from '/@/api/notice.js';
+import { changeNoticeConfirm, queryNoticeById } from '/@/api/notice.js';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 import { fetchInfo } from '/@/api/user.js';
 import { moduleInfo } from '/@/api/module.js';
+import { ElMessageBox, ElNotification } from 'element-plus';
+import 'element-plus/theme-chalk/el-message-box.css';
+import 'element-plus/theme-chalk/el-notification.css';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -161,37 +177,48 @@ const notice = ref({
   block_id: Number,
   time: String,
   ddl: String,
+  confirm_state: Number,
 });
 
+const notice_id = router.currentRoute.value.params['id'];
+const headers = { token: getToken(), userid: getLocalUserId() };
+const isConfirmed = ref(false);
 const fetchData = async () => {
-  const notice_id = router.currentRoute.value.params['id'];
-  const headers = { token: getToken(), userid: getLocalUserId() };
   const params = { notice_id: notice_id };
   const result = await queryNoticeById(headers, params);
   if (result && result.length > 0) {
     notice.value = result[0];
     ddl.value = new Date(notice.value.ddl);
+    isConfirmed.value = notice.value.confirm_state === 1;
   }
-  // notice.value = {
-  //   title: '标题',
-  //   txt:
-  //     '<h1>Heading</h1>\n' +
-  //     '  <p>This Editor is awesome!</p>' +
-  //     '<h1>Heading</h1>\n' +
-  //     '<h1>Heading</h1>\n' +
-  //     '<h1>Heading</h1>\n',
-  //   user_id: 1,
-  //   block_id: 1,
-  //   time: '2014-03-20 13:28:32',
-  //   ddl: '2023-04-19 21:15:29',
-  // };
+};
+
+const handleChangeConfirm = async () => {
+  if (isConfirmed.value) {
+    await ElMessageBox.confirm('通知已确认，确定取消吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    });
+  }
+
+  const data = {
+    notice_id: notice_id,
+  };
+  await changeNoticeConfirm(headers, data);
+  isConfirmed.value = !isConfirmed.value;
+  if (isConfirmed.value) {
+    ElNotification({
+      title: '确认成功',
+    });
+  } else {
+    ElNotification({
+      title: '取消成功',
+    });
+  }
 };
 
 const fetchCreator = async (user_id) => {
-  // const result = {
-  //   username: 'CCC',
-  //   avatar_url: defaultLogo,
-  // };
   const headers = { token: getToken(), userid: getLocalUserId() };
   const result = await fetchInfo(headers, { user_id: user_id });
   creatorName.value = result.name;
@@ -202,9 +229,6 @@ const fetchCreator = async (user_id) => {
 };
 
 const fetchModule = async (module_id) => {
-  // const result = {
-  //   name: 'BBB',
-  // };
   const result = await moduleInfo(module_id, getLocalUserId(), getToken());
   moduleName.value = result.name;
 };

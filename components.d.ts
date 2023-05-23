@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     ElAside: typeof import('element-plus/es')['ElAside'];
     ElAvatar: typeof import('element-plus/es')['ElAvatar'];
     ElButton: typeof import('element-plus/es')['ElButton'];
+    ElCalendar: typeof import('element-plus/es')['ElCalendar'];
     ElCard: typeof import('element-plus/es')['ElCard'];
     ElCol: typeof import('element-plus/es')['ElCol'];
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider'];
@@ -44,6 +45,7 @@ declare module '@vue/runtime-core' {
     ElTabs: typeof import('element-plus/es')['ElTabs'];
     ElTag: typeof import('element-plus/es')['ElTag'];
     ElTooltip: typeof import('element-plus/es')['ElTooltip'];
+    ElUpload: typeof import('element-plus/es')['ElUpload'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     MdEditor: typeof import('./src/components/MdEditor.vue')['default'];
     NoticeBoard: typeof import('./src/components/NoticeBoard.vue')['default'];
