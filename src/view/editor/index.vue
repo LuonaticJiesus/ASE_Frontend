@@ -218,7 +218,7 @@ const handleEmitSave = () => {
 };
 
 // const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-const selectedModule: Ref<number> = ref(0);
+const selectedModule: Ref<number> = ref();
 const myModules = ref([]);
 const options = ref([]);
 
