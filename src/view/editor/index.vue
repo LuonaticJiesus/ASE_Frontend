@@ -68,12 +68,20 @@
           </el-select>
         </el-col>
         <el-col :offset="12" :span="1">
-          <el-button class="normal-color-button" @click="handleEmitSave">
+          <el-button
+            class="normal-color-button"
+            v-show="false"
+            @click="handleEmitSave"
+          >
             保存
           </el-button>
         </el-col>
         <el-col :span="1" style="margin-left: 15px">
-          <el-button class="normal-color-button" @click="handlePreviewMd">
+          <el-button
+            class="normal-color-button"
+            v-show="false"
+            @click="handlePreviewMd"
+          >
             预览
           </el-button>
         </el-col>
@@ -89,7 +97,7 @@
 
 <script setup lang="ts">
 /* eslint-disable camelcase */
-import { onMounted, Ref, ref } from 'vue';
+import { onMounted, onUpdated, Ref, ref } from 'vue';
 import { publishArticle } from '/@/api/article.js';
 // noinspection TypeScriptCheckImport
 import VMdEditor, { xss } from '@kangc/v-md-editor';
@@ -102,6 +110,8 @@ import { uploadImage } from '/@/api/notice';
 import { useRoute } from 'vue-router';
 import { modulePermission } from '/@/api/module';
 import router from '/@/router';
+import { ElMessage } from 'element-plus';
+import 'element-plus/theme-chalk/el-message.css';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -149,6 +159,13 @@ const editorOptions = [
 
 const handlePublishArticle = async () => {
   // noinspection TypeScriptUnresolvedReference
+  if (!selectedModule.value) {
+    ElMessage({
+      message: '还未选择模块！',
+      type: 'error',
+    });
+    return;
+  }
   const text: string =
     editorType.value === 'md'
       ? xss.process(
@@ -235,6 +252,18 @@ onMounted(async () => {
       value: `${myModules.value[idx].block_id}`,
       label: `${myModules.value[idx].name}`,
     }),
+  );
+  selectedModule.value = Number(
+    router.currentRoute.value.query['moduleId']
+      ? router.currentRoute.value.query['moduleId']
+      : undefined,
+  );
+});
+onUpdated(() => {
+  selectedModule.value = Number(
+    router.currentRoute.value.query['moduleId']
+      ? router.currentRoute.value.query['moduleId']
+      : undefined,
   );
 });
 </script>
