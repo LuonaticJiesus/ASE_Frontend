@@ -1,10 +1,11 @@
 <template>
   <DivideContainer>
     <template #main>
-      <!--      !!!!!在这里填页面-->
-      <h1>Home</h1>
-      <!--      temp!-->
-      <!-- <el-button @click="showNoticeEditor">Show Notice Editor</el-button> -->
+      <el-scrollbar style="max-height: 88vh">
+        <div v-if="mdDocument">
+          <v-md-preview :text="mdDocument" class="left-aligned"></v-md-preview>
+        </div>
+      </el-scrollbar>
       <NoticeEditor
         v-model:visible="dialogEditor"
         @close="dialogEditor = false"

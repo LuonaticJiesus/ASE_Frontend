@@ -37,7 +37,7 @@ export const asyncRoutes = [
         meta: { title: '主页', icon: 'House' },
       },
     ],
-    hidden: true,
+    hidden: false,
   },
   {
     path: '/',

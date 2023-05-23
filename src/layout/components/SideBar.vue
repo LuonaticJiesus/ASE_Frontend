@@ -1,8 +1,7 @@
 <template>
   <div class="side-bar-div">
     <!--    1. sideBarItem在VDom上插节点
-2. sideBar排列Item布局，设置link-to
-3. todo: 手动维护active?--->
+    2. sideBar排列Item布局，设置link-to--->
     <!--    先摆了，有个导航就行-->
     <el-menu
       class="custom-menu"
@@ -41,11 +40,11 @@
 
 <script>
 import { usePermissionStore, useUserStore } from '/@/store/index.js';
-import { Edit, Collection, User } from '@element-plus/icons-vue';
+import { Edit, Collection, User, House } from '@element-plus/icons-vue';
 import { isExternal } from '/@/utils/validate.ts';
 export default {
   name: 'SideBar',
-  components: { Edit, Collection, User },
+  components: { Edit, Collection, User, House },
   setup() {
     const routes = usePermissionStore().sideRoutes;
     const basePath = '/';
