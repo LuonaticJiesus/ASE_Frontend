@@ -30,7 +30,13 @@
         />
       </el-form-item>
       <el-form-item class="form-button">
-        <el-button type="primary" @click="submitPwdChange(pwdFormRef)">
+        <el-button
+          class="submit-button"
+          plain
+          color="white"
+          :dark="false"
+          @click="submitPwdChange(pwdFormRef)"
+        >
           提交修改
         </el-button>
       </el-form-item>
@@ -142,5 +148,19 @@ const cleanForm = () => {
 .form-button :deep(.el-button) {
   background: #9007ff;
   border-color: #9007ff;
+}
+
+.submit-button {
+  width: 7vw;
+  height: 4vh;
+  border-radius: 12px;
+  background-color: rgb(130, 36, 227);
+  background-image: linear-gradient(
+    90deg,
+    rgb(130, 36, 227) 0px,
+    rgb(169, 104, 236)
+  );
+  box-shadow: rgba(130, 36, 227, 0.5) 0 1px 2px 0;
+  font-size: medium;
 }
 </style>

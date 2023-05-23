@@ -1,13 +1,52 @@
 <template>
   <el-card class="info-card">
-    <el-form :label-position="'top'" label-width="100px" class="form-wrapper">
+    <el-form
+      ref="infoFormRef"
+      :label-position="'top'"
+      label-width="100px"
+      class="form-wrapper"
+    >
+      <el-scrollbar max-height="42vh">
+        <el-form-item label="积分" prop="none">
+          <el-input
+            :placeholder="oldPoint"
+            autocomplete="off"
+            disabled="disabled"
+          />
+        </el-form-item>
+      </el-scrollbar>
     </el-form>
   </el-card>
 </template>
 
 <script lang="ts">
+import { useUserStore } from '/@/store';
+
 export default {
   name: 'userStat',
+  data() {
+    return {
+      Point: undefined,
+    };
+  },
+  computed: {
+    oldPoint() {
+      return this.Point;
+    },
+  },
+  methods: {
+    async fetchData() {
+      try {
+        this.Point = useUserStore().point;
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        // 根据需要处理错误
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
 };
 </script>
 
