@@ -74,8 +74,6 @@
 <script lang="ts">
 import { Search } from '@element-plus/icons-vue';
 import { ref } from 'vue';
-import { getUserProfile, fetchInfo } from '/@/api/user';
-import { getLocalUserId, getToken } from '/@/utils/auth';
 import { useUserStore } from '/@/store';
 import router from '/@/router';
 
@@ -110,24 +108,8 @@ export default {
     },
     async fetchData() {
       try {
-        let userid = getLocalUserId();
-        let token = getToken();
-        const userProfile = await getUserProfile({
-          userid: userid,
-          token: token,
-        });
-        // console.log(userProfile);
-        // console.log('headBar test profile:');
-        this.userName = userProfile.name;
-        fetchInfo({ userid: userid, token: token }, { user_id: userid })
-          .then((res) => {
-            console.log(res);
-            this.userName = res.name;
-            this.userAvatar = res.avatar;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.userName = useUserStore().name;
+        this.userAvatar = useUserStore().avatar;
       } catch (error) {
         console.error('Error fetching user profile:', error);
         // 根据需要处理错误
