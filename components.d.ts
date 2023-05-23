@@ -39,8 +39,6 @@ declare module '@vue/runtime-core' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar'];
     ElSelect: typeof import('element-plus/es')['ElSelect'];
     ElSelectV2: typeof import('element-plus/es')['ElSelectV2'];
-    ElTabPane: typeof import('element-plus/es')['ElTabPane'];
-    ElTabs: typeof import('element-plus/es')['ElTabs'];
     ElTable: typeof import('element-plus/es')['ElTable'];
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
     ElTabPane: typeof import('element-plus/es')['ElTabPane'];
