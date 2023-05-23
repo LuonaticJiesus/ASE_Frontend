@@ -1,11 +1,11 @@
 <template>
   <DivideContainer>
     <template #main>
-      <div class="scrollable">
+      <el-scrollbar style="max-height: 88vh">
         <div v-if="mdDocument">
           <v-md-preview :text="mdDocument" class="left-aligned"></v-md-preview>
         </div>
-      </div>
+      </el-scrollbar>
       <NoticeEditor
         v-model:visible="dialogEditor"
         @close="dialogEditor = false"

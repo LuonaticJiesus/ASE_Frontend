@@ -24,6 +24,7 @@
         v-if="editorType === 'md'"
         class="md-editor"
         v-model="mdText"
+        tab-size="2"
         @upload-image="handleUploadImage"
         @save="handleSaveMdText"
         :disabled-menus="[]"
