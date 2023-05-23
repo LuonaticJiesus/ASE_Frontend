@@ -1,8 +1,10 @@
 <template>
   <DivideContainer>
     <template #main>
-      <div v-if="mdDocument">
-        <v-md-preview :text="mdDocument"></v-md-preview>
+      <div class="scrollable">
+        <div v-if="mdDocument">
+          <v-md-preview :text="mdDocument"></v-md-preview>
+        </div>
       </div>
       <NoticeEditor
         v-model:visible="dialogEditor"
@@ -46,5 +48,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.scrollable {
+  height: 80vh;
+  overflow-y: auto;
+}
+</style>
 
 <style scoped></style>
