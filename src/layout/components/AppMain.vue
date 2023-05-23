@@ -1,9 +1,14 @@
 <template>
   <section class="app-main">
     <!--    <transition name="fade" mode="out-in">-->
-    <keep-alive>
+    <!-- <keep-alive>
       <router-view :key="key" />
-    </keep-alive>
+    </keep-alive> -->
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
     <!--    </transition>-->
   </section>
 </template>

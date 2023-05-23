@@ -150,7 +150,11 @@
         </el-header>
         <el-divider style="margin: 0" />
         <el-main style="padding: 0">
-          <router-view></router-view>
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </router-view>
         </el-main>
       </el-container>
     </template>

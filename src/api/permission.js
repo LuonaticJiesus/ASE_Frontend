@@ -53,10 +53,10 @@ const permissionMap = {
 
 const permissionColor = {
   0: 'info',
-  1: 'primary',
+  1: '',
   2: 'success',
-  3: 'plain',
-  4: 'error',
+  3: 'warning',
+  4: 'danger',
 };
 
 export { roles, queryRole, setPermission, permissionMap, permissionColor };
