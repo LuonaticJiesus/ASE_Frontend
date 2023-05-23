@@ -3,12 +3,11 @@ import { get, post } from '/@/utils/request';
 
 const URL = {
   list: '/four_s/notice/queryRecv/',
-  create: '/back/notice/create',
-  undueList: '/four_s/notice/queryRecv/',
   queryBlock: '/four_s/notice/queryBlock/',
   uploadImg: '/four_s/file/upload/',
   publish: '/four_s/notice/publish/',
   queryById: '/four_s/notice/queryById/',
+  confirm: '/four_s/notice/confirm/',
 };
 
 // const MockURL = {
@@ -22,11 +21,6 @@ const URL = {
 
 const getNoticeList = async (headers, data) =>
   get({ url: URL.list, headers: headers, params: data });
-
-const getUndueNoticeList = async (headers, data) =>
-  get({ url: URL.undueList, headers: headers, params: data });
-
-const createNotice = async (data) => post(data, { url: URL.create });
 
 const moduleNotices = async (block_id, userid, token) =>
   get({
@@ -60,12 +54,18 @@ const queryNoticeById = async (headers, data) =>
     params: data,
   });
 
+const changeNoticeConfirm = async (headers, data) =>
+  post({
+    url: URL.confirm,
+    headers: headers,
+    data: data,
+  });
+
 export {
   getNoticeList,
-  createNotice,
-  getUndueNoticeList,
   moduleNotices,
   uploadImage,
   publishNotice,
   queryNoticeById,
+  changeNoticeConfirm,
 };

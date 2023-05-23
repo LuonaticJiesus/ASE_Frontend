@@ -7,6 +7,19 @@
     </el-row>
     <el-row justify="center">
       <el-tabs style="width: 90%">
+        <el-tab-pane label="未确认" class="notice-tab">
+          <el-empty
+            v-if="unConfirmedNotice.length === 0"
+            description="当前没有未确认的通知"
+          />
+          <el-scrollbar>
+            <NoticeSimple
+              v-for="notice of unEndedNotices"
+              :key="notice"
+              :noticeItem="notice"
+            ></NoticeSimple>
+          </el-scrollbar>
+        </el-tab-pane>
         <el-tab-pane label="未截止" class="notice-tab">
           <el-empty
             v-if="unEndedNotices.length === 0"
@@ -43,12 +56,13 @@ export default {
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getNoticeList, getUndueNoticeList } from '/@/api/notice.js';
+import { getNoticeList } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
 import { useUserStore } from '/@/store/index.js';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 let unEndedNotices = ref([]);
 let allNotices = ref([]);
+let unConfirmedNotice = ref([]);
 const updateNoticeList = async () => {
   const headers = {
     userid: getLocalUserId(),
@@ -56,13 +70,26 @@ const updateNoticeList = async () => {
   };
   const data = {
     user_id: useUserStore().user_id,
-    show_confirm: 1,
   };
-  const list = await getNoticeList(headers, { ...data, undue_op: 0 });
-  // 根据截止时间分成两个array
+  const list = await getNoticeList(headers, {
+    ...data,
+    confirm_op: 0,
+    undue_op: 0,
+  });
+  // 根据截止时间和确认状态分成3个array
   allNotices.value = list;
-  const undue = await getUndueNoticeList(headers, { ...data, undue_op: 1 });
+  const undue = await getNoticeList(headers, {
+    ...data,
+    confirm_op: 0,
+    undue_op: 1,
+  });
   unEndedNotices.value = undue;
+  const unConfirmed = await getNoticeList(headers, {
+    ...data,
+    confirm_op: 1,
+    undue_op: 1,
+  });
+  unConfirmedNotice.value = unConfirmed;
 };
 onMounted(() => {
   updateNoticeList();
