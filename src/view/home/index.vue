@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
 .scrollable {
-  height: 80vh;
+  height: 85vh;
   overflow-y: auto;
 }
 </style>
