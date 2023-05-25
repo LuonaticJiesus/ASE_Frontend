@@ -14,7 +14,6 @@
                 "
                 :src="moduleAvatar"
                 :fit="'scale-down'"
-                lazy
               >
               </el-image>
             </div>
