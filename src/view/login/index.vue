@@ -38,7 +38,7 @@
                   <Compass />
                 </div>
                 <div class="intro_func_content">
-                  <div class="func_title">Sharign</div>
+                  <div class="func_title">Sharing</div>
                   <div class="func_content">分享：向世界表达自己</div>
                 </div>
               </div>
