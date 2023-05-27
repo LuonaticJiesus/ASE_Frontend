@@ -40,11 +40,17 @@
 
 <script>
 import { usePermissionStore, useUserStore } from '/@/store/index.js';
-import { Edit, Collection, User, House } from '@element-plus/icons-vue';
+import {
+  Edit,
+  Collection,
+  User,
+  House,
+  Calendar,
+} from '@element-plus/icons-vue';
 import { isExternal } from '/@/utils/validate.ts';
 export default {
   name: 'SideBar',
-  components: { Edit, Collection, User, House },
+  components: { Edit, Collection, User, House, Calendar },
   setup() {
     const routes = usePermissionStore().sideRoutes;
     const basePath = '/';
