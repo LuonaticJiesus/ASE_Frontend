@@ -37,4 +37,5 @@ export interface noticeType {
   block_id: number;
   time: string;
   ddl: string;
+  confirm_state: number;
 }

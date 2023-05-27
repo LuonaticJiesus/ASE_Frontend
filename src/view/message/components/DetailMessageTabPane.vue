@@ -47,11 +47,11 @@ onMounted(() => {
   for (let item of props.list) {
     let date = new Date(item.time).toDateString();
     if (date === indexDate) {
-      dateMap[index].messages.push(item);
+      dateMap.value[index].messages.push(item);
     } else {
       index += 1;
-      dateMap[index].date.push(date);
-      dateMap[index].messages.push(item);
+      dateMap.value.push({ date: date, messages: [] });
+      dateMap.value[index].messages.push(item);
       indexDate = date;
     }
   }
