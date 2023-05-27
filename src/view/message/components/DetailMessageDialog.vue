@@ -10,6 +10,7 @@
     <template #header>
       <div class="my-header">
         <h4>消息详情</h4>
+        <div>{{ props.message.content }}</div>
         <el-button type="danger" @click="closeDialog">
           <el-icon class="el-icon--left">
             <CircleClose></CircleClose>
@@ -22,17 +23,22 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from 'vue';
 import { CircleClose } from '@element-plus/icons-vue';
+import { messageType } from '/@/utils/type';
 
 const emit = defineEmits(['closeDialog']);
 const closeDialog = () => {
   emit('closeDialog');
 };
-// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   visible: {
     type: Boolean,
     default: false,
+  },
+  message: {
+    type: Object as PropType<messageType>,
+    default: Object,
   },
 });
 </script>

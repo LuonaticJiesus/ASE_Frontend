@@ -23,8 +23,7 @@ import { PropType } from 'vue';
 import { messageType } from '/@/utils/type';
 import router from '/@/router';
 
-// eslint-disable-next-line no-unused-vars
-const props = defineProps({
+defineProps({
   list: {
     type: Array as PropType<messageType[]>,
     default: Array,

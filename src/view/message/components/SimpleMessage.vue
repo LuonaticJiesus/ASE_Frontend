@@ -33,6 +33,7 @@
   <DetailMessageDialog
     v-model:visible="dialogDetail"
     @closeDialog="closeDialogDetail"
+    :message="message"
   ></DetailMessageDialog>
 </template>
 
@@ -41,7 +42,6 @@ import { PropType, ref } from 'vue';
 import { messageType } from '/@/utils/type';
 import DetailMessageDialog from '/@/view/message/components/DetailMessageDialog.vue';
 
-// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   message: {
     type: Object as PropType<messageType>,
