@@ -9,3 +9,20 @@ export interface defaultResponse<T = any> {
   info: string | number;
   data: T;
 }
+
+export interface messageType {
+  message_id: number;
+  receiver_id: number;
+  time: string;
+  extern_info: object;
+}
+
+export interface noticeType {
+  notice_id: number;
+  title: string;
+  txt: string;
+  user_id: number;
+  block_id: number;
+  time: string;
+  ddl: string;
+}

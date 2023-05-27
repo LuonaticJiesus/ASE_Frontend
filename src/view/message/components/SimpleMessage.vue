@@ -37,14 +37,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 import DetailMessage from '/@/view/message/components/DetailMessage.vue';
+import { messageType } from '/@/utils/type';
+
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  message: {
+    type: Object as PropType<messageType>,
+    default: Object,
+  },
+});
 
 const dialogDetail = ref(false);
 const showDetail = () => {
   dialogDetail.value = true;
 };
-
 const closeDialogDetail = () => {
   dialogDetail.value = false;
 };
@@ -58,6 +66,7 @@ export default {
 <style scoped>
 .simple-message {
   border: 0;
+  background-color: rgba(255, 255, 255, 0);
 }
 .simple-message:hover,
 .simple-message:active,

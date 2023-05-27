@@ -60,7 +60,7 @@
         trigger="hover"
         placement="bottom"
         :width="400"
-        popper-style="border-radius: 12px"
+        popper-style="border-radius: 12px;padding: 0"
         :show-arrow="false"
       >
         <template #reference>

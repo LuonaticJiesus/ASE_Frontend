@@ -26,15 +26,8 @@
 import { PropType } from 'vue';
 import { defaultLogo, strippedHtml } from '/@/utils/string';
 import router from '/@/router';
-interface noticeType {
-  notice_id: number;
-  title: string;
-  txt: string;
-  user_id: number;
-  block_id: number;
-  time: string;
-  ddl: string;
-}
+import { noticeType } from '/@/utils/type';
+
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   noticeItem: {
