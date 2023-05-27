@@ -30,16 +30,16 @@
     </el-text>
   </el-card>
   <el-divider style="margin: 10px 0 10px 0"></el-divider>
-  <DetailMessage
+  <DetailMessageDialog
     v-model:visible="dialogDetail"
     @closeDialog="closeDialogDetail"
-  ></DetailMessage>
+  ></DetailMessageDialog>
 </template>
 
 <script setup lang="ts">
 import { PropType, ref } from 'vue';
-import DetailMessage from '/@/view/message/components/DetailMessage.vue';
 import { messageType } from '/@/utils/type';
+import DetailMessageDialog from '/@/view/message/components/DetailMessageDialog.vue';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({

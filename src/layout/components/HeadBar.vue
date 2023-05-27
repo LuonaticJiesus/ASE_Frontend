@@ -64,7 +64,7 @@
         :show-arrow="false"
       >
         <template #reference>
-          <el-menu-item index="/message"><h3>消息</h3></el-menu-item>
+          <el-menu-item><h3>消息</h3></el-menu-item>
         </template>
         <template #default> <HoverMessageBox /></template>
       </el-popover>
