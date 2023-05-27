@@ -1,5 +1,8 @@
 <template>
-  <SimpleMessage v-for="i of [1, 2]" :key="i" />
+  <el-scrollbar max-height="250px">
+    <SimpleMessage v-for="i of [1, 2, 3, 4, 5, 6, 7, 8]" :key="i" />
+  </el-scrollbar>
+
   <el-button text type="primary" style="font-size: small">
     此页设为已读
   </el-button>
