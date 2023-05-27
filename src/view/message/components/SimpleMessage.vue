@@ -21,7 +21,7 @@
       </svg>
 
       <el-text truncated style="color: black">
-        {{ '消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容' }}
+        {{ props.message.content }}
       </el-text>
     </span>
 
@@ -57,6 +57,7 @@ const closeDialogDetail = () => {
   dialogDetail.value = false;
 };
 </script>
+
 <script lang="ts">
 export default {
   name: 'SimpleMessage',

@@ -1,6 +1,10 @@
 <template>
   <el-scrollbar max-height="250px" style="padding: 0 5px 0 5px">
-    <SimpleMessage v-for="message of list" :key="message.message_id" />
+    <SimpleMessage
+      v-for="item of list"
+      :key="item.message_id"
+      :message="item"
+    />
   </el-scrollbar>
 
   <el-row justify="space-between">
@@ -31,6 +35,7 @@ const jump = () => {
   router.push('/message');
 };
 </script>
+
 <script lang="ts">
 export default {
   name: 'MessageBoxTabPane',

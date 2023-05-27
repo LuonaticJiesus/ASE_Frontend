@@ -13,7 +13,10 @@ export interface defaultResponse<T = any> {
 export interface messageType {
   message_id: number;
   receiver_id: number;
+  content: string;
+  message_type: number;
   time: string;
+  state: number;
   extern_info: object;
 }
 
