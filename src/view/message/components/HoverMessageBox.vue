@@ -33,7 +33,7 @@ const headers = {
 };
 onMounted(async () => {
   const result = await getMessageList(headers);
-  if (result) {
+  if (result && result > 0) {
     allMessages.value = result;
     filterMessages();
   }

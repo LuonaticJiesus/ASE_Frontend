@@ -38,7 +38,7 @@ const props = defineProps({
 </script>
 <script lang="ts">
 export default {
-  name: 'DetailMessage',
+  name: 'DetailMessageDialog',
 };
 </script>
 
