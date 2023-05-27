@@ -4,6 +4,8 @@
     modal
     :show-close="false"
     style="border-radius: 12px"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
   >
     <template #header="{ titleId, titleClass }">
       <div class="my-header">

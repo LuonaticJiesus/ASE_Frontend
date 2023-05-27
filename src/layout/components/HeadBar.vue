@@ -55,7 +55,20 @@
         />
       </div> -->
       <div class="flex-grow" />
-      <el-menu-item index="/home"><h3>首页</h3></el-menu-item>
+      <el-menu-item index="/home"><h3>主页</h3></el-menu-item>
+      <el-popover
+        trigger="hover"
+        placement="bottom"
+        :width="400"
+        popper-style="border-radius: 12px;padding: 0"
+        :show-arrow="false"
+      >
+        <template #reference>
+          <el-menu-item index="/message"><h3>消息</h3></el-menu-item>
+        </template>
+        <template #default> <HoverMessageBox /></template>
+      </el-popover>
+
       <el-menu-item index="/editor"><h3>发布</h3></el-menu-item>
       <el-menu-item index="/module"><h3>版块</h3></el-menu-item>
       <el-menu-item index="/user">
@@ -76,8 +89,10 @@ import { Search } from '@element-plus/icons-vue';
 import { ref } from 'vue';
 import { useUserStore } from '/@/store';
 import router from '/@/router';
+import HoverMessageBox from '/@/view/message/components/HoverMessageBox.vue';
 
 export default {
+  components: { HoverMessageBox },
   data() {
     return {
       userName: '',

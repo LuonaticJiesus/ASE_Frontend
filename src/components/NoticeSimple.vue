@@ -26,15 +26,8 @@
 import { PropType } from 'vue';
 import { defaultLogo, strippedHtml } from '/@/utils/string';
 import router from '/@/router';
-interface noticeType {
-  notice_id: number;
-  title: string;
-  txt: string;
-  user_id: number;
-  block_id: number;
-  time: string;
-  ddl: string;
-}
+import { noticeType } from '/@/utils/type';
+
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   noticeItem: {
@@ -62,6 +55,10 @@ export default {
   margin-bottom: 10px;
   background-color: rgba(0, 0, 0, 0);
   border-style: hidden;
+}
+
+.notice-card-simple:hover {
+  cursor: pointer;
 }
 
 .notice-module-image {

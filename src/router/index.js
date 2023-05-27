@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { constantRoutes } from '/@/router/routes';
 import NProgress from 'nprogress';
 // eslint-disable-next-line no-unused-vars
-import { clearToken, getToken } from '/src/utils/auth';
+import { getToken } from '/src/utils/auth';
 import { useUserStore, usePermissionStore } from '/src/store';
 import { ElMessage } from 'element-plus';
 import { validateAccount } from '/@/api/user.js';
@@ -25,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
       active_code: needValidate,
     };
     await validateAccount(param);
-    next('/');
+    next('/home');
   }
   // set page title
   // document.title = getPageTitle(to.meta.title);
@@ -36,7 +36,7 @@ router.beforeEach(async (to, from, next) => {
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      next({ path: '/' });
+      next({ path: '/home' });
       NProgress.done();
     } else {
       // determine whether the user has obtained his permission roles through getInfo
@@ -49,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
           // try to repeat getting roles
           await userStore.getInfo();
           // 暂时的处理
-          userStore.roles.push('user');
+          userStore.setRoles(['user']);
 
           const roles = userStore.userRoles;
           // generate accessible routes map based on roles
@@ -67,7 +67,7 @@ router.beforeEach(async (to, from, next) => {
             message: 'Error: 你没有权限访问此页面',
             type: 'error',
           });
-          next(`/login?redirect=${to.path}`);
+          next(`/login?redirect=${to.path}&permission=false`);
           NProgress.done();
         }
       }
@@ -79,7 +79,7 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`);
+      next(`/login?redirect=${to.path}&except=true`);
       NProgress.done();
     }
   }
