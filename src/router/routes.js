@@ -167,4 +167,16 @@ export const asyncRoutes = [
       },
     ],
   },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'message',
+        path: '/message',
+        component: () => import('/@/view/message/index.vue'),
+      },
+    ],
+    hidden: true,
+  },
 ];
