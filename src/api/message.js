@@ -15,10 +15,12 @@ const getMessageList = async (headers) =>
     headers: headers,
   });
 
-const confirmOneMessage = async (headers, data) =>
+const confirmMessage = async (headers, message_ids) =>
   post({
-    url: URL.confirm,
+    url: MOCK_BASE + URL.confirm,
     headers: headers,
-    data: data,
+    data: {
+      message_ids: message_ids,
+    },
   });
-export { getMessageList, confirmOneMessage };
+export { getMessageList, confirmMessage };

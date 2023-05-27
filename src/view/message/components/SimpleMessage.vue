@@ -39,8 +39,10 @@
 
 <script setup lang="ts">
 import { PropType, ref } from 'vue';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 import { messageType } from '/@/utils/type';
 import DetailMessageDialog from '/@/view/message/components/DetailMessageDialog.vue';
+import { confirmMessage } from '/@/api/message';
 
 const props = defineProps({
   message: {
@@ -49,8 +51,14 @@ const props = defineProps({
   },
 });
 
+const headers = {
+  userid: getLocalUserId(),
+  token: getToken(),
+};
+
 const dialogDetail = ref(false);
 const showDetail = () => {
+  confirmMessage(headers, [{ message_id: props.message.message_id }]);
   dialogDetail.value = true;
 };
 const closeDialogDetail = () => {
