@@ -64,6 +64,10 @@ export default {
   border-style: hidden;
 }
 
+.notice-card-simple:hover {
+  cursor: pointer;
+}
+
 .notice-module-image {
   display: flex;
   align-items: center;
