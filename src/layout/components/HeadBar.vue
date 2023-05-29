@@ -76,6 +76,7 @@
 
       <el-menu-item index="/editor"><h3>发布</h3></el-menu-item>
       <el-menu-item index="/module"><h3>版块</h3></el-menu-item>
+      <el-menu-item index="/favor"><h3>收藏</h3></el-menu-item>
       <el-menu-item index="/user">
         <el-avatar class="mr-3" :size="32" :src="useUserStore().avatar" />
         <div

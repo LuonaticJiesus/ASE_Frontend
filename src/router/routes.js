@@ -191,4 +191,16 @@ export const asyncRoutes = [
     ],
     hidden: true,
   },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'favor',
+        path: '/favor',
+        component: () => import('/@/view/favor/index.vue'),
+      },
+    ],
+    hidden: true,
+  },
 ];
