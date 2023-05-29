@@ -93,14 +93,12 @@ export default {
 .favor-center {
   padding: 20px;
 }
-
 .share-table {
   width: 100%;
   &:hover {
     cursor: pointer;
   }
 }
-
 .el-table :deep(.el-popper) {
   display: none;
 }
