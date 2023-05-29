@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { get, post } from '/@/utils/request';
 
-const MOCK_BASE = 'http://127.0.0.1:4523/m1/2544583-0-default';
+// const MOCK_BASE = 'http://127.0.0.1:4523/m1/2544583-0-default';
 
 const URL = {
   list: '/four_s/message/queryRec/',
@@ -11,7 +11,8 @@ const URL = {
 
 const getMessageList = async (headers) =>
   get({
-    url: MOCK_BASE + URL.list,
+    // url: MOCK_BASE + URL.list,
+    url: URL.list,
     headers: headers,
   });
 

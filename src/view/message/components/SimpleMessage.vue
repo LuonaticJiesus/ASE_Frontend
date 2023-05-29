@@ -7,9 +7,9 @@
   >
     <span style="display: flex; justify-content: start">
       <svg
+        v-if="!message.state"
         class="icon"
         viewBox="0 0 1024 1024"
-        version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
@@ -20,15 +20,12 @@
         ></path>
       </svg>
 
-      <el-text truncated style="color: black">
-        {{ props.message.source_content }}
+      <el-text style="color: black">
+        <MessageContent :message="message"></MessageContent>
       </el-text>
     </span>
 
-    <el-text>
-      {{ props.message.source_content }} '· 模块名称 ·'
-      {{ props.message.sender_name }}
-    </el-text>
+    <MessageFooter :message="message"></MessageFooter>
   </el-card>
   <el-divider style="margin: 10px 0 10px 0"></el-divider>
   <DetailMessageDialog
@@ -45,6 +42,10 @@ import { messageType } from '/@/utils/type';
 import DetailMessageDialog from '/@/view/message/components/DetailMessageDialog.vue';
 import { confirmMessage } from '/@/api/message';
 
+import MessageContent from '/@/view/message/components/MessageContent.vue';
+import MessageFooter from '/@/view/message/components/MessageFooter.vue';
+
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 const props = defineProps({
   message: {
     type: Object as PropType<messageType>,
@@ -60,7 +61,7 @@ const headers = {
 const dialogDetail = ref(false);
 const showDetail = () => {
   confirmMessage(headers, [{ message_id: props.message.message_id }]);
-  dialogDetail.value = true;
+  dialogDetail.value = false;
 };
 const closeDialogDetail = () => {
   dialogDetail.value = false;
