@@ -4,7 +4,7 @@
       <template #label>
         <span>更新提醒</span>
         <span class="redDot" v-if="updateMessages.length > 0">
-          {{ updateMessages.length }}
+          {{ Math.min(updateMessages.length, 99) }}
         </span>
       </template>
       <MessageBoxTabPane
@@ -17,7 +17,7 @@
       <template #label>
         <span>积分记录</span>
         <span class="redDot" v-if="pointMessages.length > 0">
-          {{ pointMessages.length }}
+          {{ Math.min(pointMessages.length, 99) }}
         </span>
       </template>
       <MessageBoxTabPane
@@ -30,7 +30,7 @@
       <template #label>
         <span>系统通知</span>
         <span class="redDot" v-if="systemMessages.length > 0">
-          {{ systemMessages.length }}
+          {{ Math.min(systemMessages.length, 99) }}
         </span>
       </template>
       <MessageBoxTabPane
@@ -52,6 +52,16 @@ import { pointType, systemType, updateType } from '/@/utils/type';
 const updateMessages = ref([]);
 const pointMessages = ref([]);
 const systemMessages = ref([]);
+
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  fetchUnreadCount: {
+    type: Function,
+    default: () => {
+      return 0;
+    },
+  },
+});
 
 const headers = {
   userid: getLocalUserId(),
@@ -91,6 +101,7 @@ onMounted(async () => {
   if (result && result.length > 0) {
     allMessages.value = result;
     filterMessages();
+    props.fetchUnreadCount(allMessages.value.length);
   }
 });
 </script>

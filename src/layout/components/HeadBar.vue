@@ -64,9 +64,14 @@
         :show-arrow="false"
       >
         <template #reference>
-          <el-menu-item><h3>消息</h3></el-menu-item>
+          <el-menu-item>
+            <h3>消息</h3>
+            <span class="redDot" v-if="unreadCount > 0"> </span>
+          </el-menu-item>
         </template>
-        <template #default> <HoverMessageBox /></template>
+        <template #default>
+          <HoverMessageBox :fetch-unread-count="handleUnreadCount"
+        /></template>
       </el-popover>
 
       <el-menu-item index="/editor"><h3>发布</h3></el-menu-item>
@@ -105,10 +110,16 @@ export default {
       console.log(key, keyPath);
       router.push(key);
     };
+    const unreadCount = ref(0);
+    const handleUnreadCount = (count) => {
+      unreadCount.value = count;
+    };
     return {
       input2,
+      unreadCount,
       handleSelect,
       useUserStore,
+      handleUnreadCount,
     };
   },
   computed: {
@@ -173,5 +184,16 @@ export default {
   outline: 0 !important;
   color: blueviolet !important;
   background: none !important;
+}
+.redDot {
+  margin-left: 2px;
+  color: white;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: red;
+  text-align: center;
+  vertical-align: center;
+  font-size: small;
 }
 </style>

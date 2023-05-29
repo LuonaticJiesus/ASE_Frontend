@@ -8,18 +8,42 @@
           <el-tab-pane>
             <template #label>
               <span>更新提醒</span>
-              <span class="redDot">{{ 99 }}</span>
+              <span class="redDot" v-if="updateMessages.length > 0">
+                {{ Math.min(updateMessages.length, 99) }}
+              </span>
             </template>
-            <DetailMessageTabPane :list="updateMessages">
-            </DetailMessageTabPane>
+            <DetailMessageTabPane
+              v-if="updateMessages.length > 0"
+              :list="updateMessages"
+            />
+            <el-empty v-else description="暂无相关消息"></el-empty>
           </el-tab-pane>
-          <el-tab-pane label="积分记录">
-            <DetailMessageTabPane :list="pointMessages"> </DetailMessageTabPane
-          ></el-tab-pane>
-          <el-tab-pane label="系统通知"
-            ><DetailMessageTabPane :list="systemMessages">
-            </DetailMessageTabPane
-          ></el-tab-pane>
+          <el-tab-pane>
+            <template #label>
+              <span>积分记录</span>
+              <span class="redDot" v-if="pointMessages.length > 0">
+                {{ Math.min(pointMessages.length, 99) }}
+              </span>
+            </template>
+            <DetailMessageTabPane
+              v-if="pointMessages.length > 0"
+              :list="pointMessages"
+            />
+            <el-empty v-else description="暂无相关消息"></el-empty>
+          </el-tab-pane>
+          <el-tab-pane>
+            <template #label>
+              <span>系统通知</span>
+              <span class="redDot" v-if="systemMessages.length > 0">
+                {{ Math.min(systemMessages.length, 99) }}
+              </span>
+            </template>
+            <DetailMessageTabPane
+              v-if="systemMessages.length > 0"
+              :list="systemMessages"
+            />
+            <el-empty v-else description="暂无相关消息"></el-empty>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </template>
@@ -34,6 +58,7 @@ import DetailMessageTabPane from '/@/view/message/components/DetailMessageTabPan
 import { onMounted, ref } from 'vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { getMessageList } from '/@/api/message';
+import { pointType, systemType, updateType } from '/@/utils/type';
 const allMessages = ref([]);
 const updateMessages = ref([]);
 const pointMessages = ref([]);
@@ -52,16 +77,14 @@ onMounted(async () => {
 });
 
 // 根据接口返回的消息类型编码分类
-const updateType = [1, 2, 3];
-const pointType = [4, 5, 6];
-const systemType = [7, 8, 9];
+
 const filterMessages = () => {
-  for (let item of allMessages) {
-    if (item in updateType) {
+  for (let item of allMessages.value) {
+    if (updateType.find((i) => i === item.message_type) >= 0) {
       updateMessages.value.push(item);
-    } else if (item in pointType) {
+    } else if (pointType.find((i) => i === item.message_type) >= 0) {
       pointMessages.value.push(item);
-    } else if (item in systemType) {
+    } else if (systemType.find((i) => i === item.message_type) >= 0) {
       systemMessages.value.push(item);
     }
   }
