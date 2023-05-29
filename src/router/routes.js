@@ -56,6 +56,18 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
+        name: 'calendar',
+        path: '/calendar',
+        component: () => import('/@/view/calendar/index.vue'),
+        meta: { title: '日历', icon: 'Calendar' },
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
         name: 'editor',
         path: '/editor',
         component: () => import('/@/view/editor/index.vue'),
