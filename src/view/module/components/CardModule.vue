@@ -74,6 +74,7 @@ export default {
 .el-card :deep(.el-card__header) {
   padding: 0;
   margin: 0;
+  border: 0;
 }
 .card-header {
   display: flex;

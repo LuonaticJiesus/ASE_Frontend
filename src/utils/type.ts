@@ -41,6 +41,7 @@ export interface noticeType {
   txt: string;
   user_id: number;
   block_id: number;
+  block_name: string;
   time: string;
   ddl: string;
   confirm_state: number;

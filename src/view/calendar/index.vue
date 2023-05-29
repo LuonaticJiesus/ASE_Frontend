@@ -1,33 +1,31 @@
-<!--suppress TypeScriptUnresolvedReference -->
+<!--suppress TypeScriptUnresolvedReference, CssUnusedSymbol -->
 <template>
   <DivideContainer>
     <template #main>
       <div class="calendar-div">
-        <el-calendar>
+        <el-calendar v-model:model-value="selectedDate">
           <template #date-cell="{ data }">
             <div class="calendar-day">
-              <h4
-                :class="
-                  isDDL(data.day)
-                    ? 'is-unconfirmed-ddl'
-                    : isToday(data.day)
-                    ? 'is-today'
-                    : 'is-normal'
-                "
-                style="padding: 0; margin: 0"
-              >
-                {{ data.day.split('-').slice(2).join('-') }}
-              </h4>
-              <div :class="isDDL(data.day) ? 'red-dot' : 'none-dot'"></div>
-              <div
-                v-if="isDDL(data.day)"
-                class="notice-tag-list"
-                v-show="false"
-              >
+              <div class="ddl-control-div">
+                <h4
+                  :class="
+                    isDDL(data.day)
+                      ? 'is-unconfirmed-ddl'
+                      : isToday(data.day)
+                      ? 'is-today'
+                      : 'is-normal'
+                  "
+                  style="padding: 0; margin: 0"
+                >
+                  {{ data.day.split('-').slice(2).join('-') }}
+                </h4>
+                <div :class="isDDL(data.day) ? 'red-dot' : 'none-dot'"></div>
+              </div>
+              <div v-if="isDDL(data.day)" class="notice-tag-list">
                 <el-tag
                   v-for="notice of dateMap[
                     dateList.indexOf(new Date(data.day).toDateString())
-                  ].notices"
+                  ].notices.slice(0, 2)"
                   :key="notice.notice_id"
                   :type="notice.confirm_state === 1 ? 'primary' : 'danger'"
                   class="notice-tag"
@@ -39,6 +37,76 @@
             </div>
           </template>
         </el-calendar>
+      </div>
+      <div class="ddl-card-group">
+        <el-row>
+          <el-col v-if="!isDDL(selectedDate)" :span="24">
+            <el-empty style="padding: 0" description="当天暂无DDL"></el-empty>
+          </el-col>
+          <el-scrollbar v-else>
+            <div style="display: flex; flex-direction: row; flex-wrap: nowrap">
+              <el-card
+                shadow="never"
+                class="ddl-card"
+                v-for="notice of dateMap[
+                  dateList.indexOf(selectedDate.toDateString())
+                ].notices"
+                :key="notice.notice_id"
+                :type="notice.confirm_state === 1 ? 'primary' : 'danger'"
+              >
+                <template #header>
+                  <div
+                    style="
+                      padding: 10px;
+                      display: flex;
+                      justify-content: space-between;
+                    "
+                  >
+                    <el-text style="font-weight: bold; font-size: large">{{
+                      notice.title
+                    }}</el-text>
+                    <div
+                      style="
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                      "
+                    >
+                      <el-text style="font-size: small">
+                        {{ notice.block_name }}
+                      </el-text>
+                      <el-text style="font-size: x-small">
+                        {{ new Date(notice.time).toLocaleTimeString() }}
+                      </el-text>
+                    </div>
+                  </div>
+                </template>
+                <template #default>
+                  <div style="padding: 10px">
+                    <el-scrollbar>
+                      <div style="text-align: start; height: 14vh">
+                        <el-text style="text-align: start">{{
+                          strippedHtml(notice.txt)
+                        }}</el-text>
+                      </div>
+                    </el-scrollbar>
+                  </div>
+                  <el-divider style="margin: 0; padding: 0"></el-divider>
+                  <div>
+                    <el-button
+                      @click="jump(notice.notice_id)"
+                      text
+                      style="width: 200px"
+                      type="primary"
+                      >查看</el-button
+                    >
+                  </div>
+                </template>
+              </el-card>
+            </div>
+          </el-scrollbar>
+        </el-row>
       </div>
     </template>
     <template #right>
@@ -56,8 +124,9 @@ import { getNoticeList } from '/@/api/notice';
 import { useUserStore } from '/@/store';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { strippedHtml } from '/@/utils/string';
-import 'element-plus/theme-chalk/el-calendar.css';
+import router from '/@/router';
 
+const selectedDate = ref();
 const todoList: Ref<noticeType[]> = ref([]);
 interface dateMapType {
   date: string;
@@ -85,7 +154,6 @@ onMounted(async () => {
     confirm_op: 0,
     undue_op: 1,
   });
-  console.log(result);
   if (result && result.length > 0) {
     todoList.value = result;
     let indexDate = '1969-01-01';
@@ -104,7 +172,6 @@ onMounted(async () => {
       }
     }
   }
-  console.log(dateMap.value);
 });
 
 const isDDL = (day) => {
@@ -117,6 +184,10 @@ const isToday = (day) => {
   const date = new Date(day);
   return date.toDateString() === today.value.toDateString();
 };
+
+const jump = (notice_id) => {
+  router.push('/notice/' + notice_id);
+};
 </script>
 <script lang="ts">
 export default {
@@ -124,11 +195,33 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+.el-card__header {
+  padding: 0;
+}
+.el-card__body {
+  padding: 0;
+}
+.ddl-card-group {
+  margin: 5px;
+}
+.ddl-card {
+  width: 200px;
+  height: 29vh;
+  margin-right: 12px;
+  border-radius: 12px;
+}
 .calendar-div {
+  max-height: 57vh;
+  margin: 5px;
+  border-radius: 12px;
+  border: solid 1px #e7e7e7;
+  background-image: url('/src/assets/0Zd_OaUeF.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right;
 }
 .el-calendar__body .el-calendar-table {
-  background-image: url('/src/assets/0Zd_OaUeF.png');
 }
 .calendar-day {
   display: flex;
@@ -136,11 +229,11 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.notice-tag-list {
+.ddl-control-div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 50px;
+  justify-content: center;
 }
 .notice-tag {
   margin-top: 2px;
@@ -184,15 +277,53 @@ export default {
   font-size: 14px;
   font-weight: 700;
 }
-.el-calendar-table__row .current .el-calendar-day {
+.el-calendar-table__row .is-selected .calendar-day {
+  background-color: var(--el-color-primary-light-9);
 }
+.el-calendar-table .el-calendar-day {
+  padding: 0;
+  height: var(--el-calendar-cell-width);
+}
+.el-calendar-table .el-calendar-day:hover {
+  background-color: var(--el-color-primary-light-10);
+  opacity: 70%;
+}
+
 .el-calendar {
   --el-calendar-cell-width: 60px;
-  background-image: url('/src/assets/0Zd_OaUeF.png');
-  /*background-repeat: no-repeat;*/
-  background-size: cover;
-  background-position: right;
+  background-color: rgba(255, 255, 255, 0);
 }
+
+.notice-tag-list,
+.calendar-day:hover .is-unconfirmed-ddl,
+.calendar-day:hover .is-confirmed-ddl,
+.calendar-day:hover .red-dot,
+.calendar-day:hover .primary-dot,
+.el-calendar-table__row .is-selected .calendar-day .is-unconfirmed-ddl,
+.el-calendar-table__row .is-selected .calendar-day .is-confirmed-ddl,
+.el-calendar-table__row .is-selected .calendar-day .red-dot,
+.el-calendar-table__row .is-selected .calendar-day .primary-dot {
+  display: none;
+}
+
+.calendar-day:hover .notice-tag-list,
+.el-calendar-table__row .is-selected .calendar-day .notice-tag-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 50px;
+}
+
+/*.el-calendar::before {*/
+/*  content: '';*/
+/*  background-image: url('/src/assets/0Zd_OaUeF.png');*/
+/*  background-repeat: no-repeat;*/
+/*  background-size: cover;*/
+/*  background-position: right;*/
+/*  z-index: -1; !*设置该标签等级，让其始终位于最上层*!*/
+/*  -webkit-filter: opacity(70%); !*设置透明度   blur还可以改变照片的模糊度*!*/
+/*  filter: opacity(70%);*/
+/*}*/
 
 .el-calendar__title {
   font-size: smaller;

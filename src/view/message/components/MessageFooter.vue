@@ -26,7 +26,6 @@ const hasModuleName = () => {
 };
 
 const hasUserName = () => {
-  console.log(userNameList.includes(props.message.message_type));
   return userNameList.includes(props.message.message_type);
 };
 </script>
