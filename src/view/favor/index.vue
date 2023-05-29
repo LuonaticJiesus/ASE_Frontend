@@ -13,11 +13,12 @@
             @row-click="jump"
           >
             <el-table-column prop="fig" label="" width="20" />
-            <el-table-column prop="title" label="标题" width="150" />
+            <el-table-column prop="title" label="标题" width="140" />
+            <el-table-column prop="block_name" label="所属模块" width="110" />
             <el-table-column
               prop="txt"
               label="预览"
-              width="250"
+              width="220"
               :show-overflow-tooltip="true"
             />
             <el-table-column prop="user_name" label="作者" width="100" />
@@ -31,7 +32,7 @@
             <el-table-column
               prop="time"
               label="更新时间"
-              width="200"
+              width="160"
               fixed="right"
               sortable
             />
@@ -95,6 +96,7 @@ export default {
 }
 .share-table {
   width: 100%;
+  border: 1px solid #dcdfe6;
   &:hover {
     cursor: pointer;
   }
