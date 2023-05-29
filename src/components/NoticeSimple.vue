@@ -7,6 +7,7 @@
   >
     <el-row justify="space-between">
       <el-col :span="6" class="notice-module-image">
+        <!--        todo: defaultLog换成block_avatar-->
         <el-image :src="defaultLogo" :fit="'fill'"></el-image>
       </el-col>
       <el-col :span="18" class="notice-info-div">
