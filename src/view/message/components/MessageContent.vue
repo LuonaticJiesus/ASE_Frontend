@@ -3,21 +3,31 @@
     <!--    ”您关注的模块” + sender_name + “有新帖发布啦！“ + related_content-->
     <div v-if="message.message_type === 101">
       <span>您关注的模块{{ ' ' }} </span>
-      <a>{{ message.sender_name }}</a>
+      <a @click="jump('module', message.source_id + '/share')">{{
+        message.sender_name
+      }}</a>
       <span>{{ ' ' }}有新帖发布:{{ ' ' }}</span>
-      <a>{{ message.related_content }}</a>
+      <a @click="jump('post', message.related_id)">{{
+        message.related_content
+      }}</a>
     </div>
     <!--    ”您关注的模块”+sender_name+“有新通知！“ + related_content-->
     <div v-else-if="message.message_type === 102">
       <span>您关注的模块{{ ' ' }} </span>
-      <a>{{ message.sender_name }}</a>
+      <a @click="jump('module', message.source_id + '/notice')">{{
+        message.sender_name
+      }}</a>
       <span>{{ ' ' }}有新通知:{{ ' ' }}</span>
-      <a>{{ message.related_content }}</a>
+      <a @click="jump('notice', message.related_id)">{{
+        message.related_content
+      }}</a>
     </div>
     <!--    ”您在“+source_content+”下的权限已更改“ 为 “related_content => role_name(这步转换前端负责）”-->
     <div v-else-if="message.message_type === 103">
       <span>您在{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('module', message.source_id + '/member')">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}下的权限已被更改为:{{ ' ' }}</span>
       <span>{{ role_name(message.related_content) }}</span>
     </div>
@@ -34,19 +44,25 @@
     <!--  ”您的帖子”+source_content+“被加精了“-->
     <div v-else-if="message.message_type === 202">
       <span>您的帖子{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}被加精了</span>
     </div>
     <!--    ”您的帖子”+source_content+“被加精了，积分增加“ + point-->
     <div v-else-if="message.message_type === 203">
       <span>您的帖子{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}被加精了，积分增加{{ message.point }}</span>
     </div>
     <!--    ”您的帖子“+source_content+被取消加精了“-->
     <div v-else-if="message.message_type === 204">
       <span>您的帖子{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}被取消加精了</span>
     </div>
 
@@ -65,25 +81,33 @@
     <!--    ”您的帖子“ + source_content + ”收到一条评论“ + related_content-->
     <div v-else-if="message.message_type === 207">
       <span>您的帖子{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}收到一条评论:{{ ' ' + message.related_content }}</span>
     </div>
     <!--    	”您的帖子“ + source_content + ”收到一条评论，积分增加“ + point-->
     <div v-else-if="message.message_type === 208">
       <span>您的帖子{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}收到一条评论，积分增加{{ message.point }}</span>
     </div>
     <!--    ”您的帖子“+source_content+被取消加精了，积分减少“ + point-->
     <div v-else-if="message.message_type === 209">
       <span>由于您的帖子{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}被取消加精了，积分扣除{{ -1 * message.point }}</span>
     </div>
     <!--    ”您的帖子“ + source_content + ”收到一条点赞，积分增加“ + point-->
     <div v-else-if="message.message_type === 210">
       <span>您的帖子{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}收到一条点赞，积分增加{{ message.point }}</span>
     </div>
     <!--    	”您发布了一条评论，消耗积分“ + point-->
@@ -94,7 +118,9 @@
     <!--    ”您发表在“ + source_content + ”的评论“ + related_content+ ”被删除了“-->
     <div v-else-if="message.message_type === 302">
       <span>您发表在{{ ' ' }} </span>
-      <a>{{ message.source_content }}</a>
+      <a @click="jump('post', message.source_id)">{{
+        message.source_content
+      }}</a>
       <span>{{ ' ' }}的评论：</span>
       <span>{{ ' ' + message.related_content + ' ' }}被删除了</span>
     </div>
@@ -126,6 +152,7 @@
 import { messageType } from '/@/utils/type';
 import { PropType } from 'vue';
 import { permissionMap } from '/@/api/permission';
+import router from '/@/router';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -137,6 +164,10 @@ const props = defineProps({
 
 const role_name = (role) => {
   return permissionMap[Number(role)];
+};
+
+const jump = (url, id) => {
+  router.push('/' + url + '/' + id);
 };
 </script>
 <script lang="ts">

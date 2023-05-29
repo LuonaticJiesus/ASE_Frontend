@@ -16,6 +16,7 @@
           v-for="message of dateObj.messages"
           :key="message.message_id"
           :message="message"
+          @click="jump(message)"
         />
       </div>
       <el-empty
@@ -64,6 +65,11 @@ onMounted(() => {
     }
   }
 });
+
+const jump = (message) => {
+  console.log(message);
+  // router.push('/post/' + row.post_id);
+};
 </script>
 
 <script lang="ts">
