@@ -10,7 +10,7 @@
     <template #header>
       <div class="my-header">
         <h4>消息详情</h4>
-        <div>{{ props.message.content }}</div>
+        <div>{{ props.message.source_content }}</div>
         <el-button type="danger" @click="closeDialog">
           <el-icon class="el-icon--left">
             <CircleClose></CircleClose>

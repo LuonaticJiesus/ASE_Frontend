@@ -21,12 +21,13 @@
       </svg>
 
       <el-text truncated style="color: black">
-        {{ props.message.content }}
+        {{ props.message.source_content }}
       </el-text>
     </span>
 
     <el-text>
-      {{ '2个月前 · 模块名称 · 评论者' }}
+      {{ props.message.source_content }} '· 模块名称 ·'
+      {{ props.message.sender_name }}
     </el-text>
   </el-card>
   <el-divider style="margin: 10px 0 10px 0"></el-divider>

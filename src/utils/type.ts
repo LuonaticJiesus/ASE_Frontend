@@ -12,12 +12,21 @@ export interface defaultResponse<T = any> {
 
 export interface messageType {
   message_id: number;
-  receiver_id: number;
-  content: string;
   message_type: number;
-  time: string;
+  point?: number;
+  receiver_id: number;
+  related_content?: string;
+  related_id: number;
+  sender_id?: number;
+  sender_name: string;
+  sender_avatar: string;
+  source_content?: string;
+  source_id: number;
+  /**
+   * (0:未查看, 1:已查看)
+   */
   state: number;
-  extern_info: object;
+  time: string;
 }
 
 export interface noticeType {
