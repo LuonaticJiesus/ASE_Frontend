@@ -2,8 +2,16 @@
   <div class="tab-pane">
     <el-scrollbar>
       <div v-for="dateObj of dateMap" :key="dateObj.date">
-        <h4>{{ dateObj.date }}</h4>
-        <el-divider></el-divider>
+        <h4 style="text-align: start">
+          {{ new Date(dateObj.date).toLocaleDateString() }}
+        </h4>
+        <el-divider
+          style="
+            margin-bottom: 0;
+            border-width: 2px;
+            border-color: var(--el-color-primary-light-7);
+          "
+        ></el-divider>
         <DetailMessageListItem
           v-for="message of dateObj.messages"
           :key="message.message_id"
