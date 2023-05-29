@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { get, post } from '/@/utils/request';
 
 // const MOCK_BASE = 'http://127.0.0.1:4523/m1/2544583-0-default';
@@ -11,14 +10,13 @@ const URL = {
 
 const getMessageList = async (headers) =>
   get({
-    // url: MOCK_BASE + URL.list,
     url: URL.list,
     headers: headers,
   });
 
 const confirmMessage = async (headers, message_ids) =>
   post({
-    url: MOCK_BASE + URL.confirm,
+    url: URL.confirm,
     headers: headers,
     data: {
       message_ids: message_ids,
