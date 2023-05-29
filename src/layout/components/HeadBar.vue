@@ -62,6 +62,7 @@
         :width="400"
         popper-style="border-radius: 12px;padding: 0"
         :show-arrow="false"
+        v-if="$router.currentRoute.value.path !== '/message'"
       >
         <template #reference>
           <el-menu-item>
@@ -197,4 +198,10 @@ export default {
   vertical-align: center;
   font-size: small;
 }
+
+/*.active-message {*/
+/*  --el-menu-hover-bg-color: none;*/
+/*  --el-menu-active-color: none;*/
+/*  !*pointer-events: none;*!*/
+/*}*/
 </style>
