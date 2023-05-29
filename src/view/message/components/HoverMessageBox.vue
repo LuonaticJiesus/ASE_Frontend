@@ -121,7 +121,7 @@ const confirmUpdate = async (index: number) => {
     return;
   }
   const result = await confirmMessage(headers, [
-    { message_ids: [message.message_id] },
+    { message_id: message.message_id },
   ]);
   if (result) {
     updateMessages.value[index].state = 1;
@@ -136,7 +136,7 @@ const confirmPoint = async (index: number) => {
     return;
   }
   const result = await confirmMessage(headers, [
-    { message_ids: [message.message_id] },
+    { message_id: message.message_id },
   ]);
   if (result) {
     pointMessages.value[index].state = 1;
@@ -151,7 +151,7 @@ const confirmSystem = async (index: number) => {
     return;
   }
   const result = await confirmMessage(headers, [
-    { message_ids: [message.message_id] },
+    { message_id: message.message_id },
   ]);
   if (result) {
     systemMessages.value[index] = 1;
@@ -164,11 +164,12 @@ const confirmUpdateAll = async () => {
   if (updateNumber.value === 0) {
     return;
   }
-  const result = await confirmMessage(headers, [
+  const result = await confirmMessage(
+    headers,
     updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
-  ]);
+  );
   if (result) {
     updateMessages.value.forEach((item, index) => {
       if (item.state === 0) {
@@ -184,11 +185,12 @@ const confirmPointAll = async () => {
   if (pointNumber.value === 0) {
     return;
   }
-  const result = await confirmMessage(headers, [
-    pointMessages.value.map((item, index) => {
+  const result = await confirmMessage(
+    headers,
+    updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
-  ]);
+  );
   if (result) {
     pointMessages.value.forEach((item, index) => {
       if (item.state === 0) {
@@ -204,11 +206,12 @@ const confirmSystemAll = async () => {
   if (systemNumber.value === 0) {
     return;
   }
-  const result = await confirmMessage(headers, [
-    systemMessages.value.map((item, index) => {
+  const result = await confirmMessage(
+    headers,
+    updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
-  ]);
+  );
   if (result) {
     systemMessages.value.forEach((item, index) => {
       if (item.state === 0) {
