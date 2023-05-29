@@ -19,52 +19,33 @@
           fill="#F5260B"
         ></path>
       </svg>
-
       <el-text style="color: black">
         <MessageContent :message="message"></MessageContent>
       </el-text>
     </span>
-
     <MessageFooter :message="message"></MessageFooter>
   </el-card>
   <el-divider style="margin: 10px 0 10px 0"></el-divider>
-  <DetailMessageDialog
-    v-model:visible="dialogDetail"
-    @closeDialog="closeDialogDetail"
-    :message="message"
-  ></DetailMessageDialog>
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from 'vue';
-import { getLocalUserId, getToken } from '/@/utils/auth';
+import { PropType } from 'vue';
 import { messageType } from '/@/utils/type';
-import DetailMessageDialog from '/@/view/message/components/DetailMessageDialog.vue';
-import { confirmMessage } from '/@/api/message';
-
 import MessageContent from '/@/view/message/components/MessageContent.vue';
 import MessageFooter from '/@/view/message/components/MessageFooter.vue';
 
-// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-const props = defineProps({
+defineProps({
   message: {
     type: Object as PropType<messageType>,
     default: Object,
   },
 });
 
-const headers = {
-  userid: getLocalUserId(),
-  token: getToken(),
-};
+const emit = defineEmits(['click-message']);
 
-const dialogDetail = ref(false);
 const showDetail = () => {
-  confirmMessage(headers, [{ message_id: props.message.message_id }]);
-  dialogDetail.value = false;
-};
-const closeDialogDetail = () => {
-  dialogDetail.value = false;
+  console.log('showDetail()');
+  emit('click-message');
 };
 </script>
 

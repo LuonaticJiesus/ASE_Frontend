@@ -1,12 +1,12 @@
 <template>
   <el-scrollbar max-height="250px" style="padding: 0 5px 0 5px">
     <SimpleMessage
-      v-for="item of list"
+      v-for="(item, index) in list"
       :key="item.message_id"
       :message="item"
+      @click-message="confirm(index)"
     />
   </el-scrollbar>
-
   <el-row justify="space-between">
     <el-button @click="confirmAll" link type="primary" class="link-button">
       此页设为已读
@@ -20,29 +20,25 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
 import { messageType } from '/@/utils/type';
-import { confirmMessage } from '/@/api/message';
-import { getLocalUserId, getToken } from '/@/utils/auth';
 import router from '/@/router';
 import SimpleMessage from '/@/view/message/components/SimpleMessage.vue';
 
-const headers = {
-  userid: getLocalUserId(),
-  token: getToken(),
-};
-
-const props = defineProps({
+defineProps({
   list: {
     type: Array as PropType<messageType[]>,
     default: Array,
   },
 });
 
+const emit = defineEmits(['click-row', 'confirmAll']);
+
+const confirm = (index: number) => {
+  console.log('confirm(' + index + ')');
+  emit('click-row', index);
+};
+
 const confirmAll = () => {
-  confirmMessage(headers, [
-    props.list.map((item, index) => {
-      return Object.assign({}, { message_id: item.message_id });
-    }),
-  ]);
+  emit('confirmAll');
 };
 
 const jump = () => {
