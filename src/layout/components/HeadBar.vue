@@ -162,9 +162,11 @@ export default {
   background-color: rgba(203, 32, 32, 0);
   margin: 0;
 }
+
 .flex-grow {
   flex-grow: 1;
 }
+
 .custom-input {
   font-size: 16px;
   height: 50%;
@@ -172,6 +174,7 @@ export default {
   margin-left: 50px;
   box-shadow: 0 2px 0 0 #e5e5e5;
 }
+
 .custom-input :deep(.el-input__wrapper) {
   background-color: #f9f3f9;
 }
