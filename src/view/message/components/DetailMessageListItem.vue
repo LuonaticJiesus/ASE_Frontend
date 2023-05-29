@@ -2,11 +2,7 @@
   <el-row>
     <el-col :span="2">
       <!--     头像：如果没有就用一个icon-->
-      <el-avatar
-        :size="40"
-        style="margin: 3vh"
-        :src="props.message.sender_avatar"
-      />
+      <el-avatar :size="40" style="margin: 3vh" :src="defaultLogo" />
     </el-col>
     <el-col :span="22">
       <!--     详细内容-->
@@ -40,6 +36,7 @@
 // 本组件拿到【单条消息】
 import { PropType } from 'vue';
 import { messageType } from '/@/utils/type';
+import { defaultLogo } from '/@/utils/string';
 
 const props = defineProps({
   message: {

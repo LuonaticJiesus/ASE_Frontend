@@ -15,13 +15,6 @@ export interface messageType {
   message_type: number;
   point?: number;
   receiver_id: number;
-<<<<<<< HEAD
-  related_content?: string;
-  related_id: number;
-  sender_id?: number;
-  sender_name: string;
-  sender_avatar: string;
-=======
   /**
    * 接收者名字
    */
@@ -33,7 +26,6 @@ export interface messageType {
    * 发送者名字
    */
   sender_name: string;
->>>>>>> f8f87de ([feat](message):message content)
   source_content?: string;
   source_id: number;
   /**
