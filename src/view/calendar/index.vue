@@ -2,36 +2,44 @@
 <template>
   <DivideContainer>
     <template #main>
-      <el-calendar>
-        <template #date-cell="{ data }">
-          <div class="calendar-day">
-            <h4
-              :class="
-                isDDL(data.day)
-                  ? 'is-ddl'
-                  : isToday(data.day)
-                  ? 'is-today'
-                  : 'is-normal'
-              "
-            >
-              {{ data.day.split('-').slice(2).join('-') }}
-            </h4>
-          </div>
-          <div v-if="isDDL(data.day)" class="notice-tag-list">
-            <el-tag
-              v-for="notice of dateMap[
-                dateList.indexOf(new Date(data.day).toDateString())
-              ].notices"
-              :key="notice.notice_id"
-              :type="notice.confirm_state === 1 ? 'primary' : 'danger'"
-              class="notice-tag"
-              disable-transitions
-            >
-              {{ strippedHtml(notice.title) }}
-            </el-tag>
-          </div>
-        </template>
-      </el-calendar>
+      <div class="calendar-div">
+        <el-calendar>
+          <template #date-cell="{ data }">
+            <div class="calendar-day">
+              <h4
+                :class="
+                  isDDL(data.day)
+                    ? 'is-unconfirmed-ddl'
+                    : isToday(data.day)
+                    ? 'is-today'
+                    : 'is-normal'
+                "
+                style="padding: 0; margin: 0"
+              >
+                {{ data.day.split('-').slice(2).join('-') }}
+              </h4>
+              <div :class="isDDL(data.day) ? 'red-dot' : 'none-dot'"></div>
+              <div
+                v-if="isDDL(data.day)"
+                class="notice-tag-list"
+                v-show="false"
+              >
+                <el-tag
+                  v-for="notice of dateMap[
+                    dateList.indexOf(new Date(data.day).toDateString())
+                  ].notices"
+                  :key="notice.notice_id"
+                  :type="notice.confirm_state === 1 ? 'primary' : 'danger'"
+                  class="notice-tag"
+                  disable-transitions
+                >
+                  {{ strippedHtml(notice.title) }}
+                </el-tag>
+              </div>
+            </div>
+          </template>
+        </el-calendar>
+      </div>
     </template>
     <template #right>
       <RightBoard />
@@ -48,6 +56,7 @@ import { getNoticeList } from '/@/api/notice';
 import { useUserStore } from '/@/store';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { strippedHtml } from '/@/utils/string';
+import 'element-plus/theme-chalk/el-calendar.css';
 
 const todoList: Ref<noticeType[]> = ref([]);
 interface dateMapType {
@@ -116,6 +125,17 @@ export default {
 </script>
 
 <style scoped>
+.calendar-div {
+}
+.el-calendar__body .el-calendar-table {
+  background-image: url('/src/assets/0Zd_OaUeF.png');
+}
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .notice-tag-list {
   display: flex;
   flex-direction: column;
@@ -130,11 +150,16 @@ export default {
   overflow: hidden;
   text-align: left;
 }
-.is-ddl {
-  color: red;
+.is-unconfirmed-ddl {
+  color: var(--el-color-danger);
+  margin: 0;
+}
+.is-confirmed-ddl {
+  color: var(--el-color-warning);
   margin: 0;
 }
 .is-today {
+  color: var(--el-color-primary-light-3);
   margin: 0;
 }
 .is-normal {
@@ -143,23 +168,59 @@ export default {
 .el-calendar-table__row .current .calendar-day {
   text-align: center;
   color: #202535;
-  line-height: 20px;
-  font-size: 14px;
+  line-height: 100%;
+  /*  这里的height设为--el-calendar-cell-width的值，可以在【返回】操作时保证样式不乱*/
+  /*  浏览器博大精深啊！=_=*/
+  height: var(--el-calendar-cell-width);
+  font-size: 16px;
   font-weight: 700;
 }
 .el-calendar-table__row .prev .calendar-day,
 .el-calendar-table__row .next .calendar-day {
   text-align: center;
   /* color: #202535; */
-  line-height: 20px;
+  line-height: 100%;
+  height: var(--el-calendar-cell-width);
   font-size: 14px;
   font-weight: 700;
 }
-.el-calendar-table .el-calendar-day {
-  padding: 1px;
-  height: auto;
+.el-calendar-table__row .current .el-calendar-day {
 }
+.el-calendar {
+  --el-calendar-cell-width: 60px;
+  background-image: url('/src/assets/0Zd_OaUeF.png');
+  /*background-repeat: no-repeat;*/
+  background-size: cover;
+  background-position: right;
+}
+
 .el-calendar__title {
   font-size: smaller;
+}
+
+.red-dot {
+  margin-top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: red;
+  text-align: center;
+  vertical-align: center;
+  font-size: small;
+}
+
+.primary-dot {
+  margin-top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #9007ff;
+  text-align: center;
+  vertical-align: center;
+  font-size: small;
+}
+
+.none-dot {
+  display: none;
 }
 </style>
