@@ -2,7 +2,11 @@
   <el-row>
     <el-col :span="2">
       <!--     头像：如果没有就用一个icon-->
-      <el-avatar></el-avatar>
+      <el-avatar
+        :size="40"
+        style="margin: 3vh"
+        :src="props.message.sender_avatar"
+      />
     </el-col>
     <el-col :span="22">
       <!--     详细内容-->
@@ -20,16 +24,12 @@
             fill="#F5260B"
           ></path>
         </svg>
-
         <el-text style="color: black">
-          {{
-            '消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容'
-          }}
+          {{ props.message.source_content }}
         </el-text>
       </span>
-
       <el-text>
-        {{ '2个月前 · 模块名称 · 评论者' }}
+        {{ props.message.time }} {{ props.message.sender_name }}
       </el-text>
     </el-col>
   </el-row>
@@ -41,7 +41,6 @@
 import { PropType } from 'vue';
 import { messageType } from '/@/utils/type';
 
-// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   message: {
     type: Object as PropType<messageType>,
