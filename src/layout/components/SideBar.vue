@@ -6,6 +6,7 @@
     <el-menu
       class="custom-menu"
       :router="true"
+      :default-active="curRoutePath()"
       active-text-color="blueviolet"
       background-color="#FAF4FF"
     >
@@ -44,6 +45,7 @@ import {
   Calendar,
 } from '@element-plus/icons-vue';
 import { isExternal } from '/@/utils/validate.ts';
+import router from '/@/router/index.js';
 export default {
   name: 'SideBar',
   components: { Edit, Collection, User, House, Calendar },
@@ -68,6 +70,9 @@ export default {
     handleLogOut() {
       const userStore = useUserStore();
       userStore.logout();
+    },
+    curRoutePath() {
+      return router.currentRoute.value.path;
     },
   },
 };
