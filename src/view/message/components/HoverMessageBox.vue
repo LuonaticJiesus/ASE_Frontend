@@ -232,6 +232,7 @@ export default {
   vertical-align: center;
   font-size: small;
 }
+
 .message-tab-pane {
   background: linear-gradient(
     135deg,
