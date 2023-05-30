@@ -67,7 +67,7 @@
         <template #reference>
           <el-menu-item>
             <h3>消息</h3>
-            <span class="redDot" v-if="unreadCount > 0"> </span>
+            <!-- <span class="redDot" v-if="unreadCount > 0"> </span> -->
           </el-menu-item>
         </template>
         <template #default>
