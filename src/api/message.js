@@ -14,12 +14,13 @@ const getMessageList = async (headers) =>
     headers: headers,
   });
 
-const confirmMessage = async (headers, message_ids) =>
+const confirmMessage = async (headers, message_ids, state) =>
   post({
     url: URL.confirm,
     headers: headers,
     data: {
       message_ids: message_ids,
+      state: state,
     },
   });
 export { getMessageList, confirmMessage };

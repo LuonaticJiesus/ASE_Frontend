@@ -11,7 +11,7 @@
         v-if="updateMessages.length > 0"
         :list="updateMessages"
         @click-row="confirmUpdate"
-        @confirmAll="confirmUpdateAll"
+        @confirm-all="confirmUpdateAll"
       />
       <el-empty v-else description="暂无相关消息"></el-empty>
     </el-tab-pane>
@@ -26,7 +26,7 @@
         v-if="pointMessages.length > 0"
         :list="pointMessages"
         @click-row="confirmPoint"
-        @comfirmAll="confirmPointAll"
+        @confirm-all="confirmPointAll"
       />
       <el-empty v-else description="暂无相关消息"></el-empty>
     </el-tab-pane>
@@ -41,7 +41,7 @@
         v-if="systemMessages.length > 0"
         :list="systemMessages"
         @click-row="confirmSystem"
-        @confirmAll="confirmSystemAll"
+        @confirm-all="confirmSystemAll"
       />
       <el-empty v-else description="暂无相关消息"></el-empty>
     </el-tab-pane>
@@ -120,7 +120,7 @@ const confirmUpdate = async (index: number) => {
   if (message.state === 1) {
     return;
   }
-  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  await confirmMessage(headers, [{ message_id: message.message_id }], 1);
   updateMessages.value[index].state = 1;
   updateNumber.value -= 1;
 };
@@ -131,7 +131,7 @@ const confirmPoint = async (index: number) => {
   if (message.state === 1) {
     return;
   }
-  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  await confirmMessage(headers, [{ message_id: message.message_id }], 1);
   pointMessages.value[index].state = 1;
   pointNumber.value -= 1;
 };
@@ -142,7 +142,7 @@ const confirmSystem = async (index: number) => {
   if (message.state === 1) {
     return;
   }
-  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  await confirmMessage(headers, [{ message_id: message.message_id }], 1);
   systemMessages.value[index] = 1;
   systemNumber.value -= 1;
 };
@@ -157,6 +157,7 @@ const confirmUpdateAll = async () => {
     updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
+    1,
   );
   updateMessages.value.forEach((item, index) => {
     if (item.state === 0) {
@@ -176,6 +177,7 @@ const confirmPointAll = async () => {
     updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
+    1,
   );
   pointMessages.value.forEach((item, index) => {
     if (item.state === 0) {
@@ -195,6 +197,7 @@ const confirmSystemAll = async () => {
     updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
+    1,
   );
   systemMessages.value.forEach((item, index) => {
     if (item.state === 0) {

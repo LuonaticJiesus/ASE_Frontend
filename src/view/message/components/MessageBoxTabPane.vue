@@ -30,7 +30,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['click-row', 'confirmAll']);
+const emit = defineEmits(['click-row', 'confirm-all']);
 
 const confirm = (index: number) => {
   console.log('confirm(' + index + ')');
@@ -38,7 +38,8 @@ const confirm = (index: number) => {
 };
 
 const confirmAll = () => {
-  emit('confirmAll');
+  console.log('confirmAll()');
+  emit('confirm-all');
 };
 
 const jump = () => {
