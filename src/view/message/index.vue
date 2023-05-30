@@ -15,6 +15,7 @@
             <DetailMessageTabPane
               v-if="updateMessages.length > 0"
               :list="updateMessages"
+              @click-row="confirmUpdate"
             />
             <el-empty v-else description="暂无相关消息"></el-empty>
           </el-tab-pane>
@@ -28,6 +29,7 @@
             <DetailMessageTabPane
               v-if="pointMessages.length > 0"
               :list="pointMessages"
+              @click-row="confirmPoint"
             />
             <el-empty v-else description="暂无相关消息"></el-empty>
           </el-tab-pane>
@@ -41,6 +43,7 @@
             <DetailMessageTabPane
               v-if="systemMessages.length > 0"
               :list="systemMessages"
+              @click-row="confirmSystem"
             />
             <el-empty v-else description="暂无相关消息"></el-empty>
           </el-tab-pane>
@@ -57,7 +60,7 @@ import RightBoard from '/@/components/RightBoard.vue';
 import DetailMessageTabPane from '/@/view/message/components/DetailMessageTabPane.vue';
 import { onMounted, ref } from 'vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { getMessageList } from '/@/api/message';
+import { confirmMessage, getMessageList } from '/@/api/message';
 import { pointType, systemType, updateType } from '/@/utils/type';
 const allMessages = ref([]);
 const updateMessages = ref([]);
@@ -101,6 +104,39 @@ const filterMessages = () => {
       }
     }
   }
+};
+
+const confirmUpdate = async (index: number) => {
+  console.log('confirmUpdate(' + index + ')');
+  const message = updateMessages.value[index];
+  if (message.state === 1) {
+    return;
+  }
+  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  updateMessages.value[index].state = 1;
+  updateNumber.value -= 1;
+};
+
+const confirmPoint = async (index: number) => {
+  console.log('confirmPoint(' + index + ')');
+  const message = pointMessages.value[index];
+  if (message.state === 1) {
+    return;
+  }
+  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  pointMessages.value[index].state = 1;
+  pointNumber.value -= 1;
+};
+
+const confirmSystem = async (index: number) => {
+  console.log('confirmSystem(' + index + ')');
+  const message = systemMessages.value[index];
+  if (message.state === 1) {
+    return;
+  }
+  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  systemMessages.value[index] = 1;
+  systemNumber.value -= 1;
 };
 </script>
 

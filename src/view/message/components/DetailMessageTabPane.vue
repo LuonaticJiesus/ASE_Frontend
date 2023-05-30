@@ -13,10 +13,10 @@
           "
         ></el-divider>
         <DetailMessageListItem
-          v-for="(item, index) of dateObj.messages"
+          v-for="item of dateObj.messages"
           :key="item.message_id"
           :message="item"
-          @click-message="confirm(index)"
+          @click-message="confirm(item.message_id)"
         />
       </div>
       <el-empty
@@ -66,7 +66,14 @@ onMounted(() => {
   }
 });
 const emit = defineEmits(['click-row', 'confirmAll']);
-const confirm = (index: number) => {
+const confirm = (message_id: number) => {
+  let index = 0;
+  for (let i in props.list) {
+    if (props.list[i].message_id === message_id) {
+      index = Number(i);
+      break;
+    }
+  }
   console.log('confirm(' + index + ')');
   emit('click-row', index);
 };
