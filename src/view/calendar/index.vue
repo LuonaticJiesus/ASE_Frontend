@@ -210,9 +210,10 @@ export default {
   height: 29vh;
   margin-right: 12px;
   border-radius: 12px;
+  background-image: linear-gradient(160deg, #faf4ff 0%, #fdfbff 80%);
 }
 .calendar-div {
-  max-height: 57vh;
+  max-height: 56vh;
   margin: 5px;
   border-radius: 12px;
   border: solid 1px #e7e7e7;
