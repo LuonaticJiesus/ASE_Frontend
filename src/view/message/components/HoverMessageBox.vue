@@ -120,13 +120,9 @@ const confirmUpdate = async (index: number) => {
   if (message.state === 1) {
     return;
   }
-  const result = await confirmMessage(headers, [
-    { message_id: message.message_id },
-  ]);
-  if (result) {
-    updateMessages.value[index].state = 1;
-    updateNumber.value -= 1;
-  }
+  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  updateMessages.value[index].state = 1;
+  updateNumber.value -= 1;
 };
 
 const confirmPoint = async (index: number) => {
@@ -135,13 +131,9 @@ const confirmPoint = async (index: number) => {
   if (message.state === 1) {
     return;
   }
-  const result = await confirmMessage(headers, [
-    { message_id: message.message_id },
-  ]);
-  if (result) {
-    pointMessages.value[index].state = 1;
-    pointNumber.value -= 1;
-  }
+  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  pointMessages.value[index].state = 1;
+  pointNumber.value -= 1;
 };
 
 const confirmSystem = async (index: number) => {
@@ -150,13 +142,9 @@ const confirmSystem = async (index: number) => {
   if (message.state === 1) {
     return;
   }
-  const result = await confirmMessage(headers, [
-    { message_id: message.message_id },
-  ]);
-  if (result) {
-    systemMessages.value[index] = 1;
-    systemNumber.value -= 1;
-  }
+  await confirmMessage(headers, [{ message_id: message.message_id }]);
+  systemMessages.value[index] = 1;
+  systemNumber.value -= 1;
 };
 
 const confirmUpdateAll = async () => {
@@ -164,20 +152,18 @@ const confirmUpdateAll = async () => {
   if (updateNumber.value === 0) {
     return;
   }
-  const result = await confirmMessage(
+  await confirmMessage(
     headers,
     updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
   );
-  if (result) {
-    updateMessages.value.forEach((item, index) => {
-      if (item.state === 0) {
-        updateMessages.value[index].state = 1;
-      }
-    });
-    updateNumber.value = 0;
-  }
+  updateMessages.value.forEach((item, index) => {
+    if (item.state === 0) {
+      updateMessages.value[index].state = 1;
+    }
+  });
+  updateNumber.value = 0;
 };
 
 const confirmPointAll = async () => {
@@ -185,20 +171,18 @@ const confirmPointAll = async () => {
   if (pointNumber.value === 0) {
     return;
   }
-  const result = await confirmMessage(
+  await confirmMessage(
     headers,
     updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
   );
-  if (result) {
-    pointMessages.value.forEach((item, index) => {
-      if (item.state === 0) {
-        pointMessages.value[index].state = 1;
-      }
-    });
-    pointNumber.value = 0;
-  }
+  pointMessages.value.forEach((item, index) => {
+    if (item.state === 0) {
+      pointMessages.value[index].state = 1;
+    }
+  });
+  pointNumber.value = 0;
 };
 
 const confirmSystemAll = async () => {
@@ -206,20 +190,18 @@ const confirmSystemAll = async () => {
   if (systemNumber.value === 0) {
     return;
   }
-  const result = await confirmMessage(
+  await confirmMessage(
     headers,
     updateMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
   );
-  if (result) {
-    systemMessages.value.forEach((item, index) => {
-      if (item.state === 0) {
-        systemMessages.value[index].state = 1;
-      }
-    });
-    systemNumber.value = 0;
-  }
+  systemMessages.value.forEach((item, index) => {
+    if (item.state === 0) {
+      systemMessages.value[index].state = 1;
+    }
+  });
+  systemNumber.value = 0;
 };
 
 onMounted(async () => {
