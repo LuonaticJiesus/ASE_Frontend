@@ -18,7 +18,7 @@
             <el-table-column
               prop="txt"
               label="预览"
-              width="220"
+              width="200"
               :show-overflow-tooltip="true"
             />
             <el-table-column prop="user_name" label="作者" width="100" />
@@ -36,6 +36,7 @@
               fixed="right"
               sortable
             />
+            <el-table-column prop="fig" label="" width="20" />
           </el-table>
         </div>
       </div>
@@ -96,7 +97,6 @@ export default {
 }
 .share-table {
   width: 100%;
-  border: 1px solid #dcdfe6;
   &:hover {
     cursor: pointer;
   }
