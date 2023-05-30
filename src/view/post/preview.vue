@@ -83,6 +83,7 @@
           <el-date-picker readonly v-model="post.time"></el-date-picker>
         </el-row>
         <el-row style="margin-top: 20px" justify="space-around" align="middle">
+          <!--          点赞-->
           <el-col :span="4">
             <el-row justify="center">
               <el-tooltip
@@ -108,6 +109,7 @@
               }}</span>
             </el-row>
           </el-col>
+          <!--          收藏-->
           <el-col :span="4">
             <el-row justify="center">
               <el-tooltip
@@ -133,19 +135,68 @@
               }}</span>
             </el-row>
           </el-col>
+          <!--          分享-->
           <el-col :span="4">
             <el-row justify="center">
-              <el-button
-                size="large"
-                circle
-                type="primary"
-                plain
-                @click="copy()"
+              <el-tooltip effect="dark" content="分享">
+                <el-button
+                  size="large"
+                  circle
+                  type="primary"
+                  plain
+                  @click="copy()"
+                >
+                  <el-icon>
+                    <Share />
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+            </el-row>
+            <el-row>
+              <span style="visibility: hidden">0</span>
+            </el-row>
+          </el-col>
+          <!--          加精-->
+          <el-col :span="4">
+            <el-row justify="center">
+              <el-tooltip
+                effect="dark"
+                :content="isChosen ? '取消加精' : '加精'"
               >
-                <el-icon>
-                  <Share />
-                </el-icon>
-              </el-button>
+                <el-button
+                  size="large"
+                  circle
+                  type="primary"
+                  :plain="!isChosen"
+                  @click="handleChoosePost()"
+                  :disabled="permission <= 1"
+                >
+                  <el-icon><DocumentChecked /></el-icon>
+                </el-button>
+              </el-tooltip>
+            </el-row>
+            <el-row justify="center">
+              <el-text style="text-align: center; font-size: smaller"
+                >精选</el-text
+              >
+            </el-row>
+          </el-col>
+          <!--          删除-->
+          <el-col :span="4" v-if="permission >= 2">
+            <el-row justify="center">
+              <el-tooltip effect="dark" content="删除">
+                <el-button
+                  size="large"
+                  circle
+                  type="danger"
+                  plain
+                  @click="handleDeletePost"
+                >
+                  <el-icon>
+                    <Delete />
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
             </el-row>
             <el-row>
               <span style="visibility: hidden">0</span>
@@ -162,14 +213,29 @@
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import { onMounted, ref } from 'vue';
 import router from '/@/router/index.js';
+import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
 // import Vue3Tinymce from '@jsdawn/vue3-tinymce';
-import { Check, MagicStick, Share, Star } from '@element-plus/icons-vue';
-import { articleDetail, changePostFavor, changePostLike } from '/@/api/article';
+import {
+  Check,
+  Delete,
+  DocumentChecked,
+  MagicStick,
+  Share,
+  Star,
+} from '@element-plus/icons-vue';
+import {
+  articleDetail,
+  changePostFavor,
+  changePostLike,
+  choosePost,
+  deleteArticle,
+} from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { defaultLogo } from '/@/utils/string';
 import CommentZone from '/@/view/comment/index.vue';
 import { createComment } from '/@/api/comment.js';
-import { ElNotification } from 'element-plus';
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
 import { queryRole } from '/@/api/permission.js';
 import useClipboard from 'vue-clipboard3';
@@ -232,6 +298,7 @@ const handleCreateComment = () => {
     });
 };
 const post_id = router.currentRoute.value.params['id'];
+const block_id = ref(0);
 const headers = {
   userid: getLocalUserId(),
   token: getToken(),
@@ -254,10 +321,12 @@ const post = ref({
   comment_cnt: Number,
   latest_update_user: String,
   latest_time: String,
+  chosen_state: Number,
 });
 
 const isLiked = ref(false);
 const isFavored = ref(false);
+const isChosen = ref(false);
 
 const handleLikePost = async () => {
   const data = {
@@ -285,14 +354,40 @@ const handleFavorPost = async () => {
   isFavored.value = !isFavored.value;
 };
 
+const handleChoosePost = async () => {
+  const data = {
+    post_id: post_id,
+  };
+  await choosePost(headers, data);
+  isChosen.value = !isChosen.value;
+};
+
+const handleDeletePost = async () => {
+  ElMessageBox.confirm('确定删除该文章?', 'Warning', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    deleteArticle(post_id, getLocalUserId(), getToken()).then(() => {
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      });
+    });
+  });
+};
+
 const fetchData = async (post_id) => {
   console.log('post/preview.vue fetchData...');
-  articleDetail(post_id, getLocalUserId(), getToken())
+  await articleDetail(post_id, getLocalUserId(), getToken())
     .then((res) => {
       console.log('post/preview.vue query article success: ', res);
       post.value = res[0];
+      block_id.value = res[0].block_id;
+      console.log(post);
       isLiked.value = post.value.like_state === 1;
       isFavored.value = post.value.favor_state === 1;
+      isChosen.value = post.value.chosen_state === 1;
       creatorAvatar.value = post.value.user_avatar
         ? post.value.user_avatar
         : defaultLogo;
@@ -304,8 +399,9 @@ const fetchData = async (post_id) => {
 
 const permission = ref(-1);
 const getUserRole = async () => {
-  const block_id = post.value.block_id();
-  const result = await queryRole(block_id);
+  console.log('block_id is: ' + block_id.value);
+  const result = await queryRole(block_id.value);
+  console.log(result);
   if (result) {
     permission.value = result;
   }

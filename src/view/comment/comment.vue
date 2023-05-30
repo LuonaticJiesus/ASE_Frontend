@@ -1,7 +1,7 @@
 <template>
   <!--  这是一级评论-->
   <!--  二级评论为什么不复用一级评论组件而要写重复代码呢？因为b站就是不复用、分开写的！-->
-  <div>
+  <div style="padding: 10px">
     <el-divider></el-divider>
     <!--    评论本体-->
     <el-row align="middle">
