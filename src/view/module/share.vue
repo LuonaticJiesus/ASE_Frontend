@@ -119,6 +119,7 @@ export default {
   height: 30vh;
   padding: 0;
 }
+
 .module-pannel {
   display: flex;
   background-color: white;
