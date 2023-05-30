@@ -224,9 +224,22 @@ export default {
 }
 .el-calendar__header {
   max-height: 6vh;
-  padding: 0.5vh;
+  padding: 1.5vh 2.5vh;
+}
+.el-calendar__body {
+  max-height: 40vh;
+  padding: 1vh 1.5vw 2.4vh;
 }
 .el-calendar__body .el-calendar-table {
+  max-height: 40vh;
+}
+.el-calendar-table thead {
+  max-height: 2vh;
+}
+.el-calendar-table thead th {
+  max-height: 4vh;
+  font-size: 2vh;
+  padding: 2vh 0;
 }
 .calendar-day {
   display: flex;
