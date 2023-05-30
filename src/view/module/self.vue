@@ -18,7 +18,7 @@
       <el-table-column prop="user_name" label="作者" width="100" />
       <el-table-column prop="like_cnt" label="点赞" width="80" sortable />
       <el-table-column prop="comment_cnt" label="评论" width="80" sortable />
-      <el-table-column prop="time" label="更新时间" width="200" sortable />
+      <el-table-column prop="time" label="更新时间" width="140" sortable />
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
           <el-button
@@ -26,7 +26,7 @@
             type="primary"
             size="small"
             @click.stop="handleEdit(scope.$index, scope.row)"
-            disabled
+            v-if="false"
           >
             编辑
           </el-button>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { moduleUserArticles } from '/@/api/article.js';
+import { deleteArticle, moduleUserArticles } from '/@/api/article.js';
 import router from '/@/router';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 import { strippedHtml } from '/@/utils/string';
@@ -84,10 +84,17 @@ export default {
       router.push('/post/' + row.post_id);
     },
     handleEdit(index, row) {
-      console.log(index, row);
+      console.log('edit self post ', index, row.post_id);
+      router.push({
+        path: '/editor',
+        query: {
+          post_id: row.post_id,
+          moduleId: row.block_id,
+        },
+      });
     },
     handleDelete(index, row) {
-      console.log('delete', index, row);
+      console.log('delete self post ', index, row);
       ElMessageBox.confirm('确定删除该文章?', 'Warning', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -100,6 +107,7 @@ export default {
               message: '删除成功',
             });
           });
+          location.reload();
         })
         .catch(() => {
           ElMessage({
