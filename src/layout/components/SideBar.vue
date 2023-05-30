@@ -23,13 +23,9 @@
           <el-icon :size="20">
             <component :is="route['children'][0].meta['icon']"></component>
           </el-icon>
-          <span
-            style="
-              font-size: 16px;
-              font-family: 'Microsoft YaHei', 'Segoe UI Emoji';
-            "
-            >{{ ' ' + route['children'][0].meta['title'] }}</span
-          >
+          <span style="font-size: 16px">
+            {{ ' ' + route['children'][0].meta['title'] }}
+          </span>
           <!--        </router-link>-->
         </el-menu-item>
       </el-scrollbar>

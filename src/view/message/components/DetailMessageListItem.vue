@@ -1,11 +1,19 @@
 <template>
-  <el-card body-style="padding:20px;" shadow="never" class="detail-message">
+  <el-card
+    body-style="padding:20px;"
+    shadow="never"
+    class="detail-message"
+    @click="clickToConfirm"
+  >
     <el-row align="middle">
       <el-col :span="2">
         <!--     icon：根据类别选择-->
-        <!--      todo: <component :is='icon-name'>实现按类选择图标-->
-        <el-avatar>
-          <el-icon size="30"><Refresh /></el-icon>
+        <el-avatar style="background: var(--el-color-primary-light-3)">
+          <el-icon size="24">
+            <component
+              :is="messageConfigMap[message.message_type]['icon']"
+            ></component
+          ></el-icon>
         </el-avatar>
       </el-col>
       <el-col :span="22">
@@ -18,6 +26,7 @@
         <el-row justify="start">
           <!--     详细内容-->
           <svg
+            v-if="!message.state"
             class="icon"
             viewBox="0 0 1024 1024"
             version="1.1"
@@ -49,19 +58,28 @@ import { PropType } from 'vue';
 import { messageType } from '/@/utils/type';
 import MessageContent from '/@/view/message/components/MessageContent.vue';
 import MessageFooter from '/@/view/message/components/MessageFooter.vue';
-import { Refresh } from '@element-plus/icons-vue';
-
-// eslint-disable-next-line no-unused-vars
-const props = defineProps({
+import { messageConfigMap } from '/@/utils/message';
+defineProps({
   message: {
     type: Object as PropType<messageType>,
     default: Object,
   },
 });
+const emit = defineEmits(['click-message']);
+const clickToConfirm = () => {
+  emit('click-message');
+};
 </script>
 <script lang="ts">
+import {
+  Promotion,
+  BellFilled,
+  Collection,
+  ChatSquare,
+} from '@element-plus/icons-vue';
 export default {
   name: 'DetailMessageListItem',
+  components: { Promotion, BellFilled, Collection, ChatSquare },
 };
 </script>
 
