@@ -13,10 +13,10 @@
           "
         ></el-divider>
         <DetailMessageListItem
-          v-for="message of dateObj.messages"
-          :key="message.message_id"
-          :message="message"
-          @click="jump(message)"
+          v-for="(item, index) of dateObj.messages"
+          :key="item.message_id"
+          :message="item"
+          @click-message="confirm(index)"
         />
       </div>
       <el-empty
@@ -65,10 +65,10 @@ onMounted(() => {
     }
   }
 });
-
-const jump = (message) => {
-  console.log(message);
-  // router.push('/post/' + row.post_id);
+const emit = defineEmits(['click-row', 'confirmAll']);
+const confirm = (index: number) => {
+  console.log('confirm(' + index + ')');
+  emit('click-row', index);
 };
 </script>
 

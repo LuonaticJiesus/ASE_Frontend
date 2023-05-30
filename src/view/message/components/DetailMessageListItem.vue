@@ -1,5 +1,10 @@
 <template>
-  <el-card body-style="padding:20px;" shadow="never" class="detail-message">
+  <el-card
+    body-style="padding:20px;"
+    shadow="never"
+    class="detail-message"
+    @click="clickToConfirm"
+  >
     <el-row align="middle">
       <el-col :span="2">
         <!--     icon：根据类别选择-->
@@ -21,6 +26,7 @@
         <el-row justify="start">
           <!--     详细内容-->
           <svg
+            v-if="!message.state"
             class="icon"
             viewBox="0 0 1024 1024"
             version="1.1"
@@ -53,20 +59,16 @@ import { messageType } from '/@/utils/type';
 import MessageContent from '/@/view/message/components/MessageContent.vue';
 import MessageFooter from '/@/view/message/components/MessageFooter.vue';
 import { messageConfigMap } from '/@/utils/message';
-//
-// defineComponent({
-//   Promotion,
-//   BellFilled,
-//   Collection,
-//   ChatSquare,
-// });
-
 defineProps({
   message: {
     type: Object as PropType<messageType>,
     default: Object,
   },
 });
+const emit = defineEmits(['click-message']);
+const clickToConfirm = () => {
+  emit('click-message');
+};
 </script>
 <script lang="ts">
 import {
