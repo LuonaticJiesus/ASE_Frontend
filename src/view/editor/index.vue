@@ -257,13 +257,39 @@ onMounted(async () => {
       ? router.currentRoute.value.query['moduleId']
       : undefined,
   );
+  // const selfPostId = router.currentRoute.value.query['post_id'];
+  // if (selfPostId) {
+  //   await articleDetail(selfPostId, getLocalUserId(), getToken())
+  //     .then((res) => {
+  //       console.log('mounted self post loading ', res[0]);
+  //       title.value = res[0].title;
+  //       richText.value = res[0].txt;
+  //     })
+  //     .catch((err) => {
+  //       console.log('self post edit ' + err);
+  //     });
+  // }
 });
-onUpdated(() => {
+
+onUpdated(async () => {
   selectedModule.value = Number(
     router.currentRoute.value.query['moduleId']
       ? router.currentRoute.value.query['moduleId']
       : undefined,
   );
+  // const selfPostId = router.currentRoute.value.query['post_id'];
+  // if (selfPostId) {
+  //   await articleDetail(selfPostId, getLocalUserId(), getToken())
+  //     .then((res) => {
+  //       console.log('update self post loading ', res[0]);
+  //       title.value = res[0].title;
+  //       richText.value = res[0].txt;
+  //       console.log(title.value, richText.value);
+  //     })
+  //     .catch((err) => {
+  //       console.log('self post edit ' + err);
+  //     });
+  // }
 });
 </script>
 

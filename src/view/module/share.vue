@@ -7,6 +7,7 @@
       :row-style="{ height: '15vh' }"
       @row-click="jump"
     >
+      <el-table-column prop="fig" label="" width="20" />
       <el-table-column prop="title" label="标题" width="150" />
       <el-table-column
         prop="txt"
@@ -118,6 +119,7 @@ export default {
   height: 30vh;
   padding: 0;
 }
+
 .module-pannel {
   display: flex;
   background-color: white;

@@ -47,7 +47,6 @@ declare module '@vue/runtime-core' {
     ElTag: typeof import('element-plus/es')['ElTag'];
     ElText: typeof import('element-plus/es')['ElText'];
     ElTooltip: typeof import('element-plus/es')['ElTooltip'];
-    ElUpload: typeof import('element-plus/es')['ElUpload'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     MdEditor: typeof import('./src/components/MdEditor.vue')['default'];
     NoticeBoard: typeof import('./src/components/NoticeBoard.vue')['default'];
