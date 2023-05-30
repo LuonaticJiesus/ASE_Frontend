@@ -174,7 +174,7 @@ const confirmPointAll = async () => {
   }
   await confirmMessage(
     headers,
-    updateMessages.value.map((item, index) => {
+    pointMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
     1,
@@ -194,7 +194,7 @@ const confirmSystemAll = async () => {
   }
   await confirmMessage(
     headers,
-    updateMessages.value.map((item, index) => {
+    systemMessages.value.map((item, index) => {
       return Object.assign({}, { message_id: item.message_id });
     }),
     1,

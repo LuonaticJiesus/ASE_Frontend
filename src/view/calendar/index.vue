@@ -214,13 +214,17 @@ export default {
 }
 .calendar-div {
   max-height: 56vh;
-  margin: 5px;
+  margin: 5vh;
   border-radius: 12px;
   border: solid 1px #e7e7e7;
   background-image: url('/src/assets/0Zd_OaUeF.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: right;
+}
+.el-calendar__header {
+  max-height: 6vh;
+  padding: 0.5vh;
 }
 .el-calendar__body .el-calendar-table {
 }
@@ -283,7 +287,7 @@ export default {
 }
 .el-calendar-table .el-calendar-day {
   padding: 0;
-  height: var(--el-calendar-cell-width);
+  max-height: var(--el-calendar-cell-width);
 }
 .el-calendar-table .el-calendar-day:hover {
   background-color: var(--el-color-primary-light-10);
@@ -291,7 +295,7 @@ export default {
 }
 
 .el-calendar {
-  --el-calendar-cell-width: 60px;
+  --el-calendar-cell-width: 6vh;
   background-color: rgba(255, 255, 255, 0);
 }
 
