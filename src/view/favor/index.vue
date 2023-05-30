@@ -8,13 +8,13 @@
           <el-table
             :data="tableData"
             class="share-table"
-            height="70vh"
+            height="75vh"
             :row-style="{ height: '15vh' }"
             @row-click="jump"
           >
             <el-table-column prop="fig" label="" width="20" />
             <el-table-column prop="title" label="标题" width="140" />
-            <el-table-column prop="block_name" label="所属模块" width="110" />
+            <el-table-column prop="block_name" label="所属模块" width="100" />
             <el-table-column
               prop="txt"
               label="预览"
@@ -33,10 +33,8 @@
               prop="time"
               label="更新时间"
               width="160"
-              fixed="right"
               sortable
             />
-            <el-table-column prop="fig" label="" width="20" />
           </el-table>
         </div>
       </div>
@@ -97,6 +95,7 @@ export default {
 }
 .share-table {
   width: 100%;
+  background-color: rgba(255, 255, 255, 0);
   &:hover {
     cursor: pointer;
   }

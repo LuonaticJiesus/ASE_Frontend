@@ -1,5 +1,5 @@
 <template>
-  <h2>评论区</h2>
+  <h2 style="text-align: start">评论区</h2>
   <CommentBox
     v-for="item of commentList"
     :commentItem="item"

@@ -11,6 +11,7 @@ const URL = {
   favor: '/four_s/post/favor/',
   delete: '/four_s/post/delete/',
   queryFavor: '/four_s/post/queryFavor/',
+  choose: '/four_s/post/choose/',
 };
 
 // const MockURL = {
@@ -111,6 +112,13 @@ const queryPostFavor = async (headers) =>
     headers: headers,
   });
 
+const choosePost = async (headers, data) =>
+  post({
+    url: URL.choose,
+    headers: headers,
+    data: data,
+  });
+
 export {
   articleDetail,
   publishArticle,
@@ -121,4 +129,5 @@ export {
   changePostLike,
   changePostFavor,
   queryPostFavor,
+  choosePost,
 };
