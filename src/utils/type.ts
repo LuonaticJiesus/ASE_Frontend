@@ -42,6 +42,7 @@ export interface noticeType {
   user_id: number;
   block_id: number;
   block_name: string;
+  block_avatar?: string;
   time: string;
   ddl: string;
   confirm_state: number;
