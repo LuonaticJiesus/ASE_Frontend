@@ -21,7 +21,7 @@ const option = {
     text: '积分变化-时间',
   },
   xAxis: {
-    data: props.list.map((item) => item.time),
+    data: props.list.map((item) => new Date(item.time).toLocaleDateString()),
   },
   yAxis: {},
   series: [

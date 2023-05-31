@@ -19,7 +19,7 @@ const option = {
     text: '发帖-时间',
   },
   xAxis: {
-    data: props.list.map((item) => new Date(item.time).toLocaleString()),
+    data: props.list.map((item) => new Date(item.time).toLocaleDateString()),
   },
   yAxis: {},
   series: [

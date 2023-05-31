@@ -29,38 +29,44 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-// import { getLocalUserId, getToken } from '/@/utils/auth';
+import {
+  getPointSource,
+  getPointTime,
+  getPostModule,
+  getPostTime,
+} from '/@/api/statistic';
+import { getLocalUserId, getToken } from '/@/utils/auth';
 
 const isReady = ref(false);
 const pointTimeData = ref([]);
 const pointSourceModuleData = ref([]);
 const postModuleData = ref([]);
 const postTimeData = ref([]);
-// const headers = {
-//   userid: getLocalUserId(),
-//   token: getToken(),
-// };
+const headers = {
+  userid: getLocalUserId(),
+  token: getToken(),
+};
 onMounted(async () => {
-  // pointTimeData.value = await getPointTime();
-  // pointSourceModuleData.value = await getPointSourceModule();
-  // postModuleData.value = await getPostModule();
-  // postTimeData.value = await getPostTime();
-  pointTimeData.value = [
-    { point: 2, time: '2003-06-17 05:34:11' },
-    { point: 3, time: '2003-06-18 05:34:11' },
-  ];
-  postTimeData.value = [
-    { post_num: 15, time: '2003-06-17 05:34:11' },
-    { post_num: 8, time: '2003-06-18 05:34:11' },
-  ];
-  postModuleData.value = [
-    { value: 15, name: '软件工程' },
-    { value: 2, name: 'test' },
-  ];
-  pointSourceModuleData.value = [
-    { value: 5, name: '软件工程' },
-    { value: 30, name: 'test' },
-  ];
+  pointTimeData.value = await getPostTime(headers);
+  pointSourceModuleData.value = await getPointSource(headers);
+  postModuleData.value = await getPostModule(headers);
+  postTimeData.value = await getPointTime(headers);
+  // pointTimeData.value = [
+  //   { point: 2, time: '2003-06-17 05:34:11' },
+  //   { point: 3, time: '2003-06-18 05:34:11' },
+  // ];
+  // postTimeData.value = [
+  //   { post_num: 15, time: '2003-06-17 05:34:11' },
+  //   { post_num: 8, time: '2003-06-18 05:34:11' },
+  // ];
+  // postModuleData.value = [
+  //   { value: 15, name: '软件工程' },
+  //   { value: 2, name: 'test' },
+  // ];
+  // pointSourceModuleData.value = [
+  //   { value: 5, name: '软件工程' },
+  //   { value: 30, name: 'test' },
+  // ];
   isReady.value = true;
 });
 </script>
