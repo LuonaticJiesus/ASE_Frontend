@@ -273,7 +273,7 @@ const copy = async () => {
 const creatorAvatar = ref(defaultLogo);
 const userAvatar = useUserStore().avatar;
 const newComment = ref('');
-const handleCreateComment = () => {
+const handleCreateComment = async () => {
   const data = {
     post_id: post.value.post_id,
     txt: newComment.value,
@@ -282,7 +282,7 @@ const handleCreateComment = () => {
     userid: getLocalUserId(),
     token: getToken(),
   };
-  createComment(data, headers)
+  await createComment(data, headers)
     .then((res) => {
       console.log('Create comment success ' + res);
       ElNotification({
