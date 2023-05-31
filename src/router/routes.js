@@ -203,4 +203,16 @@ export const asyncRoutes = [
     ],
     hidden: true,
   },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'statistic',
+        path: '/statistic',
+        component: () => import('/@/view/statistic/index.vue'),
+      },
+    ],
+    hidden: true,
+  },
 ];

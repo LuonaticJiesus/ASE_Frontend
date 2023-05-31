@@ -51,3 +51,25 @@ export interface noticeType {
 export const updateType = [101, 102, 207, 304];
 export const pointType = [201, 203, 206, 208, 209, 210, 301, 303, 305, 401];
 export const systemType = [103, 104, 202, 204, 205, 302];
+
+export interface pointTimeType {
+  point: number;
+  time: string;
+}
+
+export interface postTimeType {
+  post_num: number;
+  time: string;
+}
+
+export interface postModuleType {
+  post_num: number;
+  block_name: string;
+}
+
+// value为point
+// name为block_name
+export interface pointSourceModuleType {
+  value: number;
+  name: string;
+}
