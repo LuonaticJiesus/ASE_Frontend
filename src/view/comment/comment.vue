@@ -75,7 +75,7 @@
     </el-row>
     <!--    回复评论输入框-->
     <div
-      v-if="useCommentStore().activeCommentId === tempComment.comment_id"
+      v-show="useCommentStore().activeCommentId === tempComment.comment_id"
       style="
         box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
         border: 2px solid #e7e7e7;
@@ -83,6 +83,7 @@
         margin-top: 10px;
         padding: 10px;
         position: fixed;
+        z-index: 9999;
         bottom: 1vh;
         width: 55vw;
         background-color: blueviolet;
@@ -94,6 +95,7 @@
         </el-col>
         <el-col :span="20">
           <el-input
+            ref="subCommentInput"
             v-model="newComment"
             :placeholder="defaultTxt"
             clearable
@@ -101,10 +103,11 @@
             maxlength="200"
             show-word-limit
             :autosize="{ minRows: 1, maxRows: 3 }"
+            @blur="handleSubCommentEditorHidden"
           ></el-input>
         </el-col>
         <el-col :span="2">
-          <el-button @click="handleCreateComment"
+          <el-button @mousedown="handleCreateComment"
             ><el-icon> <Check></Check> </el-icon
           ></el-button>
         </el-col>
@@ -143,7 +146,6 @@ interface commentType {
   children?: commentType[];
 }
 
-// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   commentItem: {
     type: Object as PropType<commentType>,
@@ -154,6 +156,7 @@ const props = defineProps({
     default: -1,
   },
 });
+
 const tempComment: Ref<UnwrapRef<commentType>> = ref(props.commentItem);
 const isLiked = ref(tempComment.value.like_state === 1);
 const newComment = ref('');
@@ -175,19 +178,31 @@ const handleLikeComment = async () => {
   }
   isLiked.value = !isLiked.value;
 };
+
 const handleCommentEditorShow = async () => {
   const item = tempComment.value;
   useCommentStore().setActiveCommentId(item.comment_id);
   useCommentStore().setReplyCommentId(item.comment_id);
   defaultTxt.value = '回复:@' + item.user_name;
+  subCommentInput.value.focus();
 };
+
+const subCommentInput = ref();
 
 const handleSubCommentEditorShow = async (subComment) => {
   const item = tempComment.value;
+  console.log(subComment);
   useCommentStore().setActiveCommentId(item.comment_id);
   useCommentStore().setReplyCommentId(subComment.comment_id);
-  defaultTxt.value = '回复:@' + subComment.reply_user_name;
+  defaultTxt.value = '回复:@' + subComment.user_name;
+  subCommentInput.value.focus();
 };
+
+const handleSubCommentEditorHidden = async () => {
+  useCommentStore().setActiveCommentId(-1);
+  useCommentStore().setReplyCommentId(-1);
+};
+
 const handleCreateComment = async () => {
   const data = {
     post_id: router.currentRoute.value.params['id'],
