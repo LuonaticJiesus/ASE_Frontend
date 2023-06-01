@@ -2,7 +2,7 @@
   <!--  这是一级评论-->
   <!--  二级评论为什么不复用一级评论组件而要写重复代码呢？因为b站就是不复用、分开写的！-->
   <div style="padding: 10px">
-    <el-divider></el-divider>
+    <el-divider style="margin: 10px 0"></el-divider>
     <!--    评论本体-->
     <el-row align="middle">
       <el-col :span="2">
@@ -28,7 +28,7 @@
     </el-row>
     <el-row justify="start">
       <el-col :offset="2" :span="22" style="text-align: left">
-        <span style="text-align: left"> {{ tempComment.txt }}</span>
+        <el-text style="text-align: left"> {{ tempComment.txt }}</el-text>
       </el-col>
     </el-row>
     <el-row justify="start">

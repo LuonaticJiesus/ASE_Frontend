@@ -20,13 +20,14 @@
         </div>
       </el-row>
       <el-row justify="start">
-        <span> {{ tempComment.txt }} </span>
+        <el-text style="text-align: left"> {{ tempComment.txt }} </el-text>
       </el-row>
     </el-col>
     <el-col style="text-align: end">
       <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
         <el-button
           type="primary"
+          size="small"
           :plain="!isLiked"
           @click="handleLikeComment"
           lazy
@@ -38,6 +39,7 @@
       <el-tooltip effect="dark" content="评论">
         <el-button
           type="info"
+          size="small"
           plain
           @click="showParentCommentEditor(tempComment)"
         >
@@ -52,7 +54,12 @@
           tempComment.user_id === Number(useUserStore().user_id)
         "
       >
-        <el-button type="danger" plain @click="handleDeleteComment">
+        <el-button
+          type="danger"
+          size="small"
+          plain
+          @click="handleDeleteComment"
+        >
           <el-icon><Delete /></el-icon>
         </el-button>
       </el-tooltip>
