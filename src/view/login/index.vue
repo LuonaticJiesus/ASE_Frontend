@@ -15,7 +15,7 @@
         <div class="mask"></div>
         <div id="contain" class="contain">
           <div id="login-left-card" class="login-left-card">
-            <el-card :shadow="false">
+            <el-card shadow="never">
               <el-form id="textForm" class="textForm">
                 <el-form-item id="title" class="intro_title">
                   QuadSSSS
@@ -63,7 +63,7 @@
             </el-card>
           </div>
           <div class="login-right-card">
-            <el-card id="el-card" :shadow="false">
+            <el-card id="el-card" shadow="never">
               <div class="image-container">
                 <ChatDotRound
                   style="
