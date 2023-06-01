@@ -1,5 +1,5 @@
 <template>
-  <el-divider style="margin: 10px 0"></el-divider>
+  <el-divider style="margin: 0"></el-divider>
   <!--    评论本体-->
   <el-row align="middle">
     <el-col :span="2">
