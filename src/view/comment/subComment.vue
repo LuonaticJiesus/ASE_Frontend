@@ -1,7 +1,7 @@
 <template>
-  <el-divider style="margin: 0"></el-divider>
+  <el-divider style="margin: 0; margin-bottom: 10px"></el-divider>
   <!--    评论本体-->
-  <el-row align="middle">
+  <el-row align="top" style="margin: 0; margin-bottom: 10px">
     <el-col :span="2">
       <el-avatar
         :src="tempComment.user_avatar ? tempComment.user_avatar : defaultLogo"

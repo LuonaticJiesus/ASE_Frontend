@@ -91,7 +91,7 @@
         z-index: 9999;
         bottom: 1vh;
         width: 55vw;
-        background-color: blueviolet;
+        background-color: rgb(245, 234, 255);
       "
     >
       <el-row align="middle">
