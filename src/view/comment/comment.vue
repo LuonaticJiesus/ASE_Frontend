@@ -74,42 +74,42 @@
       </el-col>
     </el-row>
     <!--    回复评论输入框-->
-    <el-row
+    <div
       v-if="useCommentStore().activeCommentId === tempComment.comment_id"
-      style="display: block"
+      style="
+        box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
+        border: 2px solid #e7e7e7;
+        border-radius: 12px;
+        margin-top: 10px;
+        padding: 10px;
+        position: fixed;
+        bottom: 1vh;
+        width: 55vw;
+        background-color: blueviolet;
+      "
     >
-      <div
-        style="
-          box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-          border: 2px solid #e7e7e7;
-          border-radius: 12px;
-          margin-top: 10px;
-          padding: 10px;
-        "
-      >
-        <el-row align="middle">
-          <el-col :span="2">
-            <el-avatar :src="useUserStore().avatar"></el-avatar>
-          </el-col>
-          <el-col :span="20">
-            <el-input
-              v-model="newComment"
-              :placeholder="defaultTxt"
-              clearable
-              type="textarea"
-              maxlength="200"
-              show-word-limit
-              :autosize="{ minRows: 1, maxRows: 3 }"
-            ></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-button @click="handleCreateComment"
-              ><el-icon> <Check></Check> </el-icon
-            ></el-button>
-          </el-col>
-        </el-row>
-      </div>
-    </el-row>
+      <el-row align="middle">
+        <el-col :span="2">
+          <el-avatar :src="useUserStore().avatar"></el-avatar>
+        </el-col>
+        <el-col :span="20">
+          <el-input
+            v-model="newComment"
+            :placeholder="defaultTxt"
+            clearable
+            type="textarea"
+            maxlength="200"
+            show-word-limit
+            :autosize="{ minRows: 1, maxRows: 3 }"
+          ></el-input>
+        </el-col>
+        <el-col :span="2">
+          <el-button @click="handleCreateComment"
+            ><el-icon> <Check></Check> </el-icon
+          ></el-button>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
