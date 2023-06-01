@@ -1,69 +1,74 @@
 <template>
   <!--  这是一级评论-->
   <!--  二级评论为什么不复用一级评论组件而要写重复代码呢？因为b站就是不复用、分开写的！-->
-  <div style="padding: 10px">
-    <el-divider></el-divider>
+  <div style="padding: 0">
+    <el-divider style="margin: 0"></el-divider>
     <!--    评论本体-->
-    <el-row align="middle">
-      <el-col :span="2">
-        <el-avatar
-          :src="tempComment.user_avatar ? tempComment.user_avatar : defaultLogo"
-          size="large"
-        ></el-avatar>
-      </el-col>
-      <el-col :span="10">
-        <el-row justify="start">
-          <el-col>
-            <h4 style="margin: 0; text-align: left">
-              {{ tempComment.user_name }}
-            </h4>
-          </el-col>
-        </el-row>
-        <el-row justify="start">
-          <span style="color: gray; font-size: small">
-            {{ getDateDiff(tempComment.time) }}
-          </span>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-row justify="start">
-      <el-col :offset="2" :span="22" style="text-align: left">
-        <span style="text-align: left"> {{ tempComment.txt }}</span>
-      </el-col>
-    </el-row>
-    <el-row justify="start">
-      <el-col style="text-align: end">
-        <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
-          <el-button
-            type="primary"
-            :plain="!isLiked"
-            @click="handleLikeComment"
+    <div class="comment-body">
+      <el-row align="middle" @mousedown="handleSubCommentShow">
+        <el-col :span="2">
+          <el-avatar
+            :src="
+              tempComment.user_avatar ? tempComment.user_avatar : defaultLogo
+            "
+            size="large"
+          ></el-avatar>
+        </el-col>
+        <el-col :span="10">
+          <el-row justify="start">
+            <el-col>
+              <h4 style="margin: 0; text-align: left">
+                {{ tempComment.user_name }}
+              </h4>
+            </el-col>
+          </el-row>
+          <el-row justify="start">
+            <span style="color: gray; font-size: small">
+              {{ getDateDiff(tempComment.time) }}
+            </span>
+          </el-row>
+        </el-col>
+      </el-row>
+      <el-row justify="start">
+        <el-col :offset="2" :span="22" style="text-align: left">
+          <el-text style="text-align: left"> {{ tempComment.txt }}</el-text>
+        </el-col>
+      </el-row>
+      <el-row justify="start">
+        <el-col style="text-align: end">
+          <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
+            <el-button
+              type="primary"
+              :plain="!isLiked"
+              @click="handleLikeComment"
+            >
+              <el-icon size="16"><MagicStick /></el-icon>
+              <span>{{ tempComment.like_cnt }}</span>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip effect="dark" content="评论">
+            <el-button type="info" plain @click="handleCommentEditorShow">
+              <el-icon size="16"><ChatDotSquare /></el-icon>
+              <span>{{ tempComment.children.length }}</span>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip
+            effect="dark"
+            content="删除"
+            v-if="
+              permission >= 2 ||
+              tempComment.user_id === Number(useUserStore().user_id)
+            "
           >
-            <el-icon size="16"><MagicStick /></el-icon>
-            <span>{{ tempComment.like_cnt }}</span>
-          </el-button>
-        </el-tooltip>
-        <el-tooltip effect="dark" content="评论">
-          <el-button type="info" plain @click="handleCommentEditorShow">
-            <el-icon size="16"><ChatDotSquare /></el-icon>
-          </el-button>
-        </el-tooltip>
-        <el-tooltip
-          effect="dark"
-          content="删除"
-          v-if="
-            permission >= 2 ||
-            tempComment.user_id === Number(useUserStore().user_id)
-          "
-        >
-          <el-button type="danger" plain @click="handleDeleteComment">
-            <el-icon><Delete /></el-icon>
-          </el-button>
-        </el-tooltip>
-      </el-col>
-    </el-row>
+            <el-button type="danger" plain @click="handleDeleteComment">
+              <el-icon><Delete /></el-icon>
+            </el-button>
+          </el-tooltip>
+        </el-col>
+      </el-row>
+    </div>
     <!--    插入子评论-->
-    <el-row>
+    <el-row v-show="showSubComment">
       <el-col :offset="2" :span="22">
         <SubComment
           v-for="subItem of tempComment.children"
@@ -74,42 +79,45 @@
       </el-col>
     </el-row>
     <!--    回复评论输入框-->
-    <el-row
-      v-if="useCommentStore().activeCommentId === tempComment.comment_id"
-      style="display: block"
+    <div
+      v-show="useCommentStore().activeCommentId === tempComment.comment_id"
+      style="
+        box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
+        border: 2px solid #e7e7e7;
+        border-radius: 12px;
+        margin-top: 10px;
+        padding: 10px;
+        position: fixed;
+        z-index: 9999;
+        bottom: 1vh;
+        width: 55vw;
+        background-color: rgb(245, 234, 255);
+      "
     >
-      <div
-        style="
-          box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-          border: 2px solid #e7e7e7;
-          border-radius: 12px;
-          margin-top: 10px;
-          padding: 10px;
-        "
-      >
-        <el-row align="middle">
-          <el-col :span="2">
-            <el-avatar :src="useUserStore().avatar"></el-avatar>
-          </el-col>
-          <el-col :span="20">
-            <el-input
-              v-model="newComment"
-              :placeholder="defaultTxt"
-              clearable
-              type="textarea"
-              maxlength="200"
-              show-word-limit
-              :autosize="{ minRows: 1, maxRows: 3 }"
-            ></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-button @click="handleCreateComment"
-              ><el-icon> <Check></Check> </el-icon
-            ></el-button>
-          </el-col>
-        </el-row>
-      </div>
-    </el-row>
+      <el-row align="middle">
+        <el-col :span="2">
+          <el-avatar :src="useUserStore().avatar"></el-avatar>
+        </el-col>
+        <el-col :span="20">
+          <el-input
+            ref="subCommentInput"
+            v-model="newComment"
+            :placeholder="defaultTxt"
+            clearable
+            type="textarea"
+            maxlength="200"
+            show-word-limit
+            :autosize="{ minRows: 1, maxRows: 3 }"
+            @blur="handleSubCommentEditorHidden"
+          ></el-input>
+        </el-col>
+        <el-col :span="2">
+          <el-button @mousedown="handleCreateComment"
+            ><el-icon> <Check></Check> </el-icon
+          ></el-button>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -143,7 +151,6 @@ interface commentType {
   children?: commentType[];
 }
 
-// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   commentItem: {
     type: Object as PropType<commentType>,
@@ -154,10 +161,17 @@ const props = defineProps({
     default: -1,
   },
 });
+
 const tempComment: Ref<UnwrapRef<commentType>> = ref(props.commentItem);
 const isLiked = ref(tempComment.value.like_state === 1);
 const newComment = ref('');
 const defaultTxt = ref('请输入评论');
+const showSubComment = ref(false);
+
+const handleSubCommentShow = async () => {
+  console.log(showSubComment.value);
+  showSubComment.value = !showSubComment.value;
+};
 
 const handleLikeComment = async () => {
   const data = {
@@ -175,19 +189,31 @@ const handleLikeComment = async () => {
   }
   isLiked.value = !isLiked.value;
 };
+
 const handleCommentEditorShow = async () => {
   const item = tempComment.value;
   useCommentStore().setActiveCommentId(item.comment_id);
   useCommentStore().setReplyCommentId(item.comment_id);
   defaultTxt.value = '回复:@' + item.user_name;
+  subCommentInput.value.focus();
 };
+
+const subCommentInput = ref();
 
 const handleSubCommentEditorShow = async (subComment) => {
   const item = tempComment.value;
+  console.log(subComment);
   useCommentStore().setActiveCommentId(item.comment_id);
   useCommentStore().setReplyCommentId(subComment.comment_id);
-  defaultTxt.value = '回复:@' + subComment.reply_user_name;
+  defaultTxt.value = '回复:@' + subComment.user_name;
+  subCommentInput.value.focus();
 };
+
+const handleSubCommentEditorHidden = async () => {
+  useCommentStore().setActiveCommentId(-1);
+  useCommentStore().setReplyCommentId(-1);
+};
+
 const handleCreateComment = async () => {
   const data = {
     post_id: router.currentRoute.value.params['id'],
@@ -245,4 +271,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.comment-body {
+  padding: 10px;
+}
+.comment-body:hover {
+  cursor: pointer;
+  background-color: rgb(245, 234, 255);
+  padding: 10px;
+}
+</style>

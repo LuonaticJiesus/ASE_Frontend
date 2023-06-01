@@ -1,41 +1,33 @@
 <template>
-  <el-divider></el-divider>
+  <el-divider style="margin: 0; margin-bottom: 10px"></el-divider>
   <!--    评论本体-->
-  <el-row align="middle">
+  <el-row align="top" style="margin: 0; margin-bottom: 10px">
     <el-col :span="2">
       <el-avatar
         :src="tempComment.user_avatar ? tempComment.user_avatar : defaultLogo"
-        size="large"
+        size="default"
       ></el-avatar>
     </el-col>
-    <el-col :span="10">
+    <el-col :span="22">
       <el-row justify="start">
-        <el-col>
-          <h4 style="margin: 0; text-align: left">
+        <div style="align-items: center; width: 100%">
+          <h4 style="margin: 0; float: left; display: inline">
             {{ tempComment.user_name }} ▶ {{ tempComment.reply_user_name }}
           </h4>
-        </el-col>
+          <span style="color: gray; font-size: small; float: right">
+            {{ getDateDiff(tempComment.time) }}
+          </span>
+        </div>
       </el-row>
       <el-row justify="start">
-        <span style="color: gray; font-size: small">
-          {{ getDateDiff(tempComment.time) }}
-        </span>
+        <el-text style="text-align: left"> {{ tempComment.txt }} </el-text>
       </el-row>
     </el-col>
-    <!--    <el-col :span="2">-->
-    <!--      <el-avatar> </el-avatar>-->
-    <!--    </el-col>-->
-  </el-row>
-  <el-row justify="start">
-    <el-col :offset="2" :span="22" style="text-align: left">
-      <span style="text-align: left"> {{ tempComment.txt }}</span>
-    </el-col>
-  </el-row>
-  <el-row justify="start">
     <el-col style="text-align: end">
       <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
         <el-button
           type="primary"
+          size="small"
           :plain="!isLiked"
           @click="handleLikeComment"
           lazy
@@ -47,6 +39,7 @@
       <el-tooltip effect="dark" content="评论">
         <el-button
           type="info"
+          size="small"
           plain
           @click="showParentCommentEditor(tempComment)"
         >
@@ -61,12 +54,19 @@
           tempComment.user_id === Number(useUserStore().user_id)
         "
       >
-        <el-button type="danger" plain @click="handleDeleteComment">
+        <el-button
+          type="danger"
+          size="small"
+          plain
+          @click="handleDeleteComment"
+        >
           <el-icon><Delete /></el-icon>
         </el-button>
       </el-tooltip>
     </el-col>
   </el-row>
+  <!-- <el-row justify="start">
+  </el-row> -->
 </template>
 
 <script setup lang="ts">
