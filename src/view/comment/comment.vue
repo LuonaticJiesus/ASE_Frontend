@@ -49,6 +49,7 @@
           <el-tooltip effect="dark" content="评论">
             <el-button type="info" plain @click="handleCommentEditorShow">
               <el-icon size="16"><ChatDotSquare /></el-icon>
+              <span>{{ tempComment.children.length }}</span>
             </el-button>
           </el-tooltip>
           <el-tooltip
