@@ -1,11 +1,11 @@
 <template>
   <el-dialog
     :model-value="visible"
-    modal
     :show-close="false"
-    style="border-radius: 12px"
+    style="border-radius: 12px; z-index: -1"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
+    append-to-body
   >
     <template #header="{ titleId, titleClass }">
       <div class="my-header">
@@ -179,5 +179,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.tox-tinymce-aux {
+  z-index: 9999 !important;
 }
 </style>
