@@ -2,10 +2,9 @@
   <!--  这是一级评论-->
   <!--  二级评论为什么不复用一级评论组件而要写重复代码呢？因为b站就是不复用、分开写的！-->
   <div style="padding: 0">
-    <el-divider style="margin: 0"></el-divider>
     <!--    评论本体-->
-    <div class="comment-body">
-      <el-row align="middle" @mousedown="handleSubCommentShow">
+    <div class="comment-body" @click="handleSubCommentShow">
+      <el-row align="middle">
         <el-col :span="2">
           <el-avatar
             :src="
@@ -66,32 +65,33 @@
           </el-tooltip>
         </el-col>
       </el-row>
+      <!--    插入子评论-->
+      <el-row v-show="showSubComment">
+        <el-col :offset="2" :span="22">
+          <SubComment
+            v-for="subItem of tempComment.children"
+            :key="subItem.comment_id"
+            :comment-item="subItem"
+            :show-parent-comment-editor="handleSubCommentEditorShow"
+          ></SubComment>
+        </el-col>
+      </el-row>
     </div>
-    <!--    插入子评论-->
-    <el-row v-show="showSubComment">
-      <el-col :offset="2" :span="22">
-        <SubComment
-          v-for="subItem of tempComment.children"
-          :key="subItem.comment_id"
-          :comment-item="subItem"
-          :show-parent-comment-editor="handleSubCommentEditorShow"
-        ></SubComment>
-      </el-col>
-    </el-row>
     <!--    回复评论输入框-->
     <div
       v-show="useCommentStore().activeCommentId === tempComment.comment_id"
       style="
         box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-        border: 2px solid #e7e7e7;
-        border-radius: 12px;
-        margin-top: 10px;
         padding: 10px;
         position: fixed;
         z-index: 9999;
         bottom: 1vh;
-        width: 55vw;
-        background-color: rgb(245, 234, 255);
+        width: 56.6vw;
+        background-color: blueviolet;
+        border-radius: 12px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: white;
       "
     >
       <el-row align="middle">
@@ -274,6 +274,9 @@ export default {
 <style scoped>
 .comment-body {
   padding: 10px;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: blueviolet;
 }
 .comment-body:hover {
   cursor: pointer;
