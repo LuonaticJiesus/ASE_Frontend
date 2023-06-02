@@ -44,7 +44,7 @@
           type="primary"
           size="small"
           :plain="!isLiked"
-          @click="handleLikeComment"
+          @click.stop="handleLikeComment"
           lazy
         >
           <el-icon><MagicStick /></el-icon>
@@ -56,7 +56,7 @@
           type="info"
           size="small"
           plain
-          @click="showParentCommentEditor(tempComment)"
+          @click.stop="showParentCommentEditor(tempComment)"
         >
           <el-icon size="16"><ChatDotSquare /></el-icon>
         </el-button>
@@ -73,7 +73,7 @@
           type="danger"
           size="small"
           plain
-          @click="handleDeleteComment"
+          @click.stop="handleDeleteComment"
         >
           <el-icon><Delete /></el-icon>
         </el-button>

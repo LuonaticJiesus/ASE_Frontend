@@ -39,14 +39,14 @@
             <el-button
               type="primary"
               :plain="!isLiked"
-              @click="handleLikeComment"
+              @click.stop="handleLikeComment"
             >
               <el-icon size="16"><MagicStick /></el-icon>
               <span>{{ tempComment.like_cnt }}</span>
             </el-button>
           </el-tooltip>
           <el-tooltip effect="dark" content="评论">
-            <el-button type="info" plain @click="handleCommentEditorShow">
+            <el-button type="info" plain @click.stop="handleCommentEditorShow">
               <el-icon size="16"><ChatDotSquare /></el-icon>
               <span>{{ tempComment.children.length }}</span>
             </el-button>
@@ -59,7 +59,7 @@
               tempComment.user_id === Number(useUserStore().user_id)
             "
           >
-            <el-button type="danger" plain @click="handleDeleteComment">
+            <el-button type="danger" plain @click.stop="handleDeleteComment">
               <el-icon><Delete /></el-icon>
             </el-button>
           </el-tooltip>
