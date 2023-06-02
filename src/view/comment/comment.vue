@@ -1,7 +1,7 @@
 <template>
   <!--  这是一级评论-->
   <!--  二级评论为什么不复用一级评论组件而要写重复代码呢？因为b站就是不复用、分开写的！-->
-  <div style="padding: 0">
+  <div style="padding: 0; z-index: 0">
     <!--    评论本体-->
     <div class="comment-body" @click="handleSubCommentShow">
       <el-row align="middle">
@@ -11,12 +11,13 @@
               tempComment.user_avatar ? tempComment.user_avatar : defaultLogo
             "
             size="large"
+            style="z-index: 2"
           ></el-avatar>
         </el-col>
         <el-col :span="10">
           <el-row justify="start">
             <el-col>
-              <h4 style="margin: 0; text-align: left">
+              <h4 style="margin: 0; text-align: left" class="text-orange-400">
                 {{ tempComment.user_name }}
               </h4>
             </el-col>
@@ -65,35 +66,24 @@
           </el-tooltip>
         </el-col>
       </el-row>
-      <!--    插入子评论-->
-      <el-row v-show="showSubComment">
-        <el-col :offset="2" :span="22">
-          <SubComment
-            v-for="subItem of tempComment.children"
-            :key="subItem.comment_id"
-            :permission="permission"
-            :comment-item="subItem"
-            :show-parent-comment-editor="handleSubCommentEditorShow"
-          ></SubComment>
-        </el-col>
-      </el-row>
     </div>
+    <!--    插入子评论-->
+    <el-row v-show="showSubComment">
+      <el-col :offset="2" :span="22">
+        <SubComment
+          v-for="subItem of tempComment.children"
+          :key="subItem.comment_id"
+          :permission="permission"
+          :comment-item="subItem"
+          :show-parent-comment-editor="handleSubCommentEditorShow"
+        ></SubComment>
+      </el-col>
+    </el-row>
+
     <!--    回复评论输入框-->
     <div
       v-show="useCommentStore().activeCommentId === tempComment.comment_id"
-      style="
-        box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-        padding: 10px;
-        position: fixed;
-        z-index: 9999;
-        bottom: 1vh;
-        width: 56.6vw;
-        background-color: blueviolet;
-        border-radius: 12px;
-        border-style: solid;
-        border-width: 1px;
-        border-color: white;
-      "
+      class="comment-input"
     >
       <el-row align="middle">
         <el-col :span="2">
@@ -276,12 +266,31 @@ export default {
 .comment-body {
   padding: 10px;
   border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: blueviolet;
+  border-width: 0 0 0px 0;
+  border-color: #e7e7e7;
+  background-color: white;
 }
 .comment-body:hover {
   cursor: pointer;
-  background-color: rgb(245, 234, 255);
+  background-color: #e7e7e7;
   padding: 10px;
+}
+.comment-input {
+  box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
+  padding: 10px;
+  position: fixed;
+  z-index: 9999;
+  bottom: 1vh;
+  width: 56.6vw;
+  background-image: linear-gradient(
+    135deg,
+    rgba(130, 36, 227, 0.04) 0%,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(130, 36, 227, 0.07) 100%
+  );
+  border-radius: 12px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
 }
 </style>

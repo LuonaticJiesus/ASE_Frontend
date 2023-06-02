@@ -29,8 +29,8 @@
               <div
                 style="
                   box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-                  border: 2px solid #e7e7e7;
-                  border-radius: 12px;
+                  border: 0px solid #e7e7e7;
+                  border-radius: 20px;
                   margin-top: 10px;
                   padding: 10px;
                 "
