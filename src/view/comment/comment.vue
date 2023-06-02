@@ -3,70 +3,83 @@
   <!--  二级评论为什么不复用一级评论组件而要写重复代码呢？因为b站就是不复用、分开写的！-->
   <div style="padding: 0; z-index: 0">
     <!--    评论本体-->
-    <div class="comment-body" @click="handleSubCommentShow">
-      <el-row align="middle">
-        <el-col :span="2">
-          <el-avatar
-            :src="
-              tempComment.user_avatar ? tempComment.user_avatar : defaultLogo
-            "
-            size="large"
-            style="z-index: 2"
-          ></el-avatar>
-        </el-col>
-        <el-col :span="10">
-          <el-row justify="start">
-            <el-col>
-              <h4 style="margin: 0; text-align: left" class="text-orange-400">
-                {{ tempComment.user_name }}
-              </h4>
-            </el-col>
-          </el-row>
-          <el-row justify="start">
-            <span style="color: gray; font-size: small">
-              {{ getDateDiff(tempComment.time) }}
-            </span>
-          </el-row>
-        </el-col>
-      </el-row>
-      <el-row justify="start">
-        <el-col :offset="2" :span="22" style="text-align: left">
-          <el-text style="text-align: left"> {{ tempComment.txt }}</el-text>
-        </el-col>
-      </el-row>
-      <el-row justify="start" style="margin-bottom: 10px">
-        <el-col style="text-align: end">
-          <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
-            <el-button
-              type="primary"
-              :plain="!isLiked"
-              @click.stop="handleLikeComment"
+    <el-tooltip
+      :content="
+        showSubComment
+          ? '收起回复'
+          : '显示所有回复，共' + tempComment.children.length + '条'
+      "
+      placement="top"
+    >
+      <div class="comment-body" @click="handleSubCommentShow">
+        <el-row align="middle">
+          <el-col :span="2">
+            <el-avatar
+              :src="
+                tempComment.user_avatar ? tempComment.user_avatar : defaultLogo
+              "
+              size="large"
+              style="z-index: 2"
+            ></el-avatar>
+          </el-col>
+          <el-col :span="10">
+            <el-row justify="start">
+              <el-col>
+                <h4 style="margin: 0; text-align: left">
+                  {{ tempComment.user_name }}
+                </h4>
+              </el-col>
+            </el-row>
+            <el-row justify="start">
+              <span style="color: gray; font-size: small">
+                {{ getDateDiff(tempComment.time) }}
+              </span>
+            </el-row>
+          </el-col>
+        </el-row>
+        <el-row justify="start">
+          <el-col :offset="2" :span="22" style="text-align: left">
+            <el-text style="text-align: left"> {{ tempComment.txt }}</el-text>
+          </el-col>
+        </el-row>
+        <el-row justify="start" style="margin-bottom: 10px">
+          <el-col style="text-align: end">
+            <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
+              <el-button
+                type="primary"
+                :plain="!isLiked"
+                @click.stop="handleLikeComment"
+              >
+                <el-icon size="16"><MagicStick /></el-icon>
+                <span>{{ tempComment.like_cnt }}</span>
+              </el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="评论">
+              <el-button
+                type="info"
+                plain
+                @click.stop="handleCommentEditorShow"
+              >
+                <el-icon size="16"><ChatDotSquare /></el-icon>
+                <span>{{ tempComment.children.length }}</span>
+              </el-button>
+            </el-tooltip>
+            <el-tooltip
+              effect="dark"
+              content="删除"
+              v-if="
+                permission >= 2 ||
+                tempComment.user_id === Number(useUserStore().user_id)
+              "
             >
-              <el-icon size="16"><MagicStick /></el-icon>
-              <span>{{ tempComment.like_cnt }}</span>
-            </el-button>
-          </el-tooltip>
-          <el-tooltip effect="dark" content="评论">
-            <el-button type="info" plain @click.stop="handleCommentEditorShow">
-              <el-icon size="16"><ChatDotSquare /></el-icon>
-              <span>{{ tempComment.children.length }}</span>
-            </el-button>
-          </el-tooltip>
-          <el-tooltip
-            effect="dark"
-            content="删除"
-            v-if="
-              permission >= 2 ||
-              tempComment.user_id === Number(useUserStore().user_id)
-            "
-          >
-            <el-button type="danger" plain @click.stop="handleDeleteComment">
-              <el-icon><Delete /></el-icon>
-            </el-button>
-          </el-tooltip>
-        </el-col>
-      </el-row>
-    </div>
+              <el-button type="danger" plain @click.stop="handleDeleteComment">
+                <el-icon><Delete /></el-icon>
+              </el-button>
+            </el-tooltip>
+          </el-col>
+        </el-row>
+      </div>
+    </el-tooltip>
     <!--    插入子评论-->
     <el-row v-show="showSubComment">
       <el-col :offset="2" :span="22">
@@ -103,9 +116,7 @@
           ></el-input>
         </el-col>
         <el-col :span="2">
-          <el-button @mousedown="handleCreateComment"
-            ><el-icon> <Check></Check> </el-icon
-          ></el-button>
+          <el-button @mousedown="handleCreateComment">评论</el-button>
         </el-col>
       </el-row>
     </div>
@@ -120,12 +131,7 @@ import SubComment from '/@/view/comment/subComment.vue';
 import { createComment, deleteComment, likeComment } from '/@/api/comment';
 import { defaultLogo, getDateDiff } from '/@/utils/string';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import {
-  ChatDotSquare,
-  Check,
-  Delete,
-  MagicStick,
-} from '@element-plus/icons-vue';
+import { ChatDotSquare, Delete, MagicStick } from '@element-plus/icons-vue';
 import { ElNotification } from 'element-plus';
 
 interface commentType {
@@ -276,21 +282,18 @@ export default {
   padding: 10px;
 }
 .comment-input {
-  box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
+  box-shadow: rgba(58, 46, 68, 0.05) 0 20px 90px 0;
+  margin: 0 30px 0 30px;
   padding: 10px;
   position: fixed;
   z-index: 9999;
   bottom: 1vh;
-  width: 56.6vw;
-  background-image: linear-gradient(
-    135deg,
-    rgba(130, 36, 227, 0.04) 0%,
-    rgba(255, 255, 255, 0) 25%,
-    rgba(130, 36, 227, 0.07) 100%
-  );
-  border-radius: 12px;
+  min-width: 50em;
+  /*background-image: linear-gradient(-135deg, #7028e4 0%, #e5b2ca 100%);*/
+  background-image: linear-gradient(135deg, #dfe9f3 0%, white 100%);
+  border-radius: 20px;
   border-style: solid;
-  border-width: 1px;
+  border-width: 0;
   border-color: white;
 }
 </style>
