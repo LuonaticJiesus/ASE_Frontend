@@ -1,5 +1,9 @@
 <template>
-  <el-divider style="margin: 0; margin-bottom: 10px"></el-divider>
+  <el-divider
+    border-color="blueviolet"
+    border-style="solid"
+    style="margin: 0; margin-bottom: 10px"
+  ></el-divider>
   <!--    评论本体-->
   <el-row align="top" style="margin: 0; margin-bottom: 10px">
     <el-col :span="2">
@@ -14,7 +18,14 @@
           <h4 style="margin: 0; float: left; display: inline">
             {{ tempComment.user_name }} ▶ {{ tempComment.reply_user_name }}
           </h4>
-          <span style="color: gray; font-size: small; float: right">
+          <span
+            style="
+              color: gray;
+              font-size: small;
+              float: right;
+              margin-right: 1vw;
+            "
+          >
             {{ getDateDiff(tempComment.time) }}
           </span>
         </div>
@@ -23,7 +34,9 @@
         <el-text style="text-align: left"> {{ tempComment.txt }} </el-text>
       </el-row>
     </el-col>
-    <el-col style="text-align: end">
+  </el-row>
+  <el-row style="margin: 0; margin-bottom: 10px; margin-right: 1vw">
+    <el-col style="text-align: end; margin-right: 1vw">
       <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
         <el-button
           type="primary"
