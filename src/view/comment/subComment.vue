@@ -31,7 +31,9 @@
         </div>
       </el-row>
       <el-row justify="start">
-        <el-text style="text-align: left"> {{ tempComment.txt }} </el-text>
+        <el-text style="text-align: left; margin-right: 1vw">
+          {{ tempComment.txt }}
+        </el-text>
       </el-row>
     </el-col>
   </el-row>

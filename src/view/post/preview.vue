@@ -401,7 +401,7 @@ const permission = ref(-1);
 const getUserRole = async () => {
   console.log('block_id is: ' + block_id.value);
   const result = await queryRole(block_id.value);
-  console.log(result);
+  console.log('permission is ', result);
   if (result) {
     permission.value = result;
   }

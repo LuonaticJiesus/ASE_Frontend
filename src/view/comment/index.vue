@@ -31,11 +31,14 @@ defineProps({
     default: -1,
   },
 });
+
 const headers = {
   userid: getLocalUserId(),
   token: getToken(),
 };
+
 const commentList = ref([]);
+
 const fetchCommentList = async () => {
   const params = { post_id: postId };
   const result = await queryCommentList(params, headers);
@@ -43,6 +46,7 @@ const fetchCommentList = async () => {
     commentList.value = result;
   }
 };
+
 onMounted(async () => {
   await fetchCommentList();
 });
