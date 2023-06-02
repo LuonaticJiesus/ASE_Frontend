@@ -33,7 +33,7 @@
           <el-text style="text-align: left"> {{ tempComment.txt }}</el-text>
         </el-col>
       </el-row>
-      <el-row justify="start">
+      <el-row justify="start" style="margin-bottom: 10px">
         <el-col style="text-align: end">
           <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
             <el-button
@@ -71,6 +71,7 @@
           <SubComment
             v-for="subItem of tempComment.children"
             :key="subItem.comment_id"
+            :permission="permission"
             :comment-item="subItem"
             :show-parent-comment-editor="handleSubCommentEditorShow"
           ></SubComment>
@@ -123,8 +124,11 @@
 
 <script setup lang="ts">
 import { PropType, Ref, ref, UnwrapRef } from 'vue';
-import { defaultLogo, getDateDiff } from '/@/utils/string';
+import { useCommentStore, useUserStore } from '/@/store';
+import router from '/@/router';
+import SubComment from '/@/view/comment/subComment.vue';
 import { createComment, deleteComment, likeComment } from '/@/api/comment';
+import { defaultLogo, getDateDiff } from '/@/utils/string';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import {
   ChatDotSquare,
@@ -132,9 +136,6 @@ import {
   Delete,
   MagicStick,
 } from '@element-plus/icons-vue';
-import { useCommentStore, useUserStore } from '/@/store';
-import router from '/@/router';
-import SubComment from '/@/view/comment/subComment.vue';
 import { ElNotification } from 'element-plus';
 
 interface commentType {
