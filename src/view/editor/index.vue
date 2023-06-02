@@ -114,7 +114,7 @@ import 'element-plus/theme-chalk/el-message.css';
 
 const richSetting = {
   language: 'zh-Hans',
-  width: '70vw',
+  width: '79vw',
   resize: false,
   language_url:
     'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
