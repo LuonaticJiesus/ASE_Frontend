@@ -38,7 +38,7 @@
     </el-main>
     <el-footer style="height: fit-content; padding: 0 0 2px">
       <el-row
-        style="border-top: solid #646cff 1px; padding: 2px"
+        style="border-top: solid #bebebe 1px; padding: 2px"
         align="middle"
       >
         <el-col :span="2">
@@ -85,7 +85,7 @@
           </el-button>
         </el-col>
         <el-col :span="1" style="margin-left: 15px">
-          <el-button class="reverse-color-button" @click="handlePublishArticle">
+          <el-button type="primary" @click="handlePublishArticle">
             发布
           </el-button>
         </el-col>
@@ -114,7 +114,7 @@ import 'element-plus/theme-chalk/el-message.css';
 
 const richSetting = {
   language: 'zh-Hans',
-  width: '70vw',
+  width: '79vw',
   resize: false,
   language_url:
     'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
@@ -304,12 +304,22 @@ export default {
   width: 100%;
 }
 .reverse-color-button {
-  background-color: #646cff;
+  background-image: linear-gradient(
+    90deg,
+    #8224e3 0,
+    #a968ec 50%,
+    #8224e3 100%
+  );
   color: white;
 }
 .reverse-color-button:hover {
-  background-color: white;
-  color: #646cff;
+  background-image: linear-gradient(
+    90deg,
+    #8224e3 100%,
+    #a968ec 50%,
+    #8224e3 0
+  );
+  color: white;
 }
 .normal-color-button {
   background-color: white;

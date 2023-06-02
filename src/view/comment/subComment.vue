@@ -37,7 +37,7 @@
       </el-row>
     </el-col>
   </el-row>
-  <el-row style="margin: 0; margin-bottom: 10px; margin-right: 1vw">
+  <el-row style="margin: 0 1vw 10px 0">
     <el-col style="text-align: end; margin-right: 1vw">
       <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
         <el-button

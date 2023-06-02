@@ -232,6 +232,7 @@ export default {
   },
   beforeUpdate() {
     this.fetchData();
+    this.getUserRole();
     console.log('Now avatar is ' + this.moduleAvatar);
     this.updateActiveStyle();
   },

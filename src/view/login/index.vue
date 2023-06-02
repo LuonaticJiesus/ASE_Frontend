@@ -153,10 +153,25 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background-size: 100% 100%;
-  background-image: url('/src/assets/login_background.jpg');
+  /*background-image: url('/src/assets/login_background.jpg');*/
+  background: linear-gradient(125deg, #9890e3, #66a6ff, #9007ff, #e2d1c3);
+  background-size: 500%;
+  /* 执行动画：动画名 时长 线性的 无限次播放 */
+  animation: bgAnimation 15s linear infinite;
   display: flex;
   justify-content: center;
+}
+
+@keyframes bgAnimation {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }
 
 .contain {
@@ -185,17 +200,17 @@ export default {
 }
 
 .login-left-card {
-  background-color: #9007ff;
+  background-color: rgba(30, 30, 30, 0.3);
   width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px 0 0 5px;
+  border-radius: 12px 0 0 12px;
 }
 
 .login-left-card .el-card {
-  background-color: #9007ff;
+  background-color: rgba(144, 7, 255, 0);
   border: none;
 }
 
@@ -262,17 +277,18 @@ export default {
 }
 
 .login-right-card {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 1);
   width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 12px 12px 0;
 }
 
 .login-right-card .el-card {
   display: flex;
   border: none;
+  background-color: rgba(255, 255, 255, 0);
 }
 </style>

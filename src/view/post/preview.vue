@@ -29,8 +29,8 @@
               <div
                 style="
                   box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-                  border: 2px solid #e7e7e7;
-                  border-radius: 12px;
+                  border: 0px solid #e7e7e7;
+                  border-radius: 20px;
                   margin-top: 10px;
                   padding: 10px;
                 "
@@ -51,9 +51,7 @@
                     ></el-input>
                   </el-col>
                   <el-col :span="2">
-                    <el-button @click="handleCreateComment"
-                      ><el-icon> <Check></Check> </el-icon
-                    ></el-button>
+                    <el-button @click="handleCreateComment"> 评论</el-button>
                   </el-col>
                 </el-row>
               </div>
@@ -103,10 +101,10 @@
                 </el-button>
               </el-tooltip>
             </el-row>
-            <el-row justify="center">
-              <span style="color: gray; font-size: small">{{
+            <el-row justify="center" style="margin-top: 4px">
+              <el-text class="post-state-info-text">{{
                 post.like_cnt
-              }}</span>
+              }}</el-text>
             </el-row>
           </el-col>
           <!--          收藏-->
@@ -129,10 +127,10 @@
                 </el-button>
               </el-tooltip>
             </el-row>
-            <el-row justify="center">
-              <span style="color: gray; font-size: small">{{
+            <el-row justify="center" style="margin-top: 4px">
+              <el-text class="post-state-info-text">{{
                 post.favor_cnt
-              }}</span>
+              }}</el-text>
             </el-row>
           </el-col>
           <!--          分享-->
@@ -152,8 +150,10 @@
                 </el-button>
               </el-tooltip>
             </el-row>
-            <el-row>
-              <span style="visibility: hidden">0</span>
+            <el-row style="margin-top: 4px">
+              <span style="visibility: hidden" class="post-state-info-text"
+                >0</span
+              >
             </el-row>
           </el-col>
           <!--          加精-->
@@ -161,7 +161,7 @@
             <el-row justify="center">
               <el-tooltip
                 effect="dark"
-                :content="isChosen ? '取消加精' : '加精'"
+                :content="isChosen ? '已加精' : '未加精'"
               >
                 <el-button
                   size="large"
@@ -169,15 +169,14 @@
                   type="primary"
                   :plain="!isChosen"
                   @click="handleChoosePost()"
-                  :disabled="permission <= 1"
                 >
                   <el-icon><DocumentChecked /></el-icon>
                 </el-button>
               </el-tooltip>
             </el-row>
-            <el-row justify="center">
-              <el-text style="text-align: center; font-size: smaller"
-                >精选</el-text
+            <el-row justify="center" style="margin-top: 4px">
+              <el-text class="post-state-info-text" style="visibility: hidden"
+                >0</el-text
               >
             </el-row>
           </el-col>
@@ -217,7 +216,6 @@ import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
 // import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import {
-  Check,
   Delete,
   DocumentChecked,
   MagicStick,
@@ -237,6 +235,8 @@ import CommentZone from '/@/view/comment/index.vue';
 import { createComment } from '/@/api/comment.js';
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
+import 'element-plus/theme-chalk/el-message-box.css';
+import 'element-plus/theme-chalk/el-message.css';
 import { queryRole } from '/@/api/permission.js';
 import useClipboard from 'vue-clipboard3';
 import { useUserStore } from '/@/store/index.js';
@@ -358,8 +358,21 @@ const handleChoosePost = async () => {
   const data = {
     post_id: post_id,
   };
-  await choosePost(headers, data);
-  isChosen.value = !isChosen.value;
+  if (permission.value <= 1) {
+    ElMessage({
+      type: 'error',
+      message: '权限不足',
+    });
+    return;
+  }
+  ElMessageBox.confirm('确定加精该文章?', 'Warning', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    choosePost(headers, data);
+    isChosen.value = !isChosen.value;
+  });
 };
 
 const handleDeletePost = async () => {
@@ -422,4 +435,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.post-state-info-text {
+  border-radius: 50px;
+  font-size: 85%;
+  padding: 0 6px 0 6px;
+  text-align: center;
+  line-height: 1;
+  background-color: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
+</style>
