@@ -75,7 +75,7 @@ button:focus-visible {
 
 /*自定义进度条颜色*/
 #nprogress .bar {
-  background: var(--el-color-primary-light-5) !important; //自定义颜色
+  background: var(--el-color-primary-light-5) !important;
 }
 
 #app {
