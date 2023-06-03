@@ -65,6 +65,20 @@ button:focus-visible {
   padding: 2em;
 }
 
+
+/*这是为了解决tinymce菜单的dialog（如插入图片、插入链接）层次过低的bug*/
+/*之所以写在全局的style.css，是因为style.css总是比node_modules后加载，能把默认的样式覆盖*/
+/*在.vue文件里写这一行z-index，没有生效*/
+.tox-tinymce-aux {
+  z-index: 9999 !important;
+}
+
+/*自定义进度条颜色*/
+#nprogress .bar {
+  background: var(--el-color-primary-light-5) !important;
+}
+
+
 #app {
   width: 100vw;
   height: 100vh;
