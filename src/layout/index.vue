@@ -35,26 +35,27 @@ import '/@/style/layout.css';
 import UserInfo from '/@/layout/components/UserInfo.vue';
 import SideBar from '/@/layout/components/SideBar.vue';
 import HeadBar from '/@/layout/components/HeadBar.vue';
+import { useUserStore } from '/@/store/index.js';
 
 export default {
   name: 'BasicLayout',
   components: { HeadBar, SideBar, UserInfo, AppMain },
-  // methods: {
-  //   quit(event) {
-  //     if (
-  //       event.currentTarget.performance.navigation.type !==
-  //       PerformanceNavigation.TYPE_RELOAD
-  //     ) {
-  //       const userStore = useUserStore();
-  //       userStore.logout();
-  //     } else {
-  //       console.log('just refresh');
-  //     }
-  //   },
-  // },
-  // mounted() {
-  //   window.addEventListener('beforeunload', this.quit);
-  // },
+  methods: {
+    quit(event) {
+      if (
+        event.currentTarget.performance.navigation.type !==
+        PerformanceNavigation.TYPE_RELOAD
+      ) {
+        const userStore = useUserStore();
+        userStore.logout();
+      } else {
+        console.log('just refresh');
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener('beforeunload', this.quit);
+  },
 };
 </script>
 

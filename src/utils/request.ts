@@ -5,10 +5,9 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { getToken, TokenPrefix } from '/@/utils/auth';
+import { clearToken, clearUserId, getToken, TokenPrefix } from '/@/utils/auth';
 import { showNetworkMessage, showServerMessage } from '/@/utils/status';
 import { defaultResponse } from '/@/utils/type';
-import { redirectToLogin } from '/@/utils/redirect';
 
 const service: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_BASEURL,
@@ -40,9 +39,8 @@ service.interceptors.response.use(
     if (response.data.status && response.data.status !== 0) {
       showServerMessage(response.data.info);
       if (response.data.status === -100) {
-        redirectToLogin().then(() => {
-          console.log('redirect ok');
-        });
+        clearToken();
+        clearUserId();
       }
       return Promise.reject(response.data.status);
     }

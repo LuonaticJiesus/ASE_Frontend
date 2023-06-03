@@ -151,54 +151,45 @@ export default {
     };
   },
   methods: {
-    async userRegister() {
-      try {
-        const isValid = await this.$refs.ruleFormRef.validate();
-        if (isValid) {
-          console.log('register validate');
-          let data = {
-            name: this.registerForm.username,
-            password: this.registerForm.password,
-            card_id: this.registerForm.card,
-            phone: this.registerForm.phone,
-            email: this.registerForm.email,
-          };
-          for (const key in data) {
-            if (
-              data[key] === null ||
-              data[key] === '' ||
-              data[key] === undefined
-            ) {
-              delete data[key];
-            }
+    userRegister() {
+      if (this.$refs.ruleFormRef.validate()) {
+        console.log('register validate');
+        let data = {
+          name: this.registerForm.username,
+          password: this.registerForm.password,
+          card_id: this.registerForm.card,
+          phone: this.registerForm.phone,
+          email: this.registerForm.email,
+        };
+        for (const key in data) {
+          if (
+            data[key] === null ||
+            data[key] === '' ||
+            data[key] === undefined
+          ) {
+            delete data[key];
           }
-          const userStore = useUserStore();
-          userStore
-            .register(data)
-            .then(async (res) => {
-              console.log(res);
-              if (res) {
-                ElNotification({
-                  title: this.registerForm.username,
-                  message: '注册成功，请查收邮件进行验证！',
-                });
-                this.$emit('transfer', 'login');
-              }
-            })
-            .catch((err) => {
-              console.log(err);
+        }
+        const userStore = useUserStore();
+        userStore
+          .register(data)
+          .then(async (res) => {
+            console.log(res);
+            if (res) {
               ElNotification({
                 title: this.registerForm.username,
-                message: '注册失败，请检查网络环境或联系管理员。',
+                message: '注册成功，请查收邮件进行验证！',
               });
+              this.$emit('transfer', 'login');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            ElNotification({
+              title: this.registerForm.username,
+              message: '注册失败，请检查网络环境或联系管理员。',
             });
-        }
-      } catch (err) {
-        console.log('register validate error');
-        ElNotification({
-          message: '注册失败，表单校验不通过，请检查输入是否符合规则',
-          type: 'error',
-        });
+          });
       }
     },
     userForget() {

@@ -103,7 +103,7 @@ export default {
         userStore
           .login(data)
           .then(async (res) => {
-            window.removeEventListener('keydown', this.keyDown, false);
+            console.log(res);
             if (res) {
               await userStore.getInfo(); // 更新登录状态和获取用户信息
               await router.push({
@@ -139,7 +139,6 @@ export default {
   },
   //销毁事件
   unmounted() {
-    console.log('unmounted success');
     window.removeEventListener('keydown', this.keyDown, false);
   },
 };

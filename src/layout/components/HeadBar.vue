@@ -55,30 +55,9 @@
         />
       </div> -->
       <div class="flex-grow" />
-      <el-menu-item index="/home"><h3>主页</h3></el-menu-item>
-      <el-popover
-        trigger="hover"
-        placement="bottom"
-        :width="400"
-        popper-style="border-radius: 12px;padding: 0"
-        :show-arrow="false"
-        v-if="$router.currentRoute.value.path !== '/message'"
-      >
-        <template #reference>
-          <el-menu-item>
-            <h3>消息</h3>
-            <!-- <span class="redDot" v-if="unreadCount > 0"> </span> -->
-          </el-menu-item>
-        </template>
-        <template #default>
-          <HoverMessageBox :fetch-unread-count="handleUnreadCount"
-        /></template>
-      </el-popover>
-
+      <el-menu-item index="/home"><h3>首页</h3></el-menu-item>
       <el-menu-item index="/editor"><h3>发布</h3></el-menu-item>
       <el-menu-item index="/module"><h3>版块</h3></el-menu-item>
-      <el-menu-item index="/favor"><h3>收藏</h3></el-menu-item>
-      <el-menu-item index="/statistic" v-if="false"><h3>统计</h3></el-menu-item>
       <el-menu-item index="/user">
         <el-avatar class="mr-3" :size="32" :src="useUserStore().avatar" />
         <div
@@ -97,10 +76,8 @@ import { Search } from '@element-plus/icons-vue';
 import { ref } from 'vue';
 import { useUserStore } from '/@/store';
 import router from '/@/router';
-import HoverMessageBox from '/@/view/message/components/HoverMessageBox.vue';
 
 export default {
-  components: { HoverMessageBox },
   data() {
     return {
       userName: '',
@@ -113,16 +90,10 @@ export default {
       console.log(key, keyPath);
       router.push(key);
     };
-    const unreadCount = ref(0);
-    const handleUnreadCount = (count) => {
-      unreadCount.value = count;
-    };
     return {
       input2,
-      unreadCount,
       handleSelect,
       useUserStore,
-      handleUnreadCount,
     };
   },
   computed: {
@@ -163,11 +134,9 @@ export default {
   background-color: rgba(203, 32, 32, 0);
   margin: 0;
 }
-
 .flex-grow {
   flex-grow: 1;
 }
-
 .custom-input {
   font-size: 16px;
   height: 50%;
@@ -175,7 +144,6 @@ export default {
   margin-left: 50px;
   box-shadow: 0 2px 0 0 #e5e5e5;
 }
-
 .custom-input :deep(.el-input__wrapper) {
   background-color: #f9f3f9;
 }
@@ -191,21 +159,4 @@ export default {
   color: blueviolet !important;
   background: none !important;
 }
-.redDot {
-  margin-left: 2px;
-  color: white;
-  width: 8px;
-  height: 8px;
-  border-radius: 4px;
-  background-color: red;
-  text-align: center;
-  vertical-align: center;
-  font-size: small;
-}
-
-/*.active-message {*/
-/*  --el-menu-hover-bg-color: none;*/
-/*  --el-menu-active-color: none;*/
-/*  !*pointer-events: none;*!*/
-/*}*/
 </style>

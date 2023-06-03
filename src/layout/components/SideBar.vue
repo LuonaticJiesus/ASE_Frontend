@@ -6,7 +6,6 @@
     <el-menu
       class="custom-menu"
       :router="true"
-      :default-active="curRoutePath()"
       active-text-color="blueviolet"
       background-color="#FAF4FF"
     >
@@ -24,9 +23,13 @@
           <el-icon :size="20">
             <component :is="route['children'][0].meta['icon']"></component>
           </el-icon>
-          <span style="font-size: 16px">
-            {{ ' ' + route['children'][0].meta['title'] }}
-          </span>
+          <span
+            style="
+              font-size: 16px;
+              font-family: 'Microsoft YaHei', 'Segoe UI Emoji';
+            "
+            >{{ ' ' + route['children'][0].meta['title'] }}</span
+          >
           <!--        </router-link>-->
         </el-menu-item>
       </el-scrollbar>
@@ -37,18 +40,11 @@
 
 <script>
 import { usePermissionStore, useUserStore } from '/@/store/index.js';
-import {
-  Edit,
-  Collection,
-  User,
-  House,
-  Calendar,
-} from '@element-plus/icons-vue';
+import { Edit, Collection, User, House } from '@element-plus/icons-vue';
 import { isExternal } from '/@/utils/validate.ts';
-import router from '/@/router/index.js';
 export default {
   name: 'SideBar',
-  components: { Edit, Collection, User, House, Calendar },
+  components: { Edit, Collection, User, House },
   setup() {
     const routes = usePermissionStore().sideRoutes;
     const basePath = '/';
@@ -70,9 +66,6 @@ export default {
     handleLogOut() {
       const userStore = useUserStore();
       userStore.logout();
-    },
-    curRoutePath() {
-      return router.currentRoute.value.path;
     },
   },
 };
