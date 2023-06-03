@@ -1,50 +1,43 @@
 <template>
-  <el-divider
-    border-color="blueviolet"
-    border-style="solid"
-    style="margin: 0; margin-bottom: 10px"
-  ></el-divider>
+  <el-divider></el-divider>
   <!--    评论本体-->
-  <el-row align="top" style="margin: 0; margin-bottom: 10px">
+  <el-row align="middle">
     <el-col :span="2">
       <el-avatar
         :src="tempComment.user_avatar ? tempComment.user_avatar : defaultLogo"
-        size="default"
+        size="large"
       ></el-avatar>
     </el-col>
-    <el-col :span="22">
+    <el-col :span="10">
       <el-row justify="start">
-        <div style="align-items: center; width: 100%">
-          <h4 style="margin: 0; float: left; display: inline">
+        <el-col>
+          <h4 style="margin: 0; text-align: left">
             {{ tempComment.user_name }} ▶ {{ tempComment.reply_user_name }}
           </h4>
-          <span
-            style="
-              color: gray;
-              font-size: small;
-              float: right;
-              margin-right: 1vw;
-            "
-          >
-            {{ getDateDiff(tempComment.time) }}
-          </span>
-        </div>
+        </el-col>
       </el-row>
       <el-row justify="start">
-        <el-text style="text-align: left; margin-right: 1vw">
-          {{ tempComment.txt }}
-        </el-text>
+        <span style="color: gray; font-size: small">
+          {{ getDateDiff(tempComment.time) }}
+        </span>
       </el-row>
     </el-col>
+    <!--    <el-col :span="2">-->
+    <!--      <el-avatar> </el-avatar>-->
+    <!--    </el-col>-->
   </el-row>
-  <el-row style="margin: 0 1vw 10px 0">
-    <el-col style="text-align: end; margin-right: 1vw">
+  <el-row justify="start">
+    <el-col :offset="2" :span="22" style="text-align: left">
+      <span style="text-align: left"> {{ tempComment.txt }}</span>
+    </el-col>
+  </el-row>
+  <el-row justify="start">
+    <el-col style="text-align: end">
       <el-tooltip effect="dark" :content="isLiked ? '取消点赞' : '点赞'">
         <el-button
           type="primary"
-          size="small"
           :plain="!isLiked"
-          @click.stop="handleLikeComment"
+          @click="handleLikeComment"
           lazy
         >
           <el-icon><MagicStick /></el-icon>
@@ -54,9 +47,8 @@
       <el-tooltip effect="dark" content="评论">
         <el-button
           type="info"
-          size="small"
           plain
-          @click.stop="showParentCommentEditor(tempComment)"
+          @click="showParentCommentEditor(tempComment)"
         >
           <el-icon size="16"><ChatDotSquare /></el-icon>
         </el-button>
@@ -69,19 +61,12 @@
           tempComment.user_id === Number(useUserStore().user_id)
         "
       >
-        <el-button
-          type="danger"
-          size="small"
-          plain
-          @click.stop="handleDeleteComment"
-        >
+        <el-button type="danger" plain @click="handleDeleteComment">
           <el-icon><Delete /></el-icon>
         </el-button>
       </el-tooltip>
     </el-col>
   </el-row>
-  <!-- <el-row justify="start">
-  </el-row> -->
 </template>
 
 <script setup lang="ts">
@@ -92,22 +77,21 @@ import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ChatDotSquare, Delete, MagicStick } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store';
 import { ElNotification } from 'element-plus';
-import { commentType } from '/@/utils/type';
 
-// interface commentType {
-//   comment_id: number;
-//   user_id: number;
-//   post_id: number;
-//   parent_id?: number | null;
-//   txt: string;
-//   time: string;
-//   user_name: string;
-//   like_cnt: number;
-//   like_state: number;
-//   user_avatar?: string;
-//   children?: commentType[];
-//   reply_user_name?: string;
-// }
+interface commentType {
+  comment_id: number;
+  user_id: number;
+  post_id: number;
+  parent_id: number | null;
+  txt: string;
+  time: string;
+  user_name: string;
+  like_cnt: number;
+  like_state: number;
+  user_avatar?: string;
+  children?: commentType[];
+  reply_user_name?: string;
+}
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({

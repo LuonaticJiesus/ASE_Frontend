@@ -15,7 +15,7 @@
         <div class="mask"></div>
         <div id="contain" class="contain">
           <div id="login-left-card" class="login-left-card">
-            <el-card shadow="never">
+            <el-card :shadow="false">
               <el-form id="textForm" class="textForm">
                 <el-form-item id="title" class="intro_title">
                   QuadSSSS
@@ -63,7 +63,7 @@
             </el-card>
           </div>
           <div class="login-right-card">
-            <el-card id="el-card" shadow="never">
+            <el-card id="el-card" :shadow="false">
               <div class="image-container">
                 <ChatDotRound
                   style="
@@ -153,25 +153,10 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  /*background-image: url('/src/assets/login_background.jpg');*/
-  background: linear-gradient(125deg, #9890e3, #66a6ff, #9007ff, #e2d1c3);
-  background-size: 500%;
-  /* 执行动画：动画名 时长 线性的 无限次播放 */
-  animation: bgAnimation 15s linear infinite;
+  background-size: 100% 100%;
+  background-image: url('/src/assets/login_background.jpg');
   display: flex;
   justify-content: center;
-}
-
-@keyframes bgAnimation {
-  0% {
-    background-position: 0 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0 50%;
-  }
 }
 
 .contain {
@@ -200,17 +185,17 @@ export default {
 }
 
 .login-left-card {
-  background-color: rgba(30, 30, 30, 0.3);
+  background-color: #9007ff;
   width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px 0 0 12px;
+  border-radius: 5px 0 0 5px;
 }
 
 .login-left-card .el-card {
-  background-color: rgba(144, 7, 255, 0);
+  background-color: #9007ff;
   border: none;
 }
 
@@ -277,18 +262,17 @@ export default {
 }
 
 .login-right-card {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: #ffffff;
   width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0 12px 12px 0;
+  border-radius: 0 5px 5px 0;
 }
 
 .login-right-card .el-card {
   display: flex;
   border: none;
-  background-color: rgba(255, 255, 255, 0);
 }
 </style>
