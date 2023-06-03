@@ -92,21 +92,22 @@ import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ChatDotSquare, Delete, MagicStick } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store';
 import { ElNotification } from 'element-plus';
+import { commentType } from '/@/utils/type';
 
-interface commentType {
-  comment_id: number;
-  user_id: number;
-  post_id: number;
-  parent_id: number | null;
-  txt: string;
-  time: string;
-  user_name: string;
-  like_cnt: number;
-  like_state: number;
-  user_avatar?: string;
-  children?: commentType[];
-  reply_user_name?: string;
-}
+// interface commentType {
+//   comment_id: number;
+//   user_id: number;
+//   post_id: number;
+//   parent_id?: number | null;
+//   txt: string;
+//   time: string;
+//   user_name: string;
+//   like_cnt: number;
+//   like_state: number;
+//   user_avatar?: string;
+//   children?: commentType[];
+//   reply_user_name?: string;
+// }
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({

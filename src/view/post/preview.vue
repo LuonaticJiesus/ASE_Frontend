@@ -29,7 +29,7 @@
               <div
                 style="
                   box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-                  border: 0px solid #e7e7e7;
+                  border: 0 solid #e7e7e7;
                   border-radius: 20px;
                   margin-top: 10px;
                   padding: 10px;
@@ -78,7 +78,7 @@
           <h3>发布时间</h3>
         </el-row>
         <el-row>
-          <el-date-picker readonly v-model="post.time"></el-date-picker>
+          <el-date-picker readonly :model-value="post.time"></el-date-picker>
         </el-row>
         <el-row style="margin-top: 20px" justify="space-around" align="middle">
           <!--          点赞-->
@@ -207,10 +207,10 @@
   </DivideContainer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /* eslint-disable camelcase */
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import router from '/@/router/index.js';
 import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
@@ -240,6 +240,7 @@ import 'element-plus/theme-chalk/el-message.css';
 import { queryRole } from '/@/api/permission.js';
 import useClipboard from 'vue-clipboard3';
 import { useUserStore } from '/@/store/index.js';
+import { postDetailType } from '/@/utils/type';
 // const richSetting = {
 //   language: 'zh-Hans',
 //   language_url:
@@ -274,6 +275,12 @@ const creatorAvatar = ref(defaultLogo);
 const userAvatar = useUserStore().avatar;
 const newComment = ref('');
 const handleCreateComment = async () => {
+  if (newComment.value.trim().length === 0) {
+    ElMessage.error({
+      message: '什么都没有输入哦',
+    });
+    return;
+  }
   const data = {
     post_id: post.value.post_id,
     txt: newComment.value,
@@ -304,25 +311,7 @@ const headers = {
   token: getToken(),
 };
 
-const post = ref({
-  post_id: Number,
-  title: String,
-  user_id: Number,
-  user_name: String,
-  user_avatar: String,
-  txt: String,
-  block_id: Number,
-  block_name: String,
-  time: String,
-  like_cnt: Number,
-  like_state: Number,
-  favor_cnt: Number,
-  favor_state: Number,
-  comment_cnt: Number,
-  latest_update_user: String,
-  latest_time: String,
-  chosen_state: Number,
-});
+const post: Ref<postDetailType> = ref({});
 
 const isLiked = ref(false);
 const isFavored = ref(false);
@@ -429,7 +418,7 @@ onMounted(async () => {
 });
 </script>
 
-<script>
+<script lang="ts">
 export default {
   name: 'PostPreview',
 };

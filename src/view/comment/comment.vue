@@ -132,21 +132,23 @@ import { createComment, deleteComment, likeComment } from '/@/api/comment';
 import { defaultLogo, getDateDiff } from '/@/utils/string';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ChatDotSquare, Delete, MagicStick } from '@element-plus/icons-vue';
-import { ElNotification } from 'element-plus';
+import { ElMessage, ElNotification } from 'element-plus';
+import 'element-plus/theme-chalk/el-message.css';
+import { commentType } from '/@/utils/type';
 
-interface commentType {
-  comment_id: number;
-  user_id: number;
-  post_id: number;
-  parent_id: number | null;
-  txt: string;
-  time: string;
-  user_name: string;
-  like_cnt: number;
-  like_state: number;
-  user_avatar?: string;
-  children?: commentType[];
-}
+// interface commentType {
+//   comment_id: number;
+//   user_id: number;
+//   post_id: number;
+//   parent_id: number | null;
+//   txt: string;
+//   time: string;
+//   user_name: string;
+//   like_cnt: number;
+//   like_state: number;
+//   user_avatar?: string;
+//   children?: commentType[];
+// }
 
 const props = defineProps({
   commentItem: {
@@ -212,6 +214,12 @@ const handleSubCommentEditorHidden = async () => {
 };
 
 const handleCreateComment = async () => {
+  if (newComment.value.trim().length === 0) {
+    ElMessage.error({
+      message: '什么都没有输入哦',
+    });
+    return;
+  }
   const data = {
     post_id: router.currentRoute.value.params['id'],
     parent_id: useCommentStore().replyCommentId,
@@ -290,7 +298,11 @@ export default {
   bottom: 1vh;
   min-width: 50em;
   /*background-image: linear-gradient(-135deg, #7028e4 0%, #e5b2ca 100%);*/
-  background-image: linear-gradient(135deg, #dfe9f3 0%, white 100%);
+  background-image: linear-gradient(
+    135deg,
+    #dfe9f3 0%,
+    var(--el-color-primary-light-10) 100%
+  );
   border-radius: 20px;
   border-style: solid;
   border-width: 0;
