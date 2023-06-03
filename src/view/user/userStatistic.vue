@@ -9,7 +9,7 @@
       <el-scrollbar max-height="42vh">
         <el-form-item label="积分" prop="none">
           <el-input
-            :placeholder="String(oldPoint)"
+            :placeholder="oldPoint"
             autocomplete="off"
             disabled="disabled"
           />

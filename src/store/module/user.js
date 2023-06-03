@@ -4,7 +4,7 @@ import {
   setToken,
   clearToken,
   getToken,
-  setLocalUserId,
+  setUserId,
   getLocalUserId,
   clearUserId,
 } from '/@/utils/auth';
@@ -45,7 +45,7 @@ export const useUserStore = defineStore('user', {
       this.status = status;
     },
     setUserId(id) {
-      setLocalUserId(id);
+      setUserId(id);
       this.$patch({ user_id: id });
     },
     setUsername(username) {
@@ -55,9 +55,6 @@ export const useUserStore = defineStore('user', {
     setInfo(partial) {
       this.$patch({ status: true });
       this.$patch(partial);
-    },
-    setRoles(roles) {
-      this.$patch({ roles: [...roles] });
     },
     // 重置用户信息
     resetInfo() {
