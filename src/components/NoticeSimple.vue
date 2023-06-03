@@ -2,20 +2,23 @@
   <el-card
     :key="noticeItem"
     class="notice-card-simple"
-    shadow="hover"
+    shadow="never"
     @click="jump"
   >
     <el-row justify="space-between">
       <el-col :span="6" class="notice-module-image">
-        <el-image :src="defaultLogo" :fit="'fill'"></el-image>
+        <!--        todo: defaultLog换成block_avatar-->
+        <el-avatar
+          :src="noticeItem.block_avatar ? noticeItem.block_avatar : defaultLogo"
+        ></el-avatar>
       </el-col>
       <el-col :span="18" class="notice-info-div">
         <h4 class="notice-title-simple">
           {{ strippedHtml(noticeItem.title) }}
         </h4>
-        <span class="notice-content-simple">
+        <el-text class="notice-content-simple">
           {{ strippedHtml(noticeItem.txt) }}
-        </span>
+        </el-text>
       </el-col>
     </el-row>
   </el-card>
@@ -26,15 +29,8 @@
 import { PropType } from 'vue';
 import { defaultLogo, strippedHtml } from '/@/utils/string';
 import router from '/@/router';
-interface noticeType {
-  notice_id: number;
-  title: string;
-  txt: string;
-  user_id: number;
-  block_id: number;
-  time: string;
-  ddl: string;
-}
+import { noticeType } from '/@/utils/type';
+
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   noticeItem: {
@@ -62,6 +58,16 @@ export default {
   margin-bottom: 10px;
   background-color: rgba(0, 0, 0, 0);
   border-style: hidden;
+  border-radius: 12px;
+}
+
+.notice-card-simple:hover {
+  cursor: pointer;
+  background-color: var(--el-color-primary-light-9);
+}
+
+.notice-card-simple:hover .notice-content-simple {
+  color: #393939;
 }
 
 .notice-module-image {

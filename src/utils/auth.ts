@@ -20,7 +20,7 @@ const getLocalUserId = () => {
   return localStorage.getItem(UserId);
 };
 
-const setUserId = (id: string) => {
+const setLocalUserId = (id: string) => {
   localStorage.setItem(UserId, id);
 };
 const clearUserId = () => {
@@ -34,6 +34,6 @@ export {
   setToken,
   clearToken,
   getLocalUserId,
-  setUserId,
+  setLocalUserId,
   clearUserId,
 };

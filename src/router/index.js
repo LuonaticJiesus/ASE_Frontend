@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { constantRoutes } from '/@/router/routes';
 import NProgress from 'nprogress';
 // eslint-disable-next-line no-unused-vars
-import { clearToken, getToken } from '/src/utils/auth';
+import { getToken } from '/src/utils/auth';
 import { useUserStore, usePermissionStore } from '/src/store';
 import { ElMessage } from 'element-plus';
 import { validateAccount } from '/@/api/user.js';
@@ -12,7 +12,7 @@ const router = createRouter({
   routes: constantRoutes,
 });
 
-NProgress.configure({ showSpinner: false });
+NProgress.configure({ showSpinner: true });
 
 const whiteList = ['/login', '/404'];
 
@@ -25,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
       active_code: needValidate,
     };
     await validateAccount(param);
-    next('/');
+    next('/home');
   }
   // set page title
   // document.title = getPageTitle(to.meta.title);
@@ -34,22 +34,24 @@ router.beforeEach(async (to, from, next) => {
   // hasToken += 'DevToken'; // 开发环境使用，暂时认为有token
   // let hasToken = null;
   if (hasToken) {
-    if (to.path === '/login') {
-      // if is logged in, redirect to the home page
-      next({ path: '/' });
-      NProgress.done();
-    } else {
+    {
       // determine whether the user has obtained his permission roles through getInfo
       const userStore = useUserStore();
       let hasRoles = userStore.userRoles && userStore.userRoles.length > 0;
+      NProgress.inc();
       if (hasRoles) {
+        if (to.path === '/login') {
+          // if is logged in, redirect to the home page
+          next({ path: '/home' });
+          NProgress.done();
+        }
         next();
       } else {
         try {
           // try to repeat getting roles
           await userStore.getInfo();
           // 暂时的处理
-          userStore.roles.push('user');
+          userStore.setRoles(['user']);
 
           const roles = userStore.userRoles;
           // generate accessible routes map based on roles
@@ -59,7 +61,11 @@ router.beforeEach(async (to, from, next) => {
           for (const item of accessRoutes) {
             router.addRoute(item);
           }
-
+          if (to.path === '/login') {
+            // if is logged in, redirect to the home page
+            next({ path: '/home' });
+            NProgress.done();
+          }
           next({ ...to, replace: true });
         } catch (error) {
           await userStore.resetInfo();
@@ -67,7 +73,7 @@ router.beforeEach(async (to, from, next) => {
             message: 'Error: 你没有权限访问此页面',
             type: 'error',
           });
-          next(`/login?redirect=${to.path}`);
+          next(`/login?redirect=${to.path}&permission=false`);
           NProgress.done();
         }
       }
@@ -79,7 +85,7 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`);
+      next(`/login?redirect=${to.path}&except=true`);
       NProgress.done();
     }
   }

@@ -1,11 +1,11 @@
 <template>
-  <el-card class="box-card" shawdow="always" :body-style="{ margin: '0px' }">
+  <el-card class="box-card" shawdow="always" body-style="margin: 0px">
     <template #header>
       <div class="card-header">
         <el-col>
           <el-row type="flex" justify="center">
             <div class="card-avator">
-              <el-image
+              <el-avatar
                 style="
                   border-radius: 50%;
                   width: 75px;
@@ -15,7 +15,7 @@
                 :src="moduleAvatar"
                 :fit="'scale-down'"
               >
-              </el-image>
+              </el-avatar>
             </div>
           </el-row>
         </el-col>
@@ -74,6 +74,7 @@ export default {
 .el-card :deep(.el-card__header) {
   padding: 0;
   margin: 0;
+  border: 0;
 }
 .card-header {
   display: flex;

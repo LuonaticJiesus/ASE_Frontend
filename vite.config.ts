@@ -30,7 +30,6 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
-
   resolve: {
     alias: [
       // /@/xxxx => src/xxxx
