@@ -24,6 +24,7 @@
         v-if="editorType === 'md'"
         class="md-editor"
         v-model="mdText"
+        left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code"
         :tab-size="2"
         @upload-image="handleUploadImage"
         @save="handleSaveMdText"
