@@ -10,6 +10,8 @@ const URL = {
   like: '/four_s/post/like/',
   favor: '/four_s/post/favor/',
   delete: '/four_s/post/delete/',
+  queryFavor: '/four_s/post/queryFavor/',
+  choose: '/four_s/post/choose/',
 };
 
 // const MockURL = {
@@ -104,6 +106,19 @@ const changePostFavor = async (data, headers) =>
     data: data,
   });
 
+const queryPostFavor = async (headers) =>
+  get({
+    url: URL.queryFavor,
+    headers: headers,
+  });
+
+const choosePost = async (headers, data) =>
+  post({
+    url: URL.choose,
+    headers: headers,
+    data: data,
+  });
+
 export {
   articleDetail,
   publishArticle,
@@ -113,4 +128,6 @@ export {
   moduleUserArticles,
   changePostLike,
   changePostFavor,
+  queryPostFavor,
+  choosePost,
 };

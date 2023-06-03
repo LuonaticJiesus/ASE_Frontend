@@ -74,7 +74,7 @@ export default {
 </script>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { moduleNotices } from '/@/api/notice.js';
 import NoticeSimple from '/@/components/NoticeSimple.vue';
 import NoticeEditor from '/@/components/NoticeEditor.vue';
@@ -129,12 +129,8 @@ const checkPermission = async () => {
   if (block_id) {
     const role = await queryRole(block_id);
     console.log('current role is ' + role);
-    if (role > -1) {
-      readNoticePermission.value = true;
-    }
-    if (role > 1) {
-      postNoticePermission.value = true;
-    }
+    readNoticePermission.value = role > -1;
+    postNoticePermission.value = role > 1;
   }
 };
 
@@ -142,6 +138,25 @@ onMounted(async () => {
   await checkPermission();
   await updateNoticeList();
 });
+
+// 目的是切换module时右侧通知版同步刷新
+// 尝试使用onBeforeUpdate/onBeforeRouteUpdate/onBeforeRouteLeave等钩子均无效
+// NoticeBoard始终只有一个实例，暂时只能通过监听路由的方式实现（当然可以全局状态管理，略麻烦）
+// 欢迎尝试新的做法！
+watch(
+  () => router.currentRoute.value.params['id'],
+  async () => {
+    const route = router.currentRoute.value;
+    if (
+      route.params['id'] &&
+      route.matched.length > 2 &&
+      route.matched[1].path === '/module'
+    ) {
+      await checkPermission();
+      await updateNoticeList();
+    }
+  },
+);
 </script>
 
 <style scoped>

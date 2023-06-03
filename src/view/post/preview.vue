@@ -29,8 +29,8 @@
               <div
                 style="
                   box-shadow: rgba(58, 46, 68, 0.06) 0 15px 100px 0;
-                  border: 2px solid #e7e7e7;
-                  border-radius: 12px;
+                  border: 0 solid #e7e7e7;
+                  border-radius: 20px;
                   margin-top: 10px;
                   padding: 10px;
                 "
@@ -51,9 +51,7 @@
                     ></el-input>
                   </el-col>
                   <el-col :span="2">
-                    <el-button @click="handleCreateComment"
-                      ><el-icon> <Check></Check> </el-icon
-                    ></el-button>
+                    <el-button @click="handleCreateComment"> 评论</el-button>
                   </el-col>
                 </el-row>
               </div>
@@ -80,9 +78,10 @@
           <h3>发布时间</h3>
         </el-row>
         <el-row>
-          <el-date-picker readonly v-model="post.time"></el-date-picker>
+          <el-date-picker readonly :model-value="post.time"></el-date-picker>
         </el-row>
         <el-row style="margin-top: 20px" justify="space-around" align="middle">
+          <!--          点赞-->
           <el-col :span="4">
             <el-row justify="center">
               <el-tooltip
@@ -102,12 +101,13 @@
                 </el-button>
               </el-tooltip>
             </el-row>
-            <el-row justify="center">
-              <span style="color: gray; font-size: small">{{
+            <el-row justify="center" style="margin-top: 4px">
+              <el-text class="post-state-info-text">{{
                 post.like_cnt
-              }}</span>
+              }}</el-text>
             </el-row>
           </el-col>
+          <!--          收藏-->
           <el-col :span="4">
             <el-row justify="center">
               <el-tooltip
@@ -127,25 +127,75 @@
                 </el-button>
               </el-tooltip>
             </el-row>
-            <el-row justify="center">
-              <span style="color: gray; font-size: small">{{
+            <el-row justify="center" style="margin-top: 4px">
+              <el-text class="post-state-info-text">{{
                 post.favor_cnt
-              }}</span>
+              }}</el-text>
             </el-row>
           </el-col>
+          <!--          分享-->
           <el-col :span="4">
             <el-row justify="center">
-              <el-button
-                size="large"
-                circle
-                type="primary"
-                plain
-                @click="copy()"
+              <el-tooltip effect="dark" content="分享">
+                <el-button
+                  size="large"
+                  circle
+                  type="primary"
+                  plain
+                  @click="copy()"
+                >
+                  <el-icon>
+                    <Share />
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+            </el-row>
+            <el-row style="margin-top: 4px">
+              <span style="visibility: hidden" class="post-state-info-text"
+                >0</span
               >
-                <el-icon>
-                  <Share />
-                </el-icon>
-              </el-button>
+            </el-row>
+          </el-col>
+          <!--          加精-->
+          <el-col :span="4">
+            <el-row justify="center">
+              <el-tooltip
+                effect="dark"
+                :content="isChosen ? '已加精' : '未加精'"
+              >
+                <el-button
+                  size="large"
+                  circle
+                  type="primary"
+                  :plain="!isChosen"
+                  @click="handleChoosePost()"
+                >
+                  <el-icon><DocumentChecked /></el-icon>
+                </el-button>
+              </el-tooltip>
+            </el-row>
+            <el-row justify="center" style="margin-top: 4px">
+              <el-text class="post-state-info-text" style="visibility: hidden"
+                >0</el-text
+              >
+            </el-row>
+          </el-col>
+          <!--          删除-->
+          <el-col :span="4" v-if="permission >= 2">
+            <el-row justify="center">
+              <el-tooltip effect="dark" content="删除">
+                <el-button
+                  size="large"
+                  circle
+                  type="danger"
+                  plain
+                  @click="handleDeletePost"
+                >
+                  <el-icon>
+                    <Delete />
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
             </el-row>
             <el-row>
               <span style="visibility: hidden">0</span>
@@ -157,23 +207,40 @@
   </DivideContainer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /* eslint-disable camelcase */
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 import router from '/@/router/index.js';
+import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
 // import Vue3Tinymce from '@jsdawn/vue3-tinymce';
-import { Check, MagicStick, Share, Star } from '@element-plus/icons-vue';
-import { articleDetail, changePostFavor, changePostLike } from '/@/api/article';
+import {
+  Delete,
+  DocumentChecked,
+  MagicStick,
+  Share,
+  Star,
+} from '@element-plus/icons-vue';
+import {
+  articleDetail,
+  changePostFavor,
+  changePostLike,
+  choosePost,
+  deleteArticle,
+} from '/@/api/article';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { defaultLogo } from '/@/utils/string';
 import CommentZone from '/@/view/comment/index.vue';
 import { createComment } from '/@/api/comment.js';
-import { ElNotification } from 'element-plus';
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
+import 'element-plus/theme-chalk/el-message-box.css';
+import 'element-plus/theme-chalk/el-message.css';
 import { queryRole } from '/@/api/permission.js';
 import useClipboard from 'vue-clipboard3';
 import { useUserStore } from '/@/store/index.js';
+import { postDetailType } from '/@/utils/type';
 // const richSetting = {
 //   language: 'zh-Hans',
 //   language_url:
@@ -207,7 +274,13 @@ const copy = async () => {
 const creatorAvatar = ref(defaultLogo);
 const userAvatar = useUserStore().avatar;
 const newComment = ref('');
-const handleCreateComment = () => {
+const handleCreateComment = async () => {
+  if (newComment.value.trim().length === 0) {
+    ElMessage.error({
+      message: '什么都没有输入哦',
+    });
+    return;
+  }
   const data = {
     post_id: post.value.post_id,
     txt: newComment.value,
@@ -216,7 +289,7 @@ const handleCreateComment = () => {
     userid: getLocalUserId(),
     token: getToken(),
   };
-  createComment(data, headers)
+  await createComment(data, headers)
     .then((res) => {
       console.log('Create comment success ' + res);
       ElNotification({
@@ -232,11 +305,11 @@ const handleCreateComment = () => {
     });
 };
 const post_id = router.currentRoute.value.params['id'];
+const block_id = ref(0);
 const headers = {
   userid: getLocalUserId(),
   token: getToken(),
 };
-
 
 const post: Ref<postDetailType> = ref({
   block_id: 0,
@@ -259,6 +332,7 @@ const post: Ref<postDetailType> = ref({
 
 const isLiked = ref(false);
 const isFavored = ref(false);
+const isChosen = ref(false);
 
 const handleLikePost = async () => {
   const data = {
@@ -286,14 +360,53 @@ const handleFavorPost = async () => {
   isFavored.value = !isFavored.value;
 };
 
+const handleChoosePost = async () => {
+  const data = {
+    post_id: post_id,
+  };
+  if (permission.value <= 1) {
+    ElMessage({
+      type: 'error',
+      message: '权限不足',
+    });
+    return;
+  }
+  ElMessageBox.confirm('确定加精该文章?', 'Warning', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    choosePost(headers, data);
+    isChosen.value = !isChosen.value;
+  });
+};
+
+const handleDeletePost = async () => {
+  ElMessageBox.confirm('确定删除该文章?', 'Warning', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    deleteArticle(post_id, getLocalUserId(), getToken()).then(() => {
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      });
+    });
+  });
+};
+
 const fetchData = async (post_id) => {
   console.log('post/preview.vue fetchData...');
-  articleDetail(post_id, getLocalUserId(), getToken())
+  await articleDetail(post_id, getLocalUserId(), getToken())
     .then((res) => {
       console.log('post/preview.vue query article success: ', res);
       post.value = res[0];
+      block_id.value = res[0].block_id;
+      console.log(post);
       isLiked.value = post.value.like_state === 1;
       isFavored.value = post.value.favor_state === 1;
+      isChosen.value = post.value.chosen_state === 1;
       creatorAvatar.value = post.value.user_avatar
         ? post.value.user_avatar
         : defaultLogo;
@@ -305,8 +418,9 @@ const fetchData = async (post_id) => {
 
 const permission = ref(-1);
 const getUserRole = async () => {
-  const block_id = post.value.block_id();
-  const result = await queryRole(block_id);
+  console.log('block_id is: ' + block_id.value);
+  const result = await queryRole(block_id.value);
+  console.log('permission is ', result);
   if (result) {
     permission.value = result;
   }
@@ -321,10 +435,20 @@ onMounted(async () => {
 });
 </script>
 
-<script>
+<script lang="ts">
 export default {
   name: 'PostPreview',
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.post-state-info-text {
+  border-radius: 50px;
+  font-size: 85%;
+  padding: 0 6px 0 6px;
+  text-align: center;
+  line-height: 1;
+  background-color: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
+</style>

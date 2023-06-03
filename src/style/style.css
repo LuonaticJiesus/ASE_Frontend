@@ -18,6 +18,7 @@
   --el-color-primary-light-7: #dfb8ff;
   --el-color-primary-light-8: #efdbff;
   --el-color-primary-light-9: #f5eaff;
+  --el-color-primary-light-10: 	#F7F5FF;
 }
 
 a {
@@ -65,7 +66,6 @@ button:focus-visible {
   padding: 2em;
 }
 
-
 /*这是为了解决tinymce菜单的dialog（如插入图片、插入链接）层次过低的bug*/
 /*之所以写在全局的style.css，是因为style.css总是比node_modules后加载，能把默认的样式覆盖*/
 /*在.vue文件里写这一行z-index，没有生效*/
@@ -77,7 +77,6 @@ button:focus-visible {
 #nprogress .bar {
   background: var(--el-color-primary-light-5) !important;
 }
-
 
 #app {
   width: 100vw;

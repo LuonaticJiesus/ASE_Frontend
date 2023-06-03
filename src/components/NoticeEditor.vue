@@ -1,9 +1,11 @@
 <template>
   <el-dialog
     :model-value="visible"
-    modal
     :show-close="false"
-    style="border-radius: 12px"
+    style="border-radius: 12px; z-index: -1"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    append-to-body
   >
     <template #header="{ titleId, titleClass }">
       <div class="my-header">
@@ -21,7 +23,11 @@
           </el-input>
         </el-form-item>
         <el-form-item label="通知内容:" required prop="content">
-          <vue3-tinymce v-model="noticeForm.content" :setting="richSetting">
+          <vue3-tinymce
+            v-loading="true"
+            v-model="noticeForm.content"
+            :setting="richSetting"
+          >
           </vue3-tinymce>
         </el-form-item>
         <el-form-item label="截止时间:" prop="ddl">
@@ -35,15 +41,7 @@
           />
         </el-form-item>
         <el-row style="justify-content: right">
-          <el-button
-            type="primary"
-            @click="
-              postNotice();
-              closeDialog();
-            "
-          >
-            确认发布
-          </el-button>
+          <el-button type="primary" @click="postNotice()"> 确认发布 </el-button>
         </el-row>
       </el-form>
     </template>
@@ -59,7 +57,7 @@ import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import { reactive, ref } from 'vue';
 import { publishNotice } from '/@/api/notice';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { ElMessage, FormInstance } from 'element-plus';
+import { ElMessage, ElNotification, FormInstance } from 'element-plus';
 import router from '/@/router';
 
 const noticeFormRef = ref<FormInstance>();
@@ -124,39 +122,59 @@ const shortcuts = [
 ];
 
 const postNotice = async () => {
-  const header = {
-    userid: getLocalUserId(),
-    token: getToken(),
-  };
-  const data = {
-    title: noticeForm.title,
-    txt: noticeForm.content,
-    block_id: router.currentRoute.value.params['id'],
-    ddl: noticeForm.ddl,
-  };
-  await publishNotice(header, data);
-  ElMessage.success({
-    showClose: true,
-    duration: 2000,
-    message: '发布通知成功!',
-  });
-  cleanForm();
+  if (
+    noticeForm.ddl === '' ||
+    noticeForm.content === '' ||
+    noticeForm.title === ''
+  ) {
+    console.log('NoticeEditor empty');
+    ElNotification({
+      message: '存在为空内容，请将通知填写完成',
+      type: 'error',
+    });
+  } else if (new Date(noticeForm.ddl) < new Date()) {
+    console.log('NoticeEditor too early');
+    ElNotification({
+      message: '所选ddl早于当前时间，请重新选择',
+      type: 'error',
+    });
+  } else {
+    const header = {
+      userid: getLocalUserId(),
+      token: getToken(),
+    };
+    const data = {
+      title: noticeForm.title,
+      txt: noticeForm.content,
+      block_id: router.currentRoute.value.params['id'],
+      ddl: noticeForm.ddl,
+    };
+    await publishNotice(header, data);
+    ElMessage.success({
+      showClose: true,
+      duration: 2000,
+      message: '发布通知成功!',
+    });
+    cleanForm();
+    closeDialog();
+  }
 };
 
 const cleanForm = () => {
   noticeFormRef.value.resetFields();
   console.log('clean notice form');
 };
+
+const emit = defineEmits(['closeDialog']);
+
+const closeDialog = () => {
+  emit('closeDialog');
+};
 </script>
 
 <script lang="ts">
 export default {
   name: 'NoticeEditor',
-  methods: {
-    closeDialog() {
-      this.$emit('closeDialog');
-    },
-  },
 };
 </script>
 
@@ -165,5 +183,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.tox-tinymce-aux {
+  z-index: 9999 !important;
 }
 </style>
