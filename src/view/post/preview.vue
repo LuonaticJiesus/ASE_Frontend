@@ -310,7 +310,6 @@ const headers = {
   userid: getLocalUserId(),
   token: getToken(),
 };
-//
 const post: Ref<postDetailType> = ref({
   block_id: 0,
   block_name: '',
