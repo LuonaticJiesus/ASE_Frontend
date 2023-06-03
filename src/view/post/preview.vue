@@ -311,7 +311,24 @@ const headers = {
   token: getToken(),
 };
 
-const post: Ref<postDetailType> = ref({});
+const post: Ref<postDetailType> = ref({
+  block_id: 0,
+  block_name: '',
+  chosen_state: 0,
+  comment_cnt: 0,
+  favor_cnt: 0,
+  favor_state: 0,
+  latest_time: '',
+  latest_update_user: '',
+  like_cnt: 0,
+  like_state: 0,
+  post_id: 0,
+  time: '',
+  title: '',
+  txt: '',
+  user_id: 0,
+  user_name: '',
+});
 
 const isLiked = ref(false);
 const isFavored = ref(false);
