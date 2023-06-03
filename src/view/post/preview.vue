@@ -237,24 +237,23 @@ const headers = {
   token: getToken(),
 };
 
-
-const post: Ref<postDetailType> = ref({
-  block_id: 0,
-  block_name: '',
-  chosen_state: 0,
-  comment_cnt: 0,
-  favor_cnt: 0,
-  favor_state: 0,
-  latest_time: '',
-  latest_update_user: '',
-  like_cnt: 0,
-  like_state: 0,
-  post_id: 0,
-  time: '',
-  title: '',
-  txt: '',
-  user_id: 0,
-  user_name: '',
+const post = ref({
+  post_id: Number,
+  title: String,
+  user_id: Number,
+  user_name: String,
+  user_avatar: String,
+  txt: String,
+  block_id: Number,
+  block_name: String,
+  time: String,
+  like_cnt: Number,
+  like_state: Number,
+  favor_cnt: Number,
+  favor_state: Number,
+  comment_cnt: Number,
+  latest_update_user: String,
+  latest_time: String,
 });
 
 const isLiked = ref(false);
