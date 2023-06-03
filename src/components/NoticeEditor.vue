@@ -23,7 +23,11 @@
           </el-input>
         </el-form-item>
         <el-form-item label="通知内容:" required prop="content">
-          <vue3-tinymce v-model="noticeForm.content" :setting="richSetting">
+          <vue3-tinymce
+            v-loading="true"
+            v-model="noticeForm.content"
+            :setting="richSetting"
+          >
           </vue3-tinymce>
         </el-form-item>
         <el-form-item label="截止时间:" prop="ddl">

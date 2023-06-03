@@ -12,7 +12,7 @@ const router = createRouter({
   routes: constantRoutes,
 });
 
-NProgress.configure({ showSpinner: false });
+NProgress.configure({ showSpinner: true });
 
 const whiteList = ['/login', '/404'];
 
@@ -38,6 +38,7 @@ router.beforeEach(async (to, from, next) => {
       // determine whether the user has obtained his permission roles through getInfo
       const userStore = useUserStore();
       let hasRoles = userStore.userRoles && userStore.userRoles.length > 0;
+      NProgress.inc();
       if (hasRoles) {
         if (to.path === '/login') {
           // if is logged in, redirect to the home page
