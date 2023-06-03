@@ -56,6 +56,18 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
+        name: 'calendar',
+        path: '/calendar',
+        component: () => import('/@/view/calendar/index.vue'),
+        meta: { title: '日历', icon: 'Calendar' },
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
         name: 'editor',
         path: '/editor',
         component: () => import('/@/view/editor/index.vue'),
@@ -166,5 +178,41 @@ export const asyncRoutes = [
         ],
       },
     ],
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'message',
+        path: '/message',
+        component: () => import('/@/view/message/index.vue'),
+      },
+    ],
+    hidden: true,
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'favor',
+        path: '/favor',
+        component: () => import('/@/view/favor/index.vue'),
+      },
+    ],
+    hidden: true,
+  },
+  {
+    path: '/',
+    component: Layout,
+    children: [
+      {
+        name: 'statistic',
+        path: '/statistic',
+        component: () => import('/@/view/statistic/index.vue'),
+      },
+    ],
+    hidden: true,
   },
 ];
