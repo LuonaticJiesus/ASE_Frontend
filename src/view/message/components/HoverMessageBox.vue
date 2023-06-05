@@ -143,7 +143,7 @@ const confirmSystem = async (index: number) => {
     return;
   }
   await confirmMessage(headers, [{ message_id: message.message_id }], 1);
-  systemMessages.value[index] = 1;
+  systemMessages.value[index].state = 1;
   systemNumber.value -= 1;
 };
 
