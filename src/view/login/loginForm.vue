@@ -162,9 +162,10 @@ export default {
   height: 40px;
   border-radius: 10px;
   margin: 10px 0 0 0;
-  &:hover {
-    filter: brightness(1.1);
-  }
+}
+
+.loginButton:hover {
+  filter: brightness(1.1);
 }
 
 .links-container {
@@ -182,23 +183,26 @@ export default {
 .link {
   font-size: 16px;
   color: #9007ff;
-  &:before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background: #9007ff;
-    transition: all 0.3s;
-  }
-  &:hover {
-    filter: brightness(1.1);
-  }
-  &:hover:before {
-    width: 100%;
-    left: 0;
-    right: 0;
-  }
+}
+
+.link:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #9007ff;
+  transition: all 0.3s;
+}
+
+.link:hover {
+  filter: brightness(1.1);
+}
+
+.link:hover:before {
+  width: 100%;
+  left: 0;
+  right: 0;
 }
 </style>

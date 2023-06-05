@@ -90,8 +90,9 @@ export default {
 
 .notice-table {
   width: 100%;
-  &:hover {
-    cursor: pointer;
-  }
+}
+
+.notice-table:hover {
+  cursor: pointer;
 }
 </style>
