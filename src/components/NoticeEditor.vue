@@ -27,6 +27,7 @@
             v-loading="true"
             v-model="noticeForm.content"
             :setting="richSetting"
+            :key="tinymceFlag"
           >
           </vue3-tinymce>
         </el-form-item>
@@ -54,7 +55,7 @@ import { CircleCloseFilled } from '@element-plus/icons-vue';
 
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
-import { reactive, ref } from 'vue';
+import { onActivated, reactive, ref } from 'vue';
 import { publishNotice } from '/@/api/notice';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ElMessage, ElNotification, FormInstance } from 'element-plus';
@@ -80,8 +81,7 @@ const richSetting = {
   language: 'zh-Hans',
   width: '70vw',
   resize: false,
-  language_url:
-    'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
+  language_url: '/tinymce/langs/zh-Hans.js',
   menubar: false,
   toolbar:
     'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
@@ -93,6 +93,11 @@ const richSetting = {
   link_default_target: '_blank',
   content_style: 'body{font-size: 16px}',
 };
+
+const tinymceFlag = ref(1);
+onActivated(() => {
+  tinymceFlag.value++;
+});
 
 const shortcuts = [
   {
