@@ -35,6 +35,7 @@
         v-model="richText"
         v-if="editorType === 'rich'"
         :setting="richSetting"
+        :key="tinymceFlag"
       ></vue3-tinymce>
     </el-main>
     <el-footer style="height: fit-content; padding: 0 0 2px">
@@ -97,7 +98,7 @@
 
 <script setup lang="ts">
 /* eslint-disable camelcase */
-import { onMounted, onUpdated, Ref, ref } from 'vue';
+import { onActivated, onMounted, onUpdated, Ref, ref } from 'vue';
 import { publishArticle } from '/@/api/article.js';
 // noinspection TypeScriptCheckImport
 import VMdEditor, { xss } from '@kangc/v-md-editor';
@@ -117,8 +118,7 @@ const richSetting = {
   language: 'zh-Hans',
   width: '79vw',
   resize: false,
-  language_url:
-    'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
+  language_url: '/tinymce/langs/zh-Hans.js',
   menubar: false,
   toolbar:
     'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
@@ -157,6 +157,10 @@ const editorOptions = [
   },
 ];
 
+const tinymceFlag = ref(1);
+onActivated(() => {
+  tinymceFlag.value++;
+});
 const handlePublishArticle = async () => {
   // noinspection TypeScriptUnresolvedReference
   if (!selectedModule.value) {
