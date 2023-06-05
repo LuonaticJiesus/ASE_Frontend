@@ -244,9 +244,10 @@ export default {
   font-size: 16px;
   height: 35px;
   border-radius: 10px;
-  &:hover {
-    filter: brightness(1.1);
-  }
+}
+
+.loginButton:hover {
+  filter: brightness(1.1);
 }
 
 .loginButtonContainer :deep(.el-form-item) {
@@ -270,23 +271,26 @@ export default {
   font-size: 16px;
   color: #9007ff;
   margin-top: 5px;
-  &:before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background: #9007ff;
-    transition: all 0.3s;
-  }
-  &:hover {
-    filter: brightness(1.1);
-  }
-  &:hover:before {
-    width: 100%;
-    left: 0;
-    right: 0;
-  }
+}
+
+.link:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #9007ff;
+  transition: all 0.3s;
+}
+
+.link:hover {
+  filter: brightness(1.1);
+}
+
+.link:hover:before {
+  width: 100%;
+  left: 0;
+  right: 0;
 }
 </style>

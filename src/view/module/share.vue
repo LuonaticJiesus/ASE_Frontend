@@ -129,10 +129,12 @@ export default {
 }
 .share-table {
   width: 100%;
-  &:hover {
-    cursor: pointer;
-  }
 }
+
+.share-table:hover {
+  cursor: pointer;
+}
+
 .el-table :deep(.el-popper) {
   display: none;
 }

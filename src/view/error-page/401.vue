@@ -100,11 +100,11 @@ export default {
     a {
       color: #008489;
       text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
     }
   }
+}
+
+.errPage-container .list-unstyled a:hover {
+  text-decoration: underline;
 }
 </style>

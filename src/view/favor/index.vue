@@ -96,9 +96,9 @@ export default {
 .share-table {
   width: 100%;
   background-color: rgba(255, 255, 255, 0);
-  &:hover {
-    cursor: pointer;
-  }
+}
+.share-table:hover {
+  cursor: pointer;
 }
 .el-table :deep(.el-popper) {
   display: none;
