@@ -80,8 +80,7 @@ const richSetting = {
   language: 'zh-Hans',
   width: '70vw',
   resize: false,
-  language_url:
-    'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
+  language_url: '/tinymce/langs/zh-Hans.js',
   menubar: false,
   toolbar:
     'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import vueSetupExtend from 'vite-plugin-vue-setup-extend';
@@ -14,9 +14,23 @@ export const MOCK_API_BASE_URL = '/m1/2544583-0-default/four_s';
 export const MOCK_API_TARGET_URL = 'http://127.0.0.1:4523';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode, command }) => ({
   define: {
     'process.env': {},
+  },
+
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console:
+          command === 'build' &&
+          loadEnv(mode, __dirname).VITE_API_ENV === 'prod',
+        drop_debugger:
+          command === 'build' &&
+          loadEnv(mode, __dirname).VITE_API_ENV === 'prod',
+      },
+    },
   },
 
   plugins: [
@@ -68,4 +82,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));
