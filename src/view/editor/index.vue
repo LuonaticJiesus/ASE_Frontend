@@ -24,7 +24,7 @@
         v-if="editorType === 'md'"
         class="md-editor"
         v-model="mdText"
-        left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code"
+        left-toolbar="undo redo clear | emoji h bold italic strikethrough quote | ul ol table hr | link image code"
         :tab-size="2"
         @upload-image="handleUploadImage"
         @save="handleSaveMdText"
@@ -121,8 +121,8 @@ const richSetting = {
   language_url: '/tinymce/langs/zh-Hans.js',
   menubar: false,
   toolbar:
-    'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
-  plugins: 'codesample link image table lists fullscreen',
+    'bold italic underline h1 h2 blockquote codesample numlist bullist emoticons link image | removeformat fullscreen',
+  plugins: 'codesample link image table lists fullscreen emoticons',
   toolbar_mode: 'sliding',
   nonbreaking_force_tab: true,
   link_title: false,
