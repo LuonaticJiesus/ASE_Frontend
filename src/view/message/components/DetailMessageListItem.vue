@@ -59,6 +59,7 @@ import { messageType } from '/@/utils/type';
 import MessageContent from '/@/view/message/components/MessageContent.vue';
 import MessageFooter from '/@/view/message/components/MessageFooter.vue';
 import { messageConfigMap } from '/@/utils/message';
+
 defineProps({
   message: {
     type: Object as PropType<messageType>,

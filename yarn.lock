@@ -5028,6 +5028,11 @@ vue-tsc@^1.2.0:
     "@volar/vue-language-core" "1.2.0"
     "@volar/vue-typescript" "1.2.0"
 
+vue3-emoji@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vue3-emoji/-/vue3-emoji-2.0.0.tgz#b1d3096d03b0ff028098ee6f5e778d6dbac9e21f"
+  integrity sha512-vqhvqE9stVUC2sa0H7z1n4GLUq2zzeCmGCw52vy9lbiMEDHQlSmnMxA1O7E8e/FG/anolBTp4IF4oaTnNv3LFg==
+
 vue@^3.2.47, vue@^3.2.6:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"

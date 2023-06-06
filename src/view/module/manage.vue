@@ -89,6 +89,7 @@ import { moduleMembers, moduleSetPermission } from '/@/api/module';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { Check, Close } from '@element-plus/icons-vue';
 import { permissionColor, permissionMap, queryRole } from '/@/api/permission';
+
 interface member {
   name: string;
   point: number;

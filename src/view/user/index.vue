@@ -86,13 +86,13 @@ import { changeBasicInfo, getUserProfile } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ref } from 'vue';
 import { useUserStore } from '/@/store';
+import type { UploadProps } from 'element-plus';
 import { ElMessage, TabsPaneContext } from 'element-plus';
 import DivideContainer from '/@/layout/components/DivideContainer.vue';
 import RightBoard from '/@/components/RightBoard.vue';
 import BasicInfo from '/@/view/user/basicInfo.vue';
 import ChangePwd from '/@/view/user/changePwd.vue';
 import UserStatistic from '/@/view/user/userStatistic.vue';
-import type { UploadProps } from 'element-plus';
 import { uploadImage } from '/@/api/notice';
 
 export default {

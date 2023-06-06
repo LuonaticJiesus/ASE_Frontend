@@ -20,6 +20,7 @@ import { onMounted, ref } from 'vue';
 import router from '/@/router';
 import { queryCommentList } from '/@/api/comment';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+
 const postId = router.currentRoute.value.params['id'];
 
 defineProps({
