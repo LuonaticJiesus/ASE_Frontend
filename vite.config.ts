@@ -31,6 +31,20 @@ export default defineConfig(({ mode, command }) => ({
           loadEnv(mode, __dirname).VITE_API_ENV === 'prod',
       },
     },
+    rollupOptions: {
+      output: {
+        //解决打包时Some chunks are larger警告，分块打包
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id
+              .toString()
+              .split('node_modules/')[1]
+              .split('/')[0]
+              .toString();
+          }
+        },
+      },
+    },
   },
 
   plugins: [

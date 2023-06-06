@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     ElIcon: typeof import('element-plus/es')['ElIcon'];
     ElImage: typeof import('element-plus/es')['ElImage'];
     ElInput: typeof import('element-plus/es')['ElInput'];
+    ElLink: typeof import('element-plus/es')['ElLink'];
     ElMain: typeof import('element-plus/es')['ElMain'];
     ElMenu: typeof import('element-plus/es')['ElMenu'];
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem'];
@@ -46,7 +47,7 @@ declare module '@vue/runtime-core' {
     ElTag: typeof import('element-plus/es')['ElTag'];
     ElText: typeof import('element-plus/es')['ElText'];
     ElTooltip: typeof import('element-plus/es')['ElTooltip'];
-    EmojiInput: typeof import('./src/components/EmojiInput.vue')['default'];
+    ElUpload: typeof import('element-plus/es')['ElUpload'];
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
     MdEditor: typeof import('./src/components/MdEditor.vue')['default'];
     NoticeBoard: typeof import('./src/components/NoticeBoard.vue')['default'];
