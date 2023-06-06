@@ -84,8 +84,8 @@ const richSetting = {
   language_url: '/tinymce/langs/zh-Hans.js',
   menubar: false,
   toolbar:
-    'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
-  plugins: 'codesample link image table lists fullscreen',
+    'bold italic underline h1 h2 blockquote codesample numlist bullist emoticons link image | removeformat fullscreen',
+  plugins: 'codesample link image table lists fullscreen emoticons',
   toolbar_mode: 'sliding',
   placeholder: '请输入内容',
   nonbreaking_force_tab: true,
