@@ -239,7 +239,7 @@ const handleEmitSave = () => {
 };
 
 // const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-const selectedModule: Ref<number> = ref();
+const selectedModule: Ref<number | null> = ref();
 const myModules = ref([]);
 const options = ref([]);
 
@@ -253,15 +253,21 @@ onMounted(async () => {
   myModules.value.push(...res);
   options.value = Array.from({ length: myModules.value.length }).map(
     (_, idx) => ({
-      value: `${myModules.value[idx].block_id}`,
+      value: Number(`${myModules.value[idx].block_id}`),
       label: `${myModules.value[idx].name}`,
     }),
   );
-  selectedModule.value = Number(
-    router.currentRoute.value.query['moduleId']
-      ? router.currentRoute.value.query['moduleId']
-      : undefined,
-  );
+  // selectedModule.value = Number(
+  //   router.currentRoute.value.query['moduleId']
+  //     ? router.currentRoute.value.query['moduleId']
+  //     : null,
+  // );
+  selectedModule.value = null;
+  const queryId = Number(router.currentRoute.value.query['moduleId']);
+  console.log('editor onMounted: ', queryId, options);
+  if (queryId) {
+    selectedModule.value = queryId;
+  }
   // const selfPostId = router.currentRoute.value.query['post_id'];
   // if (selfPostId) {
   //   await articleDetail(selfPostId, getLocalUserId(), getToken())
@@ -277,11 +283,17 @@ onMounted(async () => {
 });
 
 onUpdated(async () => {
-  selectedModule.value = Number(
-    router.currentRoute.value.query['moduleId']
-      ? router.currentRoute.value.query['moduleId']
-      : undefined,
-  );
+  // selectedModule.value = Number(
+  //   router.currentRoute.value.query['moduleId']
+  //     ? router.currentRoute.value.query['moduleId']
+  //     : null,
+  // );
+  selectedModule.value = null;
+  const queryId = Number(router.currentRoute.value.query['moduleId']);
+  console.log('editor onUpdate: ', queryId, options);
+  if (queryId) {
+    selectedModule.value = queryId;
+  }
   // const selfPostId = router.currentRoute.value.query['post_id'];
   // if (selfPostId) {
   //   await articleDetail(selfPostId, getLocalUserId(), getToken())
