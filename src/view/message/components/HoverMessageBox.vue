@@ -52,9 +52,8 @@
 import { onMounted, ref } from 'vue';
 import MessageBoxTabPane from '/@/view/message/components/MessageBoxTabPane.vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { getMessageList } from '/@/api/message';
+import { confirmMessage, getMessageList } from '/@/api/message';
 import { pointType, systemType, updateType } from '/@/utils/type';
-import { confirmMessage } from '/@/api/message';
 
 const updateNumber = ref<number>(0);
 const pointNumber = ref<number>(0);

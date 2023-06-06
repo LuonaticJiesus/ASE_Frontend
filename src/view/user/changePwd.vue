@@ -47,9 +47,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { changePwd } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { ElMessage } from 'element-plus';
+
 const pwdFormRef = ref<FormInstance>();
 
 const pwdForm = reactive({

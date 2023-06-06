@@ -97,6 +97,7 @@
     <div
       v-show="useCommentStore().activeCommentId === tempComment.comment_id"
       class="comment-input"
+      @blur="handleSubCommentEditorHidden"
     >
       <el-row align="middle">
         <el-col :span="2">
@@ -107,13 +108,19 @@
             ref="subCommentInput"
             v-model="newComment"
             :placeholder="defaultTxt"
-            clearable
-            type="textarea"
             maxlength="200"
             show-word-limit
             :autosize="{ minRows: 1, maxRows: 3 }"
-            @blur="handleSubCommentEditorHidden"
-          ></el-input>
+          >
+            <template #suffix>
+              <Vue3Emoji
+                size="small"
+                :recent="true"
+                @click-emoji="appendEmojiToText"
+                :options-name="emojiOptionsName"
+              />
+            </template>
+          </el-input>
         </el-col>
         <el-col :span="2">
           <el-button @mousedown="handleCreateComment">评论</el-button>
@@ -135,20 +142,24 @@ import { ChatDotSquare, Delete, MagicStick } from '@element-plus/icons-vue';
 import { ElMessage, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
 import { commentType } from '/@/utils/type';
+import Vue3Emoji from 'vue3-emoji';
+import 'vue3-emoji/dist/style.css';
 
-// interface commentType {
-//   comment_id: number;
-//   user_id: number;
-//   post_id: number;
-//   parent_id: number | null;
-//   txt: string;
-//   time: string;
-//   user_name: string;
-//   like_cnt: number;
-//   like_state: number;
-//   user_avatar?: string;
-//   children?: commentType[];
-// }
+const emojiOptionsName = {
+  'Smileys & Emotion': '笑脸&表情',
+  'Food & Drink': '食物&饮料',
+  'Animals & Nature': '动物&自然',
+  'Travel & Places': '旅行&地点',
+  'People & Body': '人物&身体',
+  Objects: '物品',
+  Symbols: '符号',
+  Flags: '旗帜',
+  Activities: '活动',
+};
+
+const appendEmojiToText = (emoji: string) => {
+  newComment.value += emoji;
+};
 
 const props = defineProps({
   commentItem: {
