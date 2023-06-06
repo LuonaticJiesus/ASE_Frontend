@@ -30,7 +30,8 @@
     "vue": "^3.2.47",
     "vue-clipboard3": "^2.0.0",
     "vue-markdown": "^2.2.4",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vue3-emoji": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",

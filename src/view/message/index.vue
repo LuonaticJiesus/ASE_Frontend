@@ -62,6 +62,7 @@ import { onMounted, ref } from 'vue';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { confirmMessage, getMessageList } from '/@/api/message';
 import { pointType, systemType, updateType } from '/@/utils/type';
+
 const allMessages = ref([]);
 const updateMessages = ref([]);
 const pointMessages = ref([]);

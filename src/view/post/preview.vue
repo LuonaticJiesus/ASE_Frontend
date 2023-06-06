@@ -43,12 +43,20 @@
                     <el-input
                       v-model="newComment"
                       placeholder="请输入评论"
-                      clearable
-                      type="textarea"
                       maxlength="200"
                       show-word-limit
                       :autosize="{ minRows: 1, maxRows: 3 }"
-                    ></el-input>
+                    >
+                      <template #suffix>
+                        <Vue3Emoji
+                          size="small"
+                          :recent="true"
+                          @click-emoji="appendEmojiToText"
+                          :options-name="emojiOptionsName"
+                        >
+                        </Vue3Emoji>
+                      </template>
+                    </el-input>
                   </el-col>
                   <el-col :span="2">
                     <el-button @click="handleCreateComment"> 评论</el-button>
@@ -214,6 +222,8 @@ import { onMounted, Ref, ref } from 'vue';
 import router from '/@/router/index.js';
 import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
+import Vue3Emoji from 'vue3-emoji';
+import 'vue3-emoji/dist/style.css';
 // import Vue3Tinymce from '@jsdawn/vue3-tinymce';
 import {
   Delete,
@@ -235,8 +245,6 @@ import CommentZone from '/@/view/comment/index.vue';
 import { createComment } from '/@/api/comment.js';
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
-import 'element-plus/theme-chalk/el-message-box.css';
-import 'element-plus/theme-chalk/el-message.css';
 import { queryRole } from '/@/api/permission.js';
 import useClipboard from 'vue-clipboard3';
 import { useUserStore } from '/@/store/index.js';
@@ -271,9 +279,25 @@ const copy = async () => {
   }
 };
 
+const emojiOptionsName = {
+  'Smileys & Emotion': '笑脸&表情',
+  'Food & Drink': '食物&饮料',
+  'Animals & Nature': '动物&自然',
+  'Travel & Places': '旅行&地点',
+  'People & Body': '人物&身体',
+  Objects: '物品',
+  Symbols: '符号',
+  Flags: '旗帜',
+  Activities: '活动',
+};
+
 const creatorAvatar = ref(defaultLogo);
 const userAvatar = useUserStore().avatar;
 const newComment = ref('');
+
+const appendEmojiToText = (emoji: string) => {
+  newComment.value += emoji;
+};
 const handleCreateComment = async () => {
   if (newComment.value.trim().length === 0) {
     ElMessage.error({
