@@ -39,6 +39,22 @@ import HeadBar from '/@/layout/components/HeadBar.vue';
 export default {
   name: 'BasicLayout',
   components: { HeadBar, SideBar, UserInfo, AppMain },
+  // methods: {
+  //   quit(event) {
+  //     if (
+  //       event.currentTarget.performance.navigation.type !==
+  //       PerformanceNavigation.TYPE_RELOAD
+  //     ) {
+  //       const userStore = useUserStore();
+  //       userStore.logout();
+  //     } else {
+  //       console.log('just refresh');
+  //     }
+  //   },
+  // },
+  // mounted() {
+  //   window.addEventListener('beforeunload', this.quit);
+  // },
 };
 </script>
 

@@ -12,7 +12,7 @@ const router = createRouter({
   routes: constantRoutes,
 });
 
-NProgress.configure({ showSpinner: false });
+NProgress.configure({ showSpinner: true });
 
 const whiteList = ['/login', '/404'];
 
@@ -34,15 +34,17 @@ router.beforeEach(async (to, from, next) => {
   // hasToken += 'DevToken'; // 开发环境使用，暂时认为有token
   // let hasToken = null;
   if (hasToken) {
-    if (to.path === '/login') {
-      // if is logged in, redirect to the home page
-      next({ path: '/home' });
-      NProgress.done();
-    } else {
+    {
       // determine whether the user has obtained his permission roles through getInfo
       const userStore = useUserStore();
       let hasRoles = userStore.userRoles && userStore.userRoles.length > 0;
+      NProgress.inc();
       if (hasRoles) {
+        if (to.path === '/login') {
+          // if is logged in, redirect to the home page
+          next({ path: '/home' });
+          NProgress.done();
+        }
         next();
       } else {
         try {
@@ -59,7 +61,11 @@ router.beforeEach(async (to, from, next) => {
           for (const item of accessRoutes) {
             router.addRoute(item);
           }
-
+          if (to.path === '/login') {
+            // if is logged in, redirect to the home page
+            next({ path: '/home' });
+            NProgress.done();
+          }
           next({ ...to, replace: true });
         } catch (error) {
           await userStore.resetInfo();

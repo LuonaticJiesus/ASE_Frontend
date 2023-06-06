@@ -73,6 +73,11 @@ button:focus-visible {
   z-index: 9999 !important;
 }
 
+/*自定义进度条颜色*/
+#nprogress .bar {
+  background: var(--el-color-primary-light-5) !important;
+}
+
 #app {
   width: 100vw;
   height: 100vh;

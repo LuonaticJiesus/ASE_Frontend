@@ -26,6 +26,7 @@
     "highlight.js": "^11.8.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.34",
+    "terser": "^5.17.7",
     "vue": "^3.2.47",
     "vue-clipboard3": "^2.0.0",
     "vue-markdown": "^2.2.4",

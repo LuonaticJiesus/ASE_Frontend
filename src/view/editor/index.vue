@@ -24,7 +24,7 @@
         v-if="editorType === 'md'"
         class="md-editor"
         v-model="mdText"
-        left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code"
+        left-toolbar="undo redo clear | emoji h bold italic strikethrough quote | ul ol table hr | link image code"
         :tab-size="2"
         @upload-image="handleUploadImage"
         @save="handleSaveMdText"
@@ -35,6 +35,7 @@
         v-model="richText"
         v-if="editorType === 'rich'"
         :setting="richSetting"
+        :key="tinymceFlag"
       ></vue3-tinymce>
     </el-main>
     <el-footer style="height: fit-content; padding: 0 0 2px">
@@ -97,7 +98,7 @@
 
 <script setup lang="ts">
 /* eslint-disable camelcase */
-import { onMounted, onUpdated, Ref, ref } from 'vue';
+import { onActivated, onMounted, onUpdated, Ref, ref } from 'vue';
 import { publishArticle } from '/@/api/article.js';
 // noinspection TypeScriptCheckImport
 import VMdEditor, { xss } from '@kangc/v-md-editor';
@@ -117,12 +118,11 @@ const richSetting = {
   language: 'zh-Hans',
   width: '79vw',
   resize: false,
-  language_url:
-    'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
+  language_url: '/tinymce/langs/zh-Hans.js',
   menubar: false,
   toolbar:
-    'bold italic underline h1 h2 blockquote codesample numlist bullist link image | removeformat fullscreen',
-  plugins: 'codesample link image table lists fullscreen',
+    'bold italic underline h1 h2 blockquote codesample numlist bullist emoticons link image | removeformat fullscreen',
+  plugins: 'codesample link image table lists fullscreen emoticons',
   toolbar_mode: 'sliding',
   nonbreaking_force_tab: true,
   link_title: false,
@@ -157,6 +157,10 @@ const editorOptions = [
   },
 ];
 
+const tinymceFlag = ref(1);
+onActivated(() => {
+  tinymceFlag.value++;
+});
 const handlePublishArticle = async () => {
   // noinspection TypeScriptUnresolvedReference
   if (!selectedModule.value) {
