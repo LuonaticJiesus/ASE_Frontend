@@ -40,9 +40,12 @@
     </el-main>
     <el-footer style="height: fit-content; padding: 0 0 2px">
       <el-row
-        style="border-top: solid #bebebe 1px; padding: 2px"
+        style="border-top: solid #bebebe 1px; padding: 2px; flex-wrap: nowrap"
         align="middle"
       >
+        <el-col :span="2" style="margin-left: 15px">
+          <UploadListView></UploadListView>
+        </el-col>
         <el-col :span="2">
           <h4 class="editor-bottom-label">字符统计:</h4>
         </el-col>
@@ -68,10 +71,10 @@
             />
           </el-select>
         </el-col>
-        <el-col :offset="12" :span="1">
+        <el-col :offset="10" :span="1">
           <el-button
             class="normal-color-button"
-            v-show="false"
+            v-if="false"
             @click="handleEmitSave"
           >
             保存
@@ -80,13 +83,13 @@
         <el-col :span="1" style="margin-left: 15px">
           <el-button
             class="normal-color-button"
-            v-show="false"
+            v-if="false"
             @click="handlePreviewMd"
           >
             预览
           </el-button>
         </el-col>
-        <el-col :span="1" style="margin-left: 15px">
+        <el-col :span="1">
           <el-button type="primary" @click="handlePublishArticle">
             发布
           </el-button>
@@ -113,6 +116,7 @@ import { modulePermission } from '/@/api/module';
 import router from '/@/router';
 import { ElMessage } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
+import UploadListView from '/@/view/upload/UploadListView.vue';
 
 const richSetting = {
   language: 'zh-Hans',

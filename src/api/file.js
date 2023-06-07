@@ -17,7 +17,7 @@ const uploadFile = async (file) =>
     data: file,
   });
 
-const getFileList = async (type, id) =>
+const getFileList = async (type) =>
   get({
     url: URL.list,
     params: {
