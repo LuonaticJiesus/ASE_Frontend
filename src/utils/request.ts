@@ -5,7 +5,7 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { getToken, TokenPrefix } from '/@/utils/auth';
+import { getLocalUserId, getToken, TokenPrefix } from '/@/utils/auth';
 import { showNetworkMessage, showServerMessage } from '/@/utils/status';
 import { defaultResponse } from '/@/utils/type';
 import { redirectToLogin } from '/@/utils/redirect';
@@ -19,8 +19,11 @@ const service: AxiosInstance = axios.create({
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = getToken();
-    if (token) {
+    const userid = getLocalUserId();
+    if (token && userid) {
       config.headers.Authorization = `${TokenPrefix}${token}`;
+      config.headers.token = `${token}`;
+      config.headers.userid = `${userid}`;
     }
     return config;
   },
