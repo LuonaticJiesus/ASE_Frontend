@@ -213,21 +213,20 @@ export default {
   background-image: linear-gradient(160deg, #faf4ff 0%, #fdfbff 80%);
 }
 .calendar-div {
-  max-height: 56vh;
   margin: 5vh;
   border-radius: 12px;
   border: solid 1px #e7e7e7;
   background-image: url('/src/assets/0Zd_OaUeF.png');
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: right;
+  background-position: top right;
 }
 .el-calendar__header {
   max-height: 6vh;
   padding: 1.5vh 2.5vh;
 }
 .el-calendar__body {
-  max-height: 40vh;
+  /* max-height: 40vh; */
   padding: 1vh 1.5vw 2.4vh;
 }
 .el-calendar__body .el-calendar-table {
