@@ -14,7 +14,7 @@
       <el-table-column prop="name" label="全部文件" />
       <el-table-column width="100px" label="预览">
         <template #default="{ row }">
-          <el-button text @click="handlePreviewOneFile(row.url)">
+          <el-button text @click="handlePreviewOneFile(row)">
             <el-icon :size="16" color="1a1a1a"><View /></el-icon>
           </el-button>
         </template>
@@ -37,10 +37,11 @@ import { onMounted, PropType, ref } from 'vue';
 import { fileBelongTo, getFileList } from '/@/api/file';
 import { fileBelongToType } from '/@/utils/type';
 import { Download, View } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import JSZip from 'jszip';
 import FileSaver from 'file-saver';
 import axios from 'axios';
+
 interface fileType {
   name: string;
   url: string;
@@ -95,9 +96,6 @@ const multiplyDownload = () => {
       message: '您还没有勾选任何文件!',
     });
     return;
-  } else if (selectedList.value.length === 1) {
-    handleDownloadOneFile(selectedList.value[0].url);
-    return;
   }
   const zip = new JSZip();
   const cache = {};
@@ -116,17 +114,27 @@ const multiplyDownload = () => {
   Promise.all(promises).then(() => {
     zip.generateAsync({ type: 'blob' }).then((content) => {
       // 生成二进制流
-      FileSaver.saveAs(content, '打包下载.zip'); // 利用file-saver保存文件
+      FileSaver.saveAs(
+        content,
+        'download_' + new Date().toLocaleTimeString() + '.zip',
+      ); // 利用file-saver保存文件
     });
   });
 };
 
-const handleDownloadOneFile = (url) => {
-  location.href = url;
-};
-
-const handlePreviewOneFile = (url) => {
-  window.open(url);
+const handlePreviewOneFile = (file: fileType) => {
+  if (file.name.match('^[\\s\\S]*\\.(pdf)$')) {
+    // pdf直接预览
+    window.open(file.url);
+  } else {
+    ElMessageBox.confirm('PDF文件才能在线预览，要直接下载吗?', 'Warning', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }).then(() => {
+      window.open(file.url);
+    });
+  }
 };
 
 const handleSelectionChange = (val: fileType[]) => {
