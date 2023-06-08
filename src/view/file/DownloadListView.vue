@@ -14,8 +14,17 @@
       <el-table-column prop="name" label="全部文件" />
       <el-table-column width="100px">
         <template #default="{ row }">
-          <el-button text @click="handleDownloadOneFile(row.url)">
-            <el-icon :size="16"><Download /></el-icon>
+          <el-button text @click="handlePreviewOneFile(row.url)">
+            <el-icon :size="16"><View /></el-icon>
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column width="100px">
+        <template #default="{ row }">
+          <el-button text>
+            <a v-download="row"
+              ><el-icon :size="16"><Download /></el-icon
+            ></a>
           </el-button>
         </template>
       </el-table-column>
@@ -27,7 +36,7 @@
 import { onMounted, PropType, ref } from 'vue';
 import { fileBelongTo, getFileList } from '/@/api/file';
 import { fileBelongToType } from '/@/utils/type';
-import { Download } from '@element-plus/icons-vue';
+import { Download, View } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import JSZip from 'jszip';
 import FileSaver from 'file-saver';
@@ -97,7 +106,8 @@ const multiplyDownload = (path: string) => {
     const promise = getFile(item.url).then((data) => {
       // 下载文件, 并存成ArrayBuffer对象
       const file_name: string = item.name; // 获取文件名
-      zip.file(file_name); // 逐个添加文件
+      // noinspection TypeScriptValidateTypes
+      zip.file(file_name, data, { binary: true }); // 逐个添加文件
       cache[file_name] = data;
     });
     promises.push(promise);
@@ -115,9 +125,9 @@ const handleDownloadOneFile = (url) => {
   location.href = url;
 };
 
-// const handlePreviewOneFile = (url) => {
-//   window.open(url);
-// };
+const handlePreviewOneFile = (url) => {
+  window.open(url);
+};
 
 const handleSelectionChange = (val: fileType[]) => {
   selectedList.value = val;
