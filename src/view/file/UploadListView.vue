@@ -130,9 +130,16 @@ const handleUploadFile = async (param) => {
   formData.append('name', param.file.name);
   await uploadFile(formData)
     .then((res) => {
+      if (!fileMap.value[param.file.name]) {
+        fileUrlList.value.push(res.url);
+        fileNameList.value.push(param.file.name);
+      } else {
+        ElMessage.error({
+          message: '附件中请勿出现同名文件！',
+        });
+        return;
+      }
       fileMap.value[param.file.name] = res.url;
-      fileUrlList.value.push(res.url);
-      fileNameList.value.push(param.file.name);
       param.onSuccess(res);
     })
     .catch(() => {
