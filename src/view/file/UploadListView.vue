@@ -26,12 +26,15 @@
           :http-request="handleUploadFile"
           :before-upload="beforeFileUpload"
           :on-change="handleChange"
-          :on-success="sendFileUrlList"
+          :on-success="sendFileList"
+          :before-remove="handleBeforeRemove"
           :multiple="true"
           :limit="10"
         >
           <template #trigger>
-            <el-button class="select-button" type="primary">选择文件</el-button>
+            <el-button class="select-button" type="primary"
+              ><el-icon :size="16"><FolderOpened /></el-icon>选择文件</el-button
+            >
           </template>
 
           <template #default>
@@ -40,6 +43,7 @@
               type="success"
               @click="submitUpload"
             >
+              <el-icon :size="16"><UploadFilled /></el-icon>
               上传
             </el-button>
           </template>
@@ -61,7 +65,7 @@ import { PropType } from 'vue';
 import { ref } from 'vue';
 import type { UploadInstance, UploadProps, UploadUserFile } from 'element-plus';
 import { uploadFile } from '/@/api/file';
-import { Link } from '@element-plus/icons-vue';
+import { FolderOpened, Link, UploadFilled } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
 
@@ -71,7 +75,17 @@ const props = defineProps({
     type: String as PropType<placementType>,
     default: 'top',
   },
+  beforePublish: {
+    type: Boolean,
+    default: false,
+  },
   getFileUrlList: {
+    type: Function,
+    default: (list) => {
+      return list;
+    },
+  },
+  getFileNameList: {
     type: Function,
     default: (list) => {
       return list;
@@ -80,7 +94,9 @@ const props = defineProps({
 });
 const uploadRef = ref<UploadInstance>();
 const fileList = ref<UploadUserFile[]>([]);
+const fileMap = ref({});
 const fileUrlList = ref<string[]>([]);
+const fileNameList = ref<string[]>([]);
 const beforeFileUpload = (rawFile) => {
   const permitType = [
     'application/vnd.ms-excel',
@@ -105,24 +121,41 @@ const submitUpload = () => {
   uploadRef.value!.submit();
 };
 const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
-  // console.log(uploadFile, uploadFiles);
+  // console.log('uploadFile', uploadFile.name);
+  // console.log('fileNameList', fileNameList.value);
 };
 const handleUploadFile = async (param) => {
   const formData = new FormData();
   formData.append('file', param.file);
   formData.append('name', param.file.name);
-  console.log(param.file.name);
-  let res = await uploadFile(formData);
-  if (res) {
-    fileUrlList.value.push(res.url);
-    param.onSuccess(res);
-  } else {
-    param.onError('Failed');
-  }
+  await uploadFile(formData)
+    .then((res) => {
+      fileMap.value[param.file.name] = res.url;
+      fileUrlList.value.push(res.url);
+      fileNameList.value.push(param.file.name);
+      param.onSuccess(res);
+    })
+    .catch(() => {
+      param.onError('Failed');
+    });
 };
 
-const sendFileUrlList = () => {
+const handleBeforeRemove = async (uploadFile) => {
+  console.log(uploadFile);
+  console.log(fileNameList.value);
+  const name = uploadFile.name;
+  if (fileMap.value[name]) {
+    const url = fileMap.value[name];
+    fileUrlList.value = fileUrlList.value.filter((item) => item !== url);
+    fileNameList.value = fileNameList.value.filter((item) => item !== name);
+  }
+  console.log(fileNameList.value);
+  await sendFileList();
+};
+
+const sendFileList = async () => {
   props.getFileUrlList(fileUrlList.value);
+  props.getFileNameList(fileNameList.value);
 };
 </script>
 <script lang="ts">

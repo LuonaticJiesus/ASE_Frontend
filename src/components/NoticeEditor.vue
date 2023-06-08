@@ -46,6 +46,7 @@
             <UploadListView
               :placement="'top'"
               :get-file-url-list="getFileUrlList"
+              :get-file-name-list="getFileNameList"
             ></UploadListView>
           </el-col>
           <el-col :span="3">
@@ -65,13 +66,21 @@ import { CircleCloseFilled } from '@element-plus/icons-vue';
 
 // noinspection TypeScriptCheckImport
 import Vue3Tinymce from '@jsdawn/vue3-tinymce';
-import { onActivated, reactive, ref } from 'vue';
+import { h, onActivated, reactive, ref } from 'vue';
 import { publishNotice } from '/@/api/notice';
 import { getLocalUserId, getToken } from '/@/utils/auth';
-import { ElMessage, ElNotification, FormInstance } from 'element-plus';
+import {
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
+  FormInstance,
+} from 'element-plus';
 import router from '/@/router';
 import UploadListView from '/@/view/file/UploadListView.vue';
 import { createConnect, fileBelongTo } from '/@/api/file';
+import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
+import 'element-plus/theme-chalk/el-notification.css';
 
 const noticeFormRef = ref<FormInstance>();
 
@@ -90,9 +99,12 @@ const props = defineProps({
 });
 
 const fileUrlList = ref<string[]>([]);
-
+const fileNameList = ref<string[]>([]);
 const getFileUrlList = (list) => {
   fileUrlList.value = list;
+};
+const getFileNameList = (list) => {
+  fileNameList.value = list;
 };
 
 const richSetting = {
@@ -172,10 +184,36 @@ const postNotice = async () => {
       block_id: router.currentRoute.value.params['id'],
       ddl: noticeForm.ddl,
     };
-    await publishNotice(header, data).then((res) => {
-      // 将附件和帖子绑定！
-      createConnect(fileBelongTo.notice, res.notice_id, fileUrlList.value);
-    });
+    let uploadDone = false;
+    if (!uploadDone) {
+      await ElMessageBox.confirm('Warning', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+        message: h('p', null, [
+          h('h4', null, '已上传以下附件，确认发布吗?'),
+          h('div', [
+            fileNameList.value.length > 0
+              ? h(
+                  'ul',
+                  // assuming `fileNameList` is a ref with array value
+                  fileNameList.value.map((name) => {
+                    return h('li', { key: name }, name);
+                  }),
+                )
+              : h('span', null, '无'),
+          ]),
+        ]),
+      }).then(() => {
+        uploadDone = true;
+      });
+    }
+    if (uploadDone) {
+      await publishNotice(header, data).then((res) => {
+        // 将附件和帖子绑定！
+        createConnect(fileBelongTo.notice, res.notice_id, fileUrlList.value);
+      });
+    }
 
     ElMessage.success({
       showClose: true,

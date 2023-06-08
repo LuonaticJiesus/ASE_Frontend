@@ -47,6 +47,7 @@
           <UploadListView
             :placement="'top'"
             :get-file-url-list="getFileUrlList"
+            :get-file-name-list="getFileNameList"
           ></UploadListView>
         </el-col>
         <el-col :span="2">
@@ -104,7 +105,7 @@
 
 <script setup lang="ts">
 /* eslint-disable camelcase */
-import { onActivated, onMounted, onUpdated, Ref, ref } from 'vue';
+import { h, onActivated, onMounted, onUpdated, Ref, ref } from 'vue';
 import { publishArticle } from '/@/api/article.js';
 // noinspection TypeScriptCheckImport
 import VMdEditor, { xss } from '@kangc/v-md-editor';
@@ -117,8 +118,9 @@ import { uploadImage } from '/@/api/notice';
 import { useRoute } from 'vue-router';
 import { modulePermission } from '/@/api/module';
 import router from '/@/router';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
 import UploadListView from '/src/view/file/UploadListView.vue';
 import { createConnect, fileBelongTo } from '/@/api/file';
 
@@ -190,16 +192,42 @@ const handlePublishArticle = async () => {
     block_id: selectedModule.value,
   };
   console.log('editor.vue publish to', selectedModule.value);
-  publishArticle(getLocalUserId(), getToken(), data)
-    .then((res) => {
-      console.log('editor.vue publish success: ', res);
-      // 将附件和帖子绑定！
-      createConnect(fileBelongTo.post, res.post_id, fileUrlList.value);
-      router.push('/post/' + res.post_id);
-    })
-    .catch((err) => {
-      console.log('editor.vue publish failed: ', err);
+  let uploadDone = false;
+  if (!uploadDone) {
+    await ElMessageBox.confirm('Warning', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+      message: h('p', null, [
+        h('h4', null, '已上传以下附件，确认发布吗?'),
+        h('div', [
+          fileNameList.value.length > 0
+            ? h(
+                'ul',
+                // assuming `fileNameList` is a ref with array value
+                fileNameList.value.map((name) => {
+                  return h('li', { key: name }, name);
+                }),
+              )
+            : h('span', null, '无'),
+        ]),
+      ]),
+    }).then(() => {
+      uploadDone = true;
     });
+  }
+  if (uploadDone) {
+    publishArticle(getLocalUserId(), getToken(), data)
+      .then((res) => {
+        console.log('editor.vue publish success: ', res);
+        // 将附件和帖子绑定！
+        createConnect(fileBelongTo.post, res.post_id, fileUrlList.value);
+        router.push('/post/' + res.post_id);
+      })
+      .catch((err) => {
+        console.log('editor.vue publish failed: ', err);
+      });
+  }
 };
 
 const handleUploadImage = async (event, insertImage, files) => {
@@ -255,9 +283,12 @@ const myModules = ref([]);
 const options = ref([]);
 
 const fileUrlList = ref<string[]>([]);
-
+const fileNameList = ref<string[]>([]);
 const getFileUrlList = (list) => {
   fileUrlList.value = list;
+};
+const getFileNameList = (list) => {
+  fileNameList.value = list;
 };
 
 onMounted(async () => {
