@@ -1,6 +1,6 @@
 import { get, post } from '/@/utils/request.ts';
 const URL = {
-  upload: '/four_s/file/file/',
+  upload: '/four_s/file/upload/',
   list: '/four_s/file/list/',
   connect: '/four_s/file/connect/',
 };

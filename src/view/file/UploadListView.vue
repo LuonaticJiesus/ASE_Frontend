@@ -46,6 +46,7 @@
 
           <template #tip>
             <div class="el-upload__tip">
+              单文件最大3MB<br />
               允许格式: .pdf/.zip/.rar/.doc/.docx/.txt/.ppt/.xls/xlsx
             </div>
           </template>
@@ -96,7 +97,7 @@ const beforeFileUpload = (rawFile) => {
     ElMessage.error('不支持的文件格式！');
     return false;
   } else if (rawFile.size / 1024 / 1024 > 50) {
-    ElMessage.error('单个文件不能大于5MB!');
+    ElMessage.error('单个文件不能大于3MB!');
   }
 };
 const submitUpload = () => {

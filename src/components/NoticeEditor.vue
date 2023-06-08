@@ -41,8 +41,18 @@
             :shortcuts="shortcuts"
           />
         </el-form-item>
-        <el-row style="justify-content: right">
-          <el-button type="primary" @click="postNotice()"> 确认发布 </el-button>
+        <el-row style="justify-content: space-between; flex-wrap: nowrap">
+          <el-col :span="3">
+            <UploadListView
+              :placement="'top'"
+              :get-file-url-list="getFileUrlList"
+            ></UploadListView>
+          </el-col>
+          <el-col :span="3">
+            <el-button type="primary" @click="postNotice()">
+              确认发布
+            </el-button>
+          </el-col>
         </el-row>
       </el-form>
     </template>
@@ -60,6 +70,8 @@ import { publishNotice } from '/@/api/notice';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { ElMessage, ElNotification, FormInstance } from 'element-plus';
 import router from '/@/router';
+import UploadListView from '/@/view/file/UploadListView.vue';
+import { createConnect, fileBelongTo } from '/@/api/file';
 
 const noticeFormRef = ref<FormInstance>();
 
@@ -76,6 +88,12 @@ const props = defineProps({
     default: false,
   },
 });
+
+const fileUrlList = ref<string[]>([]);
+
+const getFileUrlList = (list) => {
+  fileUrlList.value = list;
+};
 
 const richSetting = {
   language: 'zh-Hans',
@@ -154,7 +172,11 @@ const postNotice = async () => {
       block_id: router.currentRoute.value.params['id'],
       ddl: noticeForm.ddl,
     };
-    await publishNotice(header, data);
+    await publishNotice(header, data).then((res) => {
+      // 将附件和帖子绑定！
+      createConnect(fileBelongTo.notice, res.notice_id, fileUrlList.value);
+    });
+
     ElMessage.success({
       showClose: true,
       duration: 2000,

@@ -12,7 +12,7 @@ import { redirectToLogin } from '/@/utils/redirect';
 
 const service: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_BASEURL,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 // axios实例拦截请求
@@ -55,7 +55,10 @@ service.interceptors.response.use(
   // 请求失败
   (error: any) => {
     const { response } = error;
-    if (response) {
+    if (error.code === 'ECONNABORTED' || error.message.include('timeout')) {
+      showNetworkMessage('网络超时,清重试!');
+      return Promise.reject(error);
+    } else if (response) {
       // 请求已发出，但是不在2xx的范围
       showNetworkMessage(response.status);
       return Promise.reject(response.data);

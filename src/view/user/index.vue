@@ -115,7 +115,7 @@ export default {
     const activeName = ref('first');
 
     const uploadUrl: string =
-      import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/file/';
+      import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/upload/';
 
     const headers = {
       userid: getLocalUserId(),
