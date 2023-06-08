@@ -12,18 +12,18 @@
     <el-table stripe :data="fileList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" />
       <el-table-column prop="name" label="全部文件" />
-      <el-table-column width="100px">
+      <el-table-column width="100px" label="预览">
         <template #default="{ row }">
           <el-button text @click="handlePreviewOneFile(row.url)">
-            <el-icon :size="16"><View /></el-icon>
+            <el-icon :size="16" color="1a1a1a"><View /></el-icon>
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column width="100px">
+      <el-table-column width="100px" label="下载">
         <template #default="{ row }">
           <el-button text>
             <a v-download="row"
-              ><el-icon :size="16"><Download /></el-icon
+              ><el-icon :size="16" color="#1a1a1a"><Download /></el-icon
             ></a>
           </el-button>
         </template>
@@ -88,7 +88,7 @@ const getFile = (url) => {
   });
 };
 
-const multiplyDownload = (path: string) => {
+const multiplyDownload = () => {
   if (selectedList.value.length === 0) {
     ElMessage({
       type: 'error',

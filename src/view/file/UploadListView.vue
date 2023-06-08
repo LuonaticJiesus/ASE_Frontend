@@ -96,7 +96,7 @@ const beforeFileUpload = (rawFile) => {
     ElMessage.error('不支持的文件格式！');
     return false;
   } else if (rawFile.size / 1024 / 1024 > 50) {
-    ElMessage.error('单个文件不能大于50MB!');
+    ElMessage.error('单个文件不能大于5MB!');
   }
 };
 const submitUpload = () => {
