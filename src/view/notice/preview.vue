@@ -3,14 +3,16 @@
     <template #main>
       <div style="margin: 10px 20px">
         <el-row style="display: flex; justify-content: left">
-          <h2 style="margin-bottom: 0">{{ notice.title }}</h2>
+          <h2 style="margin-bottom: 0">
+            {{ notice.title }}
+          </h2>
         </el-row>
         <el-divider></el-divider>
         <el-row style="margin: 0px 0 10px">
           <el-col :span="12">
             <el-row>
               <h4 style="margin: 0">所属模块:</h4>
-              <h4
+              <el-text
                 style="
                   margin: 0;
                   padding-left: 10px;
@@ -19,7 +21,7 @@
                 "
               >
                 {{ moduleName }}
-              </h4>
+              </el-text>
             </el-row>
           </el-col>
         </el-row>
@@ -28,24 +30,33 @@
             <el-row justify="start" align="middle">
               <h4 style="margin: 0 10px 0 0">发布者:</h4>
               <el-avatar :src="creatorAvatar"> </el-avatar>
-              <h4 style="margin: 0 0 0 10px; color: #bebebe">
+              <el-text style="margin: 0 0 0 10px; color: #bebebe">
                 {{ creatorName }}
-              </h4>
+              </el-text>
             </el-row>
           </el-col>
-          <el-col :span="10" :offset="4">
+          <el-col :span="9" :offset="4">
             <el-row justify="start" align="middle">
               <h4 style="margin: 0 10px 0 0">发布时间:</h4>
-              <el-date-picker
-                v-model="notice.time"
-                type="datetime"
-                readonly
-                style="width: auto"
-              >
-              </el-date-picker>
+              <!--              <el-date-picker-->
+              <!--                v-model="notice.time"-->
+              <!--                type="datetime"-->
+              <!--                readonly-->
+              <!--                style="width: auto"-->
+              <!--              >-->
+              <!--              </el-date-picker>-->
+              <el-text style="color: #bebebe">{{
+                new Date(notice.time).toLocaleDateString()
+              }}</el-text>
               <!--              <h4 style="margin: 0; color: #bebebe">{{ notice.time }}</h4>-->
             </el-row>
           </el-col>
+        </el-row>
+        <el-row>
+          <el-button @click="showDownloadList = true">
+            <el-icon><Link /></el-icon>
+            <el-text>附件列表</el-text>
+          </el-button>
         </el-row>
         <el-row style="margin: 10px 0 10px">
           <h4 style="margin: 0">通知正文:</h4>
@@ -57,65 +68,83 @@
             :setting="richSetting"
           ></vue3-tinymce>
         </el-row>
+        <el-dialog
+          v-model="showDownloadList"
+          @close="showDownloadList = false"
+          title="附件列表"
+          width="780px"
+          style="border-radius: 12px"
+        >
+          <div style="width: 100%; margin: 10px">
+            <DownloadListView
+              :belong-to-id="Number(notice_id)"
+              :file-type="'notice'"
+            />
+          </div>
+        </el-dialog>
       </div>
     </template>
     <template #right>
-      <el-row justify="space-around" align="middle" style="margin-top: 10px">
-        <el-col :span="6">
-          <h4 style="margin: 0">截止时间:</h4>
-        </el-col>
-        <el-col :span="16">
-          <el-date-picker
-            v-model="ddl"
-            type="datetime"
-            readonly
-            style="width: auto"
-          >
-          </el-date-picker>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-calendar>
-          <template #date-cell="{ data }">
-            <div class="calendar-day">
-              <p
-                :class="
-                  isDDL(data.day)
-                    ? 'is-ddl'
-                    : isToday(data.day)
-                    ? 'is-today'
-                    : ''
-                "
-              >
-                {{ data.day.split('-').slice(2).join('-') }}
-              </p>
-            </div>
-          </template>
-        </el-calendar>
-      </el-row>
-      <el-row justify="space-around" align="middle" style="margin-top: 10px">
-        <el-col :span="6">
-          <h4 style="margin: 0">{{ isConfirmed ? '已确认:' : '完成确认:' }}</h4>
-        </el-col>
-        <el-col :span="16">
-          <el-tooltip :content="isConfirmed ? '取消确认' : '还未确认'">
-            <el-button
-              @click="handleChangeConfirm"
-              :plain="!isConfirmed"
-              type="primary"
+      <div style="height: 87vh">
+        <el-row justify="space-around" align="middle" style="margin-top: 10px">
+          <el-col :span="6">
+            <h4 style="margin: 0">截止时间:</h4>
+          </el-col>
+          <el-col :span="16">
+            <el-date-picker
+              v-model="ddl"
+              type="datetime"
+              readonly
+              style="width: auto"
             >
-              <el-icon><check></check></el-icon
-            ></el-button>
-          </el-tooltip>
-        </el-col>
-      </el-row>
+            </el-date-picker>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-calendar>
+            <template #date-cell="{ data }">
+              <div class="calendar-day">
+                <p
+                  :class="
+                    isDDL(data.day)
+                      ? 'is-ddl'
+                      : isToday(data.day)
+                      ? 'is-today'
+                      : ''
+                  "
+                >
+                  {{ data.day.split('-').slice(2).join('-') }}
+                </p>
+              </div>
+            </template>
+          </el-calendar>
+        </el-row>
+        <el-row justify="space-around" align="middle" style="margin-top: 10px">
+          <el-col :span="6">
+            <h4 style="margin: 0">
+              {{ isConfirmed ? '已确认:' : '完成确认:' }}
+            </h4>
+          </el-col>
+          <el-col :span="16">
+            <el-tooltip :content="isConfirmed ? '取消确认' : '还未确认'">
+              <el-button
+                @click="handleChangeConfirm"
+                :plain="!isConfirmed"
+                type="primary"
+              >
+                <el-icon><check></check></el-icon
+              ></el-button>
+            </el-tooltip>
+          </el-col>
+        </el-row>
+      </div>
     </template>
   </DivideContainer>
 </template>
 
 <script setup>
 /* eslint-disable camelcase */
-import { Check } from '@element-plus/icons-vue';
+import { Check, Link } from '@element-plus/icons-vue';
 import { onMounted, ref } from 'vue';
 import router from '/@/router/index.js';
 // noinspection TypeScriptCheckImport
@@ -128,6 +157,7 @@ import { moduleInfo } from '/@/api/module.js';
 import { ElMessageBox, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-message-box.css';
 import 'element-plus/theme-chalk/el-notification.css';
+import DownloadListView from '/@/view/file/DownloadListView.vue';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -139,7 +169,8 @@ const props = defineProps({
 
 const richSetting = {
   language: 'zh-Hans',
-  width: '70vw',
+  width: '60vw',
+  height: '48vh',
   resize: false,
   language_url:
     'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
@@ -152,6 +183,8 @@ const richSetting = {
   content_style: 'body{font-size: 16px}',
   readonly: true,
 };
+
+const showDownloadList = ref(false);
 
 const ddl = ref(new Date('2023-4-19'));
 const isDDL = (day) => {

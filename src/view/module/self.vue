@@ -49,6 +49,9 @@ import { deleteArticle, moduleUserArticles } from '/@/api/article.js';
 import router from '/@/router';
 import { getLocalUserId, getToken } from '/@/utils/auth.ts';
 import { strippedHtml } from '/@/utils/string';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
 
 export default {
   name: 'selfView',

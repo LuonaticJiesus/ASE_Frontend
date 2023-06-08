@@ -61,14 +61,14 @@ export default {
   },
   methods: {
     fetchData() {
-      console.log('favor/index.vue fetchData....', this);
+      console.log('favor/UploadListView.vue fetchData....', this);
       const headers = {
         userid: getLocalUserId(),
         token: getToken(),
       };
       queryPostFavor(headers)
         .then((res) => {
-          console.log('favor/index.vue fetchData success: ', res);
+          console.log('favor/UploadListView.vue fetchData success: ', res);
           this.tableData = res;
           for (let i of this.tableData) {
             i.txt = strippedHtml(i.txt);
@@ -76,7 +76,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log('favor/index.vue fetchData fail: ' + err);
+          console.log('favor/UploadListView.vue fetchData fail: ' + err);
         });
     },
     jump(row) {

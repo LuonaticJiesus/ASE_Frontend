@@ -40,9 +40,16 @@
     </el-main>
     <el-footer style="height: fit-content; padding: 0 0 2px">
       <el-row
-        style="border-top: solid #bebebe 1px; padding: 2px"
+        style="border-top: solid #bebebe 1px; padding: 2px; flex-wrap: nowrap"
         align="middle"
       >
+        <el-col :span="2" style="margin-left: 15px">
+          <UploadListView
+            :placement="'top'"
+            :get-file-url-list="getFileUrlList"
+            :get-file-name-list="getFileNameList"
+          ></UploadListView>
+        </el-col>
         <el-col :span="2">
           <h4 class="editor-bottom-label">字符统计:</h4>
         </el-col>
@@ -68,10 +75,10 @@
             />
           </el-select>
         </el-col>
-        <el-col :offset="12" :span="1">
+        <el-col :offset="10" :span="1">
           <el-button
             class="normal-color-button"
-            v-show="false"
+            v-if="false"
             @click="handleEmitSave"
           >
             保存
@@ -80,13 +87,13 @@
         <el-col :span="1" style="margin-left: 15px">
           <el-button
             class="normal-color-button"
-            v-show="false"
+            v-if="false"
             @click="handlePreviewMd"
           >
             预览
           </el-button>
         </el-col>
-        <el-col :span="1" style="margin-left: 15px">
+        <el-col :span="1">
           <el-button type="primary" @click="handlePublishArticle">
             发布
           </el-button>
@@ -98,7 +105,7 @@
 
 <script setup lang="ts">
 /* eslint-disable camelcase */
-import { onActivated, onMounted, onUpdated, Ref, ref } from 'vue';
+import { h, onActivated, onMounted, onUpdated, Ref, ref } from 'vue';
 import { publishArticle } from '/@/api/article.js';
 // noinspection TypeScriptCheckImport
 import VMdEditor, { xss } from '@kangc/v-md-editor';
@@ -111,8 +118,11 @@ import { uploadImage } from '/@/api/notice';
 import { useRoute } from 'vue-router';
 import { modulePermission } from '/@/api/module';
 import router from '/@/router';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
+import UploadListView from '/src/view/file/UploadListView.vue';
+import { createConnect, fileBelongTo } from '/@/api/file';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -182,20 +192,49 @@ const handlePublishArticle = async () => {
     block_id: selectedModule.value,
   };
   console.log('editor.vue publish to', selectedModule.value);
-  publishArticle(getLocalUserId(), getToken(), data)
-    .then((res) => {
-      console.log('editor.vue publish success: ', res);
-      router.push('/post/' + res.post_id);
-    })
-    .catch((err) => {
-      console.log('editor.vue publish failed: ', err);
+  let uploadDone = false;
+  if (!uploadDone) {
+    await ElMessageBox.confirm('Warning', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+      message: h('p', null, [
+        h('h4', null, '已上传以下附件，确认发布吗?'),
+        h('div', [
+          fileNameList.value.length > 0
+            ? h(
+                'ul',
+                // assuming `fileNameList` is a ref with array value
+                fileNameList.value.map((name) => {
+                  return h('li', { key: name }, name);
+                }),
+              )
+            : h('span', null, '无'),
+        ]),
+      ]),
+    }).then(() => {
+      uploadDone = true;
     });
+  }
+  if (uploadDone) {
+    publishArticle(getLocalUserId(), getToken(), data)
+      .then((res) => {
+        console.log('editor.vue publish success: ', res);
+        // 将附件和帖子绑定！
+        createConnect(fileBelongTo.post, res.post_id, fileUrlList.value);
+        router.push('/post/' + res.post_id);
+      })
+      .catch((err) => {
+        console.log('editor.vue publish failed: ', err);
+      });
+  }
 };
 
 const handleUploadImage = async (event, insertImage, files) => {
   for (let file of files) {
     let formData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append('file', file);
+    formData.append('name', file.name);
     const result = await uploadImage(
       useUserStore().user_id,
       getToken(),
@@ -243,6 +282,15 @@ const selectedModule: Ref<number | null> = ref();
 const myModules = ref([]);
 const options = ref([]);
 
+const fileUrlList = ref<string[]>([]);
+const fileNameList = ref<string[]>([]);
+const getFileUrlList = (list) => {
+  fileUrlList.value = list;
+};
+const getFileNameList = (list) => {
+  fileNameList.value = list;
+};
+
 onMounted(async () => {
   // getWordCount();
   const res = await modulePermission(
@@ -257,56 +305,21 @@ onMounted(async () => {
       label: `${myModules.value[idx].name}`,
     }),
   );
-  // selectedModule.value = Number(
-  //   router.currentRoute.value.query['moduleId']
-  //     ? router.currentRoute.value.query['moduleId']
-  //     : null,
-  // );
   selectedModule.value = null;
   const queryId = Number(router.currentRoute.value.query['moduleId']);
-  console.log('editor onMounted: ', queryId, options);
+  //console.log('editor onMounted: ', queryId, options);
   if (queryId) {
     selectedModule.value = queryId;
   }
-  // const selfPostId = router.currentRoute.value.query['post_id'];
-  // if (selfPostId) {
-  //   await articleDetail(selfPostId, getLocalUserId(), getToken())
-  //     .then((res) => {
-  //       console.log('mounted self post loading ', res[0]);
-  //       title.value = res[0].title;
-  //       richText.value = res[0].txt;
-  //     })
-  //     .catch((err) => {
-  //       console.log('self post edit ' + err);
-  //     });
-  // }
 });
 
 onUpdated(async () => {
-  // selectedModule.value = Number(
-  //   router.currentRoute.value.query['moduleId']
-  //     ? router.currentRoute.value.query['moduleId']
-  //     : null,
-  // );
   selectedModule.value = null;
   const queryId = Number(router.currentRoute.value.query['moduleId']);
-  console.log('editor onUpdate: ', queryId, options);
+  //console.log('editor onUpdate: ', queryId, options);
   if (queryId) {
     selectedModule.value = queryId;
   }
-  // const selfPostId = router.currentRoute.value.query['post_id'];
-  // if (selfPostId) {
-  //   await articleDetail(selfPostId, getLocalUserId(), getToken())
-  //     .then((res) => {
-  //       console.log('update self post loading ', res[0]);
-  //       title.value = res[0].title;
-  //       richText.value = res[0].txt;
-  //       console.log(title.value, richText.value);
-  //     })
-  //     .catch((err) => {
-  //       console.log('self post edit ' + err);
-  //     });
-  // }
 });
 </script>
 
