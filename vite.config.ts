@@ -13,6 +13,10 @@ export const API_TARGET_URL = 'http://112.126.71.119:80/';
 export const MOCK_API_BASE_URL = '/m1/2544583-0-default/four_s';
 export const MOCK_API_TARGET_URL = 'http://127.0.0.1:4523';
 
+export const CLOUD_BASE_URL = '/download-api';
+
+export const CLOUD_TARGET_URL =
+  'https://2023-ase-quadssss-1314332102.cos.ap-beijing.myqcloud.com/';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => ({
   define: {
@@ -92,7 +96,13 @@ export default defineConfig(({ mode, command }) => ({
       },
       '/prod-api': {
         target: 'http://124.220.153.34:9097/',
+        changeOrigin: true,
         rewrite: (path) => path.replace(new RegExp('^/prod-api'), ''),
+      },
+      [CLOUD_TARGET_URL]: {
+        target:
+          'https://2023-ase-quadssss-1314332102.cos.ap-beijing.myqcloud.com/',
+        changeOrigin: true,
       },
     },
   },

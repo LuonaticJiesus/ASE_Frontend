@@ -44,7 +44,10 @@
         align="middle"
       >
         <el-col :span="2" style="margin-left: 15px">
-          <UploadListView></UploadListView>
+          <UploadListView
+            :placement="'top'"
+            :get-file-url-list="getFileUrlList"
+          ></UploadListView>
         </el-col>
         <el-col :span="2">
           <h4 class="editor-bottom-label">字符统计:</h4>
@@ -116,7 +119,8 @@ import { modulePermission } from '/@/api/module';
 import router from '/@/router';
 import { ElMessage } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
-import UploadListView from '/@/view/upload/UploadListView.vue';
+import UploadListView from '/src/view/file/UploadListView.vue';
+import { createConnect, fileBelongTo } from '/@/api/file';
 
 const richSetting = {
   language: 'zh-Hans',
@@ -136,7 +140,7 @@ const richSetting = {
   // 图片上传
   custom_images_upload: true,
   images_upload_url:
-    import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/upload/',
+    import.meta.env.VITE_APP_API_BASEURL + '/four_s/file/file/',
   custom_images_upload_callback: (res) => res.data.url,
   custom_images_upload_header: {
     userid: useUserStore().user_id,
@@ -189,6 +193,8 @@ const handlePublishArticle = async () => {
   publishArticle(getLocalUserId(), getToken(), data)
     .then((res) => {
       console.log('editor.vue publish success: ', res);
+      // 将附件和帖子绑定！
+      createConnect(fileBelongTo.post, res.post_id, fileUrlList.value);
       router.push('/post/' + res.post_id);
     })
     .catch((err) => {
@@ -199,7 +205,8 @@ const handlePublishArticle = async () => {
 const handleUploadImage = async (event, insertImage, files) => {
   for (let file of files) {
     let formData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append('file', file);
+    formData.append('name', file.name);
     const result = await uploadImage(
       useUserStore().user_id,
       getToken(),
@@ -247,6 +254,12 @@ const selectedModule: Ref<number | null> = ref();
 const myModules = ref([]);
 const options = ref([]);
 
+const fileUrlList = ref<string[]>([]);
+
+const getFileUrlList = (list) => {
+  fileUrlList.value = list;
+};
+
 onMounted(async () => {
   // getWordCount();
   const res = await modulePermission(
@@ -261,56 +274,21 @@ onMounted(async () => {
       label: `${myModules.value[idx].name}`,
     }),
   );
-  // selectedModule.value = Number(
-  //   router.currentRoute.value.query['moduleId']
-  //     ? router.currentRoute.value.query['moduleId']
-  //     : null,
-  // );
   selectedModule.value = null;
   const queryId = Number(router.currentRoute.value.query['moduleId']);
-  console.log('editor onMounted: ', queryId, options);
+  //console.log('editor onMounted: ', queryId, options);
   if (queryId) {
     selectedModule.value = queryId;
   }
-  // const selfPostId = router.currentRoute.value.query['post_id'];
-  // if (selfPostId) {
-  //   await articleDetail(selfPostId, getLocalUserId(), getToken())
-  //     .then((res) => {
-  //       console.log('mounted self post loading ', res[0]);
-  //       title.value = res[0].title;
-  //       richText.value = res[0].txt;
-  //     })
-  //     .catch((err) => {
-  //       console.log('self post edit ' + err);
-  //     });
-  // }
 });
 
 onUpdated(async () => {
-  // selectedModule.value = Number(
-  //   router.currentRoute.value.query['moduleId']
-  //     ? router.currentRoute.value.query['moduleId']
-  //     : null,
-  // );
   selectedModule.value = null;
   const queryId = Number(router.currentRoute.value.query['moduleId']);
-  console.log('editor onUpdate: ', queryId, options);
+  //console.log('editor onUpdate: ', queryId, options);
   if (queryId) {
     selectedModule.value = queryId;
   }
-  // const selfPostId = router.currentRoute.value.query['post_id'];
-  // if (selfPostId) {
-  //   await articleDetail(selfPostId, getLocalUserId(), getToken())
-  //     .then((res) => {
-  //       console.log('update self post loading ', res[0]);
-  //       title.value = res[0].title;
-  //       richText.value = res[0].txt;
-  //       console.log(title.value, richText.value);
-  //     })
-  //     .catch((err) => {
-  //       console.log('self post edit ' + err);
-  //     });
-  // }
 });
 </script>
 

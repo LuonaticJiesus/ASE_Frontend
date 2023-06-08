@@ -1,6 +1,6 @@
 import { get, post } from '/@/utils/request.ts';
 const URL = {
-  upload: '/four_s/file/upload/',
+  upload: '/four_s/file/file/',
   list: '/four_s/file/list/',
   connect: '/four_s/file/connect/',
 };
@@ -17,7 +17,7 @@ const uploadFile = async (file) =>
     data: file,
   });
 
-const getFileList = async (type) =>
+const getFileList = async (type, id) =>
   get({
     url: URL.list,
     params: {

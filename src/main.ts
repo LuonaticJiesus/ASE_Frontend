@@ -22,6 +22,8 @@ import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
 
 import hljs from 'highlight.js';
 
+import download from '/@/utils/download';
+
 import App from '/@/App.vue';
 
 VMdEditor.use(githubTheme, {
@@ -40,6 +42,7 @@ app.use(piniaStore);
 app.use(VMdEditor);
 app.use(VMdPreview);
 app.use(VMdPreviewHtml);
+app.directive('download', download);
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 
