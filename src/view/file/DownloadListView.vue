@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100rem">
+  <div style="width: 100%">
     <el-row>
       <el-button @click="multiplyDownload">
         <el-icon :size="20"><Download /></el-icon>
@@ -9,9 +9,15 @@
         已选中{{ selectedList.length }}/{{ fileList.length }}个
       </el-text>
     </el-row>
-    <el-table stripe :data="fileList" @selection-change="handleSelectionChange">
+    <el-table
+      ref="fileDownloadList"
+      stripe
+      :data="fileList"
+      max-height="600px"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" />
-      <el-table-column prop="name" label="全部文件" />
+      <el-table-column width="500px" prop="name" label="全部文件" />
       <el-table-column width="100px" label="预览">
         <template #default="{ row }">
           <el-button text @click="handlePreviewOneFile(row)">
@@ -33,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue';
+import { getCurrentInstance, onMounted, PropType, ref } from 'vue';
 import { fileBelongTo, getFileList } from '/@/api/file';
 import { fileBelongToType } from '/@/utils/type';
 import { Download, View } from '@element-plus/icons-vue';
@@ -54,6 +60,12 @@ const props = defineProps({
   belongToId: {
     type: Number as PropType<number>,
     default: -1,
+  },
+  hasFiles: {
+    type: Function,
+    default: () => {
+      return false;
+    },
   },
 });
 
@@ -143,6 +155,10 @@ const handleSelectionChange = (val: fileType[]) => {
 
 onMounted(async () => {
   await fetchFileData();
+  props.hasFiles(fileList.value.length > 0);
+  // 调整表格格式
+  const { proxy } = getCurrentInstance();
+  proxy.$refs['fileDownloadList'].doLayout();
   console.log(fileList);
 });
 </script>

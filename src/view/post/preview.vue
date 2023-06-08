@@ -7,10 +7,10 @@
             <h1 style="margin: 10px">{{ post.title }}</h1>
           </el-row>
           <el-row>
-            <DownloadListView
-              :belong-to-id="Number(post_id)"
-              :file-type="'post'"
-            />
+            <el-button @click="showDownloadList = true">
+              <el-icon><Link /></el-icon>
+              <el-text>附件列表</el-text>
+            </el-button>
           </el-row>
           <el-row style="display: block">
             <el-scrollbar>
@@ -63,6 +63,21 @@
           </el-row>
         </div>
       </el-scrollbar>
+      <el-dialog
+        v-model="showDownloadList"
+        @close="showDownloadList = false"
+        title="附件列表"
+        width="780px"
+        style="border-radius: 12px"
+      >
+        <div style="width: 100%; margin: 10px">
+          <DownloadListView
+            :belong-to-id="Number(post_id)"
+            :file-type="'post'"
+            :has-files="isFilesExist"
+          />
+        </div>
+      </el-dialog>
     </template>
     <template #right>
       <div style="margin: 10px">
@@ -226,6 +241,7 @@ import 'vue3-emoji/dist/style.css';
 import {
   Delete,
   DocumentChecked,
+  Link,
   MagicStick,
   Share,
   Star,
@@ -294,6 +310,11 @@ const creatorAvatar = ref(defaultLogo);
 const userAvatar = useUserStore().avatar;
 const newComment = ref('');
 
+const showDownloadList = ref(false);
+const showDownloadButton = ref(true);
+const isFilesExist = (val: boolean) => {
+  showDownloadButton.value = val;
+};
 const appendEmojiToText = (emoji: string) => {
   newComment.value += emoji;
 };
