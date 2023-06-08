@@ -20,6 +20,10 @@ const option = {
   title: {
     text: '积分变化-时间',
   },
+  tooltip: {
+    trigger: 'item',
+    formatter: '{b}积分数: {c}',
+  },
   xAxis: {
     data: props.list.map((item) => new Date(item.time).toLocaleDateString()),
   },

@@ -18,6 +18,10 @@ const option = {
   title: {
     text: '发帖-时间',
   },
+  tooltip: {
+    trigger: 'item',
+    formatter: '{b}: {c}',
+  },
   xAxis: {
     data: props.list.map((item) => new Date(item.time).toLocaleDateString()),
   },
