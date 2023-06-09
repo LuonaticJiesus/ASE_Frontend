@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, onMounted, PropType, ref } from 'vue';
+import { onMounted, PropType, ref } from 'vue';
 import { fileBelongTo, getFileList } from '/@/api/file';
 import { fileBelongToType } from '/@/utils/type';
 import { Download, View } from '@element-plus/icons-vue';
@@ -113,10 +113,10 @@ const multiplyDownload = () => {
   const cache = {};
   const promises = [];
   selectedList.value.forEach((item) => {
-    const promise = getFile(item.url).then((data) => {
+    // 这里的类型为any很关键（为了build），期待优化方案
+    const promise = getFile(item.url).then((data: any) => {
       // 下载文件, 并存成ArrayBuffer对象
       const file_name: string = item.name; // 获取文件名
-      // noinspection TypeScriptValidateTypes
       zip.file(file_name, data, { binary: true }); // 逐个添加文件
       cache[file_name] = data;
     });
@@ -156,10 +156,6 @@ const handleSelectionChange = (val: fileType[]) => {
 onMounted(async () => {
   await fetchFileData();
   props.hasFiles(fileList.value.length > 0);
-  // 调整表格格式
-  const { proxy } = getCurrentInstance();
-  proxy.$refs['fileDownloadList'].doLayout();
-  console.log(fileList);
 });
 </script>
 <script lang="ts">
