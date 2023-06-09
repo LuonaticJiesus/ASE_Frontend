@@ -87,6 +87,7 @@ onMounted(() => {
 <script lang="ts">
 export default {
   name: 'point-time',
+  methods: {},
 };
 </script>
 
