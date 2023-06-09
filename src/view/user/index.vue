@@ -128,9 +128,11 @@ export default {
       console.log(tab, event);
     };
 
-    const beforeAvatarUpload = (rawFile) => {
-      if (rawFile.type !== 'image/jpeg') {
-        ElMessage.error('头像必须是.jpg格式!');
+    const beforeAvatarUpload = async (rawFile) => {
+      if (
+        ['image/jpeg', 'image/PNG', 'image/jpg'].indexOf(rawFile.type) === -1
+      ) {
+        ElMessage.error('头像只支持.jpg/.jpeg/.png格式!');
         return false;
       } else if (rawFile.size / 1024 / 1024 > 2) {
         ElMessage.error('头像不能大于2MB!');
@@ -139,25 +141,25 @@ export default {
       return true;
     };
 
-    // const upload = ref<UploadInstance>();
+    // const file = ref<UploadInstance>();
 
     const handleExceed: UploadProps['onExceed'] = (files) => {
-      // upload.value!.clearFiles();
+      // file.value!.clearFiles();
       // const file = files[0] as UploadRawFile;
       // file.uid = genFileId();
-      // upload.value!.handleStart(file);
+      // file.value!.handleStart(file);
       console.log(files);
       ElMessage.error('不可连续上传头像，请刷新页面！');
     };
 
-    const updateAvtar = async (res) => {
+    const updateAvatar = async (res) => {
       console.log(res);
       if (res) {
         await changeBasicInfo({ avatar: res.url }, headers);
         await useUserStore().getInfo();
         userAvatar.value = useUserStore().avatar;
-        // this.$refs['upload'].clearFiles();
-        // this.$refs['upload'].handleStart();
+        // this.$refs['file'].clearFiles();
+        // this.$refs['file'].handleStart();
       }
     };
 
@@ -181,7 +183,7 @@ export default {
       handleClick,
       beforeAvatarUpload,
       handleExceed,
-      updateAvtar,
+      updateAvtar: updateAvatar,
       handleUploadAvatar,
     };
   },

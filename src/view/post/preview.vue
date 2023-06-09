@@ -6,19 +6,14 @@
           <el-row style="display: flex; justify-content: left">
             <h1 style="margin: 10px">{{ post.title }}</h1>
           </el-row>
+          <el-row>
+            <el-button @click="showDownloadList = true">
+              <el-icon><Link /></el-icon>
+              <el-text>附件列表</el-text>
+            </el-button>
+          </el-row>
           <el-row style="display: block">
             <el-scrollbar>
-              <!--              <vue3-tinymce-->
-              <!--                style="-->
-              <!--                  height: 80vh;-->
-              <!--                  width: auto;-->
-              <!--                  position: absolute;-->
-              <!--                  left: 5px;-->
-              <!--                  right: 5px;-->
-              <!--                "-->
-              <!--                v-model="post.txt"-->
-              <!--                :setting="richSetting"-->
-              <!--              ></vue3-tinymce>-->
               <v-md-preview-html
                 style="text-align: start"
                 :html="post.txt"
@@ -68,6 +63,21 @@
           </el-row>
         </div>
       </el-scrollbar>
+      <el-dialog
+        v-model="showDownloadList"
+        @close="showDownloadList = false"
+        title="附件列表"
+        width="780px"
+        style="border-radius: 12px"
+      >
+        <div style="width: 100%; margin: 10px">
+          <DownloadListView
+            :belong-to-id="Number(post_id)"
+            :file-type="'post'"
+            :has-files="isFilesExist"
+          />
+        </div>
+      </el-dialog>
     </template>
     <template #right>
       <div style="margin: 10px">
@@ -87,6 +97,9 @@
         </el-row>
         <el-row>
           <el-date-picker readonly :model-value="post.time"></el-date-picker>
+        </el-row>
+        <el-row>
+          <el-scrollbar> </el-scrollbar>
         </el-row>
         <el-row style="margin-top: 20px" justify="space-around" align="middle">
           <!--          点赞-->
@@ -228,6 +241,7 @@ import 'vue3-emoji/dist/style.css';
 import {
   Delete,
   DocumentChecked,
+  Link,
   MagicStick,
   Share,
   Star,
@@ -249,6 +263,7 @@ import { queryRole } from '/@/api/permission.js';
 import useClipboard from 'vue-clipboard3';
 import { useUserStore } from '/@/store/index.js';
 import { postDetailType } from '/@/utils/type';
+import DownloadListView from '/@/view/file/DownloadListView.vue';
 // const richSetting = {
 //   language: 'zh-Hans',
 //   language_url:
@@ -295,6 +310,11 @@ const creatorAvatar = ref(defaultLogo);
 const userAvatar = useUserStore().avatar;
 const newComment = ref('');
 
+const showDownloadList = ref(false);
+const showDownloadButton = ref(true);
+const isFilesExist = (val: boolean) => {
+  showDownloadButton.value = val;
+};
 const appendEmojiToText = (emoji: string) => {
   newComment.value += emoji;
 };
@@ -423,7 +443,7 @@ const fetchData = async (post_id) => {
   console.log('post/preview.vue fetchData...');
   await articleDetail(post_id, getLocalUserId(), getToken())
     .then((res) => {
-      console.log('post/preview.vue query article success: ', res);
+      console.log('post/preview.vue query article success');
       post.value = res[0];
       block_id.value = res[0].block_id;
       console.log(post);
@@ -454,7 +474,6 @@ onMounted(async () => {
   console.log(post_id);
   await fetchData(post_id);
   await getUserRole();
-  console.log(post);
 });
 </script>
 

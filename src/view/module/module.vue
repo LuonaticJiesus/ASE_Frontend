@@ -54,7 +54,7 @@
                 >
                   <el-col>
                     <el-row justify="center">
-                      <el-icon size="large"><Edit /></el-icon>
+                      <el-icon size="large"><Bell /></el-icon>
                     </el-row>
                     <el-row>
                       <div style="padding-top: 5px">通知</div>
@@ -72,7 +72,7 @@
                 >
                   <el-col>
                     <el-row justify="center">
-                      <el-icon size="large"><Edit /></el-icon>
+                      <el-icon size="large"><School /></el-icon>
                     </el-row>
                     <el-row>
                       <div style="padding-top: 5px">成员</div>
@@ -91,7 +91,7 @@
                 >
                   <el-col>
                     <el-row justify="center">
-                      <el-icon size="large"><Edit /></el-icon>
+                      <el-icon size="large"><User /></el-icon>
                     </el-row>
                     <el-row>
                       <div style="padding-top: 5px">我的</div>
@@ -110,7 +110,7 @@
                 >
                   <el-col>
                     <el-row justify="center">
-                      <el-icon size="large"><Edit /></el-icon>
+                      <el-icon size="large"><Setting /></el-icon>
                     </el-row>
                     <el-row>
                       <div style="padding-top: 5px">管理</div>
@@ -165,7 +165,14 @@
 </template>
 
 <script>
-import { ChatLineSquare, Edit } from '@element-plus/icons-vue';
+import {
+  Bell,
+  ChatLineSquare,
+  Edit,
+  School,
+  Setting,
+  User,
+} from '@element-plus/icons-vue';
 import router from '/@/router/index.js';
 import { getLocalUserId, getToken } from '/@/utils/auth';
 import { moduleInfo, moduleSubscribe } from '/@/api/module';
@@ -180,7 +187,16 @@ import { transparentLogo } from '/@/utils/string';
 
 export default {
   name: 'ModuleView',
-  components: { NoticeBoard, DivideContainer, ChatLineSquare, Edit },
+  components: {
+    School,
+    Bell,
+    Setting,
+    User,
+    NoticeBoard,
+    DivideContainer,
+    ChatLineSquare,
+    Edit,
+  },
   setup() {
     const userRole = ref(0);
     const activeTab = ref(0);
