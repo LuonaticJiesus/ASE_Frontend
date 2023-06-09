@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import * as echarts from 'echarts';
-import { onMounted, PropType, ref } from 'vue';
+import { onMounted, PropType, ref, watch } from 'vue';
 import { pointTimeType } from '/@/utils/type';
 
 const props = defineProps({
@@ -55,7 +55,6 @@ const drawChart = () => {
     chart.resize();
   };
 };
-
 // const refreshData = () => {
 //   option.xAxis.data = props.list.map((item) => item.time);
 //   option.series.at(0).data = props.list.map((item) => item.point);
