@@ -47,7 +47,7 @@ service.interceptors.response.use(
           console.log('redirect ok');
         });
       }
-      return Promise.reject(response.data.status);
+      return Promise.reject(response.data);
     }
 
     return response;
@@ -69,7 +69,7 @@ service.interceptors.response.use(
 
 const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
   const conf = config;
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     service
       .request<any, AxiosResponse<defaultResponse>>(conf)
       .then((res: AxiosResponse<defaultResponse>) => {
@@ -80,6 +80,7 @@ const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
       })
       .catch((err) => {
         console.log(err);
+        return reject(err);
       });
   });
 };

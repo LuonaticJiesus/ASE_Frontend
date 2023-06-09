@@ -51,7 +51,7 @@
           <template #tip>
             <div class="el-upload__tip">
               单文件最大3MB<br />
-              允许格式: .pdf/.zip/.rar/.doc/.docx/.txt/.ppt/.xls/xlsx
+              允许格式: .pdf/.zip/.doc/.docx/.txt/.ppt/.xls/xlsx
             </div>
           </template>
         </el-upload>
@@ -107,13 +107,15 @@ const beforeFileUpload = (rawFile) => {
     'application/pdf',
     'application/vnd.ms-powerpoint',
     'application/zip',
-    'application/x-rar',
+    'application/x-zip-compressed',
   ];
+  console.log('now check file:' + rawFile.type);
   if (permitType.indexOf(rawFile.type) === -1) {
     ElMessage.error('不支持的文件格式！');
     return false;
-  } else if (rawFile.size / 1024 / 1024 > 50) {
+  } else if (rawFile.size / 1024 / 1024 > 3) {
     ElMessage.error('单个文件不能大于3MB!');
+    return false;
   }
 };
 const submitUpload = () => {
@@ -125,31 +127,33 @@ const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   // console.log('fileNameList', fileNameList.value);
 };
 const handleUploadFile = async (param) => {
+  if (fileMap.value[param.file.name]) {
+    ElMessage.error({
+      message: '附件中请勿出现同名文件！',
+    });
+    return;
+  }
   const formData = new FormData();
   formData.append('file', param.file);
   formData.append('name', param.file.name);
   await uploadFile(formData)
     .then((res) => {
-      if (!fileMap.value[param.file.name]) {
-        fileUrlList.value.push(res.url);
-        fileNameList.value.push(param.file.name);
-      } else {
-        ElMessage.error({
-          message: '附件中请勿出现同名文件！',
-        });
-        return;
-      }
+      fileUrlList.value.push(res.url);
+      fileNameList.value.push(param.file.name);
       fileMap.value[param.file.name] = res.url;
       param.onSuccess(res);
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log('upload receive err', err);
+      ElMessage.error({
+        message: '可能是网络问题，请重新尝试！',
+      });
       param.onError('Failed');
     });
 };
 
 const handleBeforeRemove = async (uploadFile) => {
-  console.log(uploadFile);
-  console.log(fileNameList.value);
+  console.log('now would remove: ', uploadFile);
   const name = uploadFile.name;
   if (fileMap.value[name]) {
     const url = fileMap.value[name];
