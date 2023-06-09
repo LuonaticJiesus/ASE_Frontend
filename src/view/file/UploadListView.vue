@@ -159,6 +159,7 @@ const handleBeforeRemove = async (uploadFile) => {
     const url = fileMap.value[name];
     fileUrlList.value = fileUrlList.value.filter((item) => item !== url);
     fileNameList.value = fileNameList.value.filter((item) => item !== name);
+    delete fileMap.value[name];
   }
   console.log(fileNameList.value);
   await sendFileList();
