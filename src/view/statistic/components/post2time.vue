@@ -1,10 +1,15 @@
 <template>
+  <el-select-v2
+    v-model="selected"
+    :options="options"
+    @change="handleSelect()"
+  />
   <div id="myChart4" style="width: 65vw; height: 70vh"></div>
 </template>
 
 <script lang="ts" setup>
 import * as echarts from 'echarts';
-import { onMounted, PropType } from 'vue';
+import { onMounted, PropType, ref, watch } from 'vue';
 import { postTimeType } from '/@/utils/type';
 
 const props = defineProps({
@@ -14,6 +19,13 @@ const props = defineProps({
   },
 });
 
+const selected = ref('最近七天');
+const options = [
+  { label: '最近七天', value: 'option1' },
+  { label: '最近一年', value: 'option2' },
+];
+
+let chart;
 const option = {
   title: {
     text: '发帖-时间',
@@ -25,7 +37,7 @@ const option = {
     formatter: '{b}: {c}',
   },
   xAxis: {
-    data: props.list.map((item) => new Date(item.time).toLocaleDateString()),
+    data: props.list.map((item) => item.time),
   },
   yAxis: {},
   series: [
@@ -36,14 +48,41 @@ const option = {
   ],
 };
 
-onMounted(() => {
-  let myChart = echarts.init(document.getElementById('myChart4'));
-  myChart.setOption(option);
+const chartOption = () => {
+  chart.setOption(option, true);
   window.onresize = function () {
-    //自适应大小
-    myChart.resize();
+    //自适应大小，模板给的
+    chart.resize();
   };
+};
+
+const fillData = () => {
+  option.xAxis.data = props.list.map((item) => item.time);
+  option.series.at(0).data = props.list.map((item) => item.post_num);
+};
+
+onMounted(() => {
+  chart = echarts.init(document.getElementById('myChart4'));
+  chartOption();
 });
+
+const emit = defineEmits(['refresh']);
+const handleSelect = () => {
+  emit('refresh');
+};
+
+watch(
+  () => props.list,
+  (count, prevCount) => {
+    chart.clear();
+    fillData();
+    chartOption();
+    console.log(count, prevCount);
+  },
+  {
+    deep: true,
+  },
+);
 </script>
 
 <script lang="ts">

@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <el-select-v2
-      v-model="selected"
-      :options="options"
-      @change="handleSearch()"
-    />
-    <div id="myChart1" style="width: 65vw; height: 70vh"></div>
-  </div>
+  <el-select-v2
+    v-model="selected"
+    :options="options"
+    @change="handleSelect()"
+  />
+  <div id="myChart1" style="width: 65vw; height: 70vh"></div>
 </template>
 
 <script lang="ts" setup>
 import * as echarts from 'echarts';
-import { onMounted, PropType, ref } from 'vue';
+import { onMounted, PropType, ref, watch } from 'vue';
 import { pointTimeType } from '/@/utils/type';
 
 const props = defineProps({
@@ -21,10 +19,10 @@ const props = defineProps({
   },
 });
 
-const selected = ref('Option 1');
+const selected = ref('最近七天');
 const options = [
-  { label: 'Option 1', value: 'option1' },
-  { label: 'Option 2', value: 'option2' },
+  { label: '最近七天', value: 'option1' },
+  { label: '最近一年', value: 'option2' },
 ];
 
 let chart;
@@ -39,7 +37,6 @@ const option = {
     formatter: '{b}积分数: {c}',
   },
   xAxis: {
-    // data: props.list.map((item) => new Date(item.time).toLocaleDateString()),
     data: props.list.map((item) => item.time),
   },
   yAxis: {},
@@ -52,11 +49,16 @@ const option = {
 };
 
 const chartOption = () => {
-  chart.setOption(option);
+  chart.setOption(option, true);
   window.onresize = function () {
     //自适应大小，模板给的
     chart.resize();
   };
+};
+
+const fillData = () => {
+  option.xAxis.data = props.list.map((item) => item.time);
+  option.series.at(0).data = props.list.map((item) => item.point);
 };
 
 onMounted(() => {
@@ -65,12 +67,22 @@ onMounted(() => {
 });
 
 const emit = defineEmits(['refresh']);
-const handleSearch = () => {
-  console.log('refetch', selected.value);
+const handleSelect = () => {
   emit('refresh');
-  chartOption();
-  console.log(option);
 };
+
+watch(
+  () => props.list,
+  (count, prevCount) => {
+    chart.clear();
+    fillData();
+    chartOption();
+    console.log(count, prevCount);
+  },
+  {
+    deep: true,
+  },
+);
 </script>
 
 <script lang="ts">
