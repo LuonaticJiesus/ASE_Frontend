@@ -1,6 +1,6 @@
 <!--suppress TypeScriptUnresolvedReference, CssUnusedSymbol -->
 <template>
-  <DivideContainer>
+  <DivideContainer class="calendar-view">
     <template #main>
       <div class="calendar-div">
         <el-calendar v-model:model-value="selectedDate">
@@ -41,7 +41,11 @@
       <div class="ddl-card-group">
         <el-row>
           <el-col v-if="!isDDL(selectedDate)" :span="24">
-            <el-empty style="padding: 0" description="当天暂无DDL"></el-empty>
+            <el-empty
+              style="padding: 0"
+              description="当天暂无DDL"
+              :image-size="100"
+            ></el-empty>
           </el-col>
           <el-scrollbar v-else>
             <div style="display: flex; flex-direction: row; flex-wrap: nowrap">
@@ -62,15 +66,19 @@
                       justify-content: space-between;
                     "
                   >
-                    <el-text style="font-weight: bold; font-size: large">{{
-                      notice.title
-                    }}</el-text>
+                    <el-text
+                      style="font-weight: bold; font-size: large"
+                      truncated
+                    >
+                      {{ notice.title }}
+                    </el-text>
                     <div
                       style="
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
+                        width: 70px;
                       "
                     >
                       <el-text style="font-size: small">
@@ -85,7 +93,7 @@
                 <template #default>
                   <div style="padding: 10px">
                     <el-scrollbar>
-                      <div style="text-align: start; height: 14vh">
+                      <div style="text-align: start; height: 90px">
                         <el-text style="text-align: start">{{
                           strippedHtml(notice.txt)
                         }}</el-text>
@@ -196,6 +204,9 @@ export default {
 </script>
 
 <style>
+.calendar-view {
+  max-height: 88vh;
+}
 .el-card__header {
   padding: 0;
 }
@@ -204,10 +215,11 @@ export default {
 }
 .ddl-card-group {
   margin: 5px;
+  height: auto;
 }
 .ddl-card {
-  width: 200px;
-  height: 29vh;
+  width: 180px;
+  height: 200px;
   margin-right: 12px;
   border-radius: 12px;
   background-image: linear-gradient(160deg, #faf4ff 0%, #fdfbff 80%);
