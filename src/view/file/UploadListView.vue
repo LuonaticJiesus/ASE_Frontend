@@ -131,6 +131,7 @@ const handleUploadFile = async (param) => {
     ElMessage.error({
       message: '附件中请勿出现同名文件！',
     });
+    param.onError('Failed');
     return;
   }
   const formData = new FormData();
