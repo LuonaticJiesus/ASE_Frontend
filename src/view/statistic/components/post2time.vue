@@ -17,6 +17,8 @@ const props = defineProps({
 const option = {
   title: {
     text: '发帖-时间',
+    left: 'center',
+    top: 'bottom',
   },
   tooltip: {
     trigger: 'item',

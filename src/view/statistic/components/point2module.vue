@@ -34,6 +34,7 @@ const option = {
   title: {
     text: '帖子得-扣分情况',
     left: 'center',
+    top: 'bottom',
   },
   tooltip: {
     trigger: 'item',

@@ -20,6 +20,7 @@ const option = {
   title: {
     text: '发帖-模块',
     left: 'center',
+    top: 'bottom',
   },
   tooltip: {
     trigger: 'item',

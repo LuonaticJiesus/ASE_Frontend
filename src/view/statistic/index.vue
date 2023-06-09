@@ -9,6 +9,7 @@
             <point-time
               :list="pointTimeData"
               v-if="activeName === 'tab1' && isReady"
+              @refresh="changeData()"
             >
             </point-time>
           </el-tab-pane>
@@ -62,13 +63,13 @@ onMounted(async () => {
   // postModuleData.value = await getPostModule(headers);
   // postTimeData.value = await getPointTime(headers, params: {state: 2});
   pointTimeData.value = [
-    { point: 2, time: '2003-06-17 05:34:11' },
-    { point: 3, time: '2003-06-18 05:34:11' },
-    { point: 1, time: '2003-06-19 05:34:11' },
-    { point: 6, time: '2003-06-20 05:34:11' },
-    { point: 3, time: '2003-06-21 05:34:11' },
-    { point: 4, time: '2003-06-22 05:34:11' },
-    { point: 7, time: '2003-06-23 05:34:11' },
+    { point: 2, time: '2003-06-17' },
+    { point: 3, time: '2003-06-18' },
+    { point: 1, time: '2003-06-19' },
+    { point: 6, time: '2003-06-20' },
+    { point: 3, time: '2003-06-21' },
+    { point: 4, time: '2003-06-22' },
+    { point: 7, time: '2003-06-23' },
   ];
   postTimeData.value = [
     { post_num: 15, time: '2003-06-17 05:34:11' },
@@ -84,6 +85,26 @@ onMounted(async () => {
   ];
   isReady.value = true;
 });
+
+const changeData = () => {
+  isReady.value = false;
+  console.log('stat index.vue change data');
+  pointTimeData.value = [
+    { point: 2, time: '2003-01' },
+    { point: 3, time: '2003-02' },
+    { point: 1, time: '2003-03' },
+    { point: 6, time: '2003-04' },
+    { point: 3, time: '2003-05' },
+    { point: 4, time: '2003-06' },
+    { point: 7, time: '2003-07' },
+    { point: 10, time: '2003-08' },
+    { point: 13, time: '2003-09' },
+    { point: 7, time: '2003-10' },
+    { point: 3, time: '2003-11' },
+    { point: 1, time: '2003-12' },
+  ];
+  isReady.value = true;
+};
 </script>
 
 <script lang="ts">
