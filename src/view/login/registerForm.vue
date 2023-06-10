@@ -122,8 +122,9 @@ export default {
         email: [
           { required: true, message: '您还没有输入邮箱', trigger: 'blur' },
           {
-            pattern: '^[a-zA-Z0-9_-]+@buaa[.]edu[.]cn$',
-            message: '请输入北航邮箱',
+            pattern:
+              '(^[a-zA-Z0-9_-]+@buaa[.]edu[.]cn$)|(^[a-zA-Z0-9_-]+@qq[.]com$)',
+            message: '请输入北航邮箱或者qq邮箱',
           },
         ],
         username: [
