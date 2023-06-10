@@ -24,7 +24,7 @@ const option = {
   },
   tooltip: {
     trigger: 'item',
-    formatter: '{a} <br/>{b}: {c}',
+    formatter: '{b}: {c}',
   },
   legend: {
     orient: 'vertical',

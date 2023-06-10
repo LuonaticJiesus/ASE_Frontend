@@ -15,7 +15,22 @@ const URL = {
   info: '/four_s/user/info/',
   querySubscribe: '/four_s/user/querySubscribe/', // 废弃
   validate: '/four_s/user/active/',
+  publicKey: '/four_s/user/publicKey/',
+  testEncode: '/four_s/user/password/',
 };
+
+const getPublicKey = async () =>
+  get({
+    url: URL.publicKey,
+  });
+
+const testEncode = async (data) =>
+  post({
+    url: URL.testEncode,
+    data: {
+      password: data,
+    },
+  });
 
 const getUserProfile = async (header) =>
   post({ url: URL.profile, headers: header });
@@ -73,4 +88,6 @@ export {
   fetchInfo,
   querySubscribe,
   validateAccount,
+  getPublicKey,
+  testEncode,
 };

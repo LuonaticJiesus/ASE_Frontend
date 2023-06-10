@@ -24,7 +24,6 @@ const props = defineProps({
 //   { label: '最近七天', value: 'option1' },
 //   { label: '最近一年', value: 'option2' },
 // ];
-
 let chart;
 const option = {
   title: {
