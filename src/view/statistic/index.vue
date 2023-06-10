@@ -4,7 +4,7 @@
       <div class="statistic-center">
         <h2 style="margin: 0; text-align: start">统计中心</h2>
         <el-divider style="margin-top: 5px; margin-bottom: 10px"></el-divider>
-        <el-tabs v-model="activeName">
+        <el-tabs type="border-card" class="statistic-tab" v-model="activeName">
           <el-tab-pane label="积分-时间表" name="tab1">
             <point-time
               :list="pointTimeData"
@@ -200,4 +200,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.statistic-center {
+  padding: 20px;
+}
+
+.statistic-tab {
+  padding: 0;
+}
+</style>
