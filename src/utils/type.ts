@@ -63,6 +63,8 @@ export interface commentType {
   reply_user_name?: string;
 }
 
+export type fileBelongToType = 'post' | 'notice' | 'block';
+
 export const updateType = [101, 102, 207, 304];
 export const pointType = [201, 203, 206, 208, 209, 210, 301, 303, 305, 401];
 export const systemType = [103, 104, 202, 204, 205, 302];
@@ -86,8 +88,9 @@ export interface postModuleType {
 
 // value为point
 // name为block_name
-export interface pointSourceModuleType {
-  value: number;
+export interface pointModuleType {
+  value_plus: number;
+  value_minus: number;
   name: string;
 }
 

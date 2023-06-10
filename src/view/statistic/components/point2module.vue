@@ -7,11 +7,11 @@
 <script lang="ts" setup>
 import * as echarts from 'echarts';
 import { onMounted, PropType } from 'vue';
-import { pointSourceModuleType } from '/@/utils/type';
+import { pointModuleType } from '/@/utils/type';
 
 const props = defineProps({
   list: {
-    type: Array as PropType<pointSourceModuleType[]>,
+    type: Array as PropType<pointModuleType[]>,
     default: Array,
   },
 });
