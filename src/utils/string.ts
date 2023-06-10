@@ -107,6 +107,13 @@ export function getDaysBetween(date1, date2) {
   return Math.floor((endDate - startDate) / (24 * 60 * 60 * 1000));
 }
 
+export function getDate(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return year + '-' + month + '-' + day;
+}
+
 export const defaultLogo =
   'https://2023-ase-quadssss-1314332102.cos.ap-beijing.myqcloud.com/logo.png';
 
