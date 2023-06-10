@@ -59,7 +59,7 @@ import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
 import router from '/@/router/index.js';
 import { ElMessage } from 'element-plus';
-import { getPublicKey, testEncode } from '/@/api/user.js';
+import { getPublicKey } from '/@/api/user';
 import { JSEncrypt } from 'jsencrypt';
 
 export default {
@@ -94,6 +94,11 @@ export default {
         ],
         password: [
           { required: true, message: '您还没有输入密码', trigger: 'blur' },
+          {
+            pattern: '\^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}\$',
+            message: '请输入包含字母和数字的8-16位密码',
+            trigger: 'blur',
+          },
         ],
       }),
     };
@@ -149,9 +154,6 @@ export default {
   async mounted() {
     await getPublicKey().then((res) => {
       this.publicKey = res.public_key;
-    });
-    await testEncode(this.encryptedData('dw12345678')).then((res) => {
-      console.log(res);
     });
     //绑定事件
     window.addEventListener('keydown', this.keyDown);

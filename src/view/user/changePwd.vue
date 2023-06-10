@@ -45,11 +45,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { ElMessage } from 'element-plus';
-import { changePwd } from '/@/api/user';
+import { changePwd, getPublicKey } from '/@/api/user';
 import { getLocalUserId, getToken } from '/@/utils/auth';
+import { JSEncrypt } from 'jsencrypt';
 
 const pwdFormRef = ref<FormInstance>();
 
@@ -58,6 +59,8 @@ const pwdForm = reactive({
   newPwd: '',
   reNewPwd: '',
 });
+
+let publicKey = ref('');
 
 const validateNewPass = (rule: any, value: any, callback: any) => {
   if (pwdForm.oldPwd === value) {
@@ -101,8 +104,8 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
       console.log('change pwd');
       const userid = getLocalUserId();
       const token = getToken();
-      const old_password = pwdForm.oldPwd;
-      const password = pwdForm.newPwd;
+      const old_password = encryptedData(pwdForm.oldPwd);
+      const password = encryptedData(pwdForm.newPwd);
       console.log(old_password, password, userid, token);
       await changePwd(old_password, password, userid, token);
       ElMessage.success({
@@ -118,8 +121,21 @@ const submitPwdChange = (formEl: FormInstance | undefined) => {
   });
 };
 
+onMounted(async () => {
+  await getPublicKey().then((res) => {
+    publicKey.value = res.public_key;
+  });
+});
+
 const cleanForm = () => {
   pwdFormRef.value.resetFields();
+};
+
+// 加密函数
+const encryptedData = (pwd) => {
+  const encryptor = new JSEncrypt();
+  encryptor.setPublicKey(publicKey.value);
+  return encryptor.encrypt(pwd);
 };
 </script>
 
