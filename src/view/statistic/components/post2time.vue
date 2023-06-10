@@ -60,7 +60,6 @@ const drawChart = () => {
 //   option.xAxis.data = props.list.map((item) => item.time);
 //   option.series.at(0).data = props.list.map((item) => item.post_num);
 // };
-
 onMounted(() => {
   chart = echarts.init(document.getElementById('myChart4'));
   drawChart();

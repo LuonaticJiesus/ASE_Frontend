@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import * as echarts from 'echarts';
-import { onMounted, PropType, ref, watch } from 'vue';
+import { onMounted, PropType } from 'vue';
 import { pointTimeType } from '/@/utils/type';
 
 const props = defineProps({
@@ -87,7 +87,6 @@ onMounted(() => {
 <script lang="ts">
 export default {
   name: 'point-time',
-  methods: {},
 };
 </script>
 
