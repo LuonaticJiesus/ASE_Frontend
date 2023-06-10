@@ -4,7 +4,7 @@
   <!--    :options="options"-->
   <!--    @change="handleSelect()"-->
   <!--  />-->
-  <div id="myChart1" style="width: 65vw; height: 70vh"></div>
+  <div id="myChart1" style="width: 60vw; height: 66vh"></div>
 </template>
 
 <script lang="ts" setup>
