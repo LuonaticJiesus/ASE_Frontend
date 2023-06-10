@@ -63,6 +63,7 @@ const option = {
 };
 
 onMounted(() => {
+  console.log(props.list);
   let myChart = echarts.init(document.getElementById('myChart2'));
   myChart.setOption(option);
   window.onresize = function () {
