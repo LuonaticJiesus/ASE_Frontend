@@ -145,18 +145,23 @@ export default {
     },
     // 加密函数
     encryptedData(pwd) {
-      let encryptor = new JSEncrypt();
+      const encryptor = new JSEncrypt();
       encryptor.setPublicKey(this.publicKey);
-      const encryptedData = encryptor.encrypt(pwd);
-      console.log('encode: ', encryptedData);
-      return encryptedData;
+      const encryptedPwd = encryptor.encrypt(pwd);
+      const encoder = new TextEncoder();
+      const dataBuffer = encoder.encode(encryptedPwd);
+      const base64EncodedPwd = btoa(
+        String.fromCharCode.apply(null, dataBuffer),
+      );
+      console.log(base64EncodedPwd);
+      return base64EncodedPwd;
     },
   },
   async mounted() {
     await getPublicKey().then((res) => {
       this.publicKey = res.public_key;
     });
-    await testEncode(this.encryptedData('zyl20020617', this.publicKey));
+    await testEncode(this.encryptedData('zyl20020617'));
     //绑定事件
     window.addEventListener('keydown', this.keyDown);
   },
