@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css';
 import '/@/style/style.css';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import VMdEditor from '@kangc/v-md-editor';
+import VMdEditor, { xss } from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
@@ -42,6 +42,7 @@ app.use(piniaStore);
 app.use(VMdEditor);
 app.use(VMdPreview);
 app.use(VMdPreviewHtml);
+app.use(xss);
 app.directive('download', download);
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
