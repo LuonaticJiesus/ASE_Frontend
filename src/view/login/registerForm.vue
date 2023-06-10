@@ -81,6 +81,8 @@ import { reactive, ref } from 'vue';
 import { ElMessage, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-notification.css';
 import 'element-plus/theme-chalk/el-message.css';
+import { JSEncrypt } from 'jsencrypt';
+import { getPublicKey } from '/@/api/user';
 
 export default {
   name: 'registerForm',
@@ -94,6 +96,11 @@ export default {
     Connection() {
       return Connection;
     },
+  },
+  data() {
+    return {
+      publicKey: '',
+    };
   },
   setup() {
     const registerForm = reactive({
@@ -155,11 +162,14 @@ export default {
     async userRegister() {
       try {
         const isValid = await this.$refs.ruleFormRef.validate();
+        const encryptedPassword = this.encryptedData(
+          this.registerForm.password,
+        );
         if (isValid) {
           console.log('register validate');
           let data = {
             name: this.registerForm.username,
-            password: this.registerForm.password,
+            password: encryptedPassword,
             card_id: this.registerForm.card,
             phone: this.registerForm.phone,
             email: this.registerForm.email,
@@ -217,8 +227,17 @@ export default {
         this.userRegister();
       }
     },
+    // 加密函数
+    encryptedData(pwd) {
+      const encryptor = new JSEncrypt();
+      encryptor.setPublicKey(this.publicKey);
+      return encryptor.encrypt(pwd);
+    },
   },
-  mounted() {
+  async mounted() {
+    await getPublicKey().then((res) => {
+      this.publicKey = res.public_key;
+    });
     //绑定事件
     window.addEventListener('keydown', this.keyDown);
   },
