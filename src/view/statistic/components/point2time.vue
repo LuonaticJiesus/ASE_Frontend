@@ -4,6 +4,7 @@
   <!--    :options="options"-->
   <!--    @change="handleSelect()"-->
   <!--  />-->
+
   <div id="myChart1" style="width: 65vw; height: 70vh"></div>
 </template>
 
@@ -87,6 +88,7 @@ onMounted(() => {
 <script lang="ts">
 export default {
   name: 'point-time',
+  methods: {},
 };
 </script>
 
