@@ -86,8 +86,9 @@ export interface postModuleType {
 
 // value为point
 // name为block_name
-export interface pointSourceModuleType {
-  value: number;
+export interface pointModuleType {
+  value_plus: number;
+  value_minus: number;
   name: string;
 }
 
