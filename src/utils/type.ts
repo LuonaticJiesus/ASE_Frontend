@@ -71,6 +71,7 @@ export const systemType = [103, 104, 202, 204, 205, 302];
 export const pointPlusType = [203, 208, 210, 305, 401];
 export const pointMinusType = [201, 209, 206, 301, 303];
 
+export type fileBelongToType = 'post' | 'notice' | 'block';
 export interface pointTimeType {
   point: number;
   time: string;
