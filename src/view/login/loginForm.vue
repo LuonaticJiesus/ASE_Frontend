@@ -59,6 +59,8 @@ import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
 import router from '/@/router/index.js';
 import { ElMessage } from 'element-plus';
+import { getPublicKey, testEncode } from '/@/api/user.js';
+import { JSEncrypt } from 'jsencrypt';
 
 export default {
   name: 'loginForm',
@@ -72,6 +74,11 @@ export default {
     Connection() {
       return Connection;
     },
+  },
+  data() {
+    return {
+      publicKey: '',
+    };
   },
   setup() {
     const loginForm = reactive({
@@ -95,9 +102,14 @@ export default {
     userLogin() {
       if (this.$refs.ruleFormRef.validate()) {
         console.log('login validate!');
+        const encryptedPassword = this.encryptedData(
+          this.loginForm.password,
+          this.publicKey,
+        );
+        console.log(encryptedPassword);
         let data = {
           name: this.loginForm.username,
-          password: this.loginForm.password,
+          password: encryptedPassword,
         };
         const userStore = useUserStore();
         userStore
@@ -125,15 +137,26 @@ export default {
     },
     changeRegister() {
       this.$emit('transfer', 'register');
-      // this.formStatus = 'register';
     },
     keyDown(e) {
       if (e.keyCode === 13) {
         this.userLogin();
       }
     },
+    // 加密函数
+    encryptedData(pwd) {
+      let encryptor = new JSEncrypt();
+      encryptor.setPublicKey(this.publicKey);
+      const encryptedData = encryptor.encrypt(pwd);
+      console.log('encode: ', encryptedData);
+      return encryptedData;
+    },
   },
-  mounted() {
+  async mounted() {
+    await getPublicKey().then((res) => {
+      this.publicKey = res.public_key;
+    });
+    await testEncode(this.encryptedData('zyl20020617', this.publicKey));
     //绑定事件
     window.addEventListener('keydown', this.keyDown);
   },
