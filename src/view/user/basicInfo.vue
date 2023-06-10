@@ -132,14 +132,13 @@ export default {
 
     const submitUserInfoChange = (formEl: FormInstance | undefined) => {
       if (!formEl) return;
-      formEl.validate((valid) => {
+      formEl.validate(async (valid) => {
         if (valid) {
           console.log('basicInfo.vue submit!');
           let data = {
-            card_id: infoForm.studentId,
             phone: infoForm.phone,
-            email: infoForm.email,
           };
+          if (!idStatus.value) data['card_id'] = infoForm.studentId;
           console.log(data);
           for (const key in data) {
             if (
@@ -150,7 +149,7 @@ export default {
               delete data[key];
             }
           }
-          changeBasicInfo(data, header);
+          await changeBasicInfo(data, header);
           idStatus.value = true;
           phoneStatus.value = true;
           location.reload();

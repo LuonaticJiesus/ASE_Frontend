@@ -1,6 +1,7 @@
 <template>
   <div style="padding: 0">
     <el-table
+      :key="tableDataKey"
       :data="tableData"
       class="share-table"
       height="58vh"
@@ -63,6 +64,7 @@ export default {
   data() {
     return {
       tableData: [],
+      tableDataKey: 0,
     };
   },
   mounted() {
@@ -84,6 +86,7 @@ export default {
         .catch((err) => {
           console.log('share.vue fetchData fail: ', err);
         });
+      this.tableDataKey = 1 - this.tableDataKey;
     },
     jump(row) {
       router.push('/post/' + row.post_id);
@@ -100,6 +103,7 @@ export default {
             type: 'success',
             message: '删除成功',
           });
+          this.fetchData();
         });
       });
       // .catch(() => {

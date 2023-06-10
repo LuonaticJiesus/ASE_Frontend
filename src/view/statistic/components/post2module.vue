@@ -1,6 +1,6 @@
 <template>
   <div class="pie-chart-wrapper">
-    <div id="myChart3" style="width: 60vw; height: 70vh"></div>
+    <div id="myChart3" style="width: 60vw; height: 63vh"></div>
   </div>
 </template>
 

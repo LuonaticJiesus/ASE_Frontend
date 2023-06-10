@@ -3,8 +3,9 @@
     v-model="selected"
     :options="options"
     @change="handleSelect()"
+    style="margin-bottom: 0"
   />
-  <div id="myChart4" style="width: 65vw; height: 70vh"></div>
+  <div id="myChart4" style="width: 60vw; height: 60vh"></div>
 </template>
 
 <script lang="ts" setup>
