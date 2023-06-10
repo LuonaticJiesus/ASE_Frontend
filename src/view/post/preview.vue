@@ -16,7 +16,7 @@
             <el-scrollbar>
               <v-md-preview-html
                 style="text-align: start"
-                :html="post.txt"
+                :html="saveTxt"
                 preview-class="github-markdown-body"
               ></v-md-preview-html>
             </el-scrollbar>
@@ -264,20 +264,9 @@ import useClipboard from 'vue-clipboard3';
 import { useUserStore } from '/@/store/index.js';
 import { postDetailType } from '/@/utils/type';
 import DownloadListView from '/@/view/file/DownloadListView.vue';
-// const richSetting = {
-//   language: 'zh-Hans',
-//   language_url:
-//     'https://unpkg.com/@jsdawn/vue3-tinymce@2.0.2/dist/tinymce/langs/zh-Hans.js',
-//   menubar: false,
-//   toolbar: false,
-//   plugins: 'codesample link image table lists autoresize',
-//   nonbreaking_force_tab: true,
-//   link_title: false,
-//   link_default_target: '_blank',
-//   content_style: 'body{font-size: 16px}',
-//   readonly: true,
-//   content_css: '/src/style/github.css',
-// };
+// noinspection TypeScriptCheckImport
+import { xss } from '@kangc/v-md-editor';
+
 const { toClipboard } = useClipboard();
 const copy = async () => {
   try {
@@ -373,6 +362,8 @@ const post: Ref<postDetailType> = ref({
   user_name: '',
 });
 
+const saveTxt = ref('');
+
 const isLiked = ref(false);
 const isFavored = ref(false);
 const isChosen = ref(false);
@@ -446,6 +437,7 @@ const fetchData = async (post_id) => {
       console.log('post/preview.vue query article success');
       post.value = res[0];
       block_id.value = res[0].block_id;
+      saveTxt.value = xss.process(post.value.txt);
       console.log(post);
       isLiked.value = post.value.like_state === 1;
       isFavored.value = post.value.favor_state === 1;

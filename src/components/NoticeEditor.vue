@@ -81,6 +81,8 @@ import { createConnect, fileBelongTo } from '/@/api/file';
 import 'element-plus/theme-chalk/el-message.css';
 import 'element-plus/theme-chalk/el-message-box.css';
 import 'element-plus/theme-chalk/el-notification.css';
+// noinspection TypeScriptCheckImport
+import { xss } from '@kangc/v-md-editor';
 
 const noticeFormRef = ref<FormInstance>();
 
@@ -180,7 +182,7 @@ const postNotice = async () => {
     };
     const data = {
       title: noticeForm.title,
-      txt: noticeForm.content,
+      txt: xss.process(noticeForm.content),
       block_id: router.currentRoute.value.params['id'],
       ddl: noticeForm.ddl,
     };
