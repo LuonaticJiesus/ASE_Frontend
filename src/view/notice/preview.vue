@@ -158,6 +158,8 @@ import { ElMessageBox, ElNotification } from 'element-plus';
 import 'element-plus/theme-chalk/el-message-box.css';
 import 'element-plus/theme-chalk/el-notification.css';
 import DownloadListView from '/@/view/file/DownloadListView.vue';
+// noinspection JSUnresolvedReference
+import { xss } from '@kangc/v-md-editor';
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -213,6 +215,7 @@ const notice = ref({
   confirm_state: Number,
 });
 
+const saveTxt = ref('');
 const notice_id = router.currentRoute.value.params['id'];
 const headers = { token: getToken(), userid: getLocalUserId() };
 const isConfirmed = ref(false);
@@ -223,6 +226,7 @@ const fetchData = async () => {
     notice.value = result[0];
     ddl.value = new Date(notice.value.ddl);
     isConfirmed.value = notice.value.confirm_state === 1;
+    saveTxt.value = xss.process(notice.value.txt);
   }
 };
 

@@ -185,7 +185,7 @@ const handlePublishArticle = async () => {
       ? xss.process(
           VMdEditor.vMdParser.themeConfig.markdownParser.render(mdText.value),
         )
-      : richText.value;
+      : xss.process(richText.value);
   const data = {
     title: title.value,
     txt: text,
