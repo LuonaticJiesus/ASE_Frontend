@@ -7,16 +7,22 @@ const URL = {
   postModule: '/four_s/statistic/post-module',
 };
 
-const getPostTime = async (headers) =>
+const getPostTime = async (headers, state) =>
   get({
     url: URL.postTime,
     headers: headers,
+    params: {
+      state: state,
+    },
   });
 
-const getPointTime = async (headers) =>
+const getPointTime = async (headers, state) =>
   get({
     url: URL.pointTime,
     headers: headers,
+    params: {
+      state: state,
+    },
   });
 
 const getPointSource = async (headers) =>

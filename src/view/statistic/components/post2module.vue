@@ -1,5 +1,7 @@
 <template>
-  <div id="myChart3" style="width: 65vw; height: 70vh"></div>
+  <div class="pie-chart-wrapper">
+    <div id="myChart3" style="width: 60vw; height: 70vh"></div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -17,6 +19,16 @@ const props = defineProps({
 const option = {
   title: {
     text: '发帖-模块',
+    left: 'center',
+    top: 'bottom',
+  },
+  tooltip: {
+    trigger: 'item',
+    formatter: '{b}: {c}',
+  },
+  legend: {
+    orient: 'vertical',
+    left: 'left',
   },
   series: [
     {
@@ -43,4 +55,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.pie-chart-wrapper {
+  flex: 1;
+  padding: 10px;
+  width: 30vw;
+}
+</style>
