@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { User, Lock, Connection } from '@element-plus/icons-vue';
+import { Connection, Lock, User } from '@element-plus/icons-vue';
 import { useUserStore } from '/@/store/index.js';
 import { reactive, ref } from 'vue';
 import router from '/@/router/index.js';
@@ -102,11 +102,7 @@ export default {
     userLogin() {
       if (this.$refs.ruleFormRef.validate()) {
         console.log('login validate!');
-        const encryptedPassword = this.encryptedData(
-          this.loginForm.password,
-          this.publicKey,
-        );
-        console.log(encryptedPassword);
+        const encryptedPassword = this.encryptedData(this.loginForm.password);
         let data = {
           name: this.loginForm.username,
           password: encryptedPassword,
@@ -147,21 +143,16 @@ export default {
     encryptedData(pwd) {
       const encryptor = new JSEncrypt();
       encryptor.setPublicKey(this.publicKey);
-      const encryptedPwd = encryptor.encrypt(pwd);
-      const encoder = new TextEncoder();
-      const dataBuffer = encoder.encode(encryptedPwd);
-      const base64EncodedPwd = btoa(
-        String.fromCharCode.apply(null, dataBuffer),
-      );
-      console.log(base64EncodedPwd);
-      return base64EncodedPwd;
+      return encryptor.encrypt(pwd);
     },
   },
   async mounted() {
     await getPublicKey().then((res) => {
       this.publicKey = res.public_key;
     });
-    await testEncode(this.encryptedData('zyl20020617'));
+    await testEncode(this.encryptedData('dw12345678')).then((res) => {
+      console.log(res);
+    });
     //绑定事件
     window.addEventListener('keydown', this.keyDown);
   },
